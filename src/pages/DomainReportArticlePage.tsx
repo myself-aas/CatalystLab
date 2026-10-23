@@ -38,6 +38,20 @@ import { authorizedFetch } from '../lib/authHeaders';
 import { logger } from '../lib/logger';
 import { DomainReportSkeleton } from '../components/skeleton';
 
+/** Shown when the engine behind a section never ran for this report. */
+const NotMeasured: React.FC<{ engine: string }> = ({ engine }) => {
+ const meta = ENGINES_MAP[engine as keyof typeof ENGINES_MAP];
+ return (
+ <div className="rounded-xl border border-border bg-surface p-6">
+ <p className="text-sm font-medium text-foreground">Not measured</p>
+ <p className="mt-1 max-w-prose text-sm text-muted-foreground">
+ This run has no {meta?.name?.toLowerCase() || engine} section: the engine either did not run or
+ returned no readings. Run a new audit to collect it.
+ </p>
+ </div>
+ );
+};
+
 export const DomainReportArticlePage: React.FC = () => {
  const { slug, id } = useParams<{ slug?: string; id?: string }>();
  const { user } = useAuth();
@@ -103,7 +117,7 @@ export const DomainReportArticlePage: React.FC = () => {
  createdAt: Date.now(),
  ownerId: user?.uid || 'guest-telemetry',
  title: `Master Audit: ${extractDomainFromUrl(cleanUrl)}`,
- score: parsed.overallScore
+ score: parsed.overallScore ?? undefined
  };
 
  setReport(newReport);
@@ -244,9 +258,17 @@ export const DomainReportArticlePage: React.FC = () => {
  <h1 className="framer-hero-title text-foreground">{displayDomain}</h1>
 
  <p className="max-w-2xl framer-body-text">
- Engine-by-engine readings for this domain. Composite score{' '}
+ Engine-by-engine readings for this domain.{' '}
+ {telemetry.overallScore !== null ? (
+ <>
+ Mean score of the {telemetry.scoredSections}{' '}
+ {telemetry.scoredSections === 1 ? 'engine' : 'engines'} that returned one:{' '}
  <span className="font-mono text-foreground">{telemetry.overallScore}/100</span>, grade{' '}
  <span className="font-mono text-foreground">{telemetry.grade}</span>.
+ </>
+ ) : (
+ 'No engine returned a score for this run, so there is no composite score.'
+ )}
  </p>
 
  {/* Metadata & Actions Bar */}
@@ -315,97 +337,77 @@ export const DomainReportArticlePage: React.FC = () => {
  <section className="space-y-3 pt-4 border-t border-border">
  <h2 className="framer-card-title text-foreground">Health: DOM, payload and blocking scripts</h2>
 
- <DOMDepthChart
- domElementsCount={telemetry.health.domElementsCount}
- domDepthLevel={telemetry.health.domDepthLevel}
- payloadKb={telemetry.health.payloadKb}
- blockingScriptsCount={telemetry.health.blockingScriptsCount}
- modernImagesPct={telemetry.health.modernImagesPct}
- />
+ {telemetry.health ? (
+ <DOMDepthChart health={telemetry.health} />
+ ) : (
+ <NotMeasured engine="health" />
+ )}
  </section>
 
  {/* Section 3: OWASP Top 10 Security Headers */}
  <section className="space-y-3 pt-4 border-t border-border">
  <h2 className="framer-card-title text-foreground">Security headers</h2>
 
- <OWASPSecurityMatrixChart
- hsts={telemetry.security.hsts}
- csp={telemetry.security.csp}
- xFrameOptions={telemetry.security.xFrameOptions}
- referrerPolicy={telemetry.security.referrerPolicy}
- permissionsPolicy={telemetry.security.permissionsPolicy}
- riskCount={telemetry.security.riskCount}
- score={telemetry.security.score}
- />
+ {telemetry.security ? (
+ <OWASPSecurityMatrixChart security={telemetry.security} />
+ ) : (
+ <NotMeasured engine="compliance" />
+ )}
  </section>
 
  {/* Section 4: WCAG 2.2 Accessibility */}
  <section className="space-y-3 pt-4 border-t border-border">
  <h2 className="framer-card-title text-foreground">Accessibility</h2>
 
- <WCAGAccessibilityGauge
- altTextCoveragePct={telemetry.accessibility.altTextCoveragePct}
- missingAltCount={telemetry.accessibility.missingAltCount}
- totalImages={telemetry.accessibility.totalImages}
- unlabeledInputsCount={telemetry.accessibility.unlabeledInputsCount}
- score={telemetry.accessibility.score}
- complianceLevel={telemetry.accessibility.complianceLevel}
- />
+ {telemetry.accessibility ? (
+ <WCAGAccessibilityGauge accessibility={telemetry.accessibility} />
+ ) : (
+ <NotMeasured engine="compliance" />
+ )}
  </section>
 
  {/* Section 5: AI Agent & LLM Crawler Readiness */}
  <section className="space-y-3 pt-4 border-t border-border">
  <h2 className="framer-card-title text-foreground">AI crawler readiness</h2>
 
- <AIRadarChart
- score={telemetry.aiReadiness.score}
- hasLlmsTxt={telemetry.aiReadiness.hasLlmsTxt}
- hasAiPlugin={telemetry.aiReadiness.hasAiPlugin}
- hasRobotsAiDirectives={telemetry.aiReadiness.hasRobotsAiDirectives}
- wordCount={telemetry.aiReadiness.wordCount}
- headingsCount={telemetry.aiReadiness.headingsCount}
- ragIndexability={telemetry.aiReadiness.ragIndexability}
- />
+ {telemetry.aiReadiness ? (
+ <AIRadarChart aiReadiness={telemetry.aiReadiness} />
+ ) : (
+ <NotMeasured engine="ai_ready" />
+ )}
  </section>
 
  {/* Section 6: Global Edge Latency */}
  <section className="space-y-3 pt-4 border-t border-border">
  <h2 className="framer-card-title text-foreground">Edge latency</h2>
 
- <EdgeLatencyRadarChart
- originTtfbMs={telemetry.latency.originTtfbMs}
- globalAverageMs={telemetry.latency.globalAverageMs}
- infrastructure={telemetry.latency.infrastructure}
- pops={telemetry.latency.pops}
- />
+ {telemetry.latency ? (
+ <EdgeLatencyRadarChart latency={telemetry.latency} />
+ ) : (
+ <NotMeasured engine="latency" />
+ )}
  </section>
 
  {/* Section 7: Sustainable Web Design Eco-Carbon Footprint */}
  <section className="space-y-3 pt-4 border-t border-border">
  <h2 className="framer-card-title text-foreground">Carbon footprint</h2>
 
- <EcoCarbonComparisonChart
- rating={telemetry.eco.rating}
- color={telemetry.eco.color}
- emissionsPerVisitGrams={telemetry.eco.emissionsPerVisitGrams}
- monthly10kKg={telemetry.eco.monthly10kKg}
- pageWeightMb={telemetry.eco.pageWeightMb}
- treesEquivalentYearly={telemetry.eco.treesEquivalentYearly}
- />
+ {telemetry.eco ? (
+ <EcoCarbonComparisonChart eco={telemetry.eco} />
+ ) : (
+ <NotMeasured engine="eco" />
+ )}
  </section>
 
  {/* Section 8: LLMO Citations */}
  <section className="space-y-3 pt-4 border-t border-border">
  <h2 className="framer-card-title text-foreground">LLM citation readiness</h2>
 
- <LLMOCitationScorecard
- score={telemetry.llmo.score}
- jsonLdBlocksCount={telemetry.llmo.jsonLdBlocksCount}
- hasOgTags={telemetry.llmo.hasOgTags}
- hasOgImage={telemetry.llmo.hasOgImage}
- hasCanonical={telemetry.llmo.hasCanonical}
- citationConfidence={telemetry.llmo.citationConfidence}
- />
+ {telemetry.llmo ? (
+ <LLMOCitationScorecard llmo={telemetry.llmo} />
+ ) : (
+ <NotMeasured engine="llmo" />
+ )}
  </section>
 
  {/* Raw engine output */}

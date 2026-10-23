@@ -1,5 +1,14 @@
 import type { AuditReport } from '../types';
-import { parseTelemetryOutput, type ParsedTelemetryData } from './telemetryParser';
+import { parseTelemetryOutput } from './telemetryParser';
+
+/** Every exporter prints this instead of inventing a reading it does not have. */
+const NOT_MEASURED = 'Not measured';
+
+const show = (value: number | null | undefined, unit = ''): string =>
+  value === null || value === undefined ? NOT_MEASURED : `${value}${unit}`;
+
+const verdict = (value: boolean | null): string =>
+  value === null ? NOT_MEASURED : value ? 'Present' : 'Missing';
 
 /**
  * Native print dialog trigger for PDF reports
@@ -41,7 +50,7 @@ export function exportAuditReportToJson(report: AuditReport, customFilename?: st
       id: report.id || `rep-${Date.now()}`,
       url: report.url,
       engine: report.engine,
-      score: report.score ?? parsed.overallScore,
+      score: report.score ?? parsed.overallScore ?? null,
       createdAt: report.createdAt
     },
     telemetryMetrics: parsed,
@@ -94,7 +103,7 @@ export function exportAuditReportToSarif(report: AuditReport, customFilename?: s
     }
   ];
 
-  if (!parsed.security.hsts) {
+  if (parsed.security?.hsts === false) {
     results.push({
       ruleId: 'CAT001-HSTS',
       level: 'error',
@@ -103,7 +112,7 @@ export function exportAuditReportToSarif(report: AuditReport, customFilename?: s
     });
   }
 
-  if (!parsed.security.csp) {
+  if (parsed.security?.csp === false) {
     results.push({
       ruleId: 'CAT002-CSP',
       level: 'error',
@@ -112,7 +121,7 @@ export function exportAuditReportToSarif(report: AuditReport, customFilename?: s
     });
   }
 
-  if (!parsed.security.permissionsPolicy) {
+  if (parsed.security?.permissionsPolicy === false) {
     results.push({
       ruleId: 'CAT003-PERMISSIONS',
       level: 'warning',
@@ -121,16 +130,16 @@ export function exportAuditReportToSarif(report: AuditReport, customFilename?: s
     });
   }
 
-  if (parsed.accessibility.missingAltCount > 0) {
+  if ((parsed.accessibility?.missingAltCount ?? 0) > 0) {
     results.push({
       ruleId: 'CAT004-WCAG-ALT',
       level: 'warning',
-      message: { text: `Found ${parsed.accessibility.missingAltCount} image(s) missing alt text on ${targetUrl}.` },
+      message: { text: `Found ${parsed.accessibility?.missingAltCount ?? 0} image(s) missing alt text on ${targetUrl}.` },
       locations: [{ physicalLocation: { artifactLocation: { uri: targetUrl } } }]
     });
   }
 
-  if (!parsed.aiReadiness.hasLlmsTxt) {
+  if (parsed.aiReadiness?.hasLlmsTxt === false) {
     results.push({
       ruleId: 'CAT005-LLMS-TXT',
       level: 'note',
@@ -190,13 +199,13 @@ export function exportAuditReportToCycloneDx(report: AuditReport, customFilename
       }
     },
     vulnerabilities: [
-      ...(parsed.security.hsts ? [] : [{
+      ...(parsed.security?.hsts !== false ? [] : [{
         id: 'CAT-VULN-HSTS',
         source: { name: 'CatalystLab RiskProtease' },
         ratings: [{ score: 7.2, severity: 'medium', method: 'CVSSv31' }],
         description: 'Missing HTTP Strict Transport Security header exposes transport channel.'
       }]),
-      ...(parsed.security.csp ? [] : [{
+      ...(parsed.security?.csp !== false ? [] : [{
         id: 'CAT-VULN-CSP',
         source: { name: 'CatalystLab RiskProtease' },
         ratings: [{ score: 8.1, severity: 'high', method: 'CVSSv31' }],
@@ -204,11 +213,11 @@ export function exportAuditReportToCycloneDx(report: AuditReport, customFilename
       }])
     ],
     properties: [
-      { name: 'catalystlab:overall_score', value: String(parsed.overallScore) },
-      { name: 'catalystlab:health_ttfb_ms', value: String(parsed.health.ttfbMs) },
-      { name: 'catalystlab:health_payload_kb', value: String(parsed.health.payloadKb) },
-      { name: 'catalystlab:accessibility_grade', value: parsed.accessibility.complianceLevel },
-      { name: 'catalystlab:ai_readiness_rag', value: parsed.aiReadiness.ragIndexability }
+      { name: 'catalystlab:overall_score', value: show(parsed.overallScore) },
+      { name: 'catalystlab:health_ttfb_ms', value: show(parsed.health?.ttfbMs) },
+      { name: 'catalystlab:health_payload_kb', value: show(parsed.health?.payloadKb) },
+      { name: 'catalystlab:accessibility_alt_text_pct', value: show(parsed.accessibility?.altTextCoveragePct) },
+      { name: 'catalystlab:llms_txt', value: verdict(parsed.aiReadiness?.hasLlmsTxt ?? null) }
     ]
   };
 
@@ -221,19 +230,24 @@ export function exportAuditReportToCycloneDx(report: AuditReport, customFilename
  */
 export function exportAuditReportToCsv(report: AuditReport, customFilename?: string): void {
   const parsed = parseTelemetryOutput(report.output, report.url);
+  const health = parsed.health;
+  const security = parsed.security;
+  const accessibility = parsed.accessibility;
+  const ai = parsed.aiReadiness;
+
   const rows = [
-    ['Vector / Dimension', 'Metric', 'Measured Value', 'Standard / Status', 'Weight Score'],
-    ['Executive', 'Overall Score', `${parsed.overallScore}/100`, parsed.grade, `${parsed.overallScore}`],
-    ['Core Health', 'TTFB (Time to First Byte)', `${parsed.health.ttfbMs} ms`, parsed.health.ttfbMs < 200 ? 'PASS' : 'WARN', `${parsed.health.score}`],
-    ['Core Health', 'Payload Size', `${parsed.health.payloadKb} KB`, parsed.health.payloadKb < 1500 ? 'PASS' : 'WARN', `${parsed.health.score}`],
-    ['Core Health', 'Compression', parsed.health.compression, parsed.health.compression !== 'None' ? 'PASS' : 'FAIL', `${parsed.health.score}`],
-    ['OWASP Security', 'HSTS Header', parsed.security.hsts ? 'Enforced' : 'Missing', parsed.security.hsts ? 'PASS' : 'FAIL', `${parsed.security.score}`],
-    ['OWASP Security', 'CSP Header', parsed.security.csp ? 'Enforced' : 'Missing', parsed.security.csp ? 'PASS' : 'FAIL', `${parsed.security.score}`],
-    ['OWASP Security', 'SSL Days Left', `${parsed.security.sslDaysRemaining} days`, parsed.security.sslDaysRemaining > 30 ? 'PASS' : 'WARN', `${parsed.security.score}`],
-    ['Accessibility', 'Alt Text Coverage', `${parsed.accessibility.altTextCoveragePct}%`, parsed.accessibility.complianceLevel, `${parsed.accessibility.score}`],
-    ['Accessibility', 'Missing Alt Images', `${parsed.accessibility.missingAltCount} images`, parsed.accessibility.missingAltCount === 0 ? 'PASS' : 'WARN', `${parsed.accessibility.score}`],
-    ['AI Readiness', 'llms.txt Declared', parsed.aiReadiness.hasLlmsTxt ? 'Yes' : 'No', parsed.aiReadiness.hasLlmsTxt ? 'PASS' : 'WARN', `${parsed.aiReadiness.score}`],
-    ['AI Readiness', 'RAG Indexability', parsed.aiReadiness.ragIndexability, parsed.aiReadiness.ragIndexability === 'Highly Indexable' ? 'PASS' : 'WARN', `${parsed.aiReadiness.score}`]
+    ['Vector / Dimension', 'Metric', 'Measured Value', 'Reading', 'Engine Score'],
+    ['Executive', 'Overall score', show(parsed.overallScore, '/100'), parsed.grade ?? NOT_MEASURED, show(parsed.overallScore)],
+    ['Core Health', 'TTFB (Time to First Byte)', show(health?.ttfbMs, ' ms'), health ? 'Measured' : NOT_MEASURED, show(health?.score)],
+    ['Core Health', 'Payload size', show(health?.payloadKb, ' KB'), health ? 'Measured' : NOT_MEASURED, show(health?.score)],
+    ['Core Health', 'Compression', health?.compression ?? NOT_MEASURED, health ? 'Measured' : NOT_MEASURED, show(health?.score)],
+    ['OWASP Security', 'HSTS header', verdict(security?.hsts ?? null), security ? 'Measured' : NOT_MEASURED, show(security?.score)],
+    ['OWASP Security', 'CSP header', verdict(security?.csp ?? null), security ? 'Measured' : NOT_MEASURED, show(security?.score)],
+    ['OWASP Security', 'SSL days left', show(security?.sslDaysRemaining, ' days'), security ? 'Measured' : NOT_MEASURED, show(security?.score)],
+    ['Accessibility', 'Alt text coverage', show(accessibility?.altTextCoveragePct, '%'), accessibility ? 'Measured' : NOT_MEASURED, ''],
+    ['Accessibility', 'Images missing alt text', show(accessibility?.missingAltCount), accessibility ? 'Measured' : NOT_MEASURED, ''],
+    ['AI Readiness', 'llms.txt declared', verdict(ai?.hasLlmsTxt ?? null), ai ? 'Measured' : NOT_MEASURED, show(ai?.score)],
+    ['AI Readiness', 'Extracted words', show(ai?.wordCount), ai ? 'Measured' : NOT_MEASURED, show(ai?.score)]
   ];
 
   const csvContent = rows.map(r => r.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(',')).join('\n');

@@ -25,64 +25,57 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
   const spoofingSvgRef = useRef<SVGSVGElement | null>(null);
   const sslSvgRef = useRef<SVGSVGElement | null>(null);
 
-  // Extract / resolve data from props or raw output
+  // Extract / resolve data from props or raw output. Nothing is defaulted: a
+  // missing reading stays null and the gauge says "Not measured".
   const resolvedData = useMemo(() => {
-    let risk: SpoofingRiskLevel = spoofingRisk || 'Low Risk';
-    let spf: ProtectionStatus = spfStatus || 'Configured';
-    let dmarc: ProtectionStatus = dmarcStatus || 'Configured';
-    let ssl: SslStatusInfo = sslStatus || {
-      is_expired: false,
-      days_until_expiration: 84,
-      encryption_algorithm: 'TLS_AES_256_GCM_SHA384 (TLSv1.3)',
-      validation_alert: 'Secure',
-      issuer: "Let's Encrypt / Cloudflare Edge TLS",
-      protocol: 'TLSv1.3'
-    };
+    let risk: SpoofingRiskLevel | null = spoofingRisk ?? null;
+    let spf: ProtectionStatus | null = spfStatus ?? null;
+    let dmarc: ProtectionStatus | null = dmarcStatus ?? null;
+    let ssl: SslStatusInfo | null = sslStatus ?? null;
 
     if (rawOutput) {
       try {
-        // Try parsing CATALYST_METRICS block if present
         if (rawOutput.includes('---CATALYST_METRICS---')) {
           const jsonPart = rawOutput.split('---CATALYST_METRICS---')[1]?.trim();
           if (jsonPart) {
             const parsed = JSON.parse(jsonPart);
-            if (parsed.spoofing_risk_level) risk = parsed.spoofing_risk_level;
-            if (parsed.spf_status) spf = parsed.spf_status;
-            if (parsed.dmarc_status) dmarc = parsed.dmarc_status;
-            if (parsed.ssl_status) ssl = { ...ssl, ...parsed.ssl_status };
+            if (!spoofingRisk && parsed.spoofing_risk_level) risk = parsed.spoofing_risk_level;
+            if (!spfStatus && parsed.spf_status) spf = parsed.spf_status;
+            if (!dmarcStatus && parsed.dmarc_status) dmarc = parsed.dmarc_status;
+            if (!sslStatus && parsed.ssl_status) ssl = parsed.ssl_status;
           }
         }
-      } catch (e) {
-        // Text-based fallback heuristic
+      } catch {
+        // Unreadable metrics block: keep the props.
       }
 
-      if (!spoofingRisk) {
-        if (rawOutput.includes('High Risk') || rawOutput.includes('HIGH RISK') || rawOutput.includes('STATUS: HIGH LIABILITY')) {
-          risk = 'High Risk';
-        } else if (rawOutput.includes('Medium Risk') || rawOutput.includes('MEDIUM RISK') || rawOutput.includes('STATUS: WARNING')) {
-          risk = 'Medium Risk';
-        } else {
-          risk = 'Low Risk';
-        }
+      if (!risk) {
+        if (/Spoofing Risk Rating:\s*High Risk/i.test(rawOutput)) risk = 'High Risk';
+        else if (/Spoofing Risk Rating:\s*Medium Risk/i.test(rawOutput)) risk = 'Medium Risk';
+        else if (/Spoofing Risk Rating:\s*Low Risk/i.test(rawOutput)) risk = 'Low Risk';
       }
 
-      if (!spfStatus) {
-        spf = rawOutput.includes('SPF: Missing') || rawOutput.includes('FAIL: Missing SPF') ? 'Missing Protection' : 'Configured';
+      if (!spf) {
+        if (/\+\] PASS: SPF Structural Record validated/i.test(rawOutput)) spf = 'Configured';
+        else if (/Missing SPF record/i.test(rawOutput)) spf = 'Missing Protection';
       }
 
-      if (!dmarcStatus) {
-        dmarc = rawOutput.includes('DMARC: Missing') || rawOutput.includes('FAIL: Missing DMARC') ? 'Missing Protection' : 'Configured';
+      if (!dmarc) {
+        if (/\+\] PASS: DMARC Policy validated/i.test(rawOutput)) dmarc = 'Configured';
+        else if (/Missing DMARC policy/i.test(rawOutput)) dmarc = 'Missing Protection';
       }
 
-      if (!sslStatus && rawOutput.includes('days_until_expiration')) {
-        const match = rawOutput.match(/days_until_expiration["']?:\s*(\d+)/i);
-        if (match) {
-          const days = parseInt(match[1], 10);
+      if (!ssl) {
+        const daysMatch = rawOutput.match(/Days Until Expiration:\s*(\d+)/i);
+        const statusMatch = rawOutput.match(/Expiration Status:\s*(EXPIRED|VALID)/i);
+        const cipherMatch = rawOutput.match(/Cipher & Protocol:\s*([^\n\r]+)/i);
+        if (daysMatch || statusMatch || cipherMatch) {
           ssl = {
-            ...ssl,
-            days_until_expiration: days,
-            is_expired: days <= 0,
-            validation_alert: days > 30 ? 'Secure' : days > 0 ? 'Warning: Expiring Soon' : 'Critical: Expired/Missing'
+            measured: true,
+            is_expired: statusMatch ? statusMatch[1].toUpperCase() === 'EXPIRED' : null,
+            days_until_expiration: daysMatch ? Number(daysMatch[1]) : null,
+            encryption_algorithm: cipherMatch ? cipherMatch[1].trim() : null,
+            validation_alert: null,
           };
         }
       }
@@ -111,6 +104,17 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
     // Angles from -pi/2 to pi/2 (180 degree semi-circle)
     const minAngle = -Math.PI / 2;
     const maxAngle = Math.PI / 2;
+
+    if (!resolvedData.risk) {
+      g.append('text')
+        .attr('x', 0)
+        .attr('y', -radius / 3)
+        .attr('text-anchor', 'middle')
+        .attr('font-size', compact ? '11px' : '13px')
+        .attr('fill', 'var(--app-muted-foreground, currentColor)')
+        .text('Not measured');
+      return;
+    }
 
     // Numerical value for risk: Low = 0.18, Medium = 0.52, High = 0.88
     let riskFraction = 0.18;
@@ -275,8 +279,19 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
     const minAngle = -Math.PI / 2;
     const maxAngle = Math.PI / 2;
 
+    const days = resolvedData.ssl?.days_until_expiration ?? null;
+    if (!resolvedData.ssl?.measured || days === null) {
+      g.append('text')
+        .attr('x', 0)
+        .attr('y', -radius / 3)
+        .attr('text-anchor', 'middle')
+        .attr('font-size', compact ? '11px' : '13px')
+        .attr('fill', 'var(--app-muted-foreground, currentColor)')
+        .text('Not measured');
+      return;
+    }
+
     // Max scale represents 90 days (standard Let's Encrypt / modern CA cycle)
-    const days = Math.max(0, resolvedData.ssl.days_until_expiration);
     const maxDays = 90;
     const dayFraction = Math.min(1, Math.max(0, days / maxDays));
 
@@ -420,7 +435,7 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
       .attr('font-family', 'system-ui, sans-serif')
       .attr('font-weight', 'bold')
       .attr('fill', sslColor)
-      .text(resolvedData.ssl.is_expired ? 'EXPIRED' : `${resolvedData.ssl.days_until_expiration} Days Left`);
+      .text(resolvedData.ssl.is_expired ? 'EXPIRED' : `${days} Days Left`);
   }, [resolvedData.ssl, compact]);
 
   return (
@@ -454,10 +469,12 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
                 ? 'bg-cream/10 text-emerald-600 border-emerald-500/30'
                 : resolvedData.risk === 'Medium Risk'
                 ? 'bg-cream/10 text-amber-700 border-amber-500/30'
-                : 'bg-white/10 text-rose-600 border-rose-500/30'
+                : resolvedData.risk === 'High Risk'
+                ? 'bg-white/10 text-rose-600 border-rose-500/30'
+                : 'bg-muted text-muted-foreground border-border'
             }`}
           >
-            {resolvedData.risk}
+            {resolvedData.risk ?? 'Not measured'}
           </span>
         </div>
       </div>
@@ -477,10 +494,12 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
                   ? 'text-emerald-600 border-emerald-500/30 bg-cream/10'
                   : resolvedData.risk === 'Medium Risk'
                   ? 'text-amber-700 border-amber-500/30 bg-cream/10'
-                  : 'text-rose-600 border-rose-500/30 bg-white/10'
+                  : resolvedData.risk === 'High Risk'
+                  ? 'text-rose-600 border-rose-500/30 bg-white/10'
+                  : 'text-muted-foreground border-border bg-muted'
               }`}
             >
-              {resolvedData.risk}
+              {resolvedData.risk ?? 'Not measured'}
             </span>
           </div>
 
@@ -497,7 +516,9 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
               className={`flex items-center justify-between p-2 rounded-lg border ${
                 resolvedData.spf === 'Configured'
                   ? 'bg-cream/10 border-emerald-500/30 text-emerald-700'
-                  : 'bg-white/10 border-rose-500/30 text-rose-700'
+                  : resolvedData.spf === 'Missing Protection'
+                  ? 'bg-white/10 border-rose-500/30 text-rose-700'
+                  : 'bg-muted border-border text-muted-foreground'
               }`}
             >
               <div className="flex items-center gap-1">
@@ -508,14 +529,16 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
                 )}
                 <span>SPF</span>
               </div>
-              <span className="text-[11px] font-semibold">{resolvedData.spf}</span>
+              <span className="text-[11px] font-semibold">{resolvedData.spf ?? 'Not measured'}</span>
             </div>
 
             <div
               className={`flex items-center justify-between p-2 rounded-lg border ${
                 resolvedData.dmarc === 'Configured'
                   ? 'bg-cream/10 border-emerald-500/30 text-emerald-700'
-                  : 'bg-white/10 border-rose-500/30 text-rose-700'
+                  : resolvedData.dmarc === 'Missing Protection'
+                  ? 'bg-white/10 border-rose-500/30 text-rose-700'
+                  : 'bg-muted border-border text-muted-foreground'
               }`}
             >
               <div className="flex items-center gap-1">
@@ -526,7 +549,7 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
                 )}
                 <span>DMARC</span>
               </div>
-              <span className="text-[11px] font-semibold">{resolvedData.dmarc}</span>
+              <span className="text-[11px] font-semibold">{resolvedData.dmarc ?? 'Not measured'}</span>
             </div>
           </div>
         </div>
@@ -540,14 +563,12 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
             </div>
             <span
               className={`text-[11px] font-mono font-bold px-2 py-0.5 rounded-full border ${
-                resolvedData.ssl.validation_alert === 'Secure'
-                  ? 'text-emerald-600 border-emerald-500/30 bg-cream/10'
-                  : resolvedData.ssl.validation_alert === 'Warning: Expiring Soon'
-                  ? 'text-amber-700 border-amber-500/30 bg-cream/10'
-                  : 'text-rose-600 border-rose-500/30 bg-white/10'
+                resolvedData.ssl?.measured
+                  ? 'text-foreground border-border bg-muted'
+                  : 'text-muted-foreground border-border bg-muted'
               }`}
             >
-              {resolvedData.ssl.validation_alert}
+              {resolvedData.ssl?.measured ? 'Measured' : 'Not measured'}
             </span>
           </div>
 
@@ -565,8 +586,8 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
                 <Key className="h-3 w-3 text-foreground" />
                 <span>Cipher:</span>
               </span>
-              <span className="text-foreground font-bold truncate max-w-[140px]" title={resolvedData.ssl.encryption_algorithm}>
-                {resolvedData.ssl.encryption_algorithm}
+              <span className="text-foreground font-bold truncate max-w-[140px]" title={resolvedData.ssl?.encryption_algorithm ?? undefined}>
+                {resolvedData.ssl?.encryption_algorithm ?? '—'}
               </span>
             </div>
             <div className="flex items-center justify-between text-foreground">
@@ -575,15 +596,13 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
                 <span>Days Remaining:</span>
               </span>
               <span
-                className={`font-bold ${
-                  resolvedData.ssl.is_expired
-                    ? 'text-rose-600'
-                    : resolvedData.ssl.days_until_expiration > 30
-                    ? 'text-emerald-600'
-                    : 'text-amber-700'
-                }`}
+                className="font-bold text-foreground"
               >
-                {resolvedData.ssl.is_expired ? '0 (Expired)' : `${resolvedData.ssl.days_until_expiration} Days`}
+                {resolvedData.ssl?.days_until_expiration != null
+                  ? resolvedData.ssl.is_expired
+                    ? '0 (Expired)'
+                    : `${resolvedData.ssl.days_until_expiration} Days`
+                  : '—'}
               </span>
             </div>
           </div>

@@ -1,183 +1,111 @@
 import React from 'react';
-import { Layers, CheckCircle2 } from 'lucide-react';
+import { Layers } from 'lucide-react';
+import type { HealthSection } from '../../utils/telemetryParser';
 
 interface DOMDepthChartProps {
-  domElementsCount: number;
-  domDepthLevel: number;
-  payloadKb: number;
-  blockingScriptsCount: number;
-  modernImagesPct: number;
+  health: HealthSection;
 }
 
-export const DOMDepthChart: React.FC<DOMDepthChartProps> = React.memo(({
-  domElementsCount,
-  domDepthLevel,
-  payloadKb,
-  blockingScriptsCount,
-  modernImagesPct
-}) => {
-  // Simulated node distribution based on total DOM elements
-  const divCount = Math.round(domElementsCount * 0.42);
-  const textNodes = Math.round(domElementsCount * 0.28);
-  const anchorLinks = Math.round(domElementsCount * 0.12);
-  const mediaElements = Math.round(domElementsCount * 0.08);
-  const scriptTags = Math.round(domElementsCount * 0.06);
-  const otherNodes = Math.max(0, domElementsCount - (divCount + textNodes + anchorLinks + mediaElements + scriptTags));
+function Metric({ label, value, note }: { label: string; value: string; note?: string }) {
+  return (
+    <div className="rounded-lg border border-border p-4">
+      <div className="text-xs text-muted-foreground">{label}</div>
+      <div className="mt-1 font-mono text-xl font-semibold tabular-nums text-foreground">{value}</div>
+      {note && <div className="mt-1 text-xs text-muted-foreground">{note}</div>}
+    </div>
+  );
+}
 
-  const total = domElementsCount || 1;
-  const categories = [
-    { name: 'Structural Divs & Containers', count: divCount, pct: Math.round((divCount / total) * 100), color: 'rgba(240,250,255,0.25)' },
-    { name: 'Typography & Text Nodes (p, h1-h6, span)', count: textNodes, pct: Math.round((textNodes / total) * 100), color: 'rgba(240,250,255,0.80)' },
-    { name: 'Interactive Links & Buttons (a, button)', count: anchorLinks, pct: Math.round((anchorLinks / total) * 100), color: 'rgba(240,250,255,0.35)' },
-    { name: 'Media Assets (img, svg, video)', count: mediaElements, pct: Math.round((mediaElements / total) * 100), color: 'var(--color-cream)' },
-    { name: 'Scripts & Modules', count: scriptTags, pct: Math.round((scriptTags / total) * 100), color: 'rgba(240,250,255,0.65)' },
-    { name: 'Semantic Layout (main, section, aside)', count: otherNodes, pct: Math.round((otherNodes / total) * 100), color: 'rgba(240,250,255,0.45)' }
-  ];
-
-  // DOM Complexity Level
-  const isHealthy = domElementsCount <= 800;
-  const isWarning = domElementsCount > 800 && domElementsCount <= 1500;
-  const complexityRating = isHealthy ? 'Optimal' : isWarning ? 'Elevated' : 'Excessive (Bottleneck)';
+export const DOMDepthChart: React.FC<DOMDepthChartProps> = React.memo(({ health }) => {
+  const totalTags = health.tagMix?.reduce((sum, entry) => sum + entry.count, 0) ?? 0;
 
   return (
-    <div className="rounded-2xl border border-border bg-background p-6 shadow-xl text-foreground space-y-6">
-      {/* Chart Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-5">
+    <div className="space-y-6 rounded-xl border border-border bg-surface p-6 text-foreground">
+      <div className="flex items-start gap-3 border-b border-border pb-5">
+        <span className="flex size-8 items-center justify-center rounded-lg border border-border bg-muted text-muted-foreground">
+          <Layers className="size-4" aria-hidden="true" />
+        </span>
         <div>
-          <div className="flex items-center gap-2">
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-muted text-muted-foreground border border-border">
-              <Layers className="h-4 w-4" />
+          <h3 className="text-base font-semibold text-foreground">DOM size, nesting and payload</h3>
+          <p className="mt-1 max-w-prose text-sm text-muted-foreground">
+            Counted from the served HTML by the health engine. Sizes are the raw markup the server
+            returned, not a full-page waterfall.
+          </p>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <Metric
+          label="DOM elements"
+          value={health.domElementsCount != null ? health.domElementsCount.toLocaleString() : 'Not measured'}
+          note="Engine flags a page above 1,500 elements"
+        />
+        <Metric
+          label="Deepest nesting"
+          value={health.domDepthLevel != null ? `${health.domDepthLevel} levels` : 'Not measured'}
+          note="Element depth from the root"
+        />
+        <Metric
+          label="Parser-blocking head scripts"
+          value={health.blockingScriptsCount != null ? String(health.blockingScriptsCount) : 'Not measured'}
+          note="Scripts without async, defer or type=module"
+        />
+        <Metric
+          label="HTML payload"
+          value={health.payloadKb != null ? `${health.payloadKb.toFixed(2)} KB` : 'Not measured'}
+          note="Uncompressed HTML as served"
+        />
+        <Metric
+          label="Modern image formats"
+          value={health.modernImagesPct != null ? `${health.modernImagesPct.toFixed(0)}%` : 'Not measured'}
+          note={
+            health.totalImages != null && health.responsiveImagesCount != null
+              ? `${health.responsiveImagesCount} of ${health.totalImages} images use srcset`
+              : 'WebP or AVIF among img sources'
+          }
+        />
+        <Metric
+          label="Compression"
+          value={health.compression ?? 'Not measured'}
+          note="Content-Encoding on the response"
+        />
+      </div>
+
+      {health.tagMix && totalTags > 0 ? (
+        <div>
+          <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
+            <h4 className="text-sm font-semibold text-foreground">Element mix</h4>
+            <span className="text-xs text-muted-foreground">
+              {totalTags.toLocaleString()} classified elements of {health.domElementsCount?.toLocaleString() ?? '—'} counted
             </span>
-            <h3 className="text-base font-bold text-foreground">
-              DOM Depth & Node Hierarchy Breakdown
-            </h3>
           </div>
-          <p className="text-xs text-muted-foreground mt-1">
-            Measures document object model complexity, nesting depth, and critical render path blockage.
-          </p>
-        </div>
-      </div>
-
-      {/* Key Metrics Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="rounded-xl border border-border bg-muted p-3.5">
-          <div className="text-[11px] text-muted-foreground uppercase tracking-wider font-mono">Total DOM Nodes</div>
-          <div className="text-xl font-black text-foreground mt-0.5">{domElementsCount.toLocaleString()}</div>
-          <div className="text-[11px] text-muted-foreground/70 mt-1">
-            Threshold: &lt;1,500 nodes
+          <div className="flex h-6 w-full gap-0.5 overflow-hidden rounded-lg border border-border bg-muted p-0.5">
+            {health.tagMix.map((entry, index) => (
+              <div
+                key={entry.label}
+                className="h-full rounded-sm first:rounded-l-md last:rounded-r-md"
+                style={{
+                  width: `${Math.max(2, (entry.count / totalTags) * 100)}%`,
+                  backgroundColor: ['var(--chart-cyan)', 'var(--chart-green)', 'var(--chart-amber)', 'var(--chart-violet)', 'var(--chart-blue)', 'var(--chart-red)'][index % 6],
+                }}
+                title={`${entry.label}: ${entry.count}`}
+              />
+            ))}
           </div>
-        </div>
-
-        <div className="rounded-xl border border-border bg-muted p-3.5">
-          <div className="text-[11px] text-muted-foreground uppercase tracking-wider font-mono">Max Nesting Depth</div>
-          <div className="text-xl font-black text-muted-foreground mt-0.5">{domDepthLevel} Levels</div>
-          <div className="text-[11px] text-muted-foreground/70 mt-1">
-            Threshold: &lt;32 levels
-          </div>
-        </div>
-
-        <div className="rounded-xl border border-border bg-muted p-3.5">
-          <div className="text-[11px] text-muted-foreground uppercase tracking-wider font-mono">Blocking Scripts</div>
-          <div className={`text-xl font-black mt-0.5 ${blockingScriptsCount === 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
-            {blockingScriptsCount}
-          </div>
-          <div className="text-[11px] text-muted-foreground/70 mt-1">
-            {blockingScriptsCount === 0 ? 'Optimal (0 in <head>)' : 'Parser Blocking Risk'}
-          </div>
-        </div>
-
-        <div className="rounded-xl border border-border bg-muted p-3.5">
-          <div className="text-[11px] text-muted-foreground uppercase tracking-wider font-mono">Complexity Rating</div>
-          <div className={`text-sm font-bold mt-1 ${isHealthy ? 'text-emerald-400' : isWarning ? 'text-muted-foreground' : 'text-rose-400'}`}>
-            {complexityRating}
-          </div>
-          <div className="text-[11px] text-muted-foreground/70 mt-1">
-            Layout calculation speed
-          </div>
-        </div>
-      </div>
-
-      {/* Tag Distribution Spectrum */}
-      <div>
-        <div className="flex items-center justify-between text-xs text-muted-foreground mb-2">
-          <span className="font-semibold text-foreground">DOM Tag Distribution Spectrum</span>
-          <span>100% Normalized</span>
-        </div>
-        
-        <div className="h-6 w-full rounded-xl overflow-hidden flex bg-muted border border-border p-0.5 gap-0.5">
-          {categories.map((cat) => (
-            <div
-              key={cat.name}
-              style={{ width: `${Math.max(2, cat.pct)}%`, backgroundColor: cat.color }}
-              className="h-full first:rounded-l-lg last:rounded-r-lg transition hover:opacity-80 relative group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              title={`${cat.name}: ${cat.count} nodes (${cat.pct}%)`}
-            />
-          ))}
-        </div>
-
-        {/* Legend & Breakdown */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-4">
-          {categories.map((cat) => (
-            <div key={cat.name} className="flex items-center justify-between rounded-lg border border-border bg-muted/60 p-2.5 text-xs">
-              <div className="flex items-center gap-2 min-w-0">
-                <span className="h-2.5 w-2.5 rounded-full shrink-0" style={{ backgroundColor: cat.color }} />
-                <span className="text-foreground truncate">{cat.name}</span>
+          <dl className="mt-3 grid grid-cols-1 gap-x-6 sm:grid-cols-2 lg:grid-cols-3">
+            {health.tagMix.map((entry) => (
+              <div key={entry.label} className="flex items-center justify-between border-b border-border py-1.5 text-xs">
+                <dt className="text-muted-foreground">{entry.label}</dt>
+                <dd className="font-mono tabular-nums text-foreground">{entry.count.toLocaleString()}</dd>
               </div>
-              <div className="font-mono text-muted-foreground font-bold ml-2 shrink-0">
-                {cat.count} <span className="text-muted-foreground/60">({cat.pct}%)</span>
-              </div>
-            </div>
-          ))}
+            ))}
+          </dl>
         </div>
-      </div>
-
-      {/* Payload & Script Parser Footprint */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="rounded-xl border border-border bg-muted p-4 space-y-3">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-foreground">HTML Document Weight</span>
-            <span className="font-mono text-xs font-bold text-muted-foreground">{payloadKb.toFixed(2)} KB</span>
-          </div>
-          
-          <div className="h-2.5 w-full rounded-full bg-background overflow-hidden border border-border">
-            <div
-              className={`h-full transition ${
-                payloadKb < 50 ? 'bg-cream' : payloadKb < 150 ? 'bg-muted-foreground' : 'bg-muted'
-              }`}
-              style={{ width: `${Math.min(100, (payloadKb / 200) * 100)}%` }}
-            />
-          </div>
-          <p className="text-[11px] text-muted-foreground">
-            {payloadKb < 50 ? 'Optimal initial HTML payload size for fast parsing.' : 'Consider pruning unused inline CSS/JS.'}
-          </p>
-        </div>
-
-        <div className="rounded-xl border border-border bg-muted p-4 space-y-2">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-foreground">Modern Image Adoption (WebP/AVIF)</span>
-            <span className="text-xs font-mono font-bold text-muted-foreground">{modernImagesPct.toFixed(0)}%</span>
-          </div>
-          <p className="text-[11px] text-muted-foreground">
-            {modernImagesPct >= 60 
-              ? 'Excellent next-gen image compression reduces main thread parsing time.' 
-              : 'Upgrading legacy JPEG/PNG to AVIF/WebP will yield up to 40% network savings.'}
-          </p>
-        </div>
-      </div>
-
-      {/* Depth Structure Diagnostic */}
-      <div className="rounded-xl bg-muted border border-border p-4 space-y-2">
-        <div className="flex items-center justify-between text-xs text-muted-foreground">
-          <span className="font-bold text-foreground">Nesting Depth & DOM Architecture</span>
-          <span className="font-mono text-emerald-400 flex items-center gap-1">
-            <CheckCircle2 className="h-3.5 w-3.5" />
-            Max Depth: Level {domDepthLevel} (&lt;32 threshold)
-          </span>
-        </div>
-        <p className="text-xs text-muted-foreground">
-          Measured subtree depth remains within optimal bounds, avoiding browser style recalculation bottlenecks.
+      ) : (
+        <p className="text-sm text-muted-foreground">
+          This report predates the element-mix reading, so only the totals above are available.
         </p>
-      </div>
+      )}
     </div>
   );
 });

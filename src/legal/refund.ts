@@ -21,7 +21,7 @@ export const refundDocument: LegalDocumentContent = {
   canonicalPath: '/refund',
   version: LEGAL_VERSION,
   intro:
-    `This policy explains when you can get your money back for a CatalystLab paid plan, how to ask for it, and how long it takes. The Community plan is free and is not charged. Every window and service level below is a decided commitment, not a placeholder. This version took effect on ${EFFECTIVE_DATE}.`,
+    `This policy explains when you can get your money back for a CatalystLab paid plan, how to ask for it, and how long it takes. The Community plan is free and is not charged. This version took effect on ${EFFECTIVE_DATE}.`,
   sections: [
     {
       id: 'scope',

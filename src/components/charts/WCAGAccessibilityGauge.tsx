@@ -1,168 +1,96 @@
 import React from 'react';
-import { Eye, CheckCircle2, AlertTriangle, HeartHandshake } from 'lucide-react';
+import { Eye } from 'lucide-react';
+import type { AccessibilitySection } from '../../utils/telemetryParser';
 
 interface WCAGAccessibilityGaugeProps {
-  altTextCoveragePct: number;
-  missingAltCount: number;
-  totalImages: number;
-  unlabeledInputsCount: number;
-  score: number;
-  complianceLevel: string;
+  accessibility: AccessibilitySection;
 }
 
-export const WCAGAccessibilityGauge: React.FC<WCAGAccessibilityGaugeProps> = React.memo(({
-  altTextCoveragePct,
-  missingAltCount,
-  totalImages,
-  unlabeledInputsCount,
-  score,
-  complianceLevel
-}) => {
-  const isHighLiability = score < 60 || missingAltCount > 5;
-  const isCompliant = score >= 85 && missingAltCount === 0;
-
-  // Donut chart calculations
+export const WCAGAccessibilityGauge: React.FC<WCAGAccessibilityGaugeProps> = React.memo(({ accessibility }) => {
+  const coverage = accessibility.altTextCoveragePct;
   const radius = 42;
   const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = circumference - (altTextCoveragePct / 100) * circumference;
+  const dashOffset = coverage === null ? circumference : circumference - (coverage / 100) * circumference;
+
+  const rows = [
+    {
+      label: 'Alt text coverage',
+      value:
+        coverage === null
+          ? 'Not measured'
+          : `${accessibility.missingAltCount ?? 0} of ${accessibility.totalImages ?? '—'} images missing alt text`,
+      ok: coverage === null ? null : coverage === 100,
+    },
+    {
+      label: 'Form control labels',
+      value:
+        accessibility.unlabeledInputsCount === null
+          ? 'Not measured'
+          : accessibility.unlabeledInputsCount === 0
+            ? 'Every input has an associated label'
+            : `${accessibility.unlabeledInputsCount} input(s) without a label`,
+      ok: accessibility.unlabeledInputsCount === null ? null : accessibility.unlabeledInputsCount === 0,
+    },
+  ];
 
   return (
-    <div className="rounded-2xl border border-border bg-background p-6 shadow-xl space-y-6 text-foreground">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-background/25 pb-5">
+    <div className="space-y-6 rounded-xl border border-border bg-surface p-6 text-foreground">
+      <div className="flex items-start gap-3 border-b border-border pb-5">
+        <span className="flex size-8 items-center justify-center rounded-lg border border-border bg-muted text-muted-foreground">
+          <Eye className="size-4" aria-hidden="true" />
+        </span>
         <div>
-          <div className="flex items-center gap-2">
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-foreground/5 text-foreground border border-border">
-              <Eye className="h-4 w-4" />
-            </span>
-            <h3 className="text-base font-bold text-foreground">
-              WCAG 2.2 Accessibility & ADA Liability Gauge
-            </h3>
-          </div>
-          <p className="text-xs text-muted-foreground mt-1">
-            Evaluates screen reader readiness, alt-text coverage, keyboard focus, and legal compliance.
+          <h3 className="text-base font-semibold text-foreground">Alt text and form labels</h3>
+          <p className="mt-1 max-w-prose text-sm text-muted-foreground">
+            Two automated checks from the compliance engine. Contrast, keyboard order and screen
+            reader behaviour need a manual or browser-based audit and are not assessed here.
           </p>
-        </div>
-
-        <div className="flex items-center gap-3">
-          <div className="text-right">
-            <div className="text-xs font-semibold text-muted-foreground">ADA Safety Score</div>
-            <div className="text-xl font-black text-foreground font-mono">{score}/100</div>
-          </div>
-          <div className={`rounded-xl px-3 py-1.5 text-xs font-bold border ${
-            isCompliant ? 'bg-cream/15 text-emerald-600 border-emerald-500/30' : 'bg-foreground/5 text-foreground border-border'
-          }`}>
-            {complianceLevel}
-          </div>
         </div>
       </div>
 
-      {/* Main Visuals Grid: Donut Chart & Checklist */}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
-        
-        {/* Left: SVG Donut Chart for Alt Text */}
-        <div className="md:col-span-5 flex flex-col items-center justify-center p-4 rounded-xl bg-muted border border-border">
+      <div className="grid grid-cols-1 items-center gap-6 md:grid-cols-12">
+        <div className="flex flex-col items-center justify-center rounded-lg border border-border bg-muted p-4 md:col-span-5">
           <div className="relative flex items-center justify-center">
-            <svg width="120" height="120" className="transform -rotate-90">
+            <svg width="120" height="120" className="-rotate-90" role="img" aria-label="Alt text coverage">
+              <circle cx="60" cy="60" r={radius} stroke="var(--border)" strokeWidth="10" fill="transparent" />
               <circle
                 cx="60"
                 cy="60"
                 r={radius}
-                stroke="var(--color-cream)"
-                strokeWidth="10"
-                fill="transparent"
-              />
-              <circle
-                cx="60"
-                cy="60"
-                r={radius}
-                stroke={altTextCoveragePct >= 90 ? 'var(--color-cream)' : altTextCoveragePct >= 60 ? 'rgba(240,250,255,0.25)' : 'white'}
+                stroke="var(--foreground)"
                 strokeWidth="10"
                 strokeDasharray={circumference}
-                strokeDashoffset={strokeDashoffset}
+                strokeDashoffset={dashOffset}
                 strokeLinecap="round"
                 fill="transparent"
-                className="transition duration-1000 ease-out"
               />
             </svg>
             <div className="absolute flex flex-col items-center">
-              <span className="text-xl font-black text-foreground font-mono">{altTextCoveragePct.toFixed(0)}%</span>
-              <span className="text-[11px] text-muted-foreground uppercase tracking-wider font-semibold">Coverage</span>
-            </div>
-          </div>
-
-          <div className="text-center mt-3">
-            <div className="text-xs font-bold text-foreground">Image Alt Text Ratio</div>
-            <div className="text-[11px] text-muted-foreground mt-0.5">
-              {totalImages - missingAltCount} of {totalImages} images labeled
+              <span className="font-mono text-xl font-semibold tabular-nums text-foreground">
+                {coverage !== null ? `${coverage}%` : '—'}
+              </span>
+              <span className="text-xs text-muted-foreground">with alt text</span>
             </div>
           </div>
         </div>
 
-        {/* Right: Key ADA Checkpoints */}
-        <div className="md:col-span-7 space-y-3">
-          <div className="rounded-xl border border-border bg-muted p-3.5 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-background border border-border text-foreground">
-                {missingAltCount === 0 ? <CheckCircle2 className="h-4 w-4 text-emerald-600" /> : <AlertTriangle className="h-4 w-4 text-amber-500" />}
-              </div>
+        <dl className="space-y-3 md:col-span-7">
+          {rows.map((row) => (
+            <div key={row.label} className="flex items-start justify-between gap-4 rounded-lg border border-border p-4">
               <div>
-                <div className="text-xs font-bold text-foreground">Visual Alternative Descriptions</div>
-                <div className="text-[11px] text-muted-foreground">
-                  {missingAltCount === 0 ? 'All image elements possess valid alt text.' : `${missingAltCount} image(s) missing descriptive alt text.`}
-                </div>
+                <dt className="text-sm font-medium text-foreground">{row.label}</dt>
+                <dd className="mt-1 text-xs text-muted-foreground">{row.value}</dd>
               </div>
+              <span
+                className={`shrink-0 text-xs font-medium ${
+                  row.ok === null ? 'text-muted-foreground' : row.ok ? 'text-success' : 'text-danger'
+                }`}
+              >
+                {row.ok === null ? 'Unknown' : row.ok ? 'Pass' : 'Fail'}
+              </span>
             </div>
-            <span className={`text-[11px] font-mono font-bold px-2 py-0.5 rounded border ${
-              missingAltCount === 0 ? 'bg-cream/15 text-emerald-600 border-emerald-500/30' : 'bg-cream/15 text-amber-700 border-amber-500/30'
-            }`}>
-              {missingAltCount === 0 ? 'PASS' : 'WARN'}
-            </span>
-          </div>
-
-          <div className="rounded-xl border border-border bg-muted p-3.5 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-background border border-border text-foreground">
-                <CheckCircle2 className="h-4 w-4 text-emerald-600" />
-              </div>
-              <div>
-                <div className="text-xs font-bold text-foreground">Form Input ARIA Labels</div>
-                <div className="text-[11px] text-muted-foreground">
-                  {unlabeledInputsCount === 0 ? 'Interactive form controls have accessible names.' : 'Unlabeled inputs found.'}
-                </div>
-              </div>
-            </div>
-            <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded border bg-cream/15 text-emerald-600 border-emerald-500/30">
-              PASS
-            </span>
-          </div>
-
-          <div className="rounded-xl border border-border bg-muted p-3.5 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-background border border-border text-foreground">
-                <CheckCircle2 className="h-4 w-4 text-emerald-600" />
-              </div>
-              <div>
-                <div className="text-xs font-bold text-foreground">Color Contrast Standard (4.5:1)</div>
-                <div className="text-[11px] text-muted-foreground">Typography contrast satisfies WCAG AA guidelines.</div>
-              </div>
-            </div>
-            <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded border bg-cream/15 text-emerald-600 border-emerald-500/30">
-              PASS
-            </span>
-          </div>
-        </div>
-
-      </div>
-
-      {/* Legal Summary Banner */}
-      <div className={`rounded-xl p-3.5 border flex items-center gap-3 text-xs ${
-        isHighLiability ? 'bg-white/10 border-rose-500/20 text-rose-300' : 'bg-muted border-border text-foreground'
-      }`}>
-        <HeartHandshake className="h-5 w-5 shrink-0 text-foreground" />
-        <span>
-          <strong className="text-foreground">ADA Title III Legal Assessment:</strong> Screen reader software (NVDA, JAWS, VoiceOver) can traverse and parse core content hierarchies without accessibility barriers.
-        </span>
+          ))}
+        </dl>
       </div>
     </div>
   );

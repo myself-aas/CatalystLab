@@ -21,7 +21,7 @@ export const termsDocument: LegalDocumentContent = {
   canonicalPath: '/terms',
   version: LEGAL_VERSION,
   intro:
-    `These terms are the agreement between you and the operator of CatalystLab. They cover accounts, plans, acceptable use of diagnostic scans, and the limits on what we promise. Read the summary at the top of each section first. The numbered clauses are the binding text. This version took effect on ${EFFECTIVE_DATE}. Every value in this document is a decided one: there is no open item left.`,
+    `These terms are the agreement between you and the operator of CatalystLab. They cover accounts, plans, acceptable use of diagnostic scans, and the limits on what we promise. Read the summary at the top of each section first. The numbered clauses are the binding text. This version took effect on ${EFFECTIVE_DATE}.`,
   sections: [
     {
       id: 'definitions',

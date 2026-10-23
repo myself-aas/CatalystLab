@@ -3,6 +3,7 @@ import * as cheerio from 'cheerio';
 import { guardedFetch } from './networkSecurity';
 import { URL } from 'url';
 import { getEmailSecurityProfile, enumerateSubdomains } from './securityAudit';
+import type { SecurityDiagnosticProfile } from '../types';
 
 function getErrorMessage(error: unknown): string {
   return error instanceof Error ? error.message : String(error);
@@ -15,6 +16,54 @@ export interface DiagnosticResult {
   output: string;
 }
 
+const METRICS_MARKER = '---CATALYST_METRICS---';
+
+/**
+ * Machine-readable tail of every engine log.
+ *
+ * `measured: false` means the scan never completed, so the block deliberately
+ * carries no score and no series. `measured: true` with `healthScore: null`
+ * means the engine ran but has no scoring basis (the repository scanner reads
+ * DNS metadata, not repositories), and `scoreNote` says so.
+ */
+export interface EngineMetricsBlock {
+  measured: boolean;
+  healthScore: number | null;
+  scoreNote?: string;
+  loadTime?: number;
+  [key: string]: unknown;
+}
+
+function closeLog(logs: string[], metrics: EngineMetricsBlock | null): string {
+  const block: EngineMetricsBlock = metrics ?? {
+    measured: false,
+    healthScore: null,
+    scoreNote: 'The scan did not complete, so no readings were recorded.',
+  };
+  logs.push(`\n${METRICS_MARKER}\n${JSON.stringify(block, null, 2)}`);
+  return logs.join('\n');
+}
+
+function clampScore(value: number): number {
+  return Math.max(0, Math.min(100, Math.round(value)));
+}
+
+/** Deepest element nest in the document, counted from the root element. */
+function measureDomDepth($: cheerio.CheerioAPI): number {
+  type DomNode = { type?: string; parent?: DomNode | null };
+  let depth = 0;
+  $('*').each((_, el) => {
+    let node = (el as unknown as DomNode).parent ?? null;
+    let current = 0;
+    while (node && node.type !== 'root') {
+      current += 1;
+      node = node.parent ?? null;
+    }
+    if (current > depth) depth = current;
+  });
+  return depth;
+}
+
 // SWD Constants for Eco-Carbon
 const KWH_PER_GB = 0.81;
 const CO2_PER_KWH = 442; // grams
@@ -23,8 +72,12 @@ const PERCENT_RETURN_VISITS = 0.25;
 const DATA_CACHE_RATIO = 0.02;
 
 /**
- * Universal Native TypeScript Diagnostics Runner
- * Produces authentic, high-precision telemetry output matching CatalystLab standards.
+ * Universal Native TypeScript Diagnostics Runner.
+ *
+ * Each engine prints the readings its scan actually collected and closes with a
+ * `---CATALYST_METRICS---` block. A scan that could not finish records
+ * `measured: false` instead of a score, so no consumer can show a number the
+ * engine never read.
  */
 export async function runNativeEngine(rawUrl: string, engine: string): Promise<string> {
   let targetUrl = rawUrl.trim();
@@ -67,12 +120,15 @@ async function runHealthEngine(url: string): Promise<string> {
   const startTime = performance.now();
   let score = 100;
   const logs: string[] = [];
+  let scanFailed = false;
+  let fetchTime: number | null = null;
+  let tagMix: Record<string, number> | null = null;
+  let maxDepth: number | null = null;
+  let responsiveImages: number | null = null;
+  let totalImages = 0;
 
   logs.push(`--- CORE WEBSITE HEALTH ANALYSIS ---`);
   logs.push(`Target: ${url}\n`);
-
-  let hsts = 0, xframe = 0, csp = 0, mime = 0;
-  let fetchTime = 120;
 
   try {
     const res = await guardedFetch(url, {
@@ -89,10 +145,10 @@ async function runHealthEngine(url: string): Promise<string> {
     const payloadKb = payloadBytes / 1024;
     const $ = cheerio.load(htmlText);
 
-    hsts = res.headers.has('strict-transport-security') ? 1 : 0;
-    xframe = res.headers.has('x-frame-options') ? 1 : 0;
-    csp = res.headers.has('content-security-policy') ? 1 : 0;
-    mime = res.headers.has('x-content-type-options') ? 1 : 0;
+    const hasHsts = res.headers.has('strict-transport-security');
+    const hasFrame = res.headers.has('x-frame-options');
+    const hasCsp = res.headers.has('content-security-policy');
+    const hasMime = res.headers.has('x-content-type-options');
 
     logs.push(`[*] 1. Network & Payload Profiling...`);
     logs.push(`  [>] HTML Payload Size: ${payloadKb.toFixed(2)} KB`);
@@ -136,10 +192,23 @@ async function runHealthEngine(url: string): Promise<string> {
       logs.push(`  [+] PASS: Optimal DOM complexity (<1500 nodes).`);
     }
 
+    const containers = $('div, section, article, aside, form, ul, ol, table, nav, header, footer, main').length;
+    const textNodes = $('p, span, h1, h2, h3, h4, h5, h6, strong, em, li, td, th, label, blockquote').length;
+    const links = $('a, button').length;
+    const media = $('img, svg, video, picture, canvas').length;
+    const scripts = $('script, style, link').length;
+    const other = Math.max(0, totalDomElements - (containers + textNodes + links + media + scripts));
+    tagMix = { containers, text: textNodes, links, media, scripts, other };
+    logs.push(`  [>] Tag Mix: containers ${containers}, text ${textNodes}, links ${links}, media ${media}, scripts ${scripts}, other ${other}`);
+
+    maxDepth = measureDomDepth($);
+    logs.push(`  [>] Maximum Nesting Depth: ${maxDepth} levels`);
+
     logs.push(`\n[*] 4. Next-Gen Image Formats & Modern Assets...`);
     const images = $('img');
+    totalImages = images.length;
     let modernImages = 0;
-    let responsiveImages = 0;
+    responsiveImages = 0;
 
     images.each((_, el) => {
       const src = $(el).attr('src') || '';
@@ -148,9 +217,11 @@ async function runHealthEngine(url: string): Promise<string> {
         modernImages++;
       }
       if (srcset) {
-        responsiveImages++;
+        responsiveImages = (responsiveImages ?? 0) + 1;
       }
     });
+
+    logs.push(`  [>] Responsive Images (srcset): ${responsiveImages} of ${totalImages}`);
 
     if (images.length > 0) {
       const modernPct = (modernImages / images.length) * 100;
@@ -169,7 +240,7 @@ async function runHealthEngine(url: string): Promise<string> {
         score -= 5;
       }
     } else {
-      logs.push(`  [~] No standard <img> tags detected.`);
+      logs.push(`  [~] No standard img elements detected.`);
     }
 
     logs.push(`\n[*] 5. Critical Rendering Path & Blocking Scripts...`);
@@ -181,43 +252,37 @@ async function runHealthEngine(url: string): Promise<string> {
       logs.push(`  [+] PASS: Zero parser-blocking scripts found in <head>.`);
     }
 
-    logs.push(`\n=> [SCORE] CATALYST HEALTH SCORE: ${Math.max(0, score)}/100`);
-    if (score >= 90) {
+    logs.push(`\n[*] 6. Response Security Headers (presence only)...`);
+    logs.push(`  ${hasHsts ? '[+] PASS' : '[-] FAIL'}: Strict-Transport-Security ${hasHsts ? 'is present' : 'is missing'}.`);
+    logs.push(`  ${hasFrame ? '[+] PASS' : '[-] FAIL'}: X-Frame-Options ${hasFrame ? 'is present' : 'is missing'}.`);
+    logs.push(`  ${hasCsp ? '[+] PASS' : '[-] FAIL'}: Content-Security-Policy ${hasCsp ? 'is present' : 'is missing'}.`);
+    logs.push(`  ${hasMime ? '[+] PASS' : '[-] FAIL'}: X-Content-Type-Options ${hasMime ? 'is present' : 'is missing'}.`);
+
+    const finalScore = clampScore(score);
+    logs.push(`\n=> [SCORE] CATALYST HEALTH SCORE: ${finalScore}/100`);
+    if (finalScore >= 90) {
       logs.push(`=> [PASS] STATUS: OPTIMAL PERFORMANCE (Green Vitals Profile)`);
-    } else if (score >= 70) {
+    } else if (finalScore >= 70) {
       logs.push(`=> [WARN] STATUS: MODERATE (Optimization recommendations available)`);
     } else {
       logs.push(`=> [FAIL] STATUS: CRITICAL BOTTLENECKS DETECTED`);
     }
   } catch (err: unknown) {
+    scanFailed = true;
     logs.push(`  [!] CRITICAL: Failed to complete health scan: ${getErrorMessage(err)}`);
   }
 
-  const finalScore = Math.max(20, Math.min(99, score));
-  const telemetryMetrics = {
-    healthScore: finalScore,
-    loadTime: fetchTime,
-    issues: { critical: finalScore < 70 ? 2 : 0, warning: finalScore < 85 ? 2 : 1, info: 3 },
-    plot1: [
-      { name: 'W1', LCP: 2.3, FID: 32 },
-      { name: 'W2', LCP: 1.9, FID: 24 },
-      { name: 'W3', LCP: 1.6, FID: 19 },
-      { name: 'W4', LCP: (fetchTime / 1000 + 0.8).toFixed(2), FID: Math.min(50, fetchTime / 10) }
-    ],
-    plot2: [
-      { name: 'HSTS', present: hsts },
-      { name: 'X-Frame', present: xframe },
-      { name: 'CSP', present: csp },
-      { name: 'MIME', present: mime }
-    ],
-    plot3: [
-      { name: 'SSL Valid', value: 92 },
-      { name: 'Days Left', value: 8 }
-    ]
-  };
+  if (scanFailed) return closeLog(logs, null);
 
-  logs.push(`\n---CATALYST_METRICS---\n${JSON.stringify(telemetryMetrics, null, 2)}`);
-  return logs.join('\n');
+  return closeLog(logs, {
+    measured: true,
+    healthScore: clampScore(score),
+    loadTime: fetchTime ?? undefined,
+    images: totalImages,
+    responsiveImages,
+    maxDepth,
+    tagMix,
+  });
 }
 
 // --- 2. AI READINESS ENGINE ---
@@ -228,7 +293,9 @@ async function runAiReadinessEngine(url: string): Promise<string> {
 
   let llmsFound = false;
   let robotsFound = false;
-  let wordCount = 500;
+  let wordCount = 0;
+  let headings = 0;
+  let domRead = false;
 
   logs.push(`--- AI READINESS INSPECTOR V2 ---`);
   logs.push(`Target: ${url}\n`);
@@ -285,6 +352,7 @@ async function runAiReadinessEngine(url: string): Promise<string> {
     const res = await guardedFetch(url, { timeoutMs: HTTP_TIMEOUT_MS });
     const htmlText = await res.text();
     const $ = cheerio.load(htmlText);
+    domRead = true;
 
     $('script, style, nav, footer, header, noscript').remove();
     const rawText = $('body').text().replace(/\s+/g, ' ').trim();
@@ -302,7 +370,7 @@ async function runAiReadinessEngine(url: string): Promise<string> {
       logs.push(`  [+] PASS: Ideal content density for vector embedding models.`);
     }
 
-    const headings = $('h1, h2, h3').length;
+    headings = $('h1, h2, h3').length;
     if (headings > 0) {
       logs.push(`  [+] PASS: Document structured with ${headings} heading tags (Critical for LLM semantic chunking).`);
     } else {
@@ -311,60 +379,51 @@ async function runAiReadinessEngine(url: string): Promise<string> {
     }
   } catch (err: unknown) {
     logs.push(`  [!] CRITICAL: Failed to parse DOM for semantic analysis. ${getErrorMessage(err)}`);
-    score -= 30;
   }
 
-  const finalScore = Math.max(30, Math.min(99, score));
+  if (!domRead) {
+    logs.push(`\n=> [FAIL] STATUS: NOT MEASURED. The page itself could not be read, so the readiness score is unavailable.`);
+    return closeLog(logs, null);
+  }
+
+  const finalScore = clampScore(score);
   logs.push(`\n=> [SCORE] AI READINESS SCORE: ${finalScore}/100`);
-  if (score >= 85) {
+  if (finalScore >= 85) {
     logs.push(`=> [PASS] STATUS: FULLY COMPATIBLE (SearchGPT/Perplexity optimized)`);
-  } else if (score >= 60) {
+  } else if (finalScore >= 60) {
     logs.push(`=> [WARN] STATUS: PARTIAL (Usable, but missing explicit AI directives)`);
   } else {
     logs.push(`=> [FAIL] STATUS: INVISIBLE (High risk of hallucination or being ignored by AI agents)`);
   }
 
-  const telemetryMetrics = {
+  return closeLog(logs, {
+    measured: true,
     healthScore: finalScore,
-    issues: { critical: llmsFound ? 0 : 1, warning: robotsFound ? 1 : 2, info: 2 },
-    plot1: [
-      { subject: 'Semantics', A: wordCount > 200 ? 88 : 55 },
-      { subject: 'Headings', A: 90 },
-      { subject: 'Robots', A: robotsFound ? 85 : 40 },
-      { subject: 'llms.txt', A: llmsFound ? 95 : 30 },
-      { subject: 'Metadata', A: 82 }
-    ],
-    plot2: [
-      { name: 'Body', tokens: Math.min(4000, Math.max(500, Math.round(wordCount * 1.3))) },
-      { name: 'Header', tokens: 350 },
-      { name: 'Footer', tokens: 220 },
-      { name: 'Nav', tokens: 300 }
-    ],
-    plot3: [
-      { name: 'GPTBot', allowed: 100 },
-      { name: 'Claude', allowed: 90 },
-      { name: 'CCBot', allowed: 80 },
-      { name: 'Perplexity', allowed: 100 }
-    ]
-  };
-
-  logs.push(`\n---CATALYST_METRICS---\n${JSON.stringify(telemetryMetrics, null, 2)}`);
-  return logs.join('\n');
+    llmsTxt: llmsFound,
+    robotsTxt: robotsFound,
+    wordCount,
+    headings,
+  });
 }
 
 // --- 3. ECO-CARBON FOOTPRINT ENGINE ---
 async function runEcoEngine(url: string): Promise<string> {
   const logs: string[] = [];
+  let measuredCarbon: number | null = null;
+  let measuredWeightMb: number | null = null;
+  let measuredMonthlyKg: number | null = null;
+  let rating: string | null = null;
+  let ratingLabel: string | null = null;
+  let pageRead = false;
+
   logs.push(`--- ECO-CARBON FOOTPRINT AUDIT ---`);
   logs.push(`Target: ${url}\n`);
   logs.push(`[*] 1. Fetching page and measuring initial payload weight...`);
 
-  let avgCarbonPerView = 0.35;
-  let totalMb = 1.2;
-
   try {
     const res = await guardedFetch(url, { timeoutMs: HTTP_TIMEOUT_MS });
     const htmlText = await res.text();
+    pageRead = true;
     const htmlBytes = Buffer.byteLength(htmlText, 'utf8');
     const $ = cheerio.load(htmlText);
 
@@ -380,65 +439,58 @@ async function runEcoEngine(url: string): Promise<string> {
 
     const totalEstBytes = htmlBytes + estImgBytes + estScriptBytes + estCssBytes;
     const totalGb = totalEstBytes / Math.pow(1024, 3);
-    totalMb = totalEstBytes / Math.pow(1024, 2);
+    measuredWeightMb = totalEstBytes / Math.pow(1024, 2);
 
     logs.push(`\n[*] 2. Calculating Energy & Carbon Metrics (Sustainable Web Design Model)...`);
-    logs.push(`  [>] Estimated Total Page Weight: ${totalMb.toFixed(2)} MB`);
+    logs.push(`  [>] Estimated Total Page Weight: ${measuredWeightMb.toFixed(2)} MB`);
+    logs.push(`  [>] Estimate basis: HTML bytes plus 500 KB per image, 100 KB per script and 30 KB per stylesheet.`);
 
     const energyKwh = totalGb * KWH_PER_GB;
     const carbonFirstView = energyKwh * CO2_PER_KWH;
     const carbonReturnView = energyKwh * DATA_CACHE_RATIO * CO2_PER_KWH;
-    avgCarbonPerView = (carbonFirstView * PERCENT_NEW_VISITS) + (carbonReturnView * PERCENT_RETURN_VISITS);
-    const monthlyCarbonKg = (avgCarbonPerView * 10000) / 1000;
+    measuredCarbon = (carbonFirstView * PERCENT_NEW_VISITS) + (carbonReturnView * PERCENT_RETURN_VISITS);
+    measuredMonthlyKg = (measuredCarbon * 10000) / 1000;
 
     logs.push(`\n=> [METRICS] ECO-METRICS RESULTS:`);
-    logs.push(`  - Emissions per Visit: ${avgCarbonPerView.toFixed(4)} grams CO2e`);
-    logs.push(`  - Monthly Emissions (10k views): ${monthlyCarbonKg.toFixed(2)} kg CO2e`);
+    logs.push(`  - Emissions per Visit: ${measuredCarbon.toFixed(4)} grams CO2e`);
+    logs.push(`  - Monthly Emissions (10k views): ${measuredMonthlyKg.toFixed(2)} kg CO2e`);
 
-    let rating = 'F';
-    let color = 'Failing (Heavy Emitter)';
-    if (avgCarbonPerView < 0.5) {
+    rating = 'F';
+    ratingLabel = 'Failing (Heavy Emitter)';
+    if (measuredCarbon < 0.5) {
       rating = 'A+';
-      color = 'Excellent';
-    } else if (avgCarbonPerView < 1.0) {
+      ratingLabel = 'Excellent';
+    } else if (measuredCarbon < 1.0) {
       rating = 'A';
-      color = 'Good';
-    } else if (avgCarbonPerView < 1.5) {
+      ratingLabel = 'Good';
+    } else if (measuredCarbon < 1.5) {
       rating = 'B';
-      color = 'Fair';
-    } else if (avgCarbonPerView < 2.5) {
+      ratingLabel = 'Fair';
+    } else if (measuredCarbon < 2.5) {
       rating = 'C';
-      color = 'Poor';
+      ratingLabel = 'Poor';
     }
 
-    logs.push(`\n=> [RATING] CATALYST ECO-RATING: [${rating}] - ${color}`);
+    logs.push(`\n=> [RATING] CATALYST ECO-RATING: [${rating}] - ${ratingLabel}`);
+    logs.push(`=> [SCORE] ECO EFFICIENCY SCORE: ${clampScore(100 - measuredCarbon * 35)}/100`);
   } catch (err: unknown) {
     logs.push(`  [!] Error calculating eco footprint: ${getErrorMessage(err)}`);
   }
 
-  const score = Math.max(30, Math.min(98, Math.round(100 - avgCarbonPerView * 35)));
-  const telemetryMetrics = {
-    healthScore: score,
-    issues: { critical: avgCarbonPerView > 1.5 ? 1 : 0, warning: avgCarbonPerView > 0.8 ? 2 : 1, info: 3 },
-    plot1: [
-      { month: 'Jan', emissions: 0.52 },
-      { month: 'Feb', emissions: 0.44 },
-      { month: 'Mar', emissions: parseFloat(avgCarbonPerView.toFixed(2)) }
-    ],
-    plot2: [
-      { name: 'Renewable', value: 85 },
-      { name: 'Grid/Fossil', value: 15 }
-    ],
-    plot3: [
-      { name: 'Images', co2: parseFloat((avgCarbonPerView * 0.6).toFixed(2)) },
-      { name: 'Video', co2: parseFloat((avgCarbonPerView * 0.2).toFixed(2)) },
-      { name: 'JS/CSS', co2: parseFloat((avgCarbonPerView * 0.15).toFixed(2)) },
-      { name: 'HTML', co2: parseFloat((avgCarbonPerView * 0.05).toFixed(2)) }
-    ]
-  };
+  if (!pageRead || measuredCarbon === null) {
+    logs.push(`\n=> [FAIL] STATUS: NOT MEASURED. The page could not be fetched, so no emission estimate was produced.`);
+    return closeLog(logs, null);
+  }
 
-  logs.push(`\n---CATALYST_METRICS---\n${JSON.stringify(telemetryMetrics, null, 2)}`);
-  return logs.join('\n');
+  return closeLog(logs, {
+    measured: true,
+    healthScore: clampScore(100 - measuredCarbon * 35),
+    emissionsPerVisitGrams: Number(measuredCarbon.toFixed(4)),
+    monthly10kKg: Number((measuredMonthlyKg ?? 0).toFixed(2)),
+    pageWeightMb: Number((measuredWeightMb ?? 0).toFixed(2)),
+    rating,
+    ratingLabel,
+  });
 }
 
 // --- 4. COMPLIANCE & RISK ENGINE ---
@@ -448,18 +500,22 @@ async function runComplianceEngine(url: string): Promise<string> {
   logs.push(`Target: ${url}\n`);
 
   let riskCount = 0;
-  let secProfile: any = null;
+  let secProfile: SecurityDiagnosticProfile | null = null;
+  let pageRead = false;
 
   try {
     const res = await guardedFetch(url, { timeoutMs: HTTP_TIMEOUT_MS });
     const htmlText = await res.text();
+    pageRead = true;
     const $ = cheerio.load(htmlText);
 
     logs.push(`[*] 1. Auditing OWASP Security Headers (InfoSec Compliance)...`);
-    const secHeaders = {
+    const secHeaders: Record<string, string> = {
       'strict-transport-security': 'HSTS prevents downgrade attacks.',
       'content-security-policy': 'CSP prevents Cross-Site Scripting (XSS).',
-      'x-frame-options': 'Prevents Clickjacking.'
+      'x-frame-options': 'Prevents Clickjacking.',
+      'referrer-policy': 'Limits referrer leakage to third parties.',
+      'permissions-policy': 'Restricts access to browser features.'
     };
 
     for (const [header, desc] of Object.entries(secHeaders)) {
@@ -521,46 +577,71 @@ async function runComplianceEngine(url: string): Promise<string> {
       } else {
         logs.push(`  [+] PASS: 100% Image Alt Text coverage (${images.length} images).`);
       }
+    } else {
+      logs.push(`  [>] No img elements on the page, so alt text was not assessed.`);
     }
 
-    // 4. Structural Email Security Audit (SPF & DMARC) & SSL Metadata Verification
+    const inputs = $('input:not([type="hidden"]), select, textarea');
+    let unlabeledInputs = 0;
+    inputs.each((_, el) => {
+      const id = $(el).attr('id');
+      const hasAria = Boolean($(el).attr('aria-label') || $(el).attr('aria-labelledby'));
+      const hasWrappingLabel = $(el).closest('label').length > 0;
+      const hasForLabel = id ? $(`label[for="${id}"]`).length > 0 : false;
+      if (!hasAria && !hasWrappingLabel && !hasForLabel) unlabeledInputs++;
+    });
+    logs.push(`  [>] Form controls: ${inputs.length} found, ${unlabeledInputs} without an associated label.`);
+    if (unlabeledInputs > 0) {
+      logs.push(`  [-] FAIL: ${unlabeledInputs} form control(s) have no accessible label.`);
+      riskCount++;
+    }
+
     logs.push(`\n[*] 4. Auditing Email Security & Anti-Spoofing Vectors...`);
     secProfile = await getEmailSecurityProfile(url);
 
     if (secProfile.spf_status === 'Configured') {
       logs.push(`  [+] PASS: SPF Structural Record validated (v=spf1 declared).`);
-    } else {
+    } else if (secProfile.spf_status === 'Missing Protection') {
       logs.push(`  [-] FAIL: Missing SPF record. Domain exposed to unauthorized mail relay.`);
       riskCount++;
+    } else {
+      logs.push(`  [~] SPF status could not be measured: DNS lookups did not answer.`);
     }
 
     if (secProfile.dmarc_status === 'Configured') {
       logs.push(`  [+] PASS: DMARC Policy validated (v=DMARC1 enforcement active).`);
-    } else {
+    } else if (secProfile.dmarc_status === 'Missing Protection') {
       logs.push(`  [-] FAIL: Missing DMARC policy. No rejection or quarantine instruction for forged headers.`);
       riskCount++;
+    } else {
+      logs.push(`  [~] DMARC status could not be measured: DNS lookups did not answer.`);
     }
 
-    logs.push(`  [>] Spoofing Risk Rating: ${secProfile.spoofing_risk_level.toUpperCase()}`);
+    logs.push(`  [>] Spoofing Risk Rating: ${secProfile.spoofing_risk_level}`);
 
     logs.push(`\n[*] 5. Auditing SSL/TLS Certificate & Cryptographic Parameters...`);
     const ssl = secProfile.ssl_status;
-    logs.push(`  [>] Cipher & Protocol: ${ssl.encryption_algorithm}`);
-    logs.push(`  [>] Certificate Issuer: ${ssl.issuer || 'Trusted CA'}`);
-    logs.push(`  [>] Days Until Expiration: ${ssl.days_until_expiration} days`);
-    logs.push(`  [>] Expiration Status: ${ssl.is_expired ? 'EXPIRED' : 'VALID'}`);
-    logs.push(`  [>] Validation Alert: ${ssl.validation_alert}`);
+    if (ssl.measured) {
+      logs.push(`  [>] Cipher & Protocol: ${ssl.encryption_algorithm}`);
+      logs.push(`  [>] Certificate Issuer: ${ssl.issuer ?? 'Not reported by the certificate'}`);
+      logs.push(`  [>] Days Until Expiration: ${ssl.days_until_expiration} days`);
+      logs.push(`  [>] Expiration Status: ${ssl.is_expired ? 'EXPIRED' : 'VALID'}`);
+      logs.push(`  [>] Validation Alert: ${ssl.validation_alert}`);
 
-    if (ssl.is_expired) {
-      logs.push(`  [-] CRITICAL: SSL Certificate has expired. Browser trust warnings active.`);
-      riskCount += 2;
-    } else if (ssl.days_until_expiration < 30) {
-      logs.push(`  [~] WARNING: SSL Certificate expires in under 30 days. Renewal required.`);
+      if (ssl.is_expired) {
+        logs.push(`  [-] CRITICAL: SSL Certificate has expired. Browser trust warnings active.`);
+        riskCount += 2;
+      } else if (ssl.days_until_expiration !== null && ssl.days_until_expiration < 30) {
+        logs.push(`  [~] WARNING: SSL Certificate expires in under 30 days. Renewal required.`);
+      }
+    } else {
+      logs.push(`  [~] TLS handshake did not complete, so certificate details are not measured.`);
     }
 
     logs.push(`\n[*] 6. Hosting Ecosystem & Mail Topography Overview:`);
     logs.push(`  [>] ${secProfile.pipeline_summary}`);
 
+    const finalScore = clampScore(100 - riskCount * 10);
     logs.push(`\n=> [LIABILITIES] TOTAL IDENTIFIED LIABILITIES: ${riskCount}`);
     if (riskCount === 0) {
       logs.push(`=> [PASS] STATUS: COMPLIANT. Low legal, security, and spoofing risk.`);
@@ -569,48 +650,26 @@ async function runComplianceEngine(url: string): Promise<string> {
     } else {
       logs.push(`=> [FAIL] STATUS: HIGH LIABILITY. Critical remediation required for compliance & email security.`);
     }
+    logs.push(`=> [SCORE] COMPLIANCE SCORE: ${finalScore}/100`);
   } catch (err: unknown) {
     logs.push(`  [!] Failed to complete compliance audit: ${getErrorMessage(err)}`);
   }
 
-  const score = Math.max(30, Math.min(99, 100 - riskCount * 10));
-  const telemetryMetrics = {
-    healthScore: score,
-    issues: { critical: riskCount > 2 ? 2 : 0, warning: riskCount, info: 3 },
-    spoofing_risk_level: secProfile?.spoofing_risk_level || 'Low Risk',
-    spf_status: secProfile?.spf_status || 'Configured',
-    dmarc_status: secProfile?.dmarc_status || 'Configured',
-    ssl_status: secProfile?.ssl_status || {
-      is_expired: false,
-      days_until_expiration: 84,
-      encryption_algorithm: 'TLS_AES_256_GCM_SHA384 (TLSv1.3)',
-      validation_alert: 'Secure',
-      issuer: "Let's Encrypt / Cloudflare Edge TLS",
-      protocol: 'TLSv1.3'
-    },
-    pipeline_summary: secProfile?.pipeline_summary || 'Anti-spoofing and TLS cryptographic parameters structurally validated.',
-    plot1: [
-      { subject: 'GDPR', A: 92 },
-      { subject: 'CCPA', A: 90 },
-      { subject: 'SOC2', A: 80 },
-      { subject: 'HIPAA', A: 75 },
-      { subject: 'PCI-DSS', A: 85 }
-    ],
-    plot2: [
-      { category: 'Essential', risk: 5 },
-      { category: 'Analytics', risk: 25 },
-      { category: 'Marketing', risk: 45 },
-      { category: '3rd Party', risk: 38 }
-    ],
-    plot3: [
-      { name: 'Low/No Risk', value: 75 },
-      { name: 'Medium Risk', value: 20 },
-      { name: 'High Risk PII', value: 5 }
-    ]
-  };
+  if (!pageRead) {
+    logs.push(`\n=> [FAIL] STATUS: NOT MEASURED. The page could not be read, so no compliance score was produced.`);
+    return closeLog(logs, null);
+  }
 
-  logs.push(`\n---CATALYST_METRICS---\n${JSON.stringify(telemetryMetrics, null, 2)}`);
-  return logs.join('\n');
+  return closeLog(logs, {
+    measured: true,
+    healthScore: clampScore(100 - riskCount * 10),
+    riskCount,
+    spoofing_risk_level: secProfile?.spoofing_risk_level ?? null,
+    spf_status: secProfile?.spf_status ?? null,
+    dmarc_status: secProfile?.dmarc_status ?? null,
+    ssl_status: secProfile?.ssl_status ?? null,
+    pipeline_summary: secProfile?.pipeline_summary ?? null,
+  });
 }
 
 // --- 5. EDGE LATENCY RADAR ENGINE ---
@@ -619,165 +678,108 @@ async function runLatencyEngine(url: string): Promise<string> {
   logs.push(`--- GLOBAL EDGE LATENCY RADAR ---`);
   logs.push(`Target: ${url}\n`);
 
-  let avgLatency = 65;
-  let localTtfb = 45;
+  let localTtfb: number | null = null;
+  let infrastructure = '';
+  let status = 0;
 
   try {
     const startTime = performance.now();
     const res = await guardedFetch(url, { method: 'HEAD', timeoutMs: HTTP_TIMEOUT_MS });
     localTtfb = Math.round(performance.now() - startTime);
+    status = res.status;
 
     logs.push(`[*] 1. Direct Edge Probe & Handshake:`);
-    logs.push(`  [>] HTTP Status: ${res.status}`);
+    logs.push(`  [>] HTTP Status: ${status}`);
     logs.push(`  [>] Local Origin TTFB: ${localTtfb} ms`);
 
-    const serverHeader = res.headers.get('server') || res.headers.get('via') || 'Origin / Cloud Server';
-    logs.push(`  [>] Detected Edge Infrastructure: ${serverHeader}`);
+    infrastructure = res.headers.get('server') || res.headers.get('via') || 'Not reported by the response';
+    logs.push(`  [>] Reported Edge Infrastructure: ${infrastructure}`);
 
-    logs.push(`\n[*] 2. Simulated Multi-Region Edge Dispersal:`);
-    const regions = [
-      { name: 'US-East (N. Virginia)', jitter: 12 },
-      { name: 'US-West (Oregon)', jitter: 48 },
-      { name: 'EU-Central (Frankfurt)', jitter: 35 },
-      { name: 'AP-East (Tokyo)', jitter: 85 },
-      { name: 'AP-South (Mumbai)', jitter: 110 },
-      { name: 'SA-East (São Paulo)', jitter: 140 }
-    ];
+    logs.push(`\n[*] 2. Geographic Dispersion:`);
+    logs.push(`  [>] This engine probes from one network location.`);
+    logs.push(`  [>] Per-region POP timings need probes in each region and were not run, so none are reported.`);
 
-    let totalSim = 0;
-    for (const reg of regions) {
-      const popLatency = Math.max(18, Math.round(localTtfb * 0.7 + reg.jitter));
-      totalSim += popLatency;
-      const statusIcon = popLatency < 100 ? '[FAST]' : popLatency < 250 ? '[MOD]' : '[SLOW]';
-      logs.push(`  ${statusIcon} [${reg.name}] ~${popLatency} ms`);
-    }
-
-    avgLatency = Math.round(totalSim / regions.length);
-    logs.push(`\n=> [EDGE] GLOBAL AVERAGE EDGE LATENCY: ~${avgLatency} ms`);
-    if (avgLatency < 120) {
-      logs.push(`=> [PASS] CDN PERFORMANCE: TIER-1 ANYCAST GLOBAL DISTRIBUTION`);
+    const finalScore = clampScore(100 - localTtfb * 0.25);
+    logs.push(`\n=> [EDGE] MEASURED ORIGIN ROUND TRIP: ${localTtfb} ms`);
+    logs.push(`=> [SCORE] LATENCY SCORE FROM THAT PROBE: ${finalScore}/100`);
+    if (localTtfb < 120) {
+      logs.push(`=> [PASS] PROBE PERFORMANCE: FAST RESPONSE FROM THE PROBING LOCATION`);
     } else {
-      logs.push(`=> [WARN] CDN PERFORMANCE: REGIONAL ORIGIN (Consider Global Edge Caching)`);
+      logs.push(`=> [WARN] PROBE PERFORMANCE: SLOW RESPONSE FROM THE PROBING LOCATION`);
     }
   } catch (err: unknown) {
     logs.push(`  [!] Latency probe failed: ${getErrorMessage(err)}`);
   }
 
-  const score = Math.max(40, Math.min(99, Math.round(100 - avgLatency * 0.25)));
-  const telemetryMetrics = {
-    healthScore: score,
-    loadTime: avgLatency,
-    issues: { critical: avgLatency > 200 ? 1 : 0, warning: avgLatency > 100 ? 2 : 0, info: 4 },
-    plot1: [
-      { region: 'US-East', ping: Math.max(22, Math.round(localTtfb * 0.8)) },
-      { region: 'US-West', ping: Math.max(45, Math.round(localTtfb * 1.1)) },
-      { region: 'EU', ping: Math.max(70, Math.round(localTtfb * 1.4)) },
-      { region: 'AP-East', ping: Math.max(120, Math.round(localTtfb * 2.0)) }
-    ],
-    plot2: [
-      { time: '0s', dns: 15, tcp: 30, tls: 45, ttfb: localTtfb }
-    ],
-    plot3: [
-      { x: 45, y: 1.2, z: 200 },
-      { x: 75, y: 2.1, z: 150 },
-      { x: 120, y: 3.4, z: 100 }
-    ]
-  };
+  if (localTtfb === null) {
+    logs.push(`\n=> [FAIL] STATUS: NOT MEASURED. The probe could not reach the target.`);
+    return closeLog(logs, null);
+  }
 
-  logs.push(`\n---CATALYST_METRICS---\n${JSON.stringify(telemetryMetrics, null, 2)}`);
-  return logs.join('\n');
+  return closeLog(logs, {
+    measured: true,
+    healthScore: clampScore(100 - localTtfb * 0.25),
+    loadTime: localTtfb,
+    originTtfbMs: localTtfb,
+    httpStatus: status,
+    infrastructure,
+  });
 }
 
 // --- 6. REPO SCANNER ENGINE ---
 async function runRepoEngine(repoUrl: string): Promise<string> {
   const logs: string[] = [];
-  logs.push(`--- REPOSITORY HYGIENE & GIT SECURITY SCANNER ---`);
+  logs.push(`--- REPOSITORY & INFRASTRUCTURE DISCOVERY ---`);
   logs.push(`Target Repository: ${repoUrl}\n`);
-
-  let score = 94;
 
   let cleanUrl = repoUrl.trim();
   if (!cleanUrl.startsWith('http')) {
     cleanUrl = 'https://github.com/' + cleanUrl.replace(/^github\.com\//, '');
   }
 
-  logs.push(`[*] 1. Repository Structure & Open-Source Compliance...`);
-  try {
-    const isGitHub = cleanUrl.includes('github.com');
-    if (isGitHub) {
-      logs.push(`  [+] PASS: Valid GitHub repository format.`);
-      const parts = cleanUrl.split('github.com/')[1]?.split('/');
-      const owner = parts?.[0];
-      const repo = parts?.[1]?.replace(/\.git$/, '');
+  logs.push(`[*] 1. Repository Reference...`);
+  const isGitHub = cleanUrl.includes('github.com');
+  const parts = isGitHub ? cleanUrl.split('github.com/')[1]?.split('/') : undefined;
+  const owner = parts?.[0];
+  const repo = parts?.[1]?.replace(/\.git$/, '');
 
-      if (owner && repo) {
-        logs.push(`  [>] Owner: ${owner} | Repository: ${repo}`);
-        logs.push(`\n[*] 2. Inspecting Governance & Community Standards...`);
-        logs.push(`  [+] PASS: Readme documentation present.`);
-        logs.push(`  [+] PASS: Open-source License identified.`);
-        logs.push(`  [+] PASS: Issue templates and pull request templates configured.`);
-
-        logs.push(`\n[*] 3. Secret Leak & Git Hygiene Verification...`);
-        logs.push(`  [+] PASS: .gitignore detected (Standard configuration).`);
-        logs.push(`  [+] PASS: Zero committed high-entropy API secrets or private keys.`);
-        logs.push(`  [+] PASS: Default branch protection recommended.`);
-      } else {
-        logs.push(`  [-] FAIL: Incomplete repository path.`);
-        score -= 15;
-      }
-    } else {
-      logs.push(`  [+] Target recognized as generic Git source.`);
-      logs.push(`  [*] Standard hygiene profile applied.`);
-    }
-  } catch (err: unknown) {
-    logs.push(`  [!] Error parsing repository: ${getErrorMessage(err)}`);
+  if (owner && repo) {
+    logs.push(`  [+] Repository reference parsed: ${owner}/${repo}.`);
+  } else if (isGitHub) {
+    logs.push(`  [-] Repository path is incomplete: expected github.com/<owner>/<repository>.`);
+  } else {
+    logs.push(`  [>] Target is not a GitHub URL; only passive DNS discovery ran.`);
   }
 
-  // 4. Passive DNS Subdomain Enumeration & Infrastructure Footprint Growth
-  logs.push(`\n[*] 4. Passive DNS Subdomain Enumeration & Footprint Discovery...`);
+  logs.push(`  [>] Repository contents are not fetched by this engine, so README, licence,`);
+  logs.push(`      dependency and secret-history checks are out of scope for this run.`);
+
+  // Passive DNS Subdomain Enumeration & Infrastructure Footprint Discovery
+  logs.push(`\n[*] 2. Passive DNS Subdomain Enumeration & Footprint Discovery...`);
   const { subdomains, infrastructure_growth } = await enumerateSubdomains(cleanUrl);
 
   logs.push(`  [>] Total Discovered Subdomains: ${infrastructure_growth.total_discovered}`);
   logs.push(`  [>] Active Resolving Hosts: ${infrastructure_growth.active_hosts}`);
-  logs.push(`  [>] Footprint Expansion Rate: ${infrastructure_growth.expansion_rate}`);
-  logs.push(`  [>] Cloud Host Ecosystem: ${infrastructure_growth.cloud_providers.join(', ')}`);
+  logs.push(`  [>] Footprint Expansion Rate: ${infrastructure_growth.expansion_rate ?? 'Not measured (no stored baseline)'}`);
+  logs.push(`  [>] Cloud Host Ecosystem: ${infrastructure_growth.cloud_providers.length ? infrastructure_growth.cloud_providers.join(', ') : 'Not measured (no ASN lookup)'}`);
   logs.push(`  [>] Discovery Source: ${infrastructure_growth.discovery_source}`);
 
-  logs.push(`\n  --- Discovered Infrastructure Assets ---`);
-  subdomains.slice(0, 8).forEach((sub) => {
-    logs.push(`  [+] ${sub.subdomain.padEnd(28)} -> ${sub.ip || sub.cname || 'Resolved'} [${sub.cloud_provider || 'Anycast'}]`);
-  });
+  if (subdomains.length) {
+    logs.push(`\n  --- Discovered Infrastructure Assets ---`);
+    subdomains.slice(0, 8).forEach((sub) => {
+      logs.push(`  [+] ${sub.subdomain.padEnd(28)} -> ${sub.ip || 'no A record'} [${sub.status}]`);
+    });
+  }
 
-  logs.push(`\n=> [SCORE] REPO HYGIENE & INFRASTRUCTURE SCORE: ${score}/100`);
-  logs.push(`=> [PASS] STATUS: PRODUCTION-READY REPOSITORY & VERIFIED INFRASTRUCTURE`);
+  logs.push(`\n=> [SCORE] No hygiene score is computed: repository contents were not read.`);
 
-  const telemetryMetrics = {
-    healthScore: score,
-    issues: { critical: 0, warning: 1, info: 4 },
+  return closeLog(logs, {
+    measured: true,
+    healthScore: null,
+    scoreNote: 'This engine maps certificate-transparency hostnames for the target; it does not read repository contents, so it has no hygiene score.',
     subdomains,
     infrastructure_growth,
-    plot1: [
-      { name: 'TypeScript', value: 65 },
-      { name: 'Python', value: 20 },
-      { name: 'CSS', value: 10 },
-      { name: 'Shell', value: 5 }
-    ],
-    plot2: [
-      { week: 'W1', commits: 25, prs: 6 },
-      { week: 'W2', commits: 42, prs: 11 },
-      { week: 'W3', commits: 38, prs: 8 },
-      { week: 'W4', commits: 49, prs: 14 }
-    ],
-    plot3: [
-      { severity: 'Critical', count: 0 },
-      { severity: 'High', count: 1 },
-      { severity: 'Medium', count: 4 },
-      { severity: 'Low', count: 9 }
-    ]
-  };
-
-  logs.push(`\n---CATALYST_METRICS---\n${JSON.stringify(telemetryMetrics, null, 2)}`);
-  return logs.join('\n');
+  });
 }
 
 // --- 7. PLATFORM MIGRATION ENGINE ---
@@ -786,7 +788,7 @@ async function runMigrationEngine(url: string): Promise<string> {
   logs.push(`--- PLATFORM MIGRATION READINESS AUDIT ---`);
   logs.push(`Target: ${url}\n`);
 
-  let detectedStack = 'Static / Custom Web App';
+  let detectedStack: string | null = null;
 
   try {
     const res = await guardedFetch(url, { timeoutMs: HTTP_TIMEOUT_MS });
@@ -805,48 +807,38 @@ async function runMigrationEngine(url: string): Promise<string> {
       detectedStack = 'Shopify';
     } else if (htmlText.includes('webflow.com') || $('html').attr('data-wf-page')) {
       detectedStack = 'Webflow';
+    } else {
+      detectedStack = 'No known framework fingerprint found';
     }
 
     logs.push(`  [>] Detected Platform Stack: ${detectedStack}`);
 
-    logs.push(`\n[*] 2. Decoupling & Modern Edge Portability Assessment...`);
-    if (detectedStack.includes('WordPress')) {
-      logs.push(`  [-] Legacy CMS coupling detected. Migration to Headless/Jamstack requires content API export.`);
-      logs.push(`  [~] Recommended Target: Next.js / Astro on Vercel / Cloud Run.`);
+    logs.push(`\n[*] 2. What this engine can and cannot say:`);
+    if (detectedStack === 'WordPress (Monolith)') {
+      logs.push(`  [>] A WordPress fingerprint was found: wp-content or wp-includes appears in the HTML.`);
+    } else if (detectedStack === 'No known framework fingerprint found') {
+      logs.push(`  [>] None of the framework fingerprints this engine checks for (Next.js, Nuxt, WordPress, Shopify, Webflow) matched.`);
     } else {
-      logs.push(`  [+] High portability score. Standard static assets and modern APIs.`);
-      logs.push(`  [+] Ready for zero-downtime serverless or edge deployment.`);
+      logs.push(`  [>] The HTML matched the ${detectedStack} fingerprint.`);
     }
-
-    logs.push(`\n=> [PORTABILITY] MIGRATION COMPLEXITY INDEX: LOW-MODERATE`);
-    logs.push(`=> [PASS] COMPATIBILITY: 100% Vercel, Cloud Run & Edge CDN Ready`);
+    logs.push(`  [>] Portability, migration complexity and deployment readiness need a code audit,`);
+    logs.push(`      which this engine does not run. No readiness score is produced.`);
   } catch (err: unknown) {
     logs.push(`  [!] Migration analysis error: ${getErrorMessage(err)}`);
   }
 
-  const telemetryMetrics = {
-    healthScore: 88,
-    issues: { critical: 0, warning: 1, info: 3 },
-    plot1: [
-      { tier: 'T1', data_gb: 150, downtime: 2 },
-      { tier: 'T2', data_gb: 450, downtime: 5 },
-      { tier: 'T3', data_gb: 1200, downtime: 12 }
-    ],
-    plot2: [
-      { vendor: 'AWS', lockin: 65 },
-      { vendor: 'GCP', lockin: 45 },
-      { vendor: 'Vercel', lockin: 35 },
-      { vendor: 'Docker', lockin: 10 }
-    ],
-    plot3: [
-      { name: 'Code Parity', match: 95 },
-      { name: 'DB Schema', match: 85 },
-      { name: 'Config', match: 90 }
-    ]
-  };
+  if (detectedStack === null) {
+    logs.push(`\n=> [FAIL] STATUS: NOT MEASURED. The page could not be fetched, so no stack was detected.`);
+    return closeLog(logs, null);
+  }
 
-  logs.push(`\n---CATALYST_METRICS---\n${JSON.stringify(telemetryMetrics, null, 2)}`);
-  return logs.join('\n');
+  return closeLog(logs, {
+    measured: true,
+    healthScore: null,
+    scoreNote: 'This engine fingerprints the frontend stack only; migration readiness is not scored.',
+    detectedStack,
+    platform: detectedStack,
+  });
 }
 
 // --- 8. LLMO OPTIMIZER ENGINE ---
@@ -857,10 +849,15 @@ async function runLlmoEngine(url: string): Promise<string> {
 
   let score = 100;
   let jsonLdCount = 0;
+  let hasOgTags = false;
+  let hasOgImage = false;
+  let hasCanonical = false;
+  let pageRead = false;
 
   try {
     const res = await guardedFetch(url, { timeoutMs: HTTP_TIMEOUT_MS });
     const htmlText = await res.text();
+    pageRead = true;
     const $ = cheerio.load(htmlText);
 
     logs.push(`[*] 1. Inspecting Structured Data & JSON-LD Schema Markup...`);
@@ -876,16 +873,17 @@ async function runLlmoEngine(url: string): Promise<string> {
     logs.push(`\n[*] 2. OpenGraph & Social Entity Graph...`);
     const ogTitle = $('meta[property="og:title"]').attr('content');
     const ogDesc = $('meta[property="og:description"]').attr('content');
-    const ogImage = $('meta[property="og:image"]').attr('content');
+    hasOgImage = Boolean($('meta[property="og:image"]').attr('content'));
+    hasOgTags = Boolean(ogTitle && ogDesc);
 
-    if (ogTitle && ogDesc) {
+    if (hasOgTags) {
       logs.push(`  [+] PASS: Complete OpenGraph title and description tags found.`);
     } else {
       logs.push(`  [-] FAIL: Incomplete OpenGraph tags. Weak social citation graph.`);
       score -= 15;
     }
 
-    if (ogImage) {
+    if (hasOgImage) {
       logs.push(`  [+] PASS: og:image present for rich AI previews.`);
     } else {
       logs.push(`  [~] WARNING: Missing og:image tag.`);
@@ -894,6 +892,7 @@ async function runLlmoEngine(url: string): Promise<string> {
 
     logs.push(`\n[*] 3. Citation Clarity & Factual Attribution...`);
     const canonical = $('link[rel="canonical"]').attr('href');
+    hasCanonical = Boolean(canonical);
     if (canonical) {
       logs.push(`  [+] PASS: Canonical URL explicitly defined (${canonical}).`);
     } else {
@@ -901,8 +900,9 @@ async function runLlmoEngine(url: string): Promise<string> {
       score -= 10;
     }
 
-    logs.push(`\n=> [SCORE] LLMO CITATION SCORE: ${Math.max(0, score)}/100`);
-    if (score >= 85) {
+    const finalScore = clampScore(score);
+    logs.push(`\n=> [SCORE] LLMO CITATION SCORE: ${finalScore}/100`);
+    if (finalScore >= 85) {
       logs.push(`=> [PASS] OPTIMIZATION: EXCELLENT (High citation probability in Perplexity, Gemini, and SearchGPT)`);
     } else {
       logs.push(`=> [WARN] OPTIMIZATION: MODERATE (Add JSON-LD schema to maximize AI citations)`);
@@ -911,29 +911,17 @@ async function runLlmoEngine(url: string): Promise<string> {
     logs.push(`  [!] LLMO audit error: ${getErrorMessage(err)}`);
   }
 
-  const finalScore = Math.max(30, Math.min(99, score));
-  const telemetryMetrics = {
-    healthScore: finalScore,
-    issues: { critical: jsonLdCount === 0 ? 1 : 0, warning: 1, info: 3 },
-    plot1: [
-      { name: 'OpenAI', score: 92 },
-      { name: 'Anthropic', score: 88 },
-      { name: 'Google', score: 95 },
-      { name: 'Perplexity', score: 94 }
-    ],
-    plot2: [
-      { depth: 'L1', density: 0.45, keywords: 20 },
-      { depth: 'L2', density: 0.78, keywords: 55 },
-      { depth: 'L3', density: 0.85, keywords: 70 },
-      { depth: 'L4', density: 0.65, keywords: 40 }
-    ],
-    plot3: [
-      { name: 'JSON-LD', value: jsonLdCount > 0 ? 65 : 20 },
-      { name: 'OpenGraph', value: 25 },
-      { name: 'Microdata', value: 15 }
-    ]
-  };
+  if (!pageRead) {
+    logs.push(`\n=> [FAIL] STATUS: NOT MEASURED. The page could not be fetched, so no citation score was produced.`);
+    return closeLog(logs, null);
+  }
 
-  logs.push(`\n---CATALYST_METRICS---\n${JSON.stringify(telemetryMetrics, null, 2)}`);
-  return logs.join('\n');
+  return closeLog(logs, {
+    measured: true,
+    healthScore: clampScore(score),
+    jsonLdBlocks: jsonLdCount,
+    openGraphTags: hasOgTags,
+    openGraphImage: hasOgImage,
+    canonicalUrl: hasCanonical,
+  });
 }

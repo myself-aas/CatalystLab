@@ -32,7 +32,7 @@ interface EngineRun {
  status: EngineRunStatus;
  output: string;
  error?: string;
- score: number;
+ score: number | null;
 }
 
 function emptyRuns(): EngineRun[] {
@@ -40,7 +40,7 @@ function emptyRuns(): EngineRun[] {
  id,
  status: 'queued',
  output: '',
- score: 0,
+ score: null,
  }));
 }
 
@@ -69,7 +69,7 @@ export const MasterAuditExecutionPage: React.FC = () => {
 
  const completedCount = runs.filter((r) => r.status === 'complete' || r.status === 'error').length;
  const failedCount = runs.filter((r) => r.status === 'error').length;
- const scoredCount = runs.filter((r) => r.status === 'complete' && r.score > 0).length;
+ const scoredCount = runs.filter((r) => r.status === 'complete' && (r.score ?? 0) > 0).length;
  const runningEngine = runs.find((r) => r.status === 'running');
 
  const updateRun = (id: EngineType, patch: Partial<EngineRun>) => {
@@ -125,13 +125,13 @@ export const MasterAuditExecutionPage: React.FC = () => {
  const parsed = parseEngineOutput(output);
  // An engine can answer 200 while its own log reports that the scan never
  // completed (TLS reset, DNS failure). That run has no score to report.
- const reportedFailure = /Failed to complete|\[!\] CRITICAL/i.test(output);
+ const incomplete = data.success === false || !parsed.measured;
  const next: EngineRun = {
  id: engine,
- status: data.success === false || reportedFailure ? 'error' : 'complete',
+ status: incomplete ? 'error' : 'complete',
  output,
- error: data.success === false ? data.error : reportedFailure ? 'The engine could not reach the target.' : undefined,
- score: data.success === false || reportedFailure ? 0 : parsed.healthScore,
+ error: data.success === false ? data.error : !parsed.measured ? 'The engine could not reach the target.' : undefined,
+ score: incomplete ? null : parsed.healthScore,
  };
  collected[MASTER_ENGINES.indexOf(engine)] = next;
  updateRun(engine, next);
@@ -142,16 +142,16 @@ export const MasterAuditExecutionPage: React.FC = () => {
  status: 'error',
  output: '',
  error: message,
- score: 0,
+ score: null,
  };
  collected[MASTER_ENGINES.indexOf(engine)] = failed;
  updateRun(engine, failed);
  }
  }
 
- const scored = collected.filter((r) => r.status === 'complete' && r.score > 0);
+ const scored = collected.filter((r) => r.status === 'complete' && (r.score ?? 0) > 0);
  const avg = scored.length
- ? Math.round(scored.reduce((acc, r) => acc + r.score, 0) / scored.length)
+ ? Math.round(scored.reduce((acc, r) => acc + (r.score ?? 0), 0) / scored.length)
  : null;
  setCompositeScore(avg);
 
@@ -327,7 +327,7 @@ export const MasterAuditExecutionPage: React.FC = () => {
  <p className="mt-1 text-sm ds-muted">
  {run.status === 'queued' && 'Waiting'}
  {run.status === 'running' && 'Measuring…'}
- {run.status === 'complete' && (run.score > 0 ? `Score ${run.score}/100` : 'Finished, no score')}
+ {run.status === 'complete' && ((run.score ?? 0) > 0 ? `Score ${run.score}/100` : 'Finished, no score')}
  {run.status === 'error' && 'Failed'}
  </p>
  </LinearCard>
