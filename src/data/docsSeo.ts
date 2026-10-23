@@ -314,3 +314,66 @@ export function docSeoForPath(path: string): DocSeoEntry | undefined {
   const clean = path.replace(/\/+$/, '') || '/';
   return DOC_SEO_BY_PATH[clean];
 }
+
+/**
+ * Published standards each reference page implements, as [url, label]
+ * (2026-10-23).
+ *
+ * Kept as a separate map rather than a field on every entry so the prose above
+ * stays readable; `docSourcesForPath` is the lookup the build uses, and the
+ * unit test fails if a documentation page has no cited standard.
+ */
+export const DOC_SOURCES: Record<string, [string, string][]> = {
+  '/docs': [
+    ['https://www.rfc-editor.org/rfc/rfc9110.html', 'RFC 9110: HTTP semantics'],
+    ['https://schema.org/', 'Schema.org vocabulary']
+  ],
+  '/docs/architecture': [
+    ['https://www.rfc-editor.org/rfc/rfc9110.html', 'RFC 9110: HTTP semantics'],
+    ['https://developer.mozilla.org/en-US/docs/Web/Performance', 'Web performance, MDN']
+  ],
+  '/docs/master-audit': [['https://web.dev/articles/vitals', 'Core Web Vitals, web.dev']],
+  '/docs/scoring-matrix': [['https://web.dev/articles/vitals', 'Core Web Vitals thresholds, web.dev']],
+  '/docs/rate-limiting': [
+    ['https://www.rfc-editor.org/rfc/rfc9110.html', 'RFC 9110: 429 Too Many Requests'],
+    ['https://datatracker.ietf.org/doc/html/draft-ietf-httpapi-ratelimit-headers', 'RateLimit header fields draft']
+  ],
+  '/docs/api': [['https://www.rfc-editor.org/rfc/rfc9110.html', 'RFC 9110: HTTP semantics']],
+  '/docs/security-sandbox': [
+    ['https://owasp.org/www-project-top-ten/', 'OWASP Top 10'],
+    ['https://www.rfc-editor.org/rfc/rfc9309.html', 'RFC 9309: Robots Exclusion Protocol']
+  ],
+  '/docs/cicd': [['https://docs.github.com/en/actions', 'GitHub Actions documentation']],
+  '/docs/vitalzyme': [
+    ['https://web.dev/articles/vitals', 'Core Web Vitals, web.dev'],
+    ['https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model', 'Document Object Model, MDN']
+  ],
+  '/docs/edgevmax': [
+    ['https://web.dev/articles/ttfb', 'Time to First Byte, web.dev'],
+    ['https://www.rfc-editor.org/rfc/rfc9114.html', 'RFC 9114: HTTP/3']
+  ],
+  '/docs/llm-kinase': [
+    ['https://llmstxt.org/', 'llms.txt proposal'],
+    ['https://developers.google.com/search/docs/appearance/ai-features', 'AI features, Google Search Central']
+  ],
+  '/docs/riskprotease': [
+    ['https://owasp.org/www-project-secure-headers/', 'OWASP Secure Headers Project'],
+    ['https://www.w3.org/WAI/WCAG22/quickref/', 'WCAG 2.2 quick reference, W3C']
+  ],
+  '/docs/ecoholo': [['https://sustainablewebdesign.org/', 'Sustainable Web Design model']],
+  '/docs/synthshift': [
+    ['https://developers.google.com/search/docs/crawling-indexing/site-move-with-url-changes', 'Site moves, Google Search Central']
+  ],
+  '/docs/gitlygase': [
+    ['https://docs.github.com/en/code-security', 'GitHub code security documentation'],
+    ['https://www.rfc-editor.org/rfc/rfc9116.html', 'RFC 9116: security.txt']
+  ],
+  '/docs/allostersearch': [
+    ['https://arxiv.org/abs/2311.09735', 'Generative Engine Optimization, Aggarwal et al.'],
+    ['https://developers.google.com/search/docs/appearance/ai-features', 'AI features, Google Search Central']
+  ]
+};
+
+export function docSourcesForPath(path: string): [string, string][] | undefined {
+  return DOC_SOURCES[path.replace(/\/+$/, '') || '/'];
+}

@@ -71,7 +71,13 @@ export function sitemapPathForSection(id: SitemapSectionId): string {
   return section.path;
 }
 
-/** Crawl hint per section; the home page is the only daily URL. */
+/**
+ * Crawl hint per section; the home page is the only daily URL.
+ *
+ * Not written into the XML any more (2026-10-23): Google documents that it
+ * ignores `changefreq` and `priority`, so emitting them implied control the
+ * file does not have. Kept as a helper for `routes.json` consumers and tests.
+ */
 export function changefreqFor(rawPath: string): 'daily' | 'weekly' {
   const path = rawPath.replace(/\/+$/, '') || '/';
   return path === '/' ? 'daily' : 'weekly';

@@ -204,6 +204,21 @@ export default function PricingPage() {
  />
  <TelemetryRoiCalculator onSelectRecommendedPlan={openCheckout} />
  </section>
+
+ {/* Machine-readable copy of this page (2026-10-23). An agent comparing tiers
+ can read the markdown without rendering the calculator or the cards. */}
+ <section className="mx-auto mt-10 max-w-3xl ds-section">
+ <p className="text-sm text-muted-foreground">
+ Every tier above is also published as plain markdown for agents and scripts:{' '}
+ <a
+ href="/pricing.md"
+ className="text-foreground underline underline-offset-2"
+ >
+ pricing.md
+ </a>
+ . It is generated from the same catalog this page renders.
+ </p>
+ </section>
  </div>
  );
 }

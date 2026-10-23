@@ -4,6 +4,11 @@ import { SITE_ORIGIN, robotsDirectiveFor } from '../../config/site';
 export interface SEOProps {
   title: string;
   description: string;
+  /**
+   * @deprecated Ignored. The meta keywords tag is not used by search engines and
+   * shipped the same 13-term list on every page; callers may still pass it so
+   * no page has to change, but nothing is written (2026-10-23).
+   */
   keywords?: string[];
   canonicalUrl?: string;
   /** Path-only canonical (e.g. '/blogs'); composed with the site origin. */
@@ -31,7 +36,6 @@ export interface SEOProps {
 export const SEOHead: React.FC<SEOProps> = ({
   title,
   description,
-  keywords = [],
   canonicalUrl,
   canonicalPath,
   ogType = 'website',
@@ -71,9 +75,6 @@ export const SEOHead: React.FC<SEOProps> = ({
 
     // Standard SEO
     setMetaTag('name', 'description', description);
-    if (keywords.length > 0) {
-      setMetaTag('name', 'keywords', keywords.join(', '));
-    }
     setMetaTag('name', 'author', author);
     setMetaTag('name', 'robots', robotsDirective);
 
@@ -121,7 +122,7 @@ export const SEOHead: React.FC<SEOProps> = ({
     } else if (scriptTag) {
       scriptTag.remove();
     }
-  }, [fullTitle, description, keywords, currentUrl, ogType, ogImage, author, publishedTime, structuredData, robotsDirective]);
+  }, [fullTitle, description, currentUrl, ogType, ogImage, author, publishedTime, structuredData, robotsDirective]);
 
   return null;
 };

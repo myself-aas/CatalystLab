@@ -44,6 +44,9 @@
   Cache-Control: public, max-age=3600
 /robots.txt
   Cache-Control: public, max-age=3600
+/pricing.md
+  Content-Type: text/markdown; charset=utf-8
+  Cache-Control: public, max-age=3600
 
 # The service worker must never be cached stale.
 /sw.js

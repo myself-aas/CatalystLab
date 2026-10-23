@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { SEOHead } from '../components/common/SEOHead';
 import { BLOG_SEO_BY_SLUG } from '../data/blogSeo';
+import { getSeededBlogPost } from '../data/engineBlogs';
 import { logger } from '../lib/logger';
 import { motion } from 'motion/react';
 
@@ -26,12 +27,22 @@ export const BlogPostPage: React.FC = () => {
   useEffect(() => {
     const load = async () => {
       if (!slug) return;
-      setLoading(true);
+      // Seed first, then replace if Firestore has a newer copy (2026-10-23).
+      // The prerendered document carries the seeded body, so rendering nothing
+      // until a network round trip finishes would replace a full article with a
+      // spinner. Posts that only exist in Firestore still arrive in the swap.
+      const seeded = getSeededBlogPost(slug);
+      if (seeded) {
+        setPost(seeded);
+        setLoading(false);
+      } else {
+        setLoading(true);
+      }
       try {
         const data = await getBlogPostBySlug(slug);
-        setPost(data);
+        if (data) setPost(data);
       } catch (err) {
-        logger.error("Error loading blog post:", err);
+        if (!seeded) logger.error("Error loading blog post:", err);
       } finally {
         setLoading(false);
       }

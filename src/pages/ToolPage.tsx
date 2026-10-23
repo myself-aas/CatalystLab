@@ -361,6 +361,68 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
  </button>
  </LinearCard>
  )}
+
+ {/* The same material the prerendered document carries (2026-10-23), so a
+ reader who arrives with JavaScript sees the detail rather than a shorter
+ page than the crawler saw. */}
+ {seo && (
+ <section className="ds-page-shell space-y-6 pt-2" aria-labelledby="engine-detail-heading">
+ <h2 id="engine-detail-heading" className="text-lg font-semibold text-foreground">
+ What {seo.catalystName} reads
+ </h2>
+ <div className="grid gap-6 sm:grid-cols-3">
+ <div>
+ <h3 className="text-sm font-semibold text-foreground">What it measures</h3>
+ <ul className="mt-2 space-y-1.5 text-sm text-muted-foreground">
+ {seo.measures.map((item) => (
+ <li key={item}>{item}</li>
+ ))}
+ </ul>
+ </div>
+ <div>
+ <h3 className="text-sm font-semibold text-foreground">What the report returns</h3>
+ <ul className="mt-2 space-y-1.5 text-sm text-muted-foreground">
+ {seo.returns.map((item) => (
+ <li key={item}>{item}</li>
+ ))}
+ </ul>
+ </div>
+ <div>
+ <h3 className="text-sm font-semibold text-foreground">What it does not measure</h3>
+ <ul className="mt-2 space-y-1.5 text-sm text-muted-foreground">
+ {seo.limits.map((item) => (
+ <li key={item}>{item}</li>
+ ))}
+ </ul>
+ </div>
+ </div>
+
+ <div>
+ <h2 className="text-lg font-semibold text-foreground">Questions and answers</h2>
+ <dl className="mt-3 space-y-4">
+ {seo.faq.map((entry) => (
+ <div key={entry.question}>
+ <dt className="text-sm font-semibold text-foreground">{entry.question}</dt>
+ <dd className="mt-1 max-w-3xl text-sm text-muted-foreground">{entry.answer}</dd>
+ </div>
+ ))}
+ </dl>
+ </div>
+
+ <div>
+ <h2 className="text-lg font-semibold text-foreground">Sources</h2>
+ <ul className="mt-2 space-y-1.5 text-sm text-muted-foreground">
+ {seo.sources.map(([href, label]) => (
+ <li key={href}>
+ <a href={href} target="_blank" rel="noopener noreferrer" className="text-foreground underline underline-offset-2">
+ {label}
+ </a>
+ </li>
+ ))}
+ </ul>
+ </div>
+ </section>
+ )}
  </main>
  </div>
  );

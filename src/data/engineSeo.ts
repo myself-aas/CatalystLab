@@ -38,6 +38,13 @@ export interface EngineSeoEntry {
   docsPath: string;
   /** Other engines worth running on the same target. */
   related: string[];
+  /**
+   * Answer blocks (2026-10-23). Each answer is written to stand alone at 40 to
+   * 60 words, so an answer engine can lift one without the surrounding page.
+   */
+  faq: { question: string; answer: string }[];
+  /** Authoritative sources for the standard each engine checks against. */
+  sources: [string, string][];
 }
 
 export const ENGINE_SEO: EngineSeoEntry[] = [
@@ -69,7 +76,28 @@ export const ENGINE_SEO: EngineSeoEntry[] = [
       'Contrast and landmark checks see the delivered markup, not states created after interaction'
     ],
     docsPath: '/docs/vitalzyme',
-    related: ['/latency', '/eco-audit', '/master-audit']
+    related: ['/latency', '/eco-audit', '/master-audit'],
+    faq: [
+      {
+        question: 'Which Core Web Vitals does a website health audit measure?',
+        answer:
+          'VitalZyme reports Largest Contentful Paint, Interaction to Next Paint and Cumulative Layout Shift alongside the DOM and payload readings that drive them. Lab values come from a controlled run; field values come from real visitors where the site records them. The report keeps the two separate rather than blending them into one score.'
+      },
+      {
+        question: 'Does the health audit need access to my source code?',
+        answer:
+          'No. The engine fetches the public page and reads the delivered HTML, the response headers and the network waterfall, so it works on any site including one you did not build. Source access is only relevant to the repository scanner, which is a separate engine.'
+      },
+      {
+        question: 'Why can a lab score differ from what real visitors experience?',
+        answer:
+          'A lab run uses one device profile, one connection and one location, so it cannot represent the slowest phone on a congested network. Field data captures that spread but needs traffic volume. Treat the lab score as a reproducible baseline and the field p75 as the number that describes users.'
+      }
+    ],
+    sources: [
+      ['https://web.dev/articles/vitals', 'Core Web Vitals thresholds, web.dev'],
+      ['https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model', 'Document Object Model, MDN']
+    ]
   },
   {
     engineId: 'latency',
@@ -99,7 +127,28 @@ export const ENGINE_SEO: EngineSeoEntry[] = [
       'HTTP/3 is reported as offered or not offered, not benchmarked per connection'
     ],
     docsPath: '/docs/edgevmax',
-    related: ['/health', '/compliance', '/master-audit']
+    related: ['/health', '/compliance', '/master-audit'],
+    faq: [
+      {
+        question: 'How does an edge latency test measure time to first byte?',
+        answer:
+          'Each probe resolves DNS, opens a new connection, completes the TLS handshake and waits for the first response byte, recording each phase separately. Reporting the phases apart matters because a slow DNS lookup and a slow origin produce the same headline TTFB but need different fixes.'
+      },
+      {
+        question: 'Is time to first byte a ranking factor on its own?',
+        answer:
+          'No single network metric is a ranking factor by itself. TTFB matters because it sets the floor for Largest Contentful Paint and because slow responses delay crawling. Treat it as a diagnostic for the network and origin layers, then measure rendering separately with the health engine.'
+      },
+      {
+        question: 'Why do repeated runs from the same region give different numbers?',
+        answer:
+          'Congestion, route changes and TLS session reuse all move the result. A second run from the same probe often reuses an established connection and looks faster than a cold first visit. Compare cold runs against cold runs, and read the median rather than a single sample.'
+      }
+    ],
+    sources: [
+      ['https://web.dev/articles/ttfb', 'Time to First Byte, web.dev'],
+      ['https://www.rfc-editor.org/rfc/rfc9114.html', 'RFC 9114: HTTP/3']
+    ]
   },
   {
     engineId: 'ai_ready',
@@ -128,7 +177,29 @@ export const ENGINE_SEO: EngineSeoEntry[] = [
       'Structured data is validated structurally; a search or assistant result is not guaranteed'
     ],
     docsPath: '/docs/llm-kinase',
-    related: ['/llmo', '/compliance', '/health']
+    related: ['/llmo', '/compliance', '/health'],
+    faq: [
+      {
+        question: 'What does an AI readiness audit check?',
+        answer:
+          'It checks whether an AI system can fetch and parse the page: robots.txt rules for each search and retrieval crawler, an llms.txt manifest if one exists, structured data coverage, and whether the main text is present in the delivered HTML rather than assembled later by JavaScript.'
+      },
+      {
+        question: 'Is llms.txt required to appear in AI answers?',
+        answer:
+          'No. llms.txt is a proposal, not a standard, and Google states that no special file is needed for its AI features. It can help an agent understand what matters on a large site. It cannot compensate for content that only exists after a client render.'
+      },
+      {
+        question: 'Which crawler user agents are checked, and why separately?',
+        answer:
+          'Search discovery agents, user-triggered fetchers and training crawlers are reported separately, because blocking one has a different consequence from blocking another. Blocking a training crawler such as GPTBot does not remove you from search; blocking OAI-SearchBot removes you from the answers that cite sources.'
+      }
+    ],
+    sources: [
+      ['https://llmstxt.org/', 'llms.txt proposal'],
+      ['https://developers.google.com/search/docs/appearance/ai-features', 'AI features and your website, Google Search Central'],
+      ['https://www.rfc-editor.org/rfc/rfc9309.html', 'RFC 9309: Robots Exclusion Protocol']
+    ]
   },
   {
     engineId: 'compliance',
@@ -158,7 +229,28 @@ export const ENGINE_SEO: EngineSeoEntry[] = [
       'Consent detection looks for known consent tooling, not for every possible implementation'
     ],
     docsPath: '/docs/riskprotease',
-    related: ['/ai-readiness', '/latency', '/master-audit']
+    related: ['/ai-readiness', '/latency', '/master-audit'],
+    faq: [
+      {
+        question: 'Which security headers does the compliance audit check?',
+        answer:
+          'It reads Strict-Transport-Security, Content-Security-Policy, X-Content-Type-Options, Referrer-Policy, Permissions-Policy and the cross-origin isolation headers. It also checks the details that decide whether those headers do anything: the negotiated protocol version, whether cookies carry Secure and SameSite flags, and whether a proxy strips a header the origin sends.'
+      },
+      {
+        question: 'Is an automated accessibility check enough for WCAG conformance?',
+        answer:
+          'No. Automated rules detect a useful subset of failures, mostly in contrast, labels, landmarks and parsing. Criteria that depend on meaning, such as whether alt text describes the image or whether a flow is keyboard operable end to end, need a person. The report says which checks were automatic.'
+      },
+      {
+        question: 'Does passing this audit certify compliance?',
+        answer:
+          'It does not. The report lists what was observed on a public page at a point in time against published header and accessibility rules. Certification, legal advice and a statement of conformance are separate, and a passed check is not a guarantee against a finding.'
+      }
+    ],
+    sources: [
+      ['https://owasp.org/www-project-secure-headers/', 'OWASP Secure Headers Project'],
+      ['https://www.w3.org/WAI/WCAG22/quickref/', 'WCAG 2.2 quick reference, W3C']
+    ]
   },
   {
     engineId: 'eco',
@@ -187,7 +279,28 @@ export const ENGINE_SEO: EngineSeoEntry[] = [
       'Host renewable claims come from a third-party dataset that lags provider changes'
     ],
     docsPath: '/docs/ecoholo',
-    related: ['/health', '/latency', '/master-audit']
+    related: ['/health', '/latency', '/master-audit'],
+    faq: [
+      {
+        question: 'How is the carbon figure for a page calculated?',
+        answer:
+          'The engine estimates energy per gigabyte transferred, splits it across data centres, networks and end-user devices, then multiplies by a grid carbon intensity for the hosting region. The Sustainable Web Design model supplies the coefficients and the report names the version it used.'
+      },
+      {
+        question: 'Is the carbon number a measurement or an estimate?',
+        answer:
+          'It is an estimate. Transfer weight is measured, but the energy and intensity factors are modelled averages, so the output is a comparative signal rather than a meter reading. Two pages measured with the same model version can be compared; the absolute figure should not be read as precise.'
+      },
+      {
+        question: 'What reduces the number the most?',
+        answer:
+          'Transfer weight, because it multiplies every factor downstream. Images resized to their rendered slot, modern formats such as AVIF, unused JavaScript removed and a renewable hosting region each move the estimate. Device energy dominates the model, so a lighter page helps most on the phone rendering it.'
+      }
+    ],
+    sources: [
+      ['https://sustainablewebdesign.org/', 'Sustainable Web Design model'],
+      ['https://www.websitecarbon.com/how-does-it-work/', 'Website Carbon methodology']
+    ]
   },
   {
     engineId: 'migration',
@@ -216,7 +329,28 @@ export const ENGINE_SEO: EngineSeoEntry[] = [
       'It reports DNS records as served, and does not simulate a cutover'
     ],
     docsPath: '/docs/synthshift',
-    related: ['/repo-scanner', '/health', '/master-audit']
+    related: ['/repo-scanner', '/health', '/master-audit'],
+    faq: [
+      {
+        question: 'What does SEO parity mean in a platform migration?',
+        answer:
+          'It means every URL that ranked still resolves, permanently and in one hop, to a page that answers the same intent, with a self-referential canonical and a presence in the sitemap. The audit checks that contract across the redirect map instead of assuming it.'
+      },
+      {
+        question: 'Can a migration audit replace a crawl of the old site?',
+        answer:
+          'It complements one. A crawler discovers what exists now; the audit compares the old and new URL sets, which is where a redirect is missed. Pair the two: crawl the old site before cutover, then run the audit against the new host with the same URL list.'
+      },
+      {
+        question: 'When should the parity audit run?',
+        answer:
+          'Before the cutover against a staging host, and again within a day of the switch. Search Console coverage is the long-run confirmation, but a broken redirect map caught in the first hour costs a fraction of what the same miss costs after a recrawl.'
+      }
+    ],
+    sources: [
+      ['https://developers.google.com/search/docs/crawling-indexing/site-move-with-url-changes', 'Site moves with URL changes, Google Search Central'],
+      ['https://developers.google.com/search/docs/crawling-indexing/301-redirects', 'Redirects and Google Search']
+    ]
   },
   {
     engineId: 'repo',
@@ -246,7 +380,28 @@ export const ENGINE_SEO: EngineSeoEntry[] = [
       'Branch protection needs API access with the right scope, so it is reported as unverified without it'
     ],
     docsPath: '/docs/gitlygase',
-    related: ['/migration', '/compliance', '/master-audit']
+    related: ['/migration', '/compliance', '/master-audit'],
+    faq: [
+      {
+        question: 'What does the repository scanner read?',
+        answer:
+          'It reads the public repository metadata and file tree: whether a licence and a SECURITY.md exist, whether dependency update automation is configured, whether CI workflows pin their actions, and whether files that usually hold credentials are tracked. It reads what is published, not what is private.'
+      },
+      {
+        question: 'Does the scanner store my source code?',
+        answer:
+          'No. Findings are produced from the file listing and the manifest files, and the report keeps the rule that fired with the path it fired on. Repository contents are not retained beyond the scan, which is why the output is a checklist rather than a copy of the code.'
+      },
+      {
+        question: 'Can repository hygiene run in CI as a gate?',
+        answer:
+          'Yes, and it is the better place for it. A required check that fails on a tracked .env file or a missing SECURITY.md blocks the merge, while a dashboard that reports the same problem after the fact is easy to ignore.'
+      }
+    ],
+    sources: [
+      ['https://owasp.org/www-project-top-ten/', 'OWASP Top 10'],
+      ['https://docs.github.com/en/code-security/security-advisories/guidance-on-reporting-and-writing-information-about-vulnerabilities/adding-a-security-policy-to-your-repository', 'Security policy on GitHub']
+    ]
   },
   {
     engineId: 'llmo',
@@ -275,7 +430,28 @@ export const ENGINE_SEO: EngineSeoEntry[] = [
       'Assistant retrieval behaviour changes, so a score describes the page on the day it ran'
     ],
     docsPath: '/docs/allostersearch',
-    related: ['/ai-readiness', '/health', '/master-audit']
+    related: ['/ai-readiness', '/health', '/master-audit'],
+    faq: [
+      {
+        question: 'How is AI citation visibility measured?',
+        answer:
+          'A fixed prompt set is run several times per platform, and each answer is recorded with the sources it cites. The report gives a citation rate with its sample size, because a single run of a non-deterministic system is an anecdote rather than a measurement.'
+      },
+      {
+        question: 'Can the audit guarantee a citation in ChatGPT or Perplexity?',
+        answer:
+          'No. No tool controls which sources an answer engine selects, and rankings do not predict citations reliably. What the audit can do is remove the reasons a page is not citable: content missing from the HTML, ambiguous entities, unstated answers and blocked crawlers.'
+      },
+      {
+        question: 'How is LLMO different from rank tracking?',
+        answer:
+          'Rank tracking asks where a URL appears in an ordered list. LLMO asks whether a passage was retrieved, cited and recommended, which are three separate outcomes. A page can be cited without ranking, and can rank without ever being quoted.'
+      }
+    ],
+    sources: [
+      ['https://developers.google.com/search/docs/appearance/ai-features', 'AI features and your website, Google Search Central'],
+      ['https://arxiv.org/abs/2311.09735', 'Generative Engine Optimization, Aggarwal et al.']
+    ]
   },
   {
     engineId: 'master',
@@ -303,7 +479,28 @@ export const ENGINE_SEO: EngineSeoEntry[] = [
       'A master run costs more quota than a single engine run'
     ],
     docsPath: '/docs/master-audit',
-    related: ['/health', '/compliance', '/pricing']
+    related: ['/health', '/compliance', '/pricing'],
+    faq: [
+      {
+        question: 'What does the master audit add over running engines individually?',
+        answer:
+          'It runs every engine against one fetch of the same target, so the readings share a timestamp and a document. Correlated findings become visible, such as a heavy payload that is also the cause of a poor carbon estimate, and the report ranks them by severity across engines.'
+      },
+      {
+        question: 'How long does a master audit take?',
+        answer:
+          'The engines run in parallel, so a master run takes about as long as the slowest single engine rather than the sum. Edge probes dominate the wall clock because they wait on real network round trips from locations that cannot be simulated locally.'
+      },
+      {
+        question: 'Do all engines have to run?',
+        answer:
+          'No. An engine can be skipped, and the report records which ones ran, because a skipped engine lowers coverage rather than raising or lowering a score. That distinction is what stops a partial run from looking like a clean bill of health.'
+      }
+    ],
+    sources: [
+      ['https://web.dev/articles/vitals', 'Core Web Vitals, web.dev'],
+      ['https://developers.google.com/search/docs/essentials', 'Search Essentials, Google Search Central']
+    ]
   }
 ];
 
