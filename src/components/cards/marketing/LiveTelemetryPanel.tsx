@@ -55,7 +55,7 @@ export const LiveTelemetryPanel: React.FC<LiveTelemetryPanelProps> = ({
             <span className="w-2.5 h-2.5 rounded-full bg-cream/80" />
           </div>
           <span className="font-mono font-bold text-xs sm:text-sm tracking-wider text-foreground uppercase flex items-center gap-1.5">
-            <Radio className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
+            <Radio className="w-3.5 h-3.5 text-emerald-400 " />
             <span>CATALYSTLAB TELEMETRY OS</span>
           </span>
         </div>

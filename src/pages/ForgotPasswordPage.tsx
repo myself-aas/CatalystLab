@@ -216,7 +216,7 @@ export const ForgotPasswordPage: React.FC = () => {
  <div className="py-4 text-center space-y-5">
  {/* Animated Green Radar Pulse */}
  <div className="relative mx-auto size-16 flex items-center justify-center">
- <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cream opacity-20" />
+ <span className="absolute inline-flex h-full w-full rounded-full bg-cream opacity-20" />
  <div className="relative size-14 rounded-full bg-cream/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
  <CheckCircle2 className="size-7" />
  </div>

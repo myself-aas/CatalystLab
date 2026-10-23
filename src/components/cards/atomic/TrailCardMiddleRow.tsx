@@ -36,7 +36,7 @@ export const TrailCardMiddleRow: React.FC<TrailCardMiddleRowProps> = ({
           <span
             className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold tracking-wide uppercase border ${theme.bgClass} ${theme.colorClass}`}
           >
-            <span className={`h-1.5 w-1.5 rounded-full ${theme.dotColor} animate-pulse`} />
+            <span className={`h-1.5 w-1.5 rounded-full ${theme.dotColor} `} />
             <span>{theme.label}</span>
           </span>
         </div>

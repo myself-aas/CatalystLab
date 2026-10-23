@@ -182,7 +182,7 @@ function CoverflowCard({
           {/* Card Engine Identity */}
           <div className="flex items-center gap-2.5 text-left min-w-0">
             <span
-              className="size-2.5 rounded-full animate-pulse shrink-0"
+              className="size-2.5 rounded-full  shrink-0"
               style={{ backgroundColor: item.color || "var(--color-cream)" }}
             />
             <div className="min-w-0">

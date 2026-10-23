@@ -278,7 +278,7 @@ export const Navbar: React.FC = () => {
 
             <div className="hidden xl:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono bg-cream/10 text-emerald-400 border border-emerald-500/20">
               <span className="relative flex h-1.5 w-1.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cream opacity-75" />
+                <span className="absolute inline-flex h-full w-full rounded-full bg-cream opacity-25" />
                 <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-cream" />
               </span>
               <span>{TOTAL_POPS_COUNT} PoPs Active</span>

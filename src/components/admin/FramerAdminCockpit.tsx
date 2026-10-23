@@ -309,7 +309,7 @@ export const FramerAdminCockpit: React.FC<{ activeSubTab: string }> = ({ activeS
               </p>
             </div>
             <div className="flex items-center gap-2 font-mono text-xs text-emerald-400">
-              <span className="size-2 rounded-full bg-cream animate-ping" />
+              <span className="size-2 rounded-full bg-cream " />
               <span>8/8 Pools Healthy</span>
             </div>
           </div>

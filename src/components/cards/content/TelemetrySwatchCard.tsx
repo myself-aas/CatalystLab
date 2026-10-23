@@ -99,7 +99,7 @@ export const TelemetrySwatchCard: React.FC<TelemetrySwatchCardProps> = ({
           <span className="text-[11px] uppercase tracking-widest text-muted-foreground font-bold truncate">
             {displayBadge}
           </span>
-          <span className="w-1.5 h-1.5 rounded-full bg-cream animate-pulse shrink-0" />
+          <span className="w-1.5 h-1.5 rounded-full bg-cream  shrink-0" />
         </div>
 
         <div className="text-sm font-bold text-foreground font-mono truncate">
@@ -134,7 +134,7 @@ export const TelemetrySwatchCard: React.FC<TelemetrySwatchCardProps> = ({
         {/* Header: Metric Key & Status Badge */}
         <div className="flex items-center justify-between gap-2 mb-3">
           <div className="flex items-center gap-1.5 font-mono text-[11px] font-bold text-muted-foreground uppercase tracking-wider">
-            <span className="w-2 h-2 rounded-full bg-cream animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-cream " />
             <span>{displayBadge}</span>
           </div>
 

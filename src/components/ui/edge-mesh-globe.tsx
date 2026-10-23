@@ -686,7 +686,7 @@ export function EdgeMeshGlobe({
                       className={cn(
                         'h-1.5 w-1.5 rounded-full',
                         pop.status === 'optimal'
-                          ? 'bg-cream animate-pulse'
+                          ? 'bg-cream'
                           : 'bg-cream'
                       )}
                     />
@@ -703,7 +703,7 @@ export function EdgeMeshGlobe({
 
       {/* Floating Audit Beam / Scan State Indicator */}
       {scanState === 'running' && (
-        <div className="absolute top-4 left-4 z-30 flex items-center gap-2 rounded-full border border-cyan-400/40 bg-cyan-950/90 px-3.5 py-1.5 text-xs font-mono text-cyan-300 shadow-xl backdrop-blur-md animate-pulse">
+        <div className="absolute top-4 left-4 z-30 flex items-center gap-2 rounded-full border border-cyan-400/40 bg-cyan-950/90 px-3.5 py-1.5 text-xs font-mono text-cyan-300 shadow-xl backdrop-blur-md">
           <Radar className="h-4 w-4 animate-spin text-cyan-400" />
           <span className="font-bold">AUDIT BEAM CONVERGING (42 PoPs)</span>
         </div>
@@ -713,7 +713,7 @@ export function EdgeMeshGlobe({
       {(variant === 'hero' || variant === 'live') && (
         <div className="absolute bottom-3 left-3 z-30 flex flex-wrap items-center gap-2 pointer-events-auto">
           <div className="flex items-center gap-2 rounded-xl border border-border bg-card/90 px-3 py-1.5 text-xs font-mono text-muted-foreground backdrop-blur-md shadow-lg">
-            <Radio className="h-3.5 w-3.5 text-emerald-400 animate-pulse" />
+            <Radio className="h-3.5 w-3.5 text-emerald-400" />
             <span className="font-bold text-foreground">
               {trafficRate.toLocaleString()}
             </span>

@@ -107,7 +107,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
     if (loading) {
       return (
         <span className="inline-flex items-center gap-1.5 rounded-full border border-cyan-500/40 bg-cream/10 px-2 py-0.5 text-[11px] font-mono font-bold uppercase tracking-wider text-cyan-400">
-          <span className="h-1.5 w-1.5 rounded-full bg-cream animate-ping" />
+          <span className="h-1.5 w-1.5 rounded-full bg-cream " />
           <span>Executing</span>
         </span>
       );

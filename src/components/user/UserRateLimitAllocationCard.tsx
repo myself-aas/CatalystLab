@@ -153,7 +153,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
             </button>
             <div className="flex items-center gap-1.5 rounded-xl bg-cream/10 border border-emerald-500/20 px-3.5 py-2 text-xs font-bold text-emerald-400">
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cream opacity-75"></span>
+                <span className="absolute inline-flex h-full w-full rounded-full bg-cream opacity-25"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-cream"></span>
               </span>
               <span>Middleware Active</span>

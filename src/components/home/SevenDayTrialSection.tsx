@@ -81,7 +81,7 @@ export const SevenDayTrialSection: React.FC = () => {
             <div className="inline-flex items-center gap-2 rounded-full border border-cream/20 bg-cream/10 px-3.5 py-1.5 text-xs font-sans font-bold text-foreground shadow-sm">
               <Terminal className="w-3.5 h-3.5" />
               <span>AUDIT. AUTOMATE. OPTIMIZE.</span>
-              <span className="inline-block w-1.5 h-1.5 rounded-full bg-cream animate-pulse ml-1" />
+              <span className="inline-block w-1.5 h-1.5 rounded-full bg-cream ml-1" />
             </div>
 
             <h2 className="framer-section-headline text-foreground">
@@ -151,7 +151,7 @@ export const SevenDayTrialSection: React.FC = () => {
               <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-5 mb-6">
                 <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1.5 text-xs font-sans font-bold text-muted-foreground shadow-sm">
                   <span className="flex h-2.5 w-2.5 relative">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cream opacity-75" />
+                    <span className="absolute inline-flex h-full w-full rounded-full bg-cream opacity-25" />
                     <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-cream" />
                   </span>
                   <Zap className="h-4 w-4 text-amber-500" />

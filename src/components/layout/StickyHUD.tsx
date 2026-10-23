@@ -146,7 +146,7 @@ export const StickyHUD: React.FC = () => {
                     Autonomous Telemetry Cron Stream
                   </span>
                   <span className="flex items-center gap-1.5 text-[11px] text-foreground-muted ml-2">
-                    <span className="size-1.5 rounded-full bg-cream animate-pulse" />
+                    <span className="size-1.5 rounded-full bg-cream " />
                     <span>{cronLogs.length} live events</span>
                   </span>
                 </div>
@@ -284,7 +284,7 @@ export const StickyHUD: React.FC = () => {
             title="Open Telemetry HUD Terminal"
           >
             <span className="absolute -top-1 -right-1 flex size-3">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cream opacity-75" />
+              <span className="absolute inline-flex h-full w-full  rounded-full bg-cream opacity-75" />
               <span className="relative inline-flex size-3 rounded-full bg-cream border-2 border-background" />
             </span>
             <svg 
@@ -400,7 +400,7 @@ export const StickyHUD: React.FC = () => {
                 >
                   <TerminalIcon className="size-3 text-accent-bright" />
                   <span className="hidden sm:inline">LIVE CRON</span>
-                  <span className="size-1.5 rounded-full bg-cream animate-pulse" />
+                  <span className="size-1.5 rounded-full bg-cream " />
                 </button>
               </div>
 
@@ -408,7 +408,7 @@ export const StickyHUD: React.FC = () => {
               <div className="flex items-center gap-2">
                 {isScanning ? (
                   <div className="flex items-center gap-2">
-                    <div className="flex items-center gap-1.5 px-3 py-1 rounded-xl bg-accent/20 border border-accent/50 text-accent-bright text-xs font-semibold animate-pulse">
+                    <div className="flex items-center gap-1.5 px-3 py-1 rounded-xl bg-accent/20 border border-accent/50 text-accent-bright text-xs font-semibold ">
                       <RefreshCw className="size-3.5 animate-spin" />
                       <span>AUDITING ({scanProgress}%)</span>
                     </div>

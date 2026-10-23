@@ -62,7 +62,7 @@ export const MiniDashboardCard: React.FC<MiniDashboardCardProps> = ({
           </div>
 
           <div className="flex items-center gap-1.5 shrink-0 px-2 py-0.5 rounded-md bg-muted border border-border shadow-sm">
-            {isLive && <span className="w-1.5 h-1.5 rounded-full bg-cream animate-pulse" />}
+            {isLive && <span className="w-1.5 h-1.5 rounded-full bg-cream " />}
             <span className="text-[11px] font-sans font-bold text-muted-foreground uppercase tracking-widest">
               {status}
             </span>
