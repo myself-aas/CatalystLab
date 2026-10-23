@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react';
-import { CinematicVideo } from '../media/CinematicVideo';
 
 export const HeroSection: React.FC = () => {
   const [url, setUrl] = useState('');
@@ -24,19 +23,7 @@ export const HeroSection: React.FC = () => {
   };
 
   return (
-    <section className="relative isolate flex min-h-[80vh] w-full flex-col items-start justify-center overflow-hidden bg-background px-6 pb-24 pt-32 text-left md:px-12">
-      <CinematicVideo
-        assetId="hero-video"
-        aria-hidden="true"
-        tabIndex={-1}
-        overlayScrim={false}
-        overlayVignette={false}
-        scanlines={false}
-        containerClassName="pointer-events-none absolute inset-0 -z-10 opacity-25"
-        className="h-full w-full object-cover"
-      />
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-[5] bg-gradient-to-r from-background via-background/90 to-background/35" />
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-[5] bg-gradient-to-b from-background via-transparent to-background" />
+    <section className="relative w-full min-h-[80vh] flex flex-col justify-center items-start text-left bg-background pt-32 pb-24 px-6 md:px-12">
       <div className="relative z-20 w-full max-w-2xl">
         <motion.h1 
           initial={{ y: 8 }}
