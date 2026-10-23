@@ -14,9 +14,9 @@ export const VitalZymeDoc: React.FC = () => {
  <Activity className="h-3.5 w-3.5"/>
  <span>SDLC Phase 4: DOM & Performance Engine</span>
  </div>
- <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
+ <h2 className="text-3xl font-extrabold text-foreground tracking-tight">
  VitalZyme: DOM Health & Core Web Vitals Engine
- </h1>
+ </h2>
  <p className="text-base text-foreground-muted leading-relaxed">
  VitalZyme parses the complete HTML Abstract Syntax Tree (AST) using non-evaluating streaming parsers to quantify maximum tree depth, total element count, image dimension layout stability, synchronous render-blocking scripts, and wire transfer compression ratios.
  </p>

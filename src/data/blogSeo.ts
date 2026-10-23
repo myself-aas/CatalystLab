@@ -40,7 +40,7 @@ export const BLOG_SEO: BlogSeoEntry[] = [
   {
     slug: 'decoupling-critical-css-font-preloading',
     title: 'Decoupling Critical CSS and Preloading Key Display Fonts for Sub-Second LCP',
-    seoTitle: 'Critical CSS and Font Preloading for Fast LCP',
+    seoTitle: 'Critical CSS and Font Preloading for LCP | CatalystLab',
     excerpt: 'How inlining critical path CSS while asynchronous loading secondary styles reduces Largest Contentful Paint to under 800ms.',
     author: 'Maria Angelica',
     category: 'Core Performance',
@@ -80,7 +80,7 @@ export const BLOG_SEO: BlogSeoEntry[] = [
   {
     slug: 'sustainable-web-engineering-carbon-reduction',
     title: 'Sustainable Web Engineering: Reducing Digital Carbon Footprints with Modern Formats',
-    seoTitle: 'Cutting Website Carbon With Modern Formats',
+    seoTitle: 'Website Carbon and Modern Formats | CatalystLab',
     excerpt: 'Applying the Sustainable Web Design (SWD) model, choosing 100% renewable datacenters, and optimizing transfer weights.',
     author: 'Sofia Lindqvist',
     category: 'Sustainability',
@@ -90,7 +90,7 @@ export const BLOG_SEO: BlogSeoEntry[] = [
   {
     slug: 'owasp-security-headers-gdpr-governance',
     title: 'OWASP Hardened Security Headers & GDPR Cookie Governance Architecture',
-    seoTitle: 'OWASP Headers and GDPR Cookie Governance',
+    seoTitle: 'OWASP Headers and GDPR Cookies | CatalystLab',
     excerpt: 'Complete production implementation of Strict-Transport-Security, Content-Security-Policy nonces, and privacy consent tiers.',
     author: 'Elena Rostova',
     category: 'Compliance & Security',
@@ -100,7 +100,7 @@ export const BLOG_SEO: BlogSeoEntry[] = [
   {
     slug: 'zero-downtime-platform-migration-seo-parity',
     title: 'Zero-Downtime Platform Migration: 301 Redirects and SEO Canonical Parity',
-    seoTitle: 'Zero-Downtime Migration and SEO Parity',
+    seoTitle: 'Zero-Downtime Migration and SEO Parity | CatalystLab',
     excerpt: 'Architectural blueprint for transitioning legacy CMS systems to modern decoupled edge frameworks without traffic loss.',
     author: 'Alex Rivera',
     category: 'Architecture',
@@ -110,7 +110,7 @@ export const BLOG_SEO: BlogSeoEntry[] = [
   {
     slug: 'generative-engine-optimization-llmo-citations',
     title: 'Generative Engine Optimization (LLMO): Mastering Citations in Perplexity and SearchGPT',
-    seoTitle: 'GEO and LLMO: Earning Citations in AI Search',
+    seoTitle: 'GEO and LLMO: Citations in AI Search | CatalystLab',
     excerpt: 'How to structure Schema.org entity graphs, factual densities, and semantic hierarchies to dominate answer engine summaries.',
     author: 'Marcus Chen',
     category: 'AI Search',
@@ -120,7 +120,7 @@ export const BLOG_SEO: BlogSeoEntry[] = [
   {
     slug: 'modern-website-health-ai-search',
     title: 'The Modern Anatomy of Website Health in the Era of AI Search',
-    seoTitle: 'Website Health in the Age of AI Search',
+    seoTitle: 'Website Health in the Age of AI Search | CatalystLab',
     excerpt: 'Why traditional SEO is yielding ground to structured RAG indexing and how llms.txt standardizes generative search ingestion.',
     author: 'Dr. Aris Thorne',
     category: 'AI & LLMO',

@@ -14,9 +14,9 @@ export const OrchestratorDoc: React.FC = () => {
  <Workflow className="h-3.5 w-3.5"/>
  <span>SDLC Phase 9: Master Suite Orchestrator</span>
  </div>
- <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
+ <h2 className="text-3xl font-extrabold text-foreground tracking-tight">
  Master Suite Orchestrator
- </h1>
+ </h2>
  <p className="text-base text-foreground-muted leading-relaxed">
  The Master Suite Orchestrator concurrently executes all 8 specialized diagnostic engines against a target domain within a single unified execution thread, cross-correlating metrics to detect hidden infrastructure vulnerabilities.
  </p>

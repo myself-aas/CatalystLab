@@ -11,6 +11,8 @@ import { captureException, initErrorTracking, installProcessErrorHandlers } from
 import { logger } from './server/core/logger';
 import { isNoindexSurface } from './src/config/site';
 import { aliasTargetFor, splatAliasFor } from './src/config/routeAliases';
+import { isDomainSlug } from './src/utils/slugUtils';
+import { isPlaygroundEngineId } from './src/data/playgroundEngines';
 import dotenv from 'dotenv';
 dotenv.config({ quiet: true });
 
@@ -67,6 +69,34 @@ async function startServer(): Promise<void> {
         const query = req.url.includes('?') ? req.url.slice(req.url.indexOf('?')) : '';
         res.redirect(301, `${aliasTarget}${query}`);
         return;
+      }
+      // Programmatic page families with an open-ended parameter (2026-10-23):
+      //   /playground/<engine>  -> 308 to the canonical engine, or 404
+      //   /report/<id>          -> 301 to /reports/<id>
+      //   /reports/<slug>       -> only slugs that can name a domain survive
+      // Without these, any invented string answered 200 with the home page's
+      // metadata, which is a duplicate page for every value a bot tries.
+      if (req.method === 'GET' || req.method === 'HEAD') {
+        const playground = req.path.match(/^\/playground\/([^/]+)\/?$/);
+        if (playground && !isPlaygroundEngineId(playground[1])) {
+          res.redirect(302, '/playground/master');
+          return;
+        }
+        const legacyReport = req.path.match(/^\/report\/([^/]+)\/?$/);
+        if (legacyReport) {
+          res.redirect(301, `/reports/${legacyReport[1]}`);
+          return;
+        }
+        const reportSlug = req.path.match(/^\/reports\/([^/]+)\/?$/);
+        if (reportSlug && !isDomainSlug(reportSlug[1])) {
+          if (hasShellFile(notFoundHtml)) {
+            res.setHeader('X-Robots-Tag', 'noindex, nofollow');
+            sendHtmlShell(res, notFoundHtml, 404);
+            return;
+          }
+          res.status(404).json({ success: false, error: `Page '${req.path}' not found.` });
+          return;
+        }
       }
       // Plan 7b.2: noindex on application, auth, editor and developer surfaces,
       // including the dynamic ones served from the SPA shell below.

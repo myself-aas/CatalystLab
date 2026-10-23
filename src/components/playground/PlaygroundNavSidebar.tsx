@@ -18,6 +18,8 @@ import {
 } from 'lucide-react';
 import { ENGINES_MAP } from '../../data/engines';
 
+// Ids must stay in step with src/data/playgroundEngines.ts, which the server
+// uses to reject an unknown /playground/:engineId.
 export const PLAYGROUND_ENGINES = [
   { id: 'master', name: 'Master Orchestrator', category: 'Full Suite', icon: Layers, cost: 3 },
   { id: 'health', name: 'Health & Web Vitals', category: 'Performance', icon: Activity, cost: 1 },

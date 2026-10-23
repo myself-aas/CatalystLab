@@ -14,9 +14,9 @@ export const EdgeVmaxDoc: React.FC = () => {
  <Globe className="h-3.5 w-3.5"/>
  <span>SDLC Phase 5: Global Latency Engine</span>
  </div>
- <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
+ <h2 className="text-3xl font-extrabold text-foreground tracking-tight">
  EdgeVmax: Global Anycast Latency & TTFB Radar
- </h1>
+ </h2>
  <p className="text-base text-foreground-muted leading-relaxed">
  EdgeVmax executes high-precision multi-region synthetic network timing probes to quantify DNS resolution, TCP handshake, TLS 1.3 session negotiation, and Time to First Byte (TTFB) across 12 global points of presence.
  </p>

@@ -20,6 +20,12 @@ export interface SEOProps {
   routePath?: string;
   /** Explicit override, used by client-rendered "not found" states. */
   robots?: string;
+  /**
+   * Use `title` exactly as given instead of appending the site suffix.
+   * Generated page families (docs, engines, blog) pass a pre-built title from
+   * their own table so the hydrated title matches the prerendered one.
+   */
+  absoluteTitle?: boolean;
 }
 
 export const SEOHead: React.FC<SEOProps> = ({
@@ -34,9 +40,14 @@ export const SEOHead: React.FC<SEOProps> = ({
   publishedTime,
   structuredData,
   routePath,
-  robots
+  robots,
+  absoluteTitle = false
 }) => {
-  const fullTitle = title.includes('CatalystLab') ? title : `${title} | CatalystLab Documentation & Developer Hub`;
+  const fullTitle = absoluteTitle
+    ? title
+    : title.includes('CatalystLab')
+      ? title
+      : `${title} | CatalystLab Documentation & Developer Hub`;
   const pathForRobots =
     routePath || (typeof window !== 'undefined' ? window.location.pathname : '/');
   // D11: application, authentication and editor surfaces stay out of the index.

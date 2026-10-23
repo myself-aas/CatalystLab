@@ -14,9 +14,9 @@ export const ScoringMatrixDoc: React.FC = () => {
  <Gauge className="h-3.5 w-3.5"/>
  <span>Objective Telemetry Index</span>
  </div>
- <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
+ <h2 className="text-3xl font-extrabold text-foreground tracking-tight">
  Mathematical Scoring Calculus & Weights
- </h1>
+ </h2>
  <p className="text-base text-foreground-muted leading-relaxed">
  The Master Quality Score is an objective, deterministic 0–100 composite index calculated through weighted sub-engine scores and penalty deductions across 6 primary vectors.
  </p>

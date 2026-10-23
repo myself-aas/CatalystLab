@@ -22,6 +22,7 @@ import {
  BookOpen,
 } from 'lucide-react';
 import { SEOHead } from '../components/common/SEOHead';
+import { engineSeoForPath } from '../data/engineSeo';
 import { LinearCard } from '../components/ui/LinearCard';
 import { authorizedFetch } from '../lib/authHeaders';
 import { logger } from '../lib/logger';
@@ -33,6 +34,9 @@ interface ToolPageProps {
 export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
  const meta = ENGINES_MAP[engineType];
  const location = useLocation();
+ // The same table the prerender reads, so the H1 and the head cannot drift
+ // from the delivered document (programmatic-seo skill, template design).
+ const seo = engineSeoForPath(location.pathname);
  const { user, isAdmin, login } = useAuth();
 
  const [targetUrl, setTargetUrl] = useState('');
@@ -187,9 +191,10 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
  return (
  <div className="min-h-screen ds-page-top-hero bg-background font-sans text-foreground">
  <SEOHead
- title={`${meta.catalystName || meta.name} Catalyst — CatalystLab`}
- description={meta.description}
- canonicalUrl={`https://www.catalystlab.tech/tool/${engineType}`}
+ title={seo?.seoTitle ?? `${meta.catalystName || meta.name} | CatalystLab`}
+ description={seo?.summary ?? meta.description}
+ canonicalUrl={`https://www.catalystlab.tech${location.pathname.replace(/\/+$/, '')}`}
+ absoluteTitle={Boolean(seo)}
  />
  
  {/* Sticky Contextual Breadcrumb Nav */}
@@ -201,7 +206,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
  <div className="relative z-10 ds-page-shell text-center">
  <div className="mb-8 flex justify-end">
  <Link
- to={`/docs#${meta.docsAnchor || 'overview'}`}
+ to={seo?.docsPath ?? '/docs'}
  className="ds-btn ds-btn-secondary text-xs"
  >
  <BookOpen className="size-3.5 text-foreground shrink-0"/>
@@ -227,10 +232,10 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
  </div>
 
  <h1 className="framer-hero-title text-foreground">
- {meta.catalystName || `${meta.name} Catalyst`}
+ {seo?.heading ?? meta.catalystName ?? `${meta.name} Catalyst`}
  </h1>
  <p className="framer-body-text max-w-3xl mx-auto mt-3">
- {meta.description}
+ {seo?.summary ?? meta.description}
  </p>
 
  <div className="mx-auto mt-8 max-w-3xl text-left">

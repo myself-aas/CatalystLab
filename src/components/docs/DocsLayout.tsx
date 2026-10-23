@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { docSeoForPath } from '../../data/docsSeo';
 import {
   ArrowLeft,
   ArrowRight,
@@ -129,6 +130,13 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
   children,
 }) => {
   const location = useLocation();
+  // One canonical heading per page, from the same table the prerender writes.
+  // Before this, the layout rendered `title` as an H1 and most documents
+  // rendered a second H1 in their own body, so 15 template pages shipped two
+  // H1s and a numbered label instead of the page's subject.
+  const seo = docSeoForPath(location.pathname);
+  const pageTitle = seo?.heading ?? title;
+  const pageDescription = seo?.summary ?? description;
   const searchRef = useRef<HTMLInputElement>(null);
 
   const contentRef = useRef<HTMLDivElement>(null);
@@ -301,8 +309,9 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
   return (
     <div className="docs-devsite min-h-screen bg-background text-foreground">
       <SEOHead
-        title={`${title} | CatalystLab Documentation`}
-        description={description}
+        title={seo?.seoTitle ?? `${title} | CatalystLab Documentation`}
+        description={pageDescription}
+        absoluteTitle={Boolean(seo)}
         keywords={[
           'CatalystLab documentation',
           'telemetry API',
@@ -389,9 +398,9 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
             <article className="min-w-0 flex-1 px-4 py-8 sm:px-8 lg:px-12 xl:max-w-[860px]">
               <header className="mb-8">
                 <h1 className="text-4xl font-display font-medium leading-tight text-foreground sm:text-5xl">
-                  {title}
+                  {pageTitle}
                 </h1>
-                <p className="mt-3 max-w-[42rem] text-base leading-7 text-muted-foreground">{description}</p>
+                <p className="mt-3 max-w-[42rem] text-base leading-7 text-muted-foreground">{pageDescription}</p>
               </header>
 
               <div ref={contentRef} className="docs-content docs-devsite-article">{children}</div>

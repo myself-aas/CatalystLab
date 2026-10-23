@@ -16,9 +16,9 @@ export const ApiReferenceDoc: React.FC = () => {
  <Terminal className="h-3.5 w-3.5"/>
  <span>OpenAPI 3.1 Specification</span>
  </div>
- <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
+ <h2 className="text-3xl font-extrabold text-foreground tracking-tight">
  REST API Specification & Reference
- </h1>
+ </h2>
  <p className="text-base text-foreground-muted leading-relaxed">
  CatalystLab provides a clean, predictable RESTful API over HTTPS. All endpoints accept and return <code>application/json</code> payloads with standardized telemetry metadata and error objects.
  </p>

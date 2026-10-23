@@ -11,6 +11,7 @@ import {
   ArrowLeft, Bookmark, Clock, Share2, Check, Edit3, Eye
 } from 'lucide-react';
 import { SEOHead } from '../components/common/SEOHead';
+import { BLOG_SEO_BY_SLUG } from '../data/blogSeo';
 import { logger } from '../lib/logger';
 import { motion } from 'motion/react';
 
@@ -77,9 +78,13 @@ export const BlogPostPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground font-sans pb-20">
-      <SEOHead 
-        title={post.title} 
-        description={post.excerpt || `Read ${post.title}`}
+      <SEOHead
+        // Same strings the build wrote into this page's <head>, so hydration
+        // does not rewrite the title a crawler already indexed.
+        title={BLOG_SEO_BY_SLUG[post.slug]?.seoTitle ?? post.title}
+        description={BLOG_SEO_BY_SLUG[post.slug]?.excerpt ?? post.excerpt ?? `Read ${post.title}`}
+        canonicalPath={`/blogs/${post.slug}`}
+        absoluteTitle
       />
 
       <div className="max-w-md mx-auto relative bg-background min-h-screen">

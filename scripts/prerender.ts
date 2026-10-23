@@ -20,6 +20,8 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
 import path from 'path';
 import { ALL_PLANS_LIST } from '../src/data/pricingData';
 import { BLOG_SEO } from '../src/data/blogSeo';
+import { DOC_SEO, DOC_SEO_BY_PATH } from '../src/data/docsSeo';
+import { ENGINE_SEO, ENGINE_SEO_BY_PATH } from '../src/data/engineSeo';
 import { ROUTE_ALIASES } from '../src/config/routeAliases';
 import { TOTAL_POPS_COUNT } from '../src/lib/edge/pops';
 import {
@@ -52,6 +54,8 @@ interface RouteMeta {
   summary: string;
   /** Optional supporting points; rendered as a list under the summary. */
   points?: string[];
+  /** Optional headed lists, for pages that answer more than one question. */
+  sections?: { heading: string; items: string[] }[];
   /** Optional related links, rendered as a labelled list at the end of <main>. */
   related?: ReadonlyArray<readonly string[]>;
   ogType?: 'website' | 'article';
@@ -60,6 +64,12 @@ interface RouteMeta {
   robots?: string;
   /** Real change date for `<lastmod>`; omitted when unknown. */
   lastmod?: string;
+  /**
+   * Breadcrumb trail for generated page families: [label, path]. The build
+   * renders it as visible text and as BreadcrumbList structured data, so a
+   * spoke is never reachable only from the sitemap.
+   */
+  breadcrumb?: [string, string][];
 }
 
 // --- Structured data built from the live catalogs (D15) --------------------
@@ -191,12 +201,35 @@ function linkList(links: ReadonlyArray<readonly string[]>): string {
     .join('\n');
 }
 
+function renderBreadcrumb(trail: [string, string][] | undefined): string {
+  if (!trail || trail.length < 2) return '';
+  const items = trail
+    .map(([label, href], index) =>
+      index === trail.length - 1
+        ? `            <li aria-current="page">${escapeAttr(label)}</li>`
+        : `            <li><a href="${escapeAttr(href)}">${escapeAttr(label)}</a></li>`
+    )
+    .join('\n');
+  return `\n          <nav class="seo-shell__crumbs" aria-label="Breadcrumb">\n            <ol>\n${items}\n            </ol>\n          </nav>`;
+}
+
 function renderStaticDocument(meta: RouteMeta): string {
   const points = meta.points?.length
     ? `\n          <ul class="seo-shell__points">\n${meta.points
         .map((point) => `            <li>${escapeAttr(point)}</li>`)
         .join('\n')}\n          </ul>`
     : '';
+  const sections = meta.sections?.length
+    ? meta.sections
+        .map(
+          (section) =>
+            `\n          <section class="seo-shell__section">\n            <h2>${escapeAttr(section.heading)}</h2>\n            <ul class="seo-shell__points">\n${section.items
+              .map((item) => `              <li>${escapeAttr(item)}</li>`)
+              .join('\n')}\n            </ul>\n          </section>`
+        )
+        .join('')
+    : '';
+
   const related = meta.related?.length
     ? `\n        <section class="seo-shell__links" aria-labelledby="seo-related">\n          <h2 id="seo-related">Related</h2>\n          <ul>\n${linkList(meta.related)}\n          </ul>\n        </section>`
     : '';
@@ -210,9 +243,9 @@ function renderStaticDocument(meta: RouteMeta): string {
 ${linkList(PRIMARY_LINKS)}
           </ul>
         </nav>
-        <main class="seo-shell__main">
+        <main class="seo-shell__main">${renderBreadcrumb(meta.breadcrumb)}
           <h1>${escapeAttr(meta.heading)}</h1>
-          <p class="seo-shell__lede">${escapeAttr(meta.summary)}</p>${points}${related}
+          <p class="seo-shell__lede">${escapeAttr(meta.summary)}</p>${points}${sections}${related}
         </main>
         <footer class="seo-shell__footer">
           <nav aria-label="Legal and trust">
@@ -273,6 +306,26 @@ const DOC_ROUTES: [string, string][] = [
 ];
 
 const ENGINE_COUNT = ENGINE_ROUTES.filter((route) => route.path !== '/master-audit').length;
+
+/** Link label for a path, preferring the page's own heading. */
+function titleForPath(href: string): string {
+  const doc = DOC_SEO_BY_PATH[href];
+  if (doc) return doc.heading;
+  const engine = ENGINE_SEO_BY_PATH[href];
+  if (engine) return engine.heading;
+  const known: Record<string, string> = {
+    '/pricing': 'Pricing',
+    '/engines': 'Diagnostic engines',
+    '/docs': 'Documentation',
+    '/api-docs': 'API',
+    '/compare': 'Compare domains',
+    '/blogs': 'Engineering blog',
+    '/reports': 'Reports',
+    '/about': 'About',
+    '/master-audit': 'Master audit'
+  };
+  return known[href] ?? href;
+}
 
 const routes: RouteMeta[] = [
   {
@@ -499,6 +552,10 @@ const routes: RouteMeta[] = [
   {
     path: '/docs',
     title: 'Docs: Architecture, Scoring and Rate Limits | CatalystLab',
+    breadcrumb: [
+      ['Home', '/'],
+      ['Documentation', '/docs']
+    ],
     description: 'Product and engine documentation: architecture, scoring weights, rate limits, API usage and the security sandbox.',
     heading: 'CatalystLab documentation',
     summary: 'How the platform is built, how a score is calculated, what the quotas are and how the sandbox isolates every audit.',
@@ -508,32 +565,68 @@ const routes: RouteMeta[] = [
     ],
     jsonLd: [organizationLd, { '@type': 'CollectionPage', url: canonicalUrlFor('/docs') }]
   },
-  ...DOC_ROUTES.map(([docPath, title]) => ({
-    path: docPath,
-    title: `${title}: CatalystLab Docs`,
-    description: `${title}: how it works, what it measures, and how to read the output in CatalystLab.`,
-    heading: title,
-    summary: `${title}, as implemented in CatalystLab: the inputs the engine reads, the fields it reports and how to read the output.`,
-    related: DOC_RELATED,
-    jsonLd: [organizationLd, { '@type': 'TechArticle', headline: title, url: canonicalUrlFor(docPath) }]
-  })),
-  ...ENGINE_ROUTES.map((engine) => ({
-    path: engine.path,
-    title: engine.seoTitle,
-    description: engine.description,
-    heading: engine.catalystName,
-    summary: engine.description,
-    related: [
-      ['/engines', 'All diagnostic engines'],
-      ['/pricing', 'Pricing'],
-      ['/docs', 'Documentation'],
-      ['/compare', 'Compare two domains']
-    ],
-    jsonLd: [
-      organizationLd,
-      { '@type': 'WebPage', url: canonicalUrlFor(engine.path), about: { '@type': 'SoftwareApplication', name: engine.catalystName } }
-    ]
-  })),
+  ...DOC_ROUTES.map(([docPath, fallbackTitle]) => {
+    // Per-page content from src/data/docsSeo.ts. The fallback keeps the build
+    // honest if a route is added to the table before its copy is written: the
+    // page still ships, and the test suite names the gap.
+    const entry = DOC_SEO_BY_PATH[docPath];
+    return {
+      path: docPath,
+      title: entry?.seoTitle ?? `${fallbackTitle}: CatalystLab Docs`,
+      description:
+        entry?.summary ??
+        `${fallbackTitle}: how it works, what it measures, and how to read the output in CatalystLab.`,
+      heading: entry?.heading ?? fallbackTitle,
+      summary: entry?.summary ?? `${fallbackTitle}, as implemented in CatalystLab.`,
+      points: entry?.points,
+      related: entry?.related ?? DOC_RELATED,
+      breadcrumb: [
+        ['Home', '/'],
+        ['Documentation', '/docs'],
+        [entry?.heading ?? fallbackTitle, docPath]
+      ] as [string, string][],
+      jsonLd: [organizationLd, { '@type': 'TechArticle', headline: entry?.heading ?? fallbackTitle, url: canonicalUrlFor(docPath) }]
+    };
+  }),
+  ...ENGINE_ROUTES.map((engine) => {
+    const entry = ENGINE_SEO_BY_PATH[engine.path];
+    return {
+      path: engine.path,
+      title: entry?.seoTitle ?? engine.seoTitle,
+      description: entry?.metaDescription ?? entry?.summary ?? engine.description,
+      heading: entry?.heading ?? engine.catalystName,
+      summary: entry?.summary ?? engine.description,
+      // The page carries what the engine reads, what the report returns and
+      // what it cannot measure, which is what separates nine template pages
+      // from nine swapped variables (programmatic-seo skill, principle 1).
+      sections: entry
+        ? [
+            { heading: 'What it measures', items: entry.measures },
+            { heading: 'What the report returns', items: entry.returns },
+            { heading: 'What it does not measure', items: entry.limits }
+          ]
+        : undefined,
+      related: entry
+        ? [
+            [entry.docsPath, `${entry.catalystName} reference`],
+            ...entry.related.map((href) => [href, titleForPath(href)] as [string, string])
+          ]
+        : undefined,
+      breadcrumb: [
+        ['Home', '/'],
+        ['Diagnostic engines', '/engines'],
+        [entry?.heading ?? engine.catalystName, engine.path]
+      ] as [string, string][],
+      jsonLd: [
+        organizationLd,
+        {
+          '@type': 'WebPage',
+          url: canonicalUrlFor(engine.path),
+          about: { '@type': 'SoftwareApplication', name: engine.catalystName }
+        }
+      ]
+    };
+  }),
   {
     path: '/privacy',
     title: 'Privacy Policy: Data, Retention and Rights | CatalystLab',
@@ -613,6 +706,19 @@ function replaceMeta(html: string, attr: 'name' | 'property', key: string, conte
   return pattern.test(html) ? html.replace(pattern, tag) : html.replace('</title>', `</title>\n    ${tag}`);
 }
 
+function breadcrumbLd(trail: [string, string][] | undefined): Record<string, unknown> | null {
+  if (!trail || trail.length < 2) return null;
+  return {
+    '@type': 'BreadcrumbList',
+    itemListElement: trail.map(([label, href], index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: label,
+      item: canonicalUrlFor(href)
+    }))
+  };
+}
+
 function renderRoute(template: string, meta: RouteMeta, options: { document?: boolean } = {}): string {
   const canonical = canonicalUrlFor(meta.path);
   const robots = meta.robots ?? robotsDirectiveFor(meta.path);
@@ -633,10 +739,12 @@ function renderRoute(template: string, meta: RouteMeta, options: { document?: bo
   html = html.replace(/<link\s+rel="canonical"\s+href="[^"]*"\s*\/>/, `<link rel="canonical" href="${escapeAttr(canonical)}" />`);
 
   // Structured data: generated per route, or removed entirely for noindex pages.
+  const crumbs = breadcrumbLd(meta.breadcrumb);
+  const graph = meta.jsonLd ? [...meta.jsonLd, ...(crumbs ? [crumbs] : [])] : crumbs ? [crumbs] : [];
   const jsonLdBlock =
-    meta.jsonLd && meta.jsonLd.length
+    graph.length
       ? `<script type="application/ld+json">\n    ${JSON.stringify(
-          { '@context': 'https://schema.org', '@graph': meta.jsonLd },
+          { '@context': 'https://schema.org', '@graph': graph },
           null,
           2
         ).replace(/\n/g, '\n    ')}\n    </script>`
@@ -691,6 +799,7 @@ function main(): void {
   const missing: string[] = [];
   const aliasPaths = new Set(Object.keys(ROUTE_ALIASES));
   const sitemapEntries: { path: string; lastmod?: string; priority: string }[] = [];
+  const metaForPath = new Map<string, RouteMeta>();
 
   for (const meta of routes) {
     // Aliases are redirected, not published (SEO audit 2026-10-23, issue 5).
@@ -700,6 +809,7 @@ function main(): void {
       continue;
     }
     written.push(writeRoute(meta.path, renderRoute(template, meta)));
+    metaForPath.set(meta.path, meta);
     sitemapEntries.push({
       path: meta.path,
       lastmod: meta.lastmod,
@@ -721,6 +831,11 @@ function main(): void {
       summary: post.excerpt,
       ogType: 'article',
       lastmod: post.publishedDate,
+      breadcrumb: [
+        ['Home', '/'],
+        ['Engineering blog', '/blogs'],
+        [post.title, path_]
+      ],
       related: [
         ['/blogs', 'All posts'],
         ...others.map((entry) => [`/blogs/${entry.slug}`, entry.title] as [string, string]),
@@ -744,7 +859,41 @@ function main(): void {
       ]
     });
     written.push(writeRoute(path_, html));
+    metaForPath.set(path_, {
+      path: path_,
+      title: post.seoTitle,
+      description: post.excerpt,
+      heading: post.title,
+      summary: post.excerpt
+    });
     sitemapEntries.push({ path: path_, lastmod: post.publishedDate, priority: '0.7' });
+  }
+
+  // Build-time metadata budget. A duplicated or over-long title in a generated
+  // family is the failure mode this whole page set is most exposed to, so it
+  // fails the build instead of waiting for a crawl (programmatic-seo skill,
+  // quality checks: unique titles and descriptions).
+  const seenTitles = new Map<string, string>();
+  const seenDescriptions = new Map<string, string>();
+  for (const entry of sitemapEntries) {
+    const meta = metaForPath.get(entry.path);
+    if (!meta) continue;
+    if (meta.title.length > 60) {
+      throw new Error(`[prerender] ${entry.path} title is ${meta.title.length} characters; the budget is 60.`);
+    }
+    if (meta.description.length < 70 || meta.description.length > 160) {
+      throw new Error(
+        `[prerender] ${entry.path} description is ${meta.description.length} characters; the range is 70 to 160.`
+      );
+    }
+    const titleOwner = seenTitles.get(meta.title);
+    if (titleOwner) throw new Error(`[prerender] ${entry.path} and ${titleOwner} share a title: "${meta.title}"`);
+    seenTitles.set(meta.title, entry.path);
+    const descriptionOwner = seenDescriptions.get(meta.description);
+    if (descriptionOwner) {
+      throw new Error(`[prerender] ${entry.path} and ${descriptionOwner} share a description.`);
+    }
+    seenDescriptions.set(meta.description, entry.path);
   }
 
   // noindex shells for application and authentication surfaces (D11)
