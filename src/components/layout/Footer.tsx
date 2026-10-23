@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   ArrowUp, 
@@ -9,7 +9,6 @@ import {
 } from 'lucide-react';
 import { BrandLogo } from '../common/BrandLogo';
 import { SyncStatusBadge } from '../common/SyncStatusBadge';
-import { FooterBackgroundGradient } from '../ui/hover-footer';
 import { FOOTER_GROUPS, CANONICAL } from '../../navigation';
 import { TOTAL_POPS_COUNT } from '../../lib/edge/pops';
 
@@ -21,12 +20,33 @@ const LEGAL_LINKS = [
 ];
 
 export const Footer: React.FC = () => {
+  const [showScrollToTop, setShowScrollToTop] = useState(false);
+
+  useEffect(() => {
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
+
+    const handleScroll = () => {
+      setShowScrollToTop(false);
+      if (timeoutId) clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        setShowScrollToTop(window.scrollY > 120);
+      }, 180);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, []);
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
-    <footer id="main-footer" className="w-full !max-w-none !rounded-none relative z-20 border-t border-foreground/[0.08] bg-background text-neutral-300 overflow-hidden m-0 p-0">
+    <footer id="main-footer" className="w-full !max-w-none !rounded-none relative z-20 border-t border-neutral-200 bg-white text-neutral-900 overflow-hidden m-0 p-0">
       
       <div className="relative w-full max-w-none px-6 lg:px-12 pt-16 pb-12 z-40">
         
@@ -65,7 +85,7 @@ export const Footer: React.FC = () => {
                     href={social.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="size-11 shrink-0 rounded-lg border border-border bg-surface hover:bg-surface-elevated hover:border-border-strong flex items-center justify-center text-muted-foreground hover:text-foreground transition shadow-2xs group"
+                    className="size-11 shrink-0 rounded-lg border border-border bg-surface hover:bg-surface-elevated hover:border-border-strong flex items-center justify-center text-neutral-600 hover:text-neutral-950 transition shadow-2xs group"
                     aria-label={`CatalystLab on ${social.label}`}
                   >
                     <social.icon className="size-4.5 transition-transform group-hover:scale-110" />
@@ -85,7 +105,7 @@ export const Footer: React.FC = () => {
                 <li key={item.label}>
                   <Link
                     to={item.to}
-                    className="inline-flex items-center min-w-[var(--control-min-size)] text-[13px] text-muted-foreground hover:text-foreground transition-colors duration-150 hover:pl-1 transition"
+                    className="inline-flex items-center min-w-[var(--control-min-size)] text-[13px] text-neutral-600 hover:text-neutral-950 transition-colors duration-150 hover:pl-1 transition"
                   >
                     {item.label}
                   </Link>
@@ -104,7 +124,7 @@ export const Footer: React.FC = () => {
                 <li key={item.id}>
                   <Link
                     to={item.to}
-                    className="inline-flex items-center min-w-[var(--control-min-size)] text-[13px] text-muted-foreground hover:text-foreground transition-colors duration-150 hover:pl-1 transition"
+                    className="inline-flex items-center min-w-[var(--control-min-size)] text-[13px] text-neutral-600 hover:text-neutral-950 transition-colors duration-150 hover:pl-1 transition"
                   >
                     {item.label}
                   </Link>
@@ -123,7 +143,7 @@ export const Footer: React.FC = () => {
                 <li key={item.id}>
                   <Link
                     to={item.to}
-                    className="inline-flex items-center min-w-[var(--control-min-size)] text-[13px] text-muted-foreground hover:text-foreground transition-colors duration-150 hover:pl-1 transition"
+                    className="inline-flex items-center min-w-[var(--control-min-size)] text-[13px] text-neutral-600 hover:text-neutral-950 transition-colors duration-150 hover:pl-1 transition"
                   >
                     {item.label}
                   </Link>
@@ -161,16 +181,16 @@ export const Footer: React.FC = () => {
           <button
             type="button"
             onClick={scrollToTop}
-            className="group flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 text-xs font-mono text-muted-foreground transition duration-200 hover:border-border-strong hover:text-foreground hover:bg-surface-elevated shadow-2xs cursor-pointer"
+            className="fixed bottom-5 left-5 z-50 flex size-12 items-center justify-center rounded-full border border-neutral-200 bg-white text-neutral-900 shadow-lg transition-all duration-200 hover:-translate-y-1 hover:border-neutral-400 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900/30 cursor-pointer"
             aria-label="Scroll to top"
+            hidden={!showScrollToTop}
           >
-            <ArrowUp className="size-3.5 text-foreground group-hover:-translate-y-0.5 transition-transform duration-200" />
-            <span>TOP</span>
+            <ArrowUp className="size-4 transition-transform duration-200 group-hover:-translate-y-0.5" />
           </button>
         </div>
       </div>
 
-      <FooterBackgroundGradient />
+      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-neutral-200" />
     </footer>
   );
 };

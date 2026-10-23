@@ -204,7 +204,7 @@ export const Navbar: React.FC = () => {
             'relative flex items-center gap-2 text-sm transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring py-2 px-3 rounded-xl font-medium',
             active
               ? 'text-foreground bg-cream/8 shadow-sm'
-              : 'text-cream/70 hover:text-foreground hover:bg-cream/5',
+              : 'text-neutral-700 hover:text-neutral-950 hover:bg-neutral-100',
           )}
         >
           {Icon && <Icon className="size-4 shrink-0" />}
@@ -248,7 +248,7 @@ export const Navbar: React.FC = () => {
             "top-nav fixed top-[var(--trial-banner-height,0px)] inset-x-0 z-40 w-full transition-[background-color,backdrop-filter,border-color,box-shadow] duration-300",
             isScrolled
               ? "scrolled bg-background/75 md:bg-background/80 backdrop-blur-md border-b border-border/50 shadow-sm"
-              : "border-b border-transparent bg-transparent"
+              : "border-b border-black/5 bg-white"
           )}
       >
         <nav
@@ -262,7 +262,7 @@ export const Navbar: React.FC = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-              className="text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring p-2 min-h-[var(--control-min-size)] min-w-[var(--control-min-size)] flex items-center justify-center -ml-1 cursor-pointer rounded-full hover:bg-cream/8"
+              className="text-neutral-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring p-2 min-h-[var(--control-min-size)] min-w-[var(--control-min-size)] flex items-center justify-center -ml-1 cursor-pointer rounded-full hover:bg-cream/8"
               onClick={() => {
                 setIsMobileMenuOpen(true);
                 window.dispatchEvent(new CustomEvent('catalyst:open-mobile-menu'));

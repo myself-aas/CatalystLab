@@ -1061,11 +1061,11 @@ button[class*="bg-foreground"]:hover {
 
 /* Footer styling */
 footer, [class*="Footer"], [data-slot="footer"] {
-  background: var(--p-well) !important;
+  background: #FFFFFF !important;
   border-top: 1px solid var(--p-card-border);
 }
 footer#main-footer {
-  background: var(--p-well) !important;
+  background: #FFFFFF !important;
   border-top: 1px solid var(--p-card-border) !important;
 }
 footer#main-footer .size-9.rounded-lg {
