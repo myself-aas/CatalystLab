@@ -250,12 +250,13 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
               id={`${cardId}-copy-payload`}
               onClick={handleCopyVectorPayload}
               title="Copy Vector JSON"
-              className="p-1.5 rounded-lg text-muted-foreground hover:text-muted-foreground hover:bg-card/80 transition-colors"
+              aria-label="Copy Vector JSON"
+              className="min-h-11 min-w-11 inline-flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-card/80 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               {copiedHash ? (
-                <Check className="w-3.5 h-3.5 text-emerald-500" />
+                <Check className="w-4 h-4 text-emerald-500" />
               ) : (
-                <Copy className="w-3.5 h-3.5" />
+                <Copy className="w-4 h-4" />
               )}
             </button>
 

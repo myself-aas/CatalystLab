@@ -397,7 +397,16 @@ No audits yet. Run one and the reading appears here, with a permalink you can sh
  key={report.id}
  whileHover={{ y: -4 }}
  onClick={() => setQuickViewReport(report)}
- className="ds-card ds-card-interactive group flex cursor-pointer flex-col justify-between p-5"
+ role="button"
+ tabIndex={0}
+ onKeyDown={(e) => {
+   if (e.key === 'Enter' || e.key === ' ') {
+     e.preventDefault();
+     setQuickViewReport(report);
+   }
+ }}
+ aria-label={`View audit report for ${extractDomainFromUrl(report.url)}`}
+ className="ds-card ds-card-interactive group flex cursor-pointer flex-col justify-between p-5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
  >
  <div>
  {/* Card header */}

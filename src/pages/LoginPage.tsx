@@ -274,11 +274,12 @@ export const LoginPage: React.FC = () => {
  {/* Form Fields */}
  <form onSubmit={handleEmailPasswordSubmit} className="space-y-4" aria-describedby={activeErrorMessage ? 'login-form-error' : undefined}>
  <div>
- <label className="block text-xs font-mono uppercase tracking-wider text-muted-foreground mb-1.5">
+ <label htmlFor="login-email" className="block text-xs font-mono uppercase tracking-wider text-muted-foreground mb-1.5">
  Work Email
  </label>
  <div className="relative">
  <input
+ id="login-email"
  type="email"
  value={email}
  onChange={(e) => setEmail(e.target.value)}
@@ -291,11 +292,12 @@ export const LoginPage: React.FC = () => {
  </div>
 
  <div>
- <label className="block text-xs font-mono uppercase tracking-wider text-muted-foreground mb-1.5">
+ <label htmlFor="login-password" className="block text-xs font-mono uppercase tracking-wider text-muted-foreground mb-1.5">
  Password
  </label>
  <div className="relative">
  <input
+ id="login-password"
  type={showPassword ? 'text' : 'password'}
  value={password}
  onChange={(e) => setPassword(e.target.value)}

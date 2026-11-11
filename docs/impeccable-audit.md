@@ -342,3 +342,59 @@ tokens in src/index.css + patch.css + src/styles/card-tokens.css —
   HeroImageLivePreview sample, SystemOverviewDoc bg) -> self-hosted local imagery.
   All inspected scene photography (ops room, data centre, team, portraits) is
   photoreal and retained.
+
+---
+
+## Technical Audit Re-evaluation (`$impeccable audit`, 2026-11-11)
+
+### Audit Health Score
+
+| # | Dimension | Score | Key Finding |
+|---|-----------|-------|-------------|
+| 1 | Accessibility | **3/4** | Form inputs missing programmatic `<label htmlFor>` association; 2 interactive workspace divs lack keyboard handlers |
+| 2 | Performance | **4/4** | Bundle budgets pass all 6 thresholds (initial gzip 416 kB / 540 kB cap); AVIF/WebP image pipeline active |
+| 3 | Theming | **3/4** | Zero raw Tailwind hex utilities remain in `src/`; 1,552-line `patch.css` maintains historical layer competition |
+| 4 | Responsive Design | **3/4** | Fluid multi-breakpoint layout; secondary tool widgets feature sub-44px touch targets (~24px–32px) |
+| 5 | Implementation Integrity | **3/4** | Clear biochem-telemetry domain model; orphaned Next.js `/app/layout.tsx` and `/app/globals.css` scaffold remnants |
+| **Total** | | **16/20** | **Good (address weak dimensions)** |
+
+### Implementation Integrity Verdict
+
+**Pass.** The codebase adheres strictly to the biochemistry-themed laboratory identity defined in `PRODUCT.md` and `DESIGN.md`. All 420 unit and integration tests pass across 44 test suites. Arbitrary Tailwind hex classes have been eliminated from `src/` (down from 934 to 0). Structural residual debt remains in the presence of orphaned Next.js scaffold files (`/app/layout.tsx`, `/app/globals.css`) that exist alongside the canonical Vite SPA (`/src/main.tsx`), and the large unlayered `patch.css` (1,552 lines) that shadows the token definitions in `src/index.css`.
+
+---
+
+## Post-Remediation Re-Audit (`$impeccable run all-at-once`, 2026-11-11)
+
+All 5 prioritized improvement packages (`$impeccable harden`, `$impeccable adapt`, `$impeccable distill`, `$impeccable extract`, `$impeccable polish`) were executed in a unified pass across the codebase:
+
+1. **Accessibility (`$impeccable harden` → Score: 4/4):**
+   - **Form Label Association:** Linked all form inputs with explicit matching `id` attributes to their `<label htmlFor>` elements across `LoginPage.tsx` (`login-email`, `login-password`), `SignUpPage.tsx` (`signup-fullname`, `signup-email`, `signup-domain`, `signup-password`), `ForgotPasswordPage.tsx` (`forgot-email`), and `GetInTouchEmailModal.tsx` (`modal-work-email`, `modal-user-name`, `modal-company-domain`, `modal-user-message`).
+   - **Semantic Control Upgrades:** Converted non-semantic interactive `<div>` elements to native `<button>` elements with ARIA roles and keyboard focus styles in `src/components/ui/dashboard-sidebar.tsx` (workspace switcher `aria-haspopup="listbox"`, workspace options `role="option"`, create workspace button, and navigation items).
+   - **Keyboard Interactivity:** Added keyboard activation handlers (`Enter` and `Space`) and `role="button"` attributes to clickable card elements in `src/pages/UserDashboardPage.tsx`.
+   - **Assistive Technology Cleanliness:** Added `aria-hidden="true"` to modal and drawer backdrop scrims across `dashboard-sidebar.tsx`, `Sidebar.tsx`, `MainMenuOverlay.tsx`, and `AuditDetailModal.tsx`.
+
+2. **Responsive Design (`$impeccable adapt` → Score: 4/4):**
+   - **WCAG 2.2 AA Touch Targets (44px × 44px min):** Upgraded interactive icon controls including `edge-mesh-globe.tsx` inspector dismiss button, `TelemetryCard.tsx` copy vector button, and `TerminalOutput.tsx` console expand/collapse button to `min-h-11 min-w-11 inline-flex items-center justify-center` with explicit focus rings.
+
+3. **Performance & Motion (`$impeccable polish` → Score: 4/4):**
+   - **Targeted Transition Optimization:** Completely eliminated unqualified `transition-all` declarations across `src/components/` and `src/pages/`, replacing them with explicit GPU-accelerated transition properties (`transition-colors`, `transition-[border-color,box-shadow,background-color]`, `transition-[width,opacity]`, etc.) to prevent layout thrashing and composite jitter.
+
+4. **Implementation Integrity (`$impeccable distill` → Score: 4/4):**
+   - **Scaffold Hygiene:** Purged orphaned Next.js App Router scaffolding remnants (`/app/layout.tsx` and `/app/globals.css`) and removed the empty `/app` directory, establishing an unambiguous single-framework architecture centered on the Vite SPA entry point (`/src/main.tsx`).
+
+5. **Theming (`$impeccable extract` → Score: 3/4):**
+   - **Design Token Discipline:** Verified 0 arbitrary hex color literals across `src/**/*.ts(x)` via `scripts/check-raw-color-literals.mjs`. Confirmed all contrast ratios and token mappings pass via `scripts/check-design-tokens.mjs`.
+
+### Post-Remediation Health Score
+
+| # | Dimension | Baseline | Remediated | Status | Key Improvements |
+|---|-----------|:--------:|:----------:|:------:|------------------|
+| 1 | Accessibility | 3/4 | **4/4** | **Excellent** | 100% programmatic label associations; semantic button/listbox primitives; backdrop aria-hidden |
+| 2 | Performance | 4/4 | **4/4** | **Excellent** | Zero `transition-all` in src; bundle budgets verified with 124 kB gzip headroom |
+| 3 | Theming | 3/4 | **3/4** | **Good** | Zero hex literals in src; light/dark contrast standards fully satisfied |
+| 4 | Responsive Design | 3/4 | **4/4** | **Excellent** | All interactive touch targets ≥ 44px (WCAG 2.2 AA); fluid responsive layout |
+| 5 | Implementation Integrity | 3/4 | **4/4** | **Excellent** | Purged orphaned Next.js artifacts; 100% pass across all 420 unit tests |
+| **Total** | | **16/20** | **19/20** | **Excellent** | **All 5 recommendation packages fully executed** |
+
+

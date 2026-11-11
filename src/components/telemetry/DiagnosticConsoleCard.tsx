@@ -137,7 +137,7 @@ export const DiagnosticConsoleCard: React.FC<DiagnosticConsoleCardProps> = ({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35 }}
       whileHover={{ scale: 1.01, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
-      className={`relative rounded-xl border backdrop-blur-md overflow-hidden transition-all duration-300 ${
+      className={`relative rounded-xl border backdrop-blur-md overflow-hidden transition-[border-color,box-shadow,background-color] duration-300 ${
         isLoading
           ? 'border-accent-cyan/50 bg-ink-panel/90 shadow-lg shadow-accent-cyan/10 ring-1 ring-accent-cyan/30'
           : status === 'COMPLETE'

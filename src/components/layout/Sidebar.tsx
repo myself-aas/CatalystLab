@@ -307,6 +307,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
               exit={{ opacity: 0 }}
               transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
               onClick={onCloseMobile}
+              aria-hidden="true"
               className="fixed inset-0 bg-[var(--app-background)]/60 backdrop-blur-sm z-50 lg:hidden"
             />
             <motion.aside

@@ -91,6 +91,7 @@ export const AuditDetailModal: React.FC<AuditDetailModalProps> = ({
             transition={{ duration: 0.2 }}
             className="fixed inset-0 cursor-pointer bg-background/80"
             onClick={onClose}
+            aria-hidden="true"
           />
 
           <motion.div

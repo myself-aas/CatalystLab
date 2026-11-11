@@ -180,10 +180,10 @@ export function PoPInspectorPanel({
         </div>
         <button
           onClick={onClose}
-          className="rounded-lg p-1 text-muted-foreground hover:bg-primary-hover hover:text-primary-foreground transition-colors cursor-pointer"
+          className="min-h-11 min-w-11 inline-flex items-center justify-center rounded-lg text-muted-foreground hover:bg-primary-hover hover:text-primary-foreground transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           aria-label="Close Inspector"
         >
-          <XCircle className="h-4 w-4" />
+          <XCircle className="h-5 w-5" />
         </button>
       </div>
 

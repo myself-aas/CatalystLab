@@ -421,11 +421,11 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
           {/* Expand / Minimize */}
           <button
             onClick={() => setExpanded(!expanded)}
-            className="rounded-lg border border-border bg-muted p-1 text-muted-foreground hover:border-border hover:bg-muted/80 hover:text-foreground transition active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500"
+            className="min-h-11 min-w-11 inline-flex items-center justify-center rounded-lg border border-border bg-muted p-2 text-muted-foreground hover:border-border hover:bg-muted/80 hover:text-foreground transition active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             title={expanded ? 'Collapse console' : 'Expand console'}
             aria-label={expanded ? 'Collapse console' : 'Expand console'}
           >
-            {expanded ? <Minimize2 className="h-3 w-3" /> : <Maximize2 className="h-3 w-3" />}
+            {expanded ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
           </button>
         </div>
       </div>

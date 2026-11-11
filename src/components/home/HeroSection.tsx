@@ -53,13 +53,13 @@ export const HeroSection: React.FC = () => {
               const element = document.getElementById('audit-form');
               element?.scrollIntoView({ behavior: 'smooth' });
             }}
-            className="ds-btn ds-btn-primary px-8 py-3 text-base rounded-full shadow-lg hover:shadow-xl transition-all"
+            className="ds-btn ds-btn-primary px-8 py-3 text-base rounded-full shadow-lg hover:shadow-xl transition-[box-shadow,transform] duration-200"
           >
             Audit Now
           </button>
           <button 
             onClick={() => navigate('/engines')}
-            className="ds-btn ds-btn-secondary px-8 py-3 text-base rounded-full bg-white/5 hover:bg-white/10 transition-all"
+            className="ds-btn ds-btn-secondary px-8 py-3 text-base rounded-full bg-white/5 hover:bg-white/10 transition-colors duration-200"
           >
             Explore engines
           </button>

@@ -345,11 +345,12 @@ export const SignUpPage: React.FC = () => {
  <form onSubmit={handleSubmit} className="space-y-3.5" aria-describedby={activeErrorMessage ? 'signup-form-error' : undefined}>
  {/* Full Name */}
  <div>
- <label className="ds-label block mb-1">
+ <label htmlFor="signup-fullname" className="ds-label block mb-1">
  Full Name
  </label>
  <div className="relative">
  <input
+ id="signup-fullname"
  type="text"
  value={fullName}
  onChange={(e) => setFullName(e.target.value)}
@@ -363,11 +364,12 @@ export const SignUpPage: React.FC = () => {
 
  {/* Work Email */}
  <div>
- <label className="ds-label block mb-1">
+ <label htmlFor="signup-email" className="ds-label block mb-1">
  Work Email
  </label>
  <div className="relative">
  <input
+ id="signup-email"
  type="email"
  value={email}
  onChange={(e) => setEmail(e.target.value)}
@@ -381,11 +383,12 @@ export const SignUpPage: React.FC = () => {
 
  {/* Organization Domain */}
  <div>
- <label className="ds-label block mb-1">
+ <label htmlFor="signup-domain" className="ds-label block mb-1">
  Primary Organization Domain
  </label>
  <div className="relative">
  <input
+ id="signup-domain"
  type="text"
  value={orgDomain}
  onChange={(e) => setOrgDomain(e.target.value)}
@@ -406,13 +409,14 @@ export const SignUpPage: React.FC = () => {
  {/* Password */}
  <div>
  <div className="flex items-center justify-between mb-1">
- <label className="block text-xs font-mono uppercase tracking-wider text-muted-foreground">
+ <label htmlFor="signup-password" className="block text-xs font-mono uppercase tracking-wider text-muted-foreground">
  Password
  </label>
  <span className="text-[11px] font-mono text-foreground">{entropyLabel}</span>
  </div>
  <div className="relative">
  <input
+ id="signup-password"
  type={showPassword ? 'text' : 'password'}
  value={password}
  onChange={(e) => setPassword(e.target.value)}

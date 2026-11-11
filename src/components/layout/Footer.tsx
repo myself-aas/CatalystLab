@@ -181,7 +181,7 @@ export const Footer: React.FC = () => {
           <button
             type="button"
             onClick={scrollToTop}
-            className="fixed bottom-5 left-5 z-50 flex size-12 items-center justify-center rounded-full border border-neutral-200 bg-white text-neutral-900 shadow-lg transition-all duration-200 hover:-translate-y-1 hover:border-neutral-400 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900/30 cursor-pointer"
+            className="fixed bottom-5 left-5 z-50 flex size-12 items-center justify-center rounded-full border border-neutral-200 bg-white text-neutral-900 shadow-lg transition-[border-color,background-color,transform,box-shadow] duration-200 hover:-translate-y-1 hover:border-neutral-400 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900/30 cursor-pointer"
             aria-label="Scroll to top"
             hidden={!showScrollToTop}
           >

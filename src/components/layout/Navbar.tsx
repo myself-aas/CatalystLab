@@ -201,7 +201,7 @@ export const Navbar: React.FC = () => {
           to={item.to}
           onClick={() => setIsEnginesOpen(false)}
           className={cn(
-            'relative flex items-center gap-2 text-sm transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring py-2 px-3 rounded-xl font-medium',
+            'relative flex items-center gap-2 text-sm transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring py-2 px-3 rounded-xl font-medium',
             active
               ? 'text-foreground bg-cream/8 shadow-sm'
               : 'text-neutral-700 hover:text-neutral-950 hover:bg-neutral-100',
@@ -296,7 +296,7 @@ export const Navbar: React.FC = () => {
                 transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
                 onClick={() => setIsEnginesOpen(!isEnginesOpen)}
                 className={cn(
-                  "flex items-center gap-2 text-sm transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer py-2 px-3 rounded-xl font-medium",
+                  "flex items-center gap-2 text-sm transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer py-2 px-3 rounded-xl font-medium",
                   isEnginesOpen 
                     ? "text-foreground bg-cream/8 shadow-sm" 
                     : "text-cream/70 hover:text-foreground hover:bg-cream/5"

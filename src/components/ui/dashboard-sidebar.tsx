@@ -103,9 +103,13 @@ export function WorkspaceSwitcher({ selected, onSelect }: { selected?: string, o
 
   return (
     <div className="relative">
-      <div 
+      <button 
+        type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center justify-between px-2 py-2 mb-4 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 cursor-pointer transition-colors select-none group"
+        aria-expanded={isOpen}
+        aria-haspopup="listbox"
+        aria-label={`Select workspace. Current: ${current}`}
+        className="w-full flex items-center justify-between px-2 py-2 mb-4 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 cursor-pointer transition-colors select-none group text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-[6px] bg-primary text-primary-foreground flex items-center justify-center font-semibold text-[13px] shadow-sm">
@@ -117,25 +121,32 @@ export function WorkspaceSwitcher({ selected, onSelect }: { selected?: string, o
           </div>
         </div>
         <ChevronDown className="w-4 h-4 text-muted-foreground/50 group-hover:text-foreground/70 transition-colors shrink-0" strokeWidth={1.5} />
-      </div>
+      </button>
 
       {isOpen && (
         <>
-          <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
-          <div className="absolute top-[52px] left-0 w-full bg-card border border-border/50 rounded-lg shadow-xl z-50 py-1 flex flex-col gap-0.5 animate-in fade-in zoom-in-95 duration-100">
+          <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} aria-hidden="true" />
+          <div role="listbox" className="absolute top-[52px] left-0 w-full bg-card border border-border/50 rounded-lg shadow-xl z-50 py-1 flex flex-col gap-0.5 animate-in fade-in zoom-in-95 duration-100">
             {['Acme Corp', 'Personal Workspace', 'Client Sandbox'].map(ws => (
-              <div 
+              <button 
+                type="button"
+                role="option"
+                aria-selected={current === ws}
                 key={ws}
                 onClick={() => { handleSelect(ws); setIsOpen(false); }}
-                className={`px-3 py-2 mx-1 text-[13px] rounded-md cursor-pointer transition-colors ${current === ws ? 'bg-primary/10 text-primary font-medium' : 'text-foreground/80 hover:bg-black/5 dark:hover:bg-white/5'}`}
+                className={`w-full text-left px-3 py-2 mx-1 text-[13px] rounded-md cursor-pointer transition-colors ${current === ws ? 'bg-primary/10 text-primary font-medium' : 'text-foreground/80 hover:bg-black/5 dark:hover:bg-white/5'}`}
               >
                 {ws}
-              </div>
+              </button>
             ))}
             <div className="h-px bg-border/50 my-1 mx-2" />
-            <div className="px-3 py-2 mx-1 text-[13px] text-muted-foreground hover:bg-black/5 dark:hover:bg-white/5 rounded-md cursor-pointer flex items-center gap-2 transition-colors">
+            <button 
+              type="button"
+              onClick={() => setIsOpen(false)}
+              className="w-full text-left px-3 py-2 mx-1 text-[13px] text-muted-foreground hover:bg-black/5 dark:hover:bg-white/5 rounded-md cursor-pointer flex items-center gap-2 transition-colors"
+            >
               <span className="text-[16px] leading-none mb-0.5">+</span> Create Workspace
-            </div>
+            </button>
           </div>
         </>
       )}
@@ -168,8 +179,9 @@ export function NavItem({
 
   return (
     <div className="flex flex-col w-full">
-      <div 
-        className={`group flex items-center justify-between px-2.5 py-[7px] rounded-[6px] cursor-pointer transition-all duration-200 select-none
+      <button 
+        type="button"
+        className={`w-full group flex items-center justify-between px-2.5 py-[7px] rounded-[6px] cursor-pointer transition-colors duration-200 select-none text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring
           ${isActive 
             ? 'bg-black/5 dark:bg-white/10 text-foreground font-medium' 
             : 'text-muted-foreground hover:bg-black/5 dark:hover:bg-white/5 hover:text-foreground/90'
@@ -177,6 +189,7 @@ export function NavItem({
         `}
         style={{ paddingLeft: `${level * 12 + 10}px` }}
         onClick={handleClick}
+        aria-expanded={hasChildren ? isOpen : undefined}
       >
         <div className="flex items-center gap-2.5">
           <item.icon 
@@ -208,7 +221,7 @@ export function NavItem({
             />
           )}
         </div>
-      </div>
+      </button>
 
       {hasChildren && (
         <div 
@@ -331,7 +344,7 @@ export default function SidebarNavPreview() {
     <div className="flex flex-col items-center justify-center w-full min-h-[700px] bg-background p-4 md:p-8">
       <div className="relative w-full max-w-4xl h-[700px] bg-card rounded-xl border border-border/50 flex overflow-hidden shadow-sm ring-1 ring-black/5 dark:ring-white/5">
         <div 
-          className={`h-full transition-all duration-300 ease-in-out shrink-0 overflow-hidden bg-card/50 border-r border-border/50 ${
+          className={`h-full transition-[width,opacity] duration-300 ease-in-out shrink-0 overflow-hidden bg-card/50 border-r border-border/50 ${
             isOpen ? 'w-[260px] opacity-100' : 'w-0 opacity-0 border-none'
           }`}
         >
@@ -344,7 +357,7 @@ export default function SidebarNavPreview() {
           />
         </div>
         
-        <div className="flex-1 bg-black/[0.02] dark:bg-white/[0.02] flex flex-col min-w-0 transition-all duration-300">
+        <div className="flex-1 bg-black/[0.02] dark:bg-white/[0.02] flex flex-col min-w-0 transition-[flex,width] duration-300">
            <div className="h-14 border-b border-border/50 flex items-center px-4 justify-between bg-card shrink-0">
              <div className="flex items-center gap-3">
                <button 
@@ -429,21 +442,24 @@ export default function SidebarNavPreview() {
 
         {isSearchOpen && (
           <div className="absolute inset-0 z-50 flex items-start justify-center pt-[15vh] bg-background/40 backdrop-blur-sm px-4">
-            <div className="absolute inset-0" onClick={() => setIsSearchOpen(false)} />
+            <div className="absolute inset-0" onClick={() => setIsSearchOpen(false)} aria-hidden="true" />
             <div className="relative w-full max-w-xl bg-card border border-border/50 rounded-xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
               <div className="flex items-center px-4 border-b border-border/50 focus-within:ring-2 focus-within:ring-ring focus-within:ring-inset">
                 <Search className="w-[18px] h-[18px] text-muted-foreground/70 mr-3 shrink-0" strokeWidth={1.5} />
                 <input 
                   ref={searchInputRef}
+                  aria-label="Search projects, docs, or actions"
                   className="flex-1 bg-transparent py-4 outline-none text-[14px] text-foreground placeholder:text-muted-foreground/50"
                   placeholder="Search projects, docs, or actions..."
                 />
-                <kbd 
+                <button
+                  type="button"
                   onClick={() => setIsSearchOpen(false)}
+                  aria-label="Close search (Escape)"
                   className="hidden sm:inline-flex items-center justify-center h-5 px-1.5 ml-2 text-[11px] font-medium font-mono text-muted-foreground/70 bg-black/5 dark:bg-white/10 border border-black/10 dark:border-white/10 rounded-[4px] cursor-pointer hover:text-foreground hover:bg-black/10 dark:hover:bg-white/20 transition-colors"
                 >
-                  ESC
-                </kbd>
+                  <kbd>ESC</kbd>
+                </button>
                 <button 
                   onClick={() => setIsSearchOpen(false)}
                   className="ml-3 p-1 rounded-md text-muted-foreground/70 hover:bg-black/5 dark:hover:bg-white/10 hover:text-foreground transition-colors"

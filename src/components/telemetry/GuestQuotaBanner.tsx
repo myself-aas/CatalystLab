@@ -26,7 +26,7 @@ export const GuestQuotaBanner: React.FC<GuestQuotaBannerProps> = ({
     <motion.div
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
-      className={`relative rounded-xl border p-4 backdrop-blur-md overflow-hidden transition-all duration-300 ${
+      className={`relative rounded-xl border p-4 backdrop-blur-md overflow-hidden transition-[border-color,background-color,box-shadow] duration-300 ${
         isExhausted
           ? 'bg-ink-panel/95 border-accent-red/40 shadow-lg shadow-accent-red/10'
           : isCritical

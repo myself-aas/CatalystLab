@@ -156,11 +156,12 @@ export const ForgotPasswordPage: React.FC = () => {
  {/* Form */}
  <form onSubmit={handleSubmit} className="space-y-4" aria-describedby={(localError || authError?.message) ? 'forgot-form-error' : undefined}>
  <div>
- <label className="ds-label block mb-1.5">
+ <label htmlFor="forgot-email" className="ds-label block mb-1.5">
  Authorized Workspace Email
  </label>
  <div className="relative">
  <input
+ id="forgot-email"
  type="email"
  value={email}
  onChange={(e) => setEmail(e.target.value)}

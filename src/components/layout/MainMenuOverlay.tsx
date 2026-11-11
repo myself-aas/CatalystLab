@@ -248,6 +248,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({
             transition={{ duration: 0.2 }}
             className="absolute inset-0 bg-background/80 backdrop-blur-md"
             onClick={onClose}
+            aria-hidden="true"
           />
 
           {/* Slide-over Drawer on the right with responsive full viewport height */}

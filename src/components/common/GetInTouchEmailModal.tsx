@@ -258,7 +258,7 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
 
                   {/* Email Input (Required) */}
                   <div>
-                    <label className="ds-label block mb-1">
+                    <label htmlFor="modal-work-email" className="ds-label block mb-1">
                       Work Email <span className="text-primary">*</span>
                     </label>
                     <div className="relative">
@@ -266,6 +266,7 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
                         <Mail className="h-4 w-4" />
                       </div>
                       <input
+                        id="modal-work-email"
                         type="email"
                         required
                         value={email}
@@ -279,7 +280,7 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
                   {/* Name & Company (Optional 2-Col Grid) */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="ds-label block mb-1">
+                      <label htmlFor="modal-user-name" className="ds-label block mb-1">
                         Your Name (Optional)
                       </label>
                       <div className="relative">
@@ -287,6 +288,7 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
                           <User className="h-3.5 w-3.5" />
                         </div>
                         <input
+                          id="modal-user-name"
                           type="text"
                           value={name}
                           onChange={(e) => setName(e.target.value)}
@@ -297,7 +299,7 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
                     </div>
 
                     <div>
-                      <label className="ds-label block mb-1">
+                      <label htmlFor="modal-company-domain" className="ds-label block mb-1">
                         Company / Domain (Optional)
                       </label>
                       <div className="relative">
@@ -305,6 +307,7 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
                           <Building2 className="h-3.5 w-3.5" />
                         </div>
                         <input
+                          id="modal-company-domain"
                           type="text"
                           value={company}
                           onChange={(e) => setCompany(e.target.value)}
@@ -317,11 +320,12 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
 
                   {/* Message Input (Optional) */}
                   <div>
-                    <label className="ds-label block mb-1">
+                    <label htmlFor="modal-user-message" className="ds-label block mb-1">
                       Message / Notes (Optional)
                     </label>
                     <div className="relative">
                       <textarea
+                        id="modal-user-message"
                         rows={2}
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
