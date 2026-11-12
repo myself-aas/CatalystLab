@@ -18,7 +18,7 @@
 | Primary language | TypeScript — 61,909 lines in `src/` excluding `src/tests/`, 6,745 in `server/`, 262 in `server.ts`, 6,561 in `src/tests/`, 3,444 in `scripts/` (`find … \| xargs cat \| wc -l`) | `tsconfig.json`, `server.ts`, `server/` |
 | Strictness | `strict: true`, but `useUnknownInCatchVariables: false`, `noUnusedLocals: false`, `noUnusedParameters: false`; `@typescript-eslint/no-explicit-any` is **off** (69 `: any` annotations, 80 `as any` casts in `src/`+`server/`) | `tsconfig.json`, `eslint.config.js`, `grep -rn ": any"` |
 | Secondary languages | Plain JS/ESM: `worker/api-proxy.js`, `public/sw.js`, `public/telemetry.js`, `public/xss-guard.js`, `scripts/*.mjs`; Python 3.11 tooling only (`scripts/replace_images.py`); CSS 4,188 lines across `src/index.css`, `patch.css`, `src/styles/*.css` | file listing, `pyproject.toml` |
-| Runtime declared | `package.json` `engines.node: ">=22"`; committed `package-lock.json` root entry pins `engines.node: ">=24"`. **`.nvmrc` does not exist in the tree** although 9 workflow steps use `node-version-file: .nvmrc` (see CONCERNS §1) | `package.json:8`, `package-lock.json:70-71`, `git ls-files \| grep -i nvm` (empty), `.github/workflows/*.yml` |
+| Runtime declared | **Node 24.** `.nvmrc` = `24` (restored 2026-11-12), `package.json` `engines.node: ">=24"`, `package-lock.json` root entry `>=24`, `Dockerfile` `node:24-bookworm-slim` — all four agree, and every `node-version-file: .nvmrc` step now resolves (pinned by `src/tests/server/runtimeContract.test.ts`) | `package.json:7`, `package-lock.json:70-71`, `.nvmrc`, `.github/workflows/*.yml`, `Dockerfile:5` |
 | Runtime observed | Node **v22.22.3**, npm **10.9.8**, Python **3.11.2** in this sandbox | `node --version`, `npm --version`, `python3 --version` |
 | Package manager | npm (`package-lock.json`, `lockfileVersion: 3`, 568 KB); `npm ci` succeeded in this session | `package-lock.json:4`, `/tmp/npmci.log` |
 | Module system | ESM (`"type": "module"`), `target: ES2022`, `module: ESNext`, `moduleResolution: bundler`; the production server is bundled to **CJS** (`dist/server.cjs`) by esbuild | `package.json:5`, `tsconfig.json`, `scripts.build` |
@@ -122,7 +122,7 @@ green, `check:design` green, `sec:secrets` green, `drill:restore` green,
 ### 6) Evidence
 
 - `package.json`, `package-lock.json`, `tsconfig.json`, `vite.config.ts`, `vitest.config.ts`, `playwright.config.ts`, `eslint.config.js`
-- `Dockerfile`, `wrangler.toml`, `.nvmrc` (**absent**), `.env.example` / `.env.staging.example` / `.env.production.example`
+- `Dockerfile`, `wrangler.toml`, `.nvmrc` (`24`), `.env.example` / `.env.staging.example` / `.env.production.example`
 - `server.ts`, `server/app.ts`, `src/main.tsx`, `src/config/site.ts`
 - `.github/workflows/ci.yml`, `.github/workflows/deploy.yml`, `.github/workflows/backup.yml`, `.github/workflows/rollback.yml`, `.github/workflows/media-verify.yml`
 - Session command output: `npm ci`, `npx eslint .`, `npx tsc --noEmit`, `npx vitest run`, `npm run build`, `npm run check:bundle`, `npm run check:env`, `npm run sec:secrets`, `npm run drill:restore`, `npm run test:payments-sandbox`, `node --version`
