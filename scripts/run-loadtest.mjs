@@ -6,7 +6,7 @@
  * localhost port and drives concurrent workload waves across:
  *   - Tier 1 (`static`): `GET /`, `GET /pricing` (SLO p95 < 50 ms)
  *   - Tier 2 (`api`):    `GET /api/v1/system/health`, `POST /api/telemetry/event` (SLO p95 < 150 ms)
- *   - Tier 3 (`audit`):  `POST /api/audit/run` against local prerendered page (SLO p95 < 1,500 ms)
+ *   - Tier 3 (`audit`):  `POST /api/run-engine` against local prerendered page (SLO p95 < 1,500 ms)
  *
  * Asserts 0% 5xx rate, strict latency budgets, and bounded memory footprint.
  */

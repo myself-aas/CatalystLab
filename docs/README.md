@@ -49,6 +49,9 @@ Two classes of document live under `docs/`:
 | [`audit/header-footer-nav-2026-10.md`](audit/header-footer-nav-2026-10.md) | 2026-10 | Shipped UI (`src/components/layout/`) |
 | [`audit/perf-rendering-2026-10/`](audit/perf-rendering-2026-10/) (6 files + tools) | 2026-10 | Remediation landed (its `05-remediation.md`) → baselines in [`ops/slo.md`](ops/slo.md) |
 | [`audit/seo-aeo-2026-10/00-SEO-AEO-AUDIT.md`](audit/seo-aeo-2026-10/00-SEO-AEO-AUDIT.md) | 2026-10-19 | Produced D11–D15 → shipped in `scripts/prerender.ts`; claims in [`ENGINES.md`](ENGINES.md) |
+| [`audit/SEO-AUDIT-2026-10-23.md`](audit/SEO-AUDIT-2026-10-23.md) | 2026-10-23 | Root dump filed under `audit/`; live truth in [`codebase/`](codebase/) |
+| [`audit/SEO-AEO-AUDIT-2026-10-23.md`](audit/SEO-AEO-AUDIT-2026-10-23.md) | 2026-10-23 | Root dump filed under `audit/`; claims in [`ENGINES.md`](ENGINES.md) |
+| [`audit/PROGRAMMATIC-SEO-2026-10-23.md`](audit/PROGRAMMATIC-SEO-2026-10-23.md) | 2026-10-23 | Root dump filed under `audit/`; shipped in `scripts/prerender.ts` |
 | [`design-system-audit.md`](design-system-audit.md) · [`impeccable-audit.md`](impeccable-audit.md) | 2026-10 | Meta design-system adoption → [`DESIGN.md`](../DESIGN.md), [`adr/0002`](adr/0002-meta-design-system.md) |
 | [`hero-shape-brief.md`](hero-shape-brief.md) | 2026-10 | `src/components/home/HeroSection.tsx` as shipped |
 | [`ops/drills/restore-drill-2026-10-21.md`](ops/drills/restore-drill-2026-10-21.md) | 2026-10-21 | Re-runnable any time: `npm run drill:restore` |

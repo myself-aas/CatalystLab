@@ -31,7 +31,7 @@
 | `video/hero-launch/` | Independent Hyperframes video sub-project with its own `package.json` (gsap, puppeteer-core) and 2.2 MB of capture PNGs | `video/hero-launch/package.json` |
 | `patch.css` + `src/styles/` | Live design-token CSS: `src/index.css` `@import`s `styles/card-tokens.css`, `styles/react-dev-tokens.css` and `../patch.css` (Q37 keeps `patch.css` at root) | `src/index.css:1-4` |
 | `firestore.rules` | 13 KB of Firestore security rules (deny-by-default, claim-based superadmin) | `firestore.rules:1-5` |
-| `assets/`, `.assets/`, `audit-output.txt`, `SEO-*.md`, `PROGRAMMATIC-SEO-*.md` | Media banner template, asset manifest, and captured audit outputs at repo root | root listing |
+| `assets/`, `.assets/`, `patch.css`, `SECURITY.md`, `firebase.json`, `.firebaserc`, `firestore.indexes.json`, `firestore.rules` | Media banner template, asset manifest, root CSS patch, the disclosure policy, and the Firebase deploy config (`firebase deploy --only firestore:rules`). The captured audit dumps that used to sit here moved to `docs/audit/` / `archive/` on 2026-11-12 | root listing |
 
 ### 2) Entry Points
 
