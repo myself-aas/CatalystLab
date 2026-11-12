@@ -18,7 +18,7 @@
 | `server/core/` | Cross-cutting services: rate limit & quota, shared limiter, API keys, authz, subscriptions, pricing, retention, backup/restore, expiry sweep, SSL probe, engine catalog, spa routes, runtime, logger, Sentry | `server/core/*` (16 files) |
 | `src/` | React 19 SPA: 32 pages (`src/pages/` + `docs/` + `playground/`), 171 components, 4 contexts, 6 zustand slices, 11 data tables, 18 lib modules, 9 utils | `find src -name '*.tsx' \| wc -l` = 240 TSX files |
 | `src/lib/` | Client+server shared logic: `firebase.ts` (1,905 lines), `nodeEngines.ts` (927), `networkSecurity.ts` (364), `serverAuth.ts` (265), `analyticsEngine.ts` (740), `emailService.ts`, `webhookService.ts`, `validation.ts`, `logger.ts`, media registries | `src/lib/` |
-| `src/tests/` | Vitest suites only (44 files): `server/` 19, `ui/` 12, `unit/` 7, root 6, `helpers/` 1 | directory listing |
+| `src/tests/` | Vitest suites only (51 files): `server/` 25, `ui/` 12, `unit/` 8, root 6, `helpers/` 1 | directory listing |
 | `scripts/` | Build (prerender), gates (env/colors/design/bundle/secrets/media), drills (restore, payments sandbox), ops (loadtest, LHCI report, verify-deployment), asset tooling (image variants, `replace_images.py`) | `scripts/` |
 | `worker/` | Cloudflare Worker `/api/*` proxy (`api-proxy.js` + hand-written `api-proxy.d.ts`) | `worker/`, `wrangler.toml` |
 | `public/` | Static passthrough: `robots.txt`, `_headers`, `_redirects`, `manifest.json`, icons, `sw.js`, `telemetry.js`, `xss-guard.js` | `public/` |

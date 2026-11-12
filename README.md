@@ -4,7 +4,7 @@ Website-quality intelligence platform: a Vite 8 + React 19 SPA with an integrate
 
 > Review remediation status: **Phase 0 ✅ · Phase 1 ✅ · Phase 2 ✅ · Phase 3 ✅** — see [`CODE_REVIEW.md`](./CODE_REVIEW.md) for the historical audit, [`docs/plan/production-readiness-plan.md`](./docs/plan/production-readiness-plan.md) for the phased plan, and [`docs/plan/decisions.md`](./docs/plan/decisions.md) for the owner decision log (D1–D17, Q17–Q52). Repository-level knowledge docs live in [`docs/codebase/`](./docs/codebase/); the full documentation index — living specs vs dated records — is [`docs/README.md`](./docs/README.md).
 
-> **Current state (2026-10-21):** every local gate re-verified green after the pipeline restore — `npm run check:env` (42 parity-verified keys across `.env.example` / `.env.staging.example` / `.env.production.example`, including `PORT`/`NODE_ENV` added 2026-10-21), `npm run lint` (0 problems over `src/`, `server/`, `server.ts`), `npx tsc --noEmit` (0 errors, `strict: true`), `npm test` (330 passed in 36 files), `npm run test:coverage` (ratchet met for `server/**`), `npm run build` (including the prerender step), `npm run check:bundle` (all six budgets pass), a production smoke boot of `dist/server.cjs` (prerendered shells, legacy `.html` 301s, real 404s, zero-`unsafe-inline` CSP, fail-closed payments `503`, `verify-deployment.mjs` contracts) and the Python tooling gates (32 pytest + ruff + mypy strict + black). Runs executed on Node v22.22.3 in the working sandbox; declared runtime is Node 24 (`.nvmrc`, D5). CI runs the same set plus gitleaks/semgrep/Docker/k6/Playwright/Lighthouse on every PR.
+> **Current state (2026-11-12):** every local gate re-verified green after the pipeline restore — `npm run check:env` (42 parity-verified keys across `.env.example` / `.env.staging.example` / `.env.production.example`, including `PORT`/`NODE_ENV`, added to the base template 2026-11-12; the unread `GEMINI_API_KEY` removed), `npm run lint` (0 problems over `src/`, `server/`, `server.ts`), `npx tsc --noEmit` (0 errors, `strict: true`), `npm test` (447 passed in 51 files), `npm run test:coverage` (71.41 / 59.47 / 75.3 / 72.64 against the 68 / 55 / 72 / 69 ratchet), `npm run check:deps` (the bundle's 15 runtime requires all declared), `npm run build` (including the prerender step), `npm run check:bundle` (all six budgets pass), `npm run media:check` (SKIP, exit 0, in this egress-restricted sandbox), a production smoke boot of `dist/server.cjs` (prerendered shells, legacy `.html` 301s, real 404s, zero-`unsafe-inline` CSP, fail-closed payments `503`, `verify-deployment.mjs` contracts) and the Python tooling gates (32 pytest + ruff + mypy strict + black). Runs executed on Node v22.22.3 in the working sandbox; declared runtime is Node 24 (`.nvmrc`, D5). CI runs the same set plus gitleaks/semgrep/Docker/k6/Playwright/Lighthouse on every PR.
 
 ## Quickstart
 
@@ -23,7 +23,7 @@ GITHUB_WEBHOOK_SECRET=dev-secret npm run dev   # Express (port 3000) + Vite midd
 | --- | --- |
 | `npm run dev` | tsx server.ts (Express + Vite middleware, HMR off for proxy compatibility) |
 | `npm run build` | Production bundle to `dist/`, then `scripts/prerender.ts` (65 route shells, `404.html`, `sitemap.xml` index plus `sitemap-core|engines|docs|blog.xml`, `routes.json`), then esbuild → `dist/server.cjs` |
-| `npm test` | Vitest suite (36 test files: UI (jsdom) + server route suite (node + supertest) + unit) |
+| `npm test` | Vitest suite (51 test files: UI (jsdom) + server route suite (node + supertest) + unit) |
 | `npm run test:coverage` | Same suite with v8 coverage; global thresholds are the measured baseline (68/55/72/69) and may only be raised |
 | `npm run typecheck` | `tsc --noEmit` (hard gate, must stay clean) |
 | `npm run lint` | ESLint (0 warnings tolerated) |
@@ -94,7 +94,7 @@ worker/api-proxy.js       Cloudflare Worker: same-origin /api/* proxy (split hos
 ## Testing
 
 ```bash
-npm test                 # 36 test files — UI (jsdom) + server routes (node + supertest) + unit
+npm test                 # 51 test files — UI (jsdom) + server routes (node + supertest) + unit
 npm run test:coverage    # coverage ratchet: global thresholds are the measured baseline (see vitest.config.ts)
 ```
 

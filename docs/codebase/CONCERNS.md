@@ -3,7 +3,9 @@
 > Regenerated 2026-11-12 against branch `arena/b1761471-catalystlab` (`1babd3a`).
 > Findings are ordered by blast radius. Everything here is reproducible with the command
 > shown; nothing is speculative. `[TODO]` = needs a fact this session could not establish,
-> `[ASK USER]` = needs owner intent (all collected in §6).
+> `[ASK USER]` = needs owner intent. All ten were answered on 2026-11-12; the
+> decisions, alternatives and rationale are in
+> `docs/superpowers/plans/2026-11-12-repo-hardening-ci-integrity.md` (Decision Log).
 >
 > Context that shapes the risk profile: the repository is a **SHALLOW clone with exactly
 > 1 commit** (`git rev-list --count HEAD` → 1), so the churn analysis in §5 is empty by
@@ -16,15 +18,15 @@
 | # | Risk | Evidence | Impact |
 |---|---|---|---|
 | 1 | ~~`check:env` fails at HEAD~~ **RESOLVED 2026-11-12** | `.env.example` is now the 42-key base (added `NODE_ENV`, `PORT`; removed the unread `GEMINI_API_KEY`); `npm run check:env` → "preflight passed (42 parity-verified keys …)"; pinned by `src/tests/server/envTemplateParity.test.ts` | — |
-| 2 | **`.nvmrc` is missing** while 9 workflow steps use `node-version-file: .nvmrc` | `git ls-files \| grep -i nvm` → empty; `grep -n node-version-file .github/workflows/*.yml` → 9 hits (`ci.yml` ×4, `deploy.yml` ×2, `backup.yml`, `rollback.yml`, `media-verify.yml`) | `actions/setup-node` errors out → **no** workflow can run. Independently blocks CI. |
+| 2 | ~~`.nvmrc` is missing~~ **RESOLVED 2026-11-12** | `.nvmrc` = `24`, so the 9 `node-version-file: .nvmrc` steps resolve; pinned by `src/tests/server/runtimeContract.test.ts` (asserts the file exists and every workflow that references it can resolve) | — |
 | 3 | ~~Lighthouse CI can never start its server~~ **RESOLVED 2026-11-12** | `.lighthouserc.json` now uses `startServerReadyPattern: "Server listening"`, matching `server.ts:231`; pinned by `src/tests/server/lighthouseConfig.test.ts` | — |
-| 4 | **Node version contract is inconsistent** | `package.json` `engines.node: ">=22"`; `package-lock.json` root `"node": ">=24"`; `Dockerfile` `node:24-bookworm-slim`; README/docs claim Node 24 + `.nvmrc` | `npm ci` on Node 22 emits EBADENGINE; contributors get a runtime different from production. |
+| 4 | ~~Node version contract is inconsistent~~ **RESOLVED 2026-11-12** | Four sources now agree on Node 24: `.nvmrc`, `package.json` `engines.node: ">=24"`, `package-lock.json` root `>=24`, and `Dockerfile:5`; pinned by `src/tests/server/runtimeContract.test.ts` | — |
 | 5 | ~~`media:check` fails on unreachable but healthy assets~~ **RESOLVED 2026-11-12** | `scripts/verify-media.mjs` now exports `summarize()`: `fail` only on a definitive 4xx/5xx, `skip` (exit 0) when an endpoint is unreachable, `STRICT_MEDIA=1` escalates skip to failure; header no longer claims a "registry"; pinned by `src/tests/unit/mediaVerification.test.ts` | — |
-| 6 | **Two handlers claim `GET /api/health`** | `server/routes/engines.ts:259` and `server/routes/system.ts:52`; registration order in `server/app.ts` is engines (`:313`) before system (`:317`) | The engines handler wins; `server/routes/system.ts`'s richer liveness body is dead code for this route. Two "liveness" contracts drift silently. |
+| 6 | ~~Two handlers claim `GET /api/health`~~ **RESOLVED 2026-11-12** | Only `server/routes/system.ts` registers it; the duplicate was deleted from `server/routes/engines.ts`. Anonymous body is exactly `{ status: 'operational', timestamp }` — verified live against `dist/server.cjs` and pinned by `src/tests/server/api.test.ts` | — |
 | 7 | ~~`vite`/`tsx` placement~~ **RESOLVED 2026-11-12** | `vite` stays a production dependency by necessity (`dist/server.cjs:281` `require("vite")`); `tsx` moved to `devDependencies`; `npm run check:deps` guards the contract and `npm run ci` runs it; pinned by `src/tests/server/runtimeDeps.test.ts` | — |
 | 8 | ~~Some route handlers echo raw error text~~ **RESOLVED 2026-11-12** | `server/routes/engines.ts` `/api/check-url` (`:55-58`, `:222-236`) and `/api/run-engine` (`:103-109`, `:344-346`) now log the detail with the request id and return fixed messages plus `requestId`; pinned by `src/tests/server/api.test.ts` (“never reflects internal error text”) | — |
 | 9 | ~~Demo/dev GitHub repo seeding is only production-gated~~ **RESOLVED 2026-11-12** | `server/core/authz.ts` `isDemoSeedAllowed()` requires `ALLOW_DEMO_SEED=true` **and** a non-production process; `server/routes/github.ts:24` reads it for both seed sites; `src/tests/setup.ts` opts the suite in; pinned by `src/tests/server/demoSeedGate.test.ts` | — |
-| 10 | **Legal/operational artefacts referenced but absent** | no `LICENSE`, no `SECURITY.md`, no `CONTRIBUTING.md`, no `firebase.json`/`.firebaserc` (`ls` all empty) | `firestore.rules` is version-controlled but not deployable from this repo without a Firebase project config; `metadata.json`/`assets/` are leftovers. `[ASK USER]` whether these live elsewhere. |
+| 10 | ~~Legal/operational artefacts referenced but absent~~ **RESOLVED 2026-11-12** | Added `SECURITY.md` (disclosure policy, `security@catalystlab.tech`, 72-hour ack), `firebase.json` + `.firebaserc` + `firestore.indexes.json` so `firestore.rules` is deployable; `LICENSE` and `CONTRIBUTING.md` were deliberately **not** added (private package, single owner) — rationale in the plan's Decision Log #8; pinned by `src/tests/server/repoHygiene.test.ts` | — |
 
 ### 2) Technical Debt
 
@@ -82,52 +84,57 @@ real churn. Substitute fragility signals from static evidence:
 |---|---|
 | Largest, most entangled module | `src/lib/firebase.ts` (1,905 lines, auth + 8 Firestore domains + HTTP client wrappers) |
 | Highest decision density (most `D#`/`Q##` tags per file) | `server/app.ts`, `server/core/subscriptions.ts`, `server/core/rateLimit.ts`, `server/routes/engines.ts`, `worker/api-proxy.js` |
-| Most likely to break CI on unrelated changes | `scripts/check-env.mjs` (key-parity over three templates — currently failing), `scripts/check-bundle-budget.mjs` (six ratchets), `scripts/verify-media.mjs` (live network) |
+| Most likely to break CI on unrelated changes | `scripts/check-env.mjs` (key-parity over three templates — now green with 42 keys), `scripts/check-bundle-budget.mjs` (six ratchets), `scripts/verify-media.mjs` (live network — now `skip`, not `fail`, when the network is unreachable) |
 | Coupled client↔server contracts | `src/lib/validation.ts` ↔ `server/core/enginesCatalog.ts`; `src/config/routeAliases.ts` ↔ `scripts/prerender.ts` ↔ `public/_redirects`; `dist/routes.json` ↔ `server/core/spaRoutes.ts` |
-| Documentation drift hotspots | `README.md` ("330 passed in 36 files", "42 parity-verified keys", `.nvmrc`), `docs/ENGINES.md` route table vs `server/app.ts` order, `docs/codebase/*` (2026-10-21 revision) |
+| Documentation drift hotspots | `README.md` (test counts and the gate list — refreshed 2026-11-12 to 51 files / 447 tests), `docs/ENGINES.md` route table vs `server/app.ts` order, `docs/codebase/*` (this revision, 2026-11-12) |
 
-### 6) `[ASK USER]` Questions
+### 6) `[ASK USER]` Questions — all answered 2026-11-12
 
-1. **Node runtime:** which is canonical — `>=22` (`package.json`), `>=24` (lockfile/Docker/CI intent), or something else? Shall `.nvmrc` be restored with `24` to match the 9 `node-version-file` references?
-2. **Env templates:** is `GEMINI_API_KEY` supposed to be removed (no code reads it), or added to staging/production plus code that uses GenAI? Should `PORT`/`NODE_ENV` be added to `.env.example` (as `README` claims was done) or dropped from the staging/production templates?
-3. **Lighthouse readiness:** should `.lighthouserc.json` match the log line `Server listening`, or should `server.ts` log `Server running`? Also, is `best-practices`/`seo` intentionally `off` in `.lighthouserc.json` (enforced only by `scripts/report-lhci.mjs`), and should that be documented in D17?
-4. **`media:check` in CI:** should the gate tolerate unreachable third-party CDNs (since the UI has local fallbacks), or should Pexels/Unsplash dependencies be dropped in favour of fully self-hosted media?
-5. **Dual `/api/health`:** which handler is authoritative — the terse `engines.ts` one or `system.ts`'s `handleLiveness` (whose body includes readiness detail)? Should engines stop registering it?
-6. **Non-production synthetic data:** should the seeded demo GitHub repo/telemetry be gated on `NODE_ENV === 'production'` only (current), or on an explicit `ALLOW_DEMO_SEED` flag so staging never shows synthetic data?
-7. **`vite`/`tsx` placement:** deliberately in `dependencies` (so the Docker runtime can rebuild/prerender?) or an oversight to move to `devDependencies`?
-8. **Deployment artefacts:** do `firebase.json`/`.firebaserc`, `LICENSE`, `SECURITY.md`, `CONTRIBUTING.md` live outside this repository? If not, which are wanted here?
-9. **Root clutter:** is `audit-output.txt`, `assets/banners/hero-banner.html`, root-level `SEO-*.md` dumps and `video/hero-launch` (2.2 MB binaries) intended to stay tracked, or should they move to `archive/`/external storage?
+1. ~~**Node runtime:** which is canonical?~~ **Answered — `24`** everywhere; see plan Decision Log #1 and `runtimeContract.test.ts`. [Docs: `superpowers/plans/2026-11-12-repo-hardening-ci-integrity.md`]
+2. ~~**Env templates:** `GEMINI_API_KEY` removed or used?~~ **Answered — removed**, and `NODE_ENV`/`PORT` added to `.env.example` (42-key parity). Plan Decision Log #2. [Docs: same plan]
+3. ~~**Lighthouse readiness:** change the pattern or the log line?~~ **Answered — the config matches the log** (`Server listening`); `best-practices`/`seo` stay `off` in `.lighthouserc.json` by design (enforced by `scripts/report-lhci.mjs`), now documented in `ARCHITECTURE.md`. Plan Decision Log #3. [Docs: same plan]
+4. ~~**`media:check` in CI:** tolerate CDN blips or self-host?~~ **Answered — tolerate**: `summarize()` returns `skip` (exit 0) only when nothing 4xx/5xx answered, `STRICT_MEDIA=1` escalates. Plan Decision Log #4. [Docs: same plan]
+5. ~~**Dual `/api/health`:** which handler wins?~~ **Answered — `system.ts` owns it**, anonymous shape is `{ status, timestamp }`. Plan Decision Log #5. [Docs: same plan]
+6. ~~**Non-production synthetic data:** production-only or explicit flag?~~ **Answered — explicit `ALLOW_DEMO_SEED`** plus non-production. Plan Decision Log #6. [Docs: same plan]
+7. ~~**`vite`/`tsx` placement:** deliberate or oversight?~~ **Answered — `vite` deliberate** (the bundle requires it), **`tsx` moved** to devDependencies, guarded by `npm run check:deps`. Plan Decision Log #7. [Docs: same plan]
+8. ~~**Deployment artefacts:** which are wanted?~~ **Answered — `SECURITY.md` + the three Firebase files added; no `LICENSE`, no `CONTRIBUTING.md`** (private, single-owner). Plan Decision Log #8. [Docs: same plan]
+9. ~~**Root clutter:** intended or move?~~ **Answered — the four captured dumps are filed** under `docs/audit/`/`archive/`; the 2.2 MB `video/hero-launch` binaries are **deferred (still `[TODO]`)** pending owner approval for external storage. Plan Decision Log #9. [Docs: same plan]
 10. **Raw error messages:** are the `err.stderr \|\| err.message` responses in `/api/check-url` and `/api/run-engine` intentional (developer-facing API) or should they be genericised like the rest of the file?
 
 ## Extended Sections (Optional)
 
-### 7) Verification Log (this session)
+### 7) Verification Log
+
+**2026-11-12 (post-hardening, `npm run ci:full` exit 0):**
 
 | Command | Result |
 |---|---|
-| `npm ci` | exit 0 |
-| `npx eslint .` | exit 0, no problems |
-| `npx tsc --noEmit` | exit 0, no errors |
-| `npx vitest run` | **44 files / 420 tests passed** (58 s) |
-| `npm run test:coverage` | 71.3 / 59.22 / 75.3 / 72.53 — ratchet (68/55/72/69) passes |
-| `NODE_ENV=production APP_ORIGIN=… npm run build` | exit 0; 64 route shells, 53 indexable, 11 noindex; 5 sitemaps; 2 esbuild `import.meta` warnings |
+| `npm run check:env` | pass — 42 parity-verified keys across `.env`, `.env.staging` & `.env.production` |
+| `npm run lint` | pass, 0 problems |
+| `npm run typecheck` (`tsc --noEmit`, `strict`) | pass, 0 errors |
+| `npm test` | **51 files / 447 tests passed** |
+| `npm run build` | pass (prerender included) |
 | `npm run check:bundle` | all 6 budgets pass |
-| `npm run check:colors` / `check:design` | pass |
-| `npm run check:env` | **FAIL** — 3 parity mismatches |
-| `npm run sec:secrets` | clean (650 files HEAD, 1 commit) |
+| `npm run check:deps` | pass — 15 runtime requires, all declared |
+| `npm run test:coverage` | 71.41 / 59.47 / 75.3 / 72.64 — ratchet (68/55/72/69) passes |
 | `npm run drill:restore` | pass, `withinRto: true` |
 | `npm run test:payments-sandbox` | pass, 6 contract checks |
-| `npm run media:check` | **FAIL** — 5 unreachable remote endpoints |
-| Production boot smoke | `/` 200, `/pricing` 200, `/dashboard` 200 (noindex), `/nope` 404, `/api/health` 200, `/api/v1/system/health` 200, `/api/v1/system/ready` 200, `/api/v1/engines` 200, `/api/v1/reports` 501, `/docs/llmo` 301, `/docs/llm-kinase` 200, `/api/audit/run` 404 |
-| Python gates (pytest/ruff/mypy/black) | **[TODO]** — not installed in this sandbox (`python3 -m pytest --version` → "No module named pytest") |
+| `npm run sec:secrets` | clean — 666 tracked files in HEAD, 12 commits, 0 uncatalogued secrets |
+| `npm run media:check` | **SKIP** (exit 0) — 19 endpoints unreachable from this sandbox; `STRICT_MEDIA=1` → exit 1, as designed |
+| Production boot smoke (`dist/server.cjs`) | `/api/health` → `{"status":"operational","timestamp":…}`; `/api/v1/system/health` → 200 |
+| Python gates (pytest/ruff/mypy/black) | **[TODO]** — not installed in this sandbox |
+
+**2026-11-12 baseline (before the hardening tasks):** `npm test` 44 files / 420 tests;
+`check:env` **FAIL** (3 parity mismatches); `media:check` **FAIL** (5 unreachable endpoints);
+`.nvmrc` absent.
 
 ### 8) Evidence
 
 - `package.json`, `package-lock.json:70-71`, `git ls-files | grep -i nvm` (empty), `.lighthouserc.json:15-20`, `server.ts:231`, `.github/workflows/*.yml`
 - `.env.example` (41 keys), `.env.staging.example`, `.env.production.example`, `scripts/check-env.mjs`
-- `server/app.ts:309-320`, `server/routes/engines.ts:55-58,104-108,259`, `server/routes/system.ts:52`, `server/routes/github.ts:22-70`, `server/core/authz.ts:10-16`
+- `server/app.ts:309-320`, `server/routes/engines.ts` (error branches), `server/routes/system.ts` (`handleLiveness`), `server/routes/github.ts:24` (`isDemoSeedAllowed`), `server/core/authz.ts` (`isDemoSeedAllowed`), `scripts/{check-runtime-deps,verify-media}.mjs`, `SECURITY.md`, `firebase.json`
 - `src/lib/firebase.ts`, `src/lib/networkSecurity.ts`, `src/lib/serverAuth.ts`, `server/core/{rateLimit,dailyQuota,apiKeys,subscriptions,logger}.ts`
 - `src/store/middleware/mongoSyncMiddleware.ts`, `src/store/index.ts`
 - `firestore.rules`, `firebase-applet-config.json`, `metadata.json`, `.github/fixtures/ci-service-account.json`
 - `Dockerfile`, `wrangler.toml`, `worker/api-proxy.js`, `ops/systemd/catalystlab.service`, `ops/loadtest/k6-peak.js`, `scripts/run-loadtest.mjs`, `scripts/verify-media.mjs`, `scripts/check-bundle-budget.mjs`
-- `README.md` (claims "330 passed in 36 files", "42 parity-verified keys", `.nvmrc`), `docs/ENGINES.md`, `docs/plan/decisions.md`, `docs/security/review-2026-10.md`, `docs/ops/slo.md`, `PRODUCT.md`
+- `README.md` (test counts and gate list, refreshed 2026-11-12), `docs/ENGINES.md`, `docs/plan/decisions.md`, `docs/security/review-2026-10.md`, `docs/ops/slo.md`, `PRODUCT.md`

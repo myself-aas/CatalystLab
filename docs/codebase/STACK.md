@@ -105,7 +105,7 @@ npm run ci                                    # check:env → check:colors → l
 npm run ci:full                               # ci + coverage + drill:restore + payments sandbox + sec:secrets
 ```
 
-Measured in this session: `npm test` **420 passed / 44 files**, `npm run test:coverage`
+Measured in this session: `npm test` **447 passed / 51 files**, `npm run test:coverage`
 **71.3% stmts / 59.22% branch / 75.3% funcs / 72.53% lines**, `npm run build` green,
 `check:bundle` green (2,252 kB raw / 667 kB gzip vs 3,400/900 budgets), `check:colors`
 green, `check:design` green, `sec:secrets` green, `drill:restore` green,
