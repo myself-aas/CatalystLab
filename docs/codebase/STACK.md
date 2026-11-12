@@ -55,8 +55,13 @@ All 29 entries of `dependencies` (versions as ranged in `package.json`):
 | dotenv | ^18.0.8 | Env loading in `server.ts` and `scripts/prerender.ts` | `server.ts:15`, `scripts/prerender.ts:16` |
 | tsx | ^4.23.15 | TypeScript execution for `dev`, `build`, `drill:restore` — shipped as a *production* dependency | `package.json` scripts |
 
-> Note: `vite` and `tsx` are runtime-irrelevant yet listed under `dependencies`, so
-> the Docker runtime layer installs them (`npm ci --omit=dev`). See `CONCERNS.md` §2.
+> Dependency placement (resolved 2026-11-12): **`vite` must stay in `dependencies`** —
+> `dist/server.cjs` requires it at module scope (`server.ts:3` imports `createServer`
+> unconditionally, and `dist/server.cjs:281` is `require("vite")`), so the Docker
+> runtime layer needs it. `tsx` moved to `devDependencies`; it is never required at
+> runtime. `npm run check:deps` (`scripts/check-runtime-deps.mjs`) now fails the build
+> when the bundle requires an undeclared package — pinned by
+> `src/tests/server/runtimeDeps.test.ts`.
 
 ### 3) Development Toolchain
 
