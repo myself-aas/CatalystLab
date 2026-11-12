@@ -15,7 +15,7 @@
 
 | # | Risk | Evidence | Impact |
 |---|---|---|---|
-| 1 | **`check:env` fails at HEAD**, and it is the first step of `npm run ci` and of both deploy jobs | `npm run check:env` → 3 parity failures: `GEMINI_API_KEY` only in `.env.example`; `NODE_ENV` and `PORT` only in `.env.staging.example` (and `.env.production.example`) | Every CI run and every deploy fails before lint/build. 3-line fix; still a release blocker. |
+| 1 | ~~`check:env` fails at HEAD~~ **RESOLVED 2026-11-12** | `.env.example` is now the 42-key base (added `NODE_ENV`, `PORT`; removed the unread `GEMINI_API_KEY`); `npm run check:env` → "preflight passed (42 parity-verified keys …)"; pinned by `src/tests/server/envTemplateParity.test.ts` | — |
 | 2 | **`.nvmrc` is missing** while 9 workflow steps use `node-version-file: .nvmrc` | `git ls-files \| grep -i nvm` → empty; `grep -n node-version-file .github/workflows/*.yml` → 9 hits (`ci.yml` ×4, `deploy.yml` ×2, `backup.yml`, `rollback.yml`, `media-verify.yml`) | `actions/setup-node` errors out → **no** workflow can run. Independently blocks CI. |
 | 3 | **Lighthouse CI can never start its server** | `.lighthouserc.json` `startServerReadyPattern: "Server running"`; `server.ts:231` logs `"[CatalystLab] Server listening on http://…"` | The `lighthouse` job times out after 60 s. Masked today by risk #1. |
 | 4 | **Node version contract is inconsistent** | `package.json` `engines.node: ">=22"`; `package-lock.json` root `"node": ">=24"`; `Dockerfile` `node:24-bookworm-slim`; README/docs claim Node 24 + `.nvmrc` | `npm ci` on Node 22 emits EBADENGINE; contributors get a runtime different from production. |

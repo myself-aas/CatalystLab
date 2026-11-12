@@ -108,7 +108,7 @@ green, `check:design` green, `sec:secrets` green, `drill:restore` green,
 
 ### 5) Environment and Config
 
-- Config sources: `.env.example` (41 keys), `.env.staging.example` (42), `.env.production.example` (42), `firebase-applet-config.json` (public Firebase web config), `wrangler.toml` (Worker `API_ORIGIN` injected as a secret), `vite.config.ts`, `tsconfig.json`, `.lighthouserc.json`, `.impeccable/*`, `components.json`.
+- Config sources: `.env.example` (42 keys — the parity base), `.env.staging.example` (42), `.env.production.example` (42), `firebase-applet-config.json` (public Firebase web config), `wrangler.toml` (Worker `API_ORIGIN` injected as a secret), `vite.config.ts`, `tsconfig.json`, `.lighthouserc.json`, `.impeccable/*`, `components.json`.
 - Variable groups read by code (`grep process.env` over `src|server|scripts|worker|public`):
   - **Origin/SEO**: `APP_ORIGIN`, `VITE_APP_ORIGIN` (`src/config/site.ts`).
   - **Identity**: `FIREBASE_SERVICE_ACCOUNT_JSON`, `FIREBASE_SERVICE_ACCOUNT_PATH`, `GOOGLE_APPLICATION_CREDENTIALS`, `FIRESTORE_DATABASE_ID` (`src/lib/serverAuth.ts`).
@@ -116,7 +116,7 @@ green, `check:design` green, `sec:secrets` green, `drill:restore` green,
   - **Payments**: `PAYMENTS_ENABLED`, `PAYMENT_GATEWAY`, `PAYMENT_SIGNING_SECRET`, `JWT_SECRET`, `V2CHECKOUT_*`, `DODOPAY_*`, `PAYMENTS_WEBHOOK_SECRET*`.
   - **Messaging/webhooks**: `MAILGUN_*`, `GITHUB_WEBHOOK_SECRET`, `VALID_API_KEYS`.
   - **Ops**: `SENTRY_DSN`, `SENTRY_ENVIRONMENT`, `SENTRY_TRACES_SAMPLE_RATE`, `SENTRY_RELEASE`, `LOG_LEVEL`, `PORT`, `HOST`, `TRUST_PROXY`, `ALLOW_UNAUTH_DEMO`, `TELEMETRY_INGEST_MAX_PER_MIN`, `SWEEP_INTERVAL_MS`.
-- Orphan keys: `GEMINI_API_KEY` exists only in `.env.example` and is read by **no** file (`metadata.json` declares a GEMINI capability). `NODE_ENV`/`PORT` exist only in the staging/production templates. See CONCERNS §1.
+- Parity: `npm run check:env` passes with **42 keys** across all three templates (pinned by `src/tests/server/envTemplateParity.test.ts`). `GEMINI_API_KEY` was removed 2026-11-12 — no file read it (`metadata.json` still declares a Gemini capability, which is now an unused declaration); `NODE_ENV`/`PORT` were added to the base template so a local `.env.example` copy boots with production-secure defaults.
 - Deployment/runtime constraints: split hosting (D3(b)/Q31/Q32) — static `dist/` on Cloudflare Pages, `/api/*` through a Cloudflare Worker to a Node host (Oracle Always Free, Render Free fallback); `TRUST_PROXY=true` expected behind that Worker; `PAYMENTS_ENABLED` must be `false` until Upstash is configured (Q32).
 
 ### 6) Evidence
