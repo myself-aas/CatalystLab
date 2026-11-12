@@ -51,9 +51,15 @@ app.post('/api/check-url', createEngineRateLimitMiddleware({ cost: SINGLE_ENGINE
         res.json({ reachable: false, error: 'Target is unreachable, invalid, or blocked by the SSRF guard.' });
       }
     }
-  } catch (e: any) {
+  } catch (e: unknown) {
+    // Generic client-facing error: internal messages stay in logs (Plan 7).
+    logger.warn({ err: e, requestId: req.requestId }, '[check-url] unexpected failure');
     if (!res.headersSent) {
-      res.json({ reachable: false, error: e.message });
+      res.json({
+        reachable: false,
+        error: 'Target verification failed.',
+        requestId: req.requestId
+      });
     }
   }
 });
@@ -101,10 +107,11 @@ app.post('/api/run-engine', createEngineRateLimitMiddleware({ cost: SINGLE_ENGIN
       output: output || 'Engine completed with no output.'
     });
   } catch (err: any) {
-    logger.error(`Error executing engine:`, err);
+    logger.error({ err, requestId: req.requestId }, 'Error executing engine');
     res.status(500).json({
       success: false,
-      error: err.stderr || err.message || 'Execution error during telemetry scan.'
+      error: 'Execution error during telemetry scan.',
+      requestId: req.requestId
     });
   }
 });
@@ -227,12 +234,14 @@ app.post('/api/monitor/probe', createEngineRateLimitMiddleware({ cost: SINGLE_EN
         statusCode: 0,
         responseTimeMs,
         status: 'down',
-        error: err.message || 'Connection failed',
+        error: 'Connection failed',
+        requestId: req.requestId,
         timestamp: Date.now()
       });
     }
   } catch (outerErr: any) {
-    res.status(500).json({ success: false, error: outerErr.message });
+    logger.warn({ err: outerErr, requestId: req.requestId }, 'URL probe failed');
+    res.status(500).json({ success: false, error: 'URL probe failed.', requestId: req.requestId });
   }
 });
 
@@ -342,7 +351,12 @@ app.post('/api/v1/engines/:engine/scan', createEngineRateLimitMiddleware({ cost:
       timestamp: Date.now()
     });
   } catch (e: any) {
-    res.status(500).json({ success: false, error: e.message });
+    logger.error({ err: e, requestId: req.requestId }, 'Engine execution failed');
+    res.status(500).json({
+      success: false,
+      error: 'Execution error during telemetry scan.',
+      requestId: req.requestId
+    });
   }
 });
 

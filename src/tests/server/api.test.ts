@@ -5,7 +5,7 @@
 // (404 JSON, request correlation, client-log sink).
 import type { Express } from 'express';
 import request from 'supertest';
-import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createHmac } from 'crypto';
 import { dailyRateLimitStore } from '@server/core/rateLimit';
 import { setSubscriptionStoreForTests, SUBSCRIPTION_COLLECTION } from '@server/core/subscriptions';
@@ -332,6 +332,45 @@ describe('SSRF guard surface (C5-adjacent)', () => {
     const res = await request(app).post('/api/check-url').send({ url: 'http://127.0.0.1:8080/admin' });
     expect(res.status).toBe(200);
     expect(res.body.reachable).toBe(false);
+  });
+
+  // Ruling R5: submitting a blocked/unresolvable URL never reaches the handlers'
+  // outer catch (validation short-circuits with a fixed message), so the first
+  // version of these two tests was vacuous. They now force the leaking branch at
+  // the module surface the route module imports, which is the only path that used
+  // to echo err.message / err.stderr to the client.
+  it('never reflects internal error text from /api/check-url', async () => {
+    // The inner catch around guardedFetch already answers with a fixed string, so the
+    // leaking branch is the defensive outer catch: force it by making validation throw.
+    const validation = await vi.importActual<typeof import('../../../src/lib/validation')>(
+      '../../../src/lib/validation'
+    );
+    const spy = vi
+      .spyOn(validation.checkUrlSchema, 'safeParse')
+      .mockImplementation(() => {
+        throw new Error('getaddrinfo ENOTFOUND internal-host at /srv/app/src/lib/networkSecurity.ts:88');
+      });
+    const res = await request(app).post('/api/check-url').send({ url: 'https://example.com' });
+    expect(JSON.stringify(res.body)).not.toMatch(/ENOTFOUND|getaddrinfo|stderr|networkSecurity\.ts/i);
+    expect(typeof res.body.error).toBe('string');
+    spy.mockRestore();
+  });
+
+  it('never reflects internal error text from /api/run-engine', async () => {
+    const engines = await vi.importActual<typeof import('../../../src/lib/nodeEngines')>(
+      '../../../src/lib/nodeEngines'
+    );
+    const spy = vi
+      .spyOn(engines, 'runNativeEngine')
+      .mockRejectedValue(new Error('engine stderr: ECONNREFUSED 127.0.0.1:9 at nodeEngines.ts:512'));
+    const res = await request(app)
+      .post('/api/run-engine')
+      .send({ engine: 'health', url: 'https://example.com' });
+    expect(res.status).toBe(500);
+    expect(JSON.stringify(res.body)).not.toMatch(/ECONNREFUSED|stderr|nodeEngines\.ts/i);
+    spy.mockRestore();
+    // Do not let this probe spend the shared engine quota the e2e run needs.
+    dailyRateLimitStore.clear();
   });
 
   it('blocks private-range targets through /api/check-url', async () => {
