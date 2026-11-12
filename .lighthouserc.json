@@ -14,7 +14,7 @@
         "chromeFlags": "--no-sandbox --disable-dev-shm-usage --headless=new --disable-gpu"
       },
       "startServerCommand": "node dist/server.cjs",
-      "startServerReadyPattern": "Server running",
+      "startServerReadyPattern": "Server listening",
       "startServerReadyTimeout": 60000
     },
     "assert": {
