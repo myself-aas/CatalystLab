@@ -1,70 +1,121 @@
-# Testing Patterns
+# Testing Strategy
 
-> Regenerated 2026-10-21 by the `acquire-codebase-knowledge` workflow; **suite executed and green the same day** after the pipeline restore (Q43): `npm ci` (1102 packages) → `npm test` → **330 passed / 36 files** on sandbox Node v22.22.3 (declared runtime Node 24 via `.nvmrc`). 3 UI tests that were red at pristine HEAD `d2c26ef` (broken by the design refactor itself) were re-based on the new hero/navbar contract — see §2/§5.
+> Regenerated 2026-11-12 against branch `arena/b1761471-catalystlab` (`1babd3a`).
+> All numbers below are from runs executed in this session.
 
 ## Core Sections (Required)
 
-### 1) Test Stack and Commands
+### 1) Test Frameworks and Runners
 
-- **Primary framework:** Vitest ^5.0.5 (`vitest.config.ts`), globals enabled, jsdom default environment, `fileParallelism: false`, `testTimeout: 10000`, setup file `src/tests/setup.ts`, runs shuffled (`npm test` = `vitest run --sequence.shuffle`).
-- **Assertion/mocking tools:** Vitest `expect` + `vi` (mocks/spies); `@testing-library/react` + `@testing-library/jest-dom/vitest` (imported in setup per owner decision Q38); `supertest` ^7.3.1 for in-process HTTP against `createApp()`.
-- **E2E:** Playwright ^1.64.1 (chromium only), config `playwright.config.ts`.
-- **Other harnesses:** k6 (`ops/loadtest/k6-peak.js` via `scripts/run-loadtest.mjs`), Lighthouse CI (`@lhci/cli`, `.lighthouserc.json`), tsx scripts (`scripts/e2e-payment-sandbox.ts`, `scripts/run-restore-drill.ts`), pytest for the Python tooling (`pyproject.toml`, `scripts/tests/test_replace_images.py` — **wired into CI 2026-10-21**, Q52: the `python-tooling` job in `ci.yml` runs pytest + ruff + mypy-strict + black on Python 3.11; all four verified green locally first: 32 tests passed).
-- Commands:
+| Layer | Runner | Config | Command |
+|---|---|---|---|
+| Unit + UI + server-route | **Vitest 5** (`globals: true`, jsdom default, `@testing-library/react` + `jest-dom`) | `vitest.config.ts` | `npm test` (`vitest run --sequence.shuffle`), `npm run test:coverage` |
+| Browser smoke | **Playwright 1.64** (Chromium only, 2 workers, 1 retry in CI) | `playwright.config.ts` (`testDir: './e2e'`, boots `dist/server.cjs` on port 3098) | `npm run test:e2e` |
+| Load / SLO | Node script + k6 script | `scripts/run-loadtest.mjs` boots `dist/server.cjs` on 3099; `ops/loadtest/k6-peak.js` | `npm run test:load`, `k6 run …` |
+| Payment state machine e2e | `tsx` script over real Express app | `scripts/e2e-payment-sandbox.ts` | `npm run test:payments-sandbox` |
+| Backup/restore drill | `tsx` script | `scripts/run-restore-drill.ts` | `npm run drill:restore` |
+| Secrets | `node` script | `scripts/scan-secrets.mjs` (+ `.gitleaks.toml`, gitleaks in CI) | `npm run sec:secrets` |
+| Python | pytest (+ pytest-cov), ruff, mypy strict, black | `pyproject.toml` (`testpaths = scripts/tests`) | CI `python-tooling` job |
 
-```bash
-npm test                     # all 36 Vitest files, shuffled
-npm run test:coverage        # same + v8 coverage ratchet (server/** only)
-npm run test:e2e             # Playwright smoke vs production server build
-npm run test:load            # k6 peak-load + D16 p95 SLO verification
-npm run test:payments-sandbox # payment gateway sandbox, 503-outage retry, idempotency (Q32 gate)
-npm run drill:restore        # clean-instance Firestore backup/restore drill (Plan 4.6)
-npm run ci                   # lint+typecheck+test+build+bundle budget (no coverage)
-npm run ci:full              # ci + coverage + drill + payments sandbox + secrets scan
-```
+Assertions are Vitest `expect` (with jest-dom matchers registered through
+`@testing-library/jest-dom/vitest`) and Playwright `expect` (`expect(response?.status()).toBe(200)`).
 
-### 2) Test Layout
+### 2) Test File Organization
 
-- **Placement:** all Vitest tests under `src/tests/` (never co-located); Playwright under `e2e/`; Python tooling tests under `scripts/tests/`.
-- **Naming:** `camelCase.test.ts(x)` after the module or behavior under test.
-- **Inventory (36 files, counted this session):**
-  - `src/tests/server/` — 18 files: API/security suite keyed to CODE_REVIEW findings (`api.test.ts` describes are literally `C1: payments fail closed`, `C2: identity cannot be spoofed…`, `C3: GitHub webhook HMAC verification`; ~192 `it()` blocks across server tests), plus `rateLimit`, `dailyQuota`, `telemetryRateLimit`, `subscriptions`, `paymentWebhookRetry`, `webhookDispatch`, `workerProxy`, `tlsProbe`, `backupRestore`, `retention`, `domainAccess`, `apiKeys`, `errorTracking`, `logger`, `contact`, `multiInstanceState`, `dependabotWorkflowGuard`.
-  - `src/tests/ui/` — 10 files (testing-library + jsdom): routes, legal pages, modals/overlays, accessibility & contrast, cards/parallax, interactive engines & forms, radar chart, partner marquee, trail card, unified navigation.
-  - `src/tests/unit/` — 2 files: `parseEngineOutput`, `webhookGuards`.
-  - `src/tests/` root — 6 files: `networkSecurity`, `rateLimiter`, `webhookSecurity`, `telemetryParser`, `exportEngine`, `phase1Hardening.test.tsx`.
-  - `e2e/smoke/release-smoke.spec.ts` — 4 Playwright tests: renders `/`, `/pricing`, `/blogs`, `/docs/llmo`, `/contact` with **zero CSP violations** (asserts no `'unsafe-inline'` in the CSP header, captures `securitypolicyviolation` events), strict security headers (Plan 3.8/9.2/10.4).
-- **Setup:** `src/tests/setup.ts` — imports `@testing-library/jest-dom/vitest`; forces `NODE_ENV=test` and `ALLOW_UNAUTH_DEMO=true` (so route suites can exercise GitHub/notifications without Firebase Admin); suppresses known act()/React-Router-future-flag warnings; polyfills `matchMedia` etc.
+All Vitest tests live under `src/tests/` — never beside source — in four buckets:
 
-### 3) Test Scope Matrix
+| Directory | Files | Purpose |
+|---|---|---|
+| `src/tests/server/` | 19 | Express route/integration suites (jsdom **overridden per-file** with `// @vitest-environment node` where needed) |
+| `src/tests/ui/` | 12 | React page/component rendering with providers wrapped in `MemoryRouter` |
+| `src/tests/unit/` | 7 | Pure logic (engine output parsing, SEO/sitemap tables, webhook guards) |
+| `src/tests/` (root) | 6 | Cross-cutting: rate limiter, network security, webhook security, telemetry parser, export engine, Phase-1 hardening |
+| `src/tests/helpers/` | 1 | `MemorySubscriptionStore` (in-memory transactional store contract) |
 
-| Scope | Covered? | Typical target | Notes |
-|-------|----------|----------------|-------|
-| Unit | Yes | `src/lib` pure logic (SSRF guard, webhook guards, telemetry parser, engine output parsing), `server/core` (quota, retention, apiKeys, logger) | node env via `// @vitest-environment node` pragma (10 files) |
-| Integration (in-process HTTP) | Yes | Every Express route module through `createApp()` with supertest; security-critical flows: payment fail-closed, webhook HMAC valid/forged/unknown, identity-spoof resistance, state-sync auth, telemetry schema validation, client-log sink | No live Mongo/Firebase/gateway — memory fakes (`src/tests/helpers/memorySubscriptionStore.ts`); `FIREBASE_SERVICE_ACCOUNT_PATH` points at the CI placeholder fixture |
-| E2E (browser) | Yes (smoke-only) | Production `dist/server.cjs` on port 3098; CSP/header contract + route rendering | Playwright `webServer` boots the real built server; `reuseExistingServer` outside CI; trace `retain-on-failure` |
-| Load / SLO | Yes | k6 peak-load script; CI asserts D16 p95 SLO | `ops/loadtest/k6-peak.js`, ci.yml "Production server peak load test" |
-| Perf budgets (frontend) | Yes | Lighthouse CI vs the running production server (not a static dir, D17): a11y ≥ 0.9, SEO/best-practices ≥ 0.85 hard, perf < 0.5 warn; documented exception: landing best-practices re-based to measured 0.74 (eager Firebase Auth) | `.lighthouserc.json`, ci.yml `lighthouse` job, `docs/plan/decisions.md` D17 |
-| Ops drills | Yes | Backup→restore on clean instance; payment sandbox incl. 503-outage retry & idempotency | `scripts/run-restore-drill.ts`, `scripts/e2e-payment-sandbox.ts`, both CI gates |
-| Container contract | Yes | Docker build, non-root `node` user assertion, health probe, `scripts/verify-deployment.mjs` contract checks | ci.yml `security-and-container` job |
-| Python tooling | Partial | `pytest scripts/tests/test_replace_images.py` configured | `[TODO]` no CI job runs pytest (grep of `.github/workflows/`) |
+Suite inventory (44 files, **420 tests, all passing** this session): `api.test.ts` (844 lines,
+the largest test), `apiKeys`, `backupRestore`, `compression`, `contact`, `dailyQuota`,
+`dependabotWorkflowGuard`, `domainAccess`, `errorTracking`, `logger`, `multiInstanceState`,
+`paymentWebhookRetry`, `rateLimit`, `retention`, `subscriptions`, `telemetryRateLimit`,
+`tlsProbe`, `webhookDispatch`, `workerProxy` (server); `accessibilityAndContrast`,
+`auditScoreMatrixRadar`, `cardsAndParallax`, `engineReportHonesty`,
+`interactiveEnginesAndForms`, `legalPages`, `modalsAndOverlays`, `partnerMarquee`,
+`PlateImage`, `routes`, `trailCard`, `unifiedNavigationMenu` (ui); `nodeEngines`,
+`parseEngineOutput`, `programmaticSeo`, `seoAeo`, `seoRoutes`, `sitemapSections`,
+`webhookGuards` (unit).
 
-### 4) Mocking and Isolation Strategy
+Out-of-Vitest suites: `e2e/smoke/release-smoke.spec.ts` (Playwright, asserts zero CSP
+violations and strict headers on `/`, `/pricing`, `/blogs`, `/docs/llmo`, `/contact`),
+`scripts/e2e-payment-sandbox.ts`, `scripts/tests/test_replace_images.py` (pytest),
+`src/tests/server/workerProxy.test.ts` (Worker proxy unit-tested inside Vitest).
 
-- **Main mocking approach:** module-level `vi.mock` + hand-written fakes; server suites avoid network entirely by injecting env (demo flags, placeholder service-account path) and using in-memory stores; UI suites mock `matchMedia`, Firebase auth listeners (setup.ts warning filters acknowledge async act updates).
-- **Isolation guarantees:** `fileParallelism: false` serializes files (shared env mutation in setup.ts is safe); `--sequence.shuffle` randomizes intra-file order to catch order coupling; `NODE_ENV`/`ALLOW_UNAUTH_DEMO` set once in setup.
-- **Common failure mode (documented in-code):** act() warnings from the async Firebase auth listener and React Router future-flag warnings are deliberately filtered rather than fixed (`src/tests/setup.ts:10-33`).
-- **CI credential isolation:** `.github/fixtures/ci-service-account.json` is an invalid placeholder by design — `firebase-admin` rejects it, `serverAuth` catches and returns null, identity routes answer 401 (fixture `_note`).
+### 3) Mocking Strategy
 
-### 5) Coverage and Quality Signals
+- **Prefer injection over module mocks.** Server services expose test seams:
+  `setDailyQuotaBackendForTests` (Redis replacement), `setSubscriptionStoreForTests` and
+  `MemorySubscriptionStore` (transactional Firestore replacement), `MemoryRouter` +
+  provider stack for UI. This lets route suites run the *real* Express app (`createApp()`)
+  against in-memory stores — e.g. `src/tests/server/paymentWebhookRetry.test.ts`,
+  `scripts/e2e-payment-sandbox.ts`.
+- **`vi.mock` is used sparingly** — 8 files only, always for an external boundary:
+  `firebase-admin/app|auth|firestore` (`phase1Hardening.test.tsx`),
+  `@/lib/analyticsEngine` (`domainAccess.test.ts`), `@sentry/node` (`errorTracking.test.ts`).
+- **HTTP-level tests** use `supertest` against `createApp()` (3 files) or a real
+  `http.createServer(app).listen(0)` for SSE/webhook signature flows, and
+  `createHmac`/`sign()` helpers to forge-or-verify HMAC headers.
+- **Environment:** `src/tests/setup.ts` pins `NODE_ENV=test`,
+  `ALLOW_UNAUTH_DEMO=true`, polyfills `matchMedia`, `ResizeObserver`,
+  `IntersectionObserver`, and silences known `act(...)`/React-Router warnings.
+- **No network in tests:** engines are exercised against fixtures/`runNativeEngine` mocks;
+  only the load-test and e2e scripts touch a live server.
+- **Determinism:** `fileParallelism: false` in `vitest.config.ts` (serial files because
+  several suites mutate process env and module-level rate-limit stores).
 
-- **Coverage tool + threshold:** `@vitest/coverage-v8`; scope deliberately limited to `include: ['server/**/*.ts']` ("client UI coverage is out of scope for now" — config comment). Ratchet thresholds: statements 68, branches 55, functions 72, lines 69 — measured baseline of 2026-10-19 rounded down; policy: may be raised, never lowered (comments in `vitest.config.ts`, README).
-- **Current reported coverage (measured 2026-10-21, Node 22 sandbox):** global `server/**` — statements **70.02**, branches **58.53**, functions **73.66**, lines **71.40** ⇒ ratchet (68/55/72/69) met, `npm run test:coverage` exit 0. Weakest modules: `spaRoutes.ts` (0%), `stateSync.ts` (31%), `system.ts` (39%), `engines.ts` (49% — live-scan paths).
-- **Known gaps/flaky areas:** branch threshold sits low because "residual branches are live-Mongo / live-gateway error paths that require real infrastructure to reach" (`vitest.config.ts` comment); UI coverage untracked; `spaRoutes.ts` has zero direct coverage (exercised only via the production smoke); Playwright/k6/Docker/gitleaks gates not runnable in this sandbox (browser download / external tools) — CI covers them.
+### 4) Coverage and Gates
+
+- `npm run test:coverage` measures **`server/**/*.ts` only** (client UI coverage explicitly
+  out of scope) with v8.
+- Ratchet thresholds in `vitest.config.ts`: statements **68**, branches **55**,
+  functions **72**, lines **69** — measured 2026-10-19 and only raisable.
+- Measured this session: **71.3% stmts / 59.22% branches / 75.3% funcs / 72.53% lines** —
+  the ratchet passes.
+- Additional gates wired into CI (`ci.yml` `gates` job): `npm audit --audit-level=low`,
+  `drill:restore`, `test:payments-sandbox`, `sec:secrets`, `test:load`,
+  the production smoke (`verify-deployment.mjs` + legacy `.html` 301 + `/api/v1/reports`
+  501 + canonical tag), `media:check`; then `security-and-container` (gitleaks, semgrep,
+  promtool, Docker build), `e2e-chromium`, `lighthouse`, `python-tooling`.
+
+### 5) What the Suites Actually Cover (security-weighted)
+
+- Payment fail-closed `503`, HMAC verification (valid / forged / unknown), duplicate-event
+  idempotency (`DUPLICATE_EVENT`), out-of-order staleness (`STALE_EVENT`), refund →
+  free tier — `paymentWebhookRetry.test.ts` and the sandbox script (verified green).
+- Identity spoof resistance, state-sync `401`, API-key lifecycle, log allowlists,
+  SSRF blocking (`networkSecurity.test.ts`, `tlsProbe.test.ts`), telemetry batch caps
+  (`413`) and XFF spoof protection (`telemetryRateLimit.test.ts`), Worker origin
+  validation (`workerProxy.test.ts`), compression content-type matrix
+  (`compression.test.ts`), multi-instance shared-state behaviour
+  (`multiInstanceState.test.ts`), retention TTLs, backup/restore integrity with a tamper
+  check (`backupRestore.test.ts`).
+- UI: a11y/contrast, route rendering with real providers, engine-report honesty (no
+  synthesised scores), legal page presence.
 
 ### 6) Evidence
 
-- `vitest.config.ts`, `playwright.config.ts`, `src/tests/setup.ts`, `src/tests/helpers/memorySubscriptionStore.ts`
-- File counts/greps this session: `find src/tests -name '*.test.*' | wc -l` → 36; `@vitest-environment` pragma count → 10; server-suite `it()` count → 192; `test(` in e2e spec → 4
-- `.github/workflows/ci.yml` (jobs: `gates`, `security-and-container`, `e2e-chromium`, `lighthouse` — exact step commands quoted above), `.lighthouserc.json`, `scripts/report-lhci.mjs`
-- `package.json` scripts (`test`, `test:e2e`, `test:load`, `test:payments-sandbox`, `drill:restore`, `test:coverage`, `ci`, `ci:full`)
-- README ("Testing", "Scripts" — stale counts flagged), `docs/plan/decisions.md` (Q38, D16, D17), `docs/security/review-2026-10.md` (verification references per finding)
+- `vitest.config.ts` (include glob, coverage include + thresholds, `fileParallelism: false`), `playwright.config.ts`, `pyproject.toml`
+- `src/tests/setup.ts`, `src/tests/helpers/memorySubscriptionStore.ts`
+- `src/tests/server/api.test.ts`, `src/tests/server/paymentWebhookRetry.test.ts`, `src/tests/server/workerProxy.test.ts`, `src/tests/server/errorTracking.test.ts`, `src/tests/ui/routes.test.tsx`
+- `scripts/e2e-payment-sandbox.ts`, `scripts/run-loadtest.mjs`, `scripts/run-restore-drill.ts`, `ops/loadtest/k6-peak.js`, `e2e/smoke/release-smoke.spec.ts`
+- `.github/workflows/ci.yml` (gates + 4 extra jobs)
+- Session runs: `npx vitest run` → **44 files / 420 tests passed**; `npm run test:coverage` → 71.3 / 59.22 / 75.3 / 72.53; `npm run drill:restore` → green (`withinRto: true`); `npm run test:payments-sandbox` → all 6 contract checks listed
+
+## Extended Sections (Optional)
+
+### Gaps observed
+
+- No test asserts that the **Lighthouse ready pattern** matches the server log line
+  (`.lighthouserc.json` expects "Server running", `server.ts` logs "Server listening").
+- No test exercises `npm run check:env`'s three-template parity (the gate itself fails and
+  nothing in `src/tests` covers it).
+- No Vitest coverage for `scripts/*.mjs` (excluded from coverage and from ESLint).
+- `worker/api-proxy.d.ts` is hand-maintained; only `workerProxy.test.ts` guards its contract.
+- No coverage for `src/lib/media/registry.ts` remote-fallback behaviour (only `PlateImage.test.tsx`).

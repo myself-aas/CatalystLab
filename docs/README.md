@@ -38,7 +38,7 @@ Two classes of document live under `docs/`:
 | [`plan/rollout-pipeline-restore-2026-10-21.md`](plan/rollout-pipeline-restore-2026-10-21.md) | Active rollout plan: gate evidence, deploy waves, rollback triggers, comms (produced with the `devops-rollout-plan` skill) |
 | [`adr/0001-clean-saas-palette.md`](adr/0001-clean-saas-palette.md) | Superseded palette ADR, retained for history |
 | [`adr/0002-meta-design-system.md`](adr/0002-meta-design-system.md) | Normative design-token source (Meta-derived `DESIGN.md`) and its open tensions |
-| [`codebase/`](codebase/) | `ARCHITECTURE` · `STRUCTURE` · `STACK` · `CONVENTIONS` · `INTEGRATIONS` · `TESTING` · `CONCERNS` — regenerated 2026-10-21 (commit `0d3f465`) with `file:line` evidence |
+| [`codebase/`](codebase/) | `ARCHITECTURE` · `STRUCTURE` · `STACK` · `CONVENTIONS` · `INTEGRATIONS` · `TESTING` · `CONCERNS` — regenerated 2026-11-12 (branch `arena/b1761471-catalystlab`, base commit `1babd3a`) with `file:line` evidence; supersedes the 2026-10-21 revision |
 
 ## Dated records 🟡
 

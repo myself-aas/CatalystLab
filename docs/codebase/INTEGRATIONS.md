@@ -1,66 +1,107 @@
 # External Integrations
 
-> Regenerated 2026-10-21 by the `acquire-codebase-knowledge` workflow. All rows verified against source at commit `d2c26ef`. Design principle (README): **every integration is optional and fails closed** — unset credentials produce a safe denial or a local in-memory mode, never an open gate.
+> Regenerated 2026-11-12 against branch `arena/b1761471-catalystlab` (`1babd3a`).
+> Every integration below is verified in source; unset behaviour is quoted from the code
+> path that implements it. Credentials come exclusively from environment variables — no
+> secret is committed (confirmed by `npm run sec:secrets`, 650 files in HEAD, 0 secrets).
 
 ## Core Sections (Required)
 
-### 1) Integration Inventory
+### 1) External APIs and Services
 
-| System | Type | Purpose | Auth model | Criticality | Evidence |
-|--------|------|---------|------------|-------------|----------|
-| Firebase Auth + Firestore | Auth / DB (BaaS) | Client auth + accounts/state sync; server-side subscriptions & payment events (`user_subscriptions`, `payment_events`) | Client: Firebase web config (`firebase-applet-config.json`, project `catalystlabhub` — public by design). Server: Admin service account via `FIREBASE_SERVICE_ACCOUNT_JSON`/`_PATH` (+`GOOGLE_APPLICATION_CREDENTIALS`); client writes constrained by `firestore.rules` (only `free/active` per README); superadmin = signed custom claim | High — unset ⇒ `/api/state/sync` 401 for everyone | `src/lib/firebase.ts`, `src/lib/serverAuth.ts`, `server/core/subscriptions.ts:1-25`, `firestore.rules`, `.env.example` |
-| MongoDB | DB (time-series) | Telemetry/analytics event store; store slices sync target | `MONGODB_URI` + `MONGODB_DB_NAME` connection string | High for analytics; unset ⇒ in-memory buffer ("zero-cost mode") | `src/lib/analyticsEngine.ts`, `src/store/middleware/mongoSyncMiddleware.ts`, README env table |
-| Upstash Redis (REST) | Cache / counter store | Shared multi-instance rate-limit + quota ledger | `UPSTASH_REDIS_REST_URL`/`_TOKEN` | High in production (payments **require** it in prod: `503 PAYMENTS_SHARED_STATE_REQUIRED`); unset ⇒ per-process memory counters | `server/core/sharedLimiter.ts`, `server/core/rateLimit.ts`, `docs/security/review-2026-10.md` SEC-2026-08 |
-| 2Checkout (Verifone) | Payments gateway | **The single live gateway** (owner decision D2); checkout + signed webhooks | `V2CHECKOUT_MERCHANT_CODE`/`SECRET_KEY`, `V2CHECKOUT_SANDBOX_MODE`; webhook HMAC `PAYMENTS_WEBHOOK_SECRET_2CHECKOUT` over raw body; sandbox vs `secure.2checkout.com` | High for monetization; unset ⇒ checkout/verify 503, webhooks 401 | `server/core/subscriptions.ts:16-25`, `server/routes/payments.ts`, grep: `https://secure.2checkout.com`, `https://sandbox.2checkout.com` |
-| Dodo Payments | Payments gateway (dormant) | Kept in code, disabled unless `PAYMENT_GATEWAY=dodopay` (D2) | `DODOPAY_API_KEY`, `DODOPAY_WEBHOOK_SECRET`, `DODOPAY_SANDBOX_MODE`; `test.`/`checkout.dodopayments.com` hosts in code | Low (dormant) | `server/core/subscriptions.ts`, `.env.example`, grep: dodopayments hosts |
-| Mailgun | Email API | Transactional email (notifications, contact) | `MAILGUN_API_KEY`/`DOMAIN`/`HOST`/`FROM_*` | Medium; unset ⇒ **mock mode** (logged, never sent) | `src/lib/emailService.ts`, README env table, `.env.example` |
-| Sentry (`@sentry/node`) | Error tracking | Server exceptions + relayed, scrubbed client logs; PII scrubbing per D10 | `SENTRY_DSN`/`ENVIRONMENT`/`RELEASE`/`TRACES_SAMPLE_RATE`; **no browser SDK/DSN** — client errors go through `POST /api/client-logs` | Medium; unset ⇒ pino logs only | `server/core/errorTracking.ts`, `server/routes/clientLogs.ts`, README "Observability"/"Secrets hygiene" |
-| GitHub | Inbound webhooks + API surface reads | Repo-hygiene/GitLygase flows; deliveries verified via `x-hub-signature-256` HMAC over raw body; unknown `repoId`s rejected, never auto-provisioned | `GITHUB_WEBHOOK_SECRET`; unset ⇒ all deliveries rejected; production disables demo repos (`503 GITHUB_WEBHOOK_NOT_CONFIGURED`) | Medium | `server/routes/github.ts`, README "Security model", SEC-2026-07 |
-| Slack / Discord / generic webhooks | Outbound notification fan-out | User-configured alert delivery | Discord: hostname allowlist (`discord.com`/`discordapp.com` incl. canary/ptb); generic: optional `webhookSecret` HMAC; all via SSRF-guarded `guardedFetch` (Q41) | Medium | `src/lib/webhookService.ts:25,165-253`, `server/routes/notifications.ts:4,210-248` |
-| Cloudflare Pages + Workers | Hosting / edge proxy | Static frontend (Pages) + same-origin `/api/*` proxy (Worker `catalystlab-api-proxy`, staging/production routes on `catalystlab.tech`) | `API_ORIGIN` via `wrangler secret put` (never in VCS — Blocker #2); fail-closed 503 on empty/placeholder/non-HTTPS | High (deployment path, D3(b)/Q31) | `wrangler.toml`, `worker/api-proxy.js`, `public/_headers`, `public/_redirects`, `.github/workflows/deploy.yml` |
-| Oracle Cloud Always Free (Render Free fallback) | API compute | Node host for `dist/server.cjs` (2 OCPU / 12 GB, Q32) | SSH/systemd or Docker; `[TODO: provisioning details live outside repo]` | High | `docs/plan/decisions.md` Q32, `ops/systemd/catalystlab.service`, `Dockerfile`, `docs/ops/runbook.md` §1 |
-| Google Cloud (Firestore backups) | Backup storage | Scheduled Firestore export + restore drill | gcloud service account (`ops/gcloud/setup-firestore-backups.sh`, `.github/workflows/backup.yml`) | Medium (RPO 24 h, D16) | `ops/gcloud/`, `.github/workflows/backup.yml`, `scripts/run-restore-drill.ts` |
-| Target websites (user-supplied URLs) | Outbound scans | The product's core: engines fetch/analyze arbitrary domains | None — protected by SSRF guard: scheme allowlist, private-range block, DNS-pinned socket (anti-rebinding), redirects revalidated per hop (max 3), 5 MB cap, TLS verify, 10 s timeout; TLS cert probe port 443 only | High (security surface) | `src/lib/networkSecurity.ts`, `src/lib/nodeEngines.ts`, `server/core/ssl.ts`, `docs/ENGINES.md` |
-| crt.sh + Cloudflare DoH | Passive recon APIs | Certificate-transparency subdomain discovery + SPF/DMARC TXT lookups inside `securityAudit` engine flows | None (public endpoints) | Low | `src/lib/securityAudit.ts:183,207,308-310` |
-| Google Fonts / image CDNs | Static assets | Fonts and stock imagery allowed by CSP (`fonts.googleapis/gstatic`, `images.unsplash.com`, `images.pexels.com`, `cdn.simpleicons.org`, `i.pravatar.cc`, GitHub avatars) | None | Low | `server/app.ts` CSP allowlists, `public/_headers`, 43 `pexels.com` refs in `src/` |
-| k6 (load testing) | Perf tooling | Peak-load script asserting D16 p95 SLO in CI | `GITHUB_TOKEN` for reporting | Dev/CI only | `ops/loadtest/k6-peak.js`, `scripts/run-loadtest.mjs`, `.github/workflows/ci.yml` |
+| Service | Direction | Where | Auth | Unset behaviour |
+|---|---|---|---|---|
+| Firebase Auth (client) | browser → Google | `src/lib/firebase.ts` (`getAuth`, Google/GitHub/email providers) | public web API key in `firebase-applet-config.json` (public by design) | sign-in unavailable; app still renders |
+| Firebase Admin / Firestore | server → Google | `src/lib/serverAuth.ts` (`verifyIdToken`, `getAdminFirestore`), `server/core/{subscriptions,apiKeys,retention}.ts` | service-account JSON (`FIREBASE_SERVICE_ACCOUNT_JSON` / `_PATH` / `GOOGLE_APPLICATION_CREDENTIALS`) | verifier `null` → every request treated as unauthenticated (fail closed): state sync `401`, API keys memory-only |
+| MongoDB (native driver) | server → Atlas/self-hosted | `src/lib/analyticsEngine.ts` (batched queue, 500/batch), `server/routes/stateSync.ts`, `server/routes/telemetry.ts` | `MONGODB_URI` (+ `MONGODB_DB_NAME`, default `catalyst_analytics`) | console warning, `mode: 'in_memory_fallback'`, zero-cost in-memory buffer |
+| Upstash Redis | server → Upstash REST | `server/core/dailyQuota.ts`, `server/core/sharedLimiter.ts`, `server/core/rateLimit.ts` | `UPSTASH_REDIS_REST_URL` + `_TOKEN` | per-process memory ledger; health/quota report `backend: 'memory'`; payments checkout refuses to arm without shared state (Q32) |
+| 2Checkout (Verifone) | server ⇄ gateway | `server/routes/payments.ts`, `server/core/subscriptions.ts` (`activeGateway()` defaults to `2checkout`) | `V2CHECKOUT_SECRET_KEY`, `V2CHECKOUT_MERCHANT_CODE`, `V2CHECKOUT_SANDBOX_MODE`, `PAYMENTS_WEBHOOK_SECRET_2CHECKOUT` | checkout `503`; webhooks `401` |
+| Dodo Payments | server ⇄ gateway | same modules; **disabled** unless `PAYMENT_GATEWAY=dodopay` (D2) | `DODOPAY_API_KEY`, `DODOPAY_WEBHOOK_SECRET`, `DODOPAY_SANDBOX_MODE` | inactive gateway rejects events |
+| Mailgun | server → Mailgun API | `src/lib/emailService.ts` (`MAILGUN_HOST` default `api.mailgun.net`, 10 s timeout) | `MAILGUN_API_KEY` + `MAILGUN_DOMAIN`/`FROM_*` | **mock mode**: logs "[Mailgun Mock Dispatch] … (Mock Mode: MAILGUN_API_KEY not set)" |
+| Sentry (`@sentry/node`) | server → Sentry | `server/core/errorTracking.ts` (`initErrorTracking`, `captureException`, process handlers) | `SENTRY_DSN`, `SENTRY_ENVIRONMENT`, `SENTRY_RELEASE`, `SENTRY_TRACES_SAMPLE_RATE` | disabled with a debug log; errors stay in pino JSON |
+| GitHub (webhooks in, API out) | bidirectional | `server/routes/github.ts` (HMAC `x-hub-signature-256` over raw body), `src/lib/firebase.ts` repo/telemetry surfaces | `GITHUB_WEBHOOK_SECRET`; `GITHUB_TOKEN` only in CI load-test | deliveries rejected `401`; production returns `503 GITHUB_WEBHOOK_NOT_CONFIGURED`; hard-coded demo repo entries exist only for the non-production demo flag |
+| Slack incoming webhooks | server → Slack | `src/lib/webhookService.ts` (`sendSlackWebhook`) | URL host allowlist (`hooks.slack.com/services/...`) | rejected at validation, no dispatch |
+| Discord webhooks | server → Discord | `src/lib/webhookService.ts` (`sendDiscordWebhook`) | URL host allowlist (`discord.com|discordapp.com/api/webhooks/...`) | rejected at validation |
+| Target websites (audited hosts) | server → arbitrary public host | `src/lib/networkSecurity.ts` `guardedFetch` + `src/lib/nodeEngines.ts` | none; SSRF guard is the control | blocked targets answer `400` "Invalid or forbidden target URL." |
+| Google Fonts / gstatic | browser → Google | `index.html` font links; CSP `font-src`/`style-src` allow `fonts.googleapis.com`, `*.gstatic.com` | none | fallback `Inter Fallback` face declared in `src/index.css` (size-adjust 107%) |
+| Gemini API | **declared only** | `metadata.json` requests `MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API`; `.env.example` lists `GEMINI_API_KEY` | — | **no code reads `GEMINI_API_KEY`** (`grep -rn GEMINI src server scripts worker` → empty). Orphan config; see CONCERNS §2 |
+| Image/photo CDNs | browser → remote | `src/lib/media/registry.ts` (Pexels/Unsplash sources with local fallbacks), CSP `img-src` allowlist | none | `npm run media:check` fails when endpoints are unreachable — 5 Pexels entries failed in this sandbox |
+| Cloudflare (Pages + Worker + zone) | deploy + edge | `wrangler.toml`, `worker/api-proxy.js`, `public/_redirects`, `public/_headers` | `CLOUDFLARE_API_TOKEN`/`ACCOUNT_ID` (CI secrets), worker secret `API_ORIGIN` | Worker answers `503 API_ORIGIN_NOT_CONFIGURED` instead of forwarding |
 
-### 2) Data Stores
+### 2) Databases and Data Stores
 
-| Store | Role | Access layer | Key risk | Evidence |
-|-------|------|--------------|----------|----------|
-| Firestore (`catalystlabhub`, database id `ai-studio-catalystlab-3f711290-…`) | Accounts, subscription state, payment events, state sync | Server: `firebase-admin` (`src/lib/serverAuth.ts` `getAdminFirestore`, `server/core/subscriptions.ts`); Client: `src/lib/firebase.ts` under `firestore.rules` | Client rule bypass would allow entitlement writes — mitigated by rules permitting only `free/active` client writes (README) | `firebase-applet-config.json`, `firestore.rules` (13.6 KB) |
-| MongoDB time-series | Telemetry events, analytics, report data | `src/lib/analyticsEngine.ts` (`initAnalyticsDB`), queried by `server/routes/telemetry.ts` | In-memory fallback loses data on restart and fragments across instances | `server.ts:42-44`, README env table |
-| Upstash Redis | Rate-limit/quota counters (daily units + 60 s bursts) | `server/core/sharedLimiter.ts` → `rateLimit.ts`/`dailyQuota.ts` | Memory fallback resets per process; unacceptable in prod (README's own words) | `server/core/*`, README env table |
-| Local filesystem (`dist/`) | Prerendered shells, `routes.json`, static assets | `server.ts` shell cache (≤256 entries; missing-shell set ≤1024) | Cache is per-process; stale after redeploy without restart | `server.ts:74-95` |
-| Client zustand + mongoSync queue | Offline mutation buffer synced to server | `src/store/middleware/mongoSyncMiddleware.ts` (`pendingMutations`, `failedMutations`) | Divergence on failed sync; entitlement display can never upgrade on failed server write (README) | `src/store/useAppStore.ts:24-31` |
+| Store | Collections / keys | Writer | Notes |
+|---|---|---|---|
+| Firestore (firebase-admin only for writes that matter) | `user_subscriptions`, `payment_events`, `api_keys`, plus client-owned report/blog/monitored-site docs | `server/core/subscriptions.ts` (transactional, idempotent on gateway event id), `server/core/apiKeys.ts` (SHA-256 hashes only), `server/core/retention.ts` (TTL `expireAt`) | `firestore.rules` is deny-by-default (`match /{document=**} { allow read, write: if false }`) with narrow per-collection grants; superadmin only via custom claim `role == 'superadmin'` or `superadmin == true` |
+| MongoDB | telemetry events, analytics aggregates, `state_sync` documents per `ownerId` | `src/lib/analyticsEngine.ts`, `server/routes/stateSync.ts` | owner id always server-derived from the verified token (IDOR-hardened); in-memory fallback |
+| Upstash Redis | `catalystlab:quota:<date>:<identifier>` counters with TTL; burst windows | `server/core/dailyQuota.ts`, `server/core/sharedLimiter.ts` | refunds via `decr` when a charge is denied downstream |
+| In-process memory | rate-limit records, API-key index, event queue, Mongo fallback | `server/core/rateLimit.ts`, `server/core/apiKeys.ts` | single-instance only; flagged as degraded |
+| Browser storage | `localStorage` cached reports (`catalystlab_cached_reports`), Firebase Auth persistence (`persistentLocalCache` + multi-tab manager), service-worker cache `catalystlab-cache-v2.5` | `src/lib/firebase.ts`, `public/sw.js` | documented in `docs/legal` copy and cookie policy |
 
-### 3) Secrets and Credentials Handling
+### 3) Auth and Trust Model
 
-- **Credential sources:** environment only (`.env.example` lists 42 keys — `PORT`/`NODE_ENV` added 2026-10-21; real `.env*` gitignored with explicit `!` exceptions for templates). Worker secret via `wrangler secret put API_ORIGIN`. CI injects a **documented placeholder** service account (`.github/fixtures/ci-service-account.json` — `"private_key": "invalid-ci-placeholder-not-a-key"`, `_note` explains fail-closed behavior) so `check-env.mjs` passes without real credentials.
-- **Public-by-design config:** `firebase-applet-config.json` is the Firebase **web** config (identifies the project; safe in client bundle per README "Secrets hygiene"). The empty `recaptchaSiteKey` was investigated (Q51, 2026-10-21): zero consumers repo-wide and not a standard Firebase web-config field ⇒ removed as dead config; reCAPTCHA returns only with a real implementation if bot protection is ever adopted.
-- **Hardcoding checks:** `scripts/scan-secrets.mjs` + `.gitleaks.toml` run over working tree **and full git history** in CI (`npm run sec:secrets`); `.semgrep.yml` for static rules. The former hardcoded **dev** Cloud Run URL in `INITIAL_MONITORED_SITES` was fixed 2026-10-21 (Q50): the seed now derives from `SITE_ORIGIN` (`src/config/site.ts`, env-driven per Q42/D14) and probes the real `/api/v1/system/health` endpoint; the stale "8 Python telemetry engines" note was corrected to the D7 TypeScript reality.
-- **Rotation/lifecycle:** `docs/security/review-2026-10.md` SEC-2026-01 records a **legacy MongoDB Atlas credential in historical commit `e4bff70`** (absent from HEAD; this clone's history is a single squashed root commit — squash confirmed intentional, Q49). Owner confirmed 2026-10-21 (Q44) they will rotate the Atlas password out-of-band; no repo change required.
-- **Log hygiene:** allowlist header serializers + `sanitizeLoggedUrl()` (SEC-2026-04); credential-header redaction in request logs (README "Observability").
+| Control | Implementation | Evidence |
+|---|---|---|
+| Identity | Bearer Firebase ID token → `verifyIdToken` → `{ uid, email, plan, isTrialActive, isSuperadmin }`; cached verifier | `src/lib/serverAuth.ts` |
+| Entitlement truth | custom claims + Firestore `user_subscriptions`; paid writes only from signed webhooks (D1) | `server/core/subscriptions.ts:11-30`, `firestore.rules` |
+| API keys | `cat_live_` prefix, SHA-256 hash at rest, scopes `execute:engines` … `manage:webhooks`, Firestore-backed with memory fallback | `server/core/apiKeys.ts` |
+| Payments | HMAC-SHA256 over the **raw body** (`express.json({ verify })` keeps `rawBody`); idempotent + monotonic event application; refund revokes to free | `server/app.ts`, `server/core/subscriptions.ts`, `scripts/e2e-payment-sandbox.ts` |
+| GitHub webhooks | `x-hub-signature-256` verification; unknown `repoId` rejected, never provisioned | `server/routes/github.ts` |
+| SSRF | allowlisted schemes, private/loopback/link-local/CGNAT/metadata blocking, DNS resolution pinned to the validated IP (anti-rebinding), ≤3 redirect hops revalidated, 5 MB cap, TLS verification on, 10 s timeout; TLS probe locked to port 443 | `src/lib/networkSecurity.ts`, `server/core/ssl.ts` |
+| Client IP | `TRUST_PROXY=true` → **rightmost** `X-Forwarded-For` entry (Worker appends `cf-connecting-ip`) | `server/core/rateLimit.ts:clientIp`, `worker/api-proxy.js:1-15` |
+| CSP | helmet with per-request 128-bit nonce + SHA-256 hashes of built inline blocks; zero `'unsafe-inline'`; explicit `img-src`/`connect-src` allowlists | `server/app.ts:28-62,232-300` |
+| Client-header trust | never trusted; `ALLOW_UNAUTH_DEMO` is the only bypass and is `false` in the Docker image | `src/lib/serverAuth.ts`, `Dockerfile` |
 
-### 4) Reliability and Failure Behavior
+### 4) Monitoring and Observability
 
-- **Fail-closed matrix (unset config ⇒):** payments checkout/verify `503`; payment/GitHub webhooks `401`/rejected; state sync `401`; Worker proxy `503 API_ORIGIN_NOT_CONFIGURED`; telemetry limiter still applies (memory); email → mock mode; analytics → memory buffer.
-- **Retry/backoff:** payment webhook retry + idempotency exercised by `src/tests/server/paymentWebhookRetry.test.ts` and `scripts/e2e-payment-sandbox.ts` (CI gate); subscription writes idempotent on gateway event id, older events can never overwrite newer state (`server/core/subscriptions.ts:11-17`). Generic outbound retry policy `[TODO: none observed in webhookService]`.
-- **Timeout policy:** engine HTTP 10 s (`HTTP_TIMEOUT_MS`, `src/lib/nodeEngines.ts:1`), 5 MB response cap, max 3 redirects; DoH/crt.sh fetches carry their own timeouts in `src/lib/securityAudit.ts`.
-- **Circuit breakers/fallbacks:** no formal breaker; degradation modes above + Sentry `installProcessErrorHandlers` (`server.ts:40`); MongoDB-offline graceful degradation in the terminal error handler; SLO/RTO/RPO and incident steps documented in `docs/ops/runbook.md`, `docs/ops/slo.md`, `docs/ops/alerts.yml`, restore drill `docs/ops/drills/restore-drill-2026-10-21.md`.
+- **Logs:** pino JSON lines, one per request, `x-request-id` correlation, allowlist request
+  (6) and response (7) headers, query redaction (`token`, `api_key`, `signature`, …)
+  — `server/core/logger.ts`.
+- **Errors:** `@sentry/node` server-side; client errors relay through `POST /api/client-logs` (request-scrubbed, rate-limited) — `src/lib/logger.ts`, `server/routes/clientLogs.ts`.
+- **Health:** `GET /api/health` (liveness, `{"status":"ok"}`), `GET /api/v1/system/health`
+  (operational detail, deliberately omitting host memory/OS/DB per Plan 3.5),
+  `GET /api/v1/system/ready` — all verified 200 in a production boot this session.
+- **Alerts/SLOs:** `docs/ops/alerts.yml` (promtool-validated in CI), `docs/ops/slo.md`
+  (D16 targets: 99.5% availability, p95 ≤ 75 ms HTML, ≤ 100 ms API, RPO 24 h, RTO 4 h).
+- **Load tests:** `ops/loadtest/k6-peak.js` and `scripts/run-loadtest.mjs` (three tiers:
+  static, API, engine scan; asserts p95 budgets and 0% 5xx).
+- **Post-deploy verification:** `scripts/verify-deployment.mjs` asserts CSP, HSTS,
+  nosniff, referrer policy, real 404s, prerendered canonical tags, noindex app shells,
+  sourcemap 404, health payload shape, and payments `503`.
 
-### 5) Observability for Integrations
+### 5) Deployment Integrations
 
-- **Logging around external calls:** pino structured logs with `[Tag]` prefixes and `x-request-id` correlation (`server/core/logger.ts`); engine runs and webhook dispatches log outcomes via the same logger (`server/routes/*`).
-- **Metrics/tracing:** Sentry tracing sample rate env-controlled (`SENTRY_TRACES_SAMPLE_RATE`); Cloudflare Worker `[observability] enabled = true` (`wrangler.toml`); Lighthouse CI + k6 p95 SLO gate in CI; `scripts/verify-deployment.mjs` post-deploy contract checks; `scripts/report-lhci.mjs`.
-- **Client-side:** first-party telemetry (`public/telemetry.js`, `/api/telemetry/event` — zod-validated, bot-filtered, geo/UA-enriched locally with `geoip-lite`+`ua-parser-js`, no third-party analytics per Q27) and the client-log relay.
-- **Missing visibility gaps:** no APM/metrics endpoint for the Node host itself beyond `/api/v1/system/health` + `/api/monitor/system-health`; alert routing exists as config (`docs/ops/alerts.yml`) — actual delivery channel `[TODO]`.
+- **Cloudflare Pages** (static `dist/`, `public/_headers`, `public/_redirects`) and
+  **Cloudflare Worker** route `www.catalystlab.tech/api/*` (+ staging + apex).
+- **Node API host:** Docker image (`node:24-bookworm-slim`, non-root) or
+  `ops/systemd/catalystlab.service` (Oracle Always Free; `CPUQuota=200%`, `MemoryMax=10G`,
+  `ProtectSystem=strict`, `ExecStartPre=check-env.mjs`).
+- **Backups:** `.github/workflows/backup.yml` (daily 02:15 UTC) + `ops/gcloud/setup-firestore-backups.sh`
+  (PITR + GCS retention bucket); `npm run drill:restore` proves RTO locally (green this session).
+- **CI/CD:** `.github/workflows/ci.yml` (5 jobs), `deploy.yml` (staging on push to `main`,
+  production behind a manual owner gate), `rollback.yml`, `media-verify.yml`.
 
 ### 6) Evidence
 
-- `.env.example` (full key list), `firebase-applet-config.json`, `firestore.rules`, `wrangler.toml`, `public/_headers`
-- `server/core/{subscriptions,sharedLimiter,rateLimit,ssl,errorTracking,apiKeys}.ts`, `server/routes/{payments,github,notifications,telemetry,stateSync,clientLogs}.ts`
-- `src/lib/{firebase,serverAuth,analyticsEngine,networkSecurity,nodeEngines,securityAudit,webhookService,emailService}.ts`
-- `worker/api-proxy.js`, `.github/workflows/{ci,deploy,backup,rollback,media-verify}.yml`, `.github/fixtures/ci-service-account.json`
-- `docs/ops/runbook.md`, `docs/security/review-2026-10.md`, `docs/plan/decisions.md` (D1, D2, D9, D10, D16, Q27, Q31, Q32, Q41), README ("Environment variables", "Security model", "Observability")
+- `src/lib/{firebase,serverAuth,emailService,webhookService,analyticsEngine,networkSecurity}.ts`
+- `server/routes/{payments,github,telemetry,stateSync,clientLogs,system,contact,notifications}.ts`
+- `server/core/{subscriptions,apiKeys,dailyQuota,sharedLimiter,rateLimit,retention,ssl,errorTracking,logger,backupRestore}.ts`
+- `firestore.rules`, `firebase-applet-config.json`, `metadata.json`, `.env.example`, `.env.staging.example`, `.env.production.example`
+- `worker/api-proxy.js`, `wrangler.toml`, `public/_headers`, `public/_redirects`, `Dockerfile`, `ops/systemd/catalystlab.service`, `ops/gcloud/setup-firestore-backups.sh`, `docs/ops/alerts.yml`
+- `.github/workflows/{ci,deploy,backup,rollback,media-verify}.yml`
+- Session output: `npm run sec:secrets`, `npm run drill:restore`, `npm run test:payments-sandbox`, `npm run media:check` (5 unreachable remote endpoints), production boot smoke of `/api/health`, `/api/v1/system/health`, `/api/v1/system/ready`
+
+## Extended Sections (Optional)
+
+### Integration failure posture
+
+| Failing dependency | User-visible result | Auto-recovers? |
+|---|---|---|
+| Firebase Admin | `/api/state/sync`, `/api/v1/users/me/*` → `401`; API keys memory-only | yes, on next request after fixing credentials |
+| MongoDB | telemetry buffered in memory; state sync returns `in_memory_fallback` | yes (batched flush + reconnect attempt) |
+| Upstash | per-process quota; `/api/v1/users/me/quota` reports `memory`; checkout blocked (Q32) | yes |
+| Mailgun | mail logged only, `202` returned to caller | yes |
+| 2Checkout/Dodo | checkout `503`; verification never grants entitlement | yes |
+| Sentry | errors only in pino logs | yes |
+| Cloudflare Worker `API_ORIGIN` | `/api/*` → `503 API_ORIGIN_NOT_CONFIGURED` | yes, after `wrangler secret put` |
+| Remote media CDNs | `media:check` fails; UI falls back to self-hosted plates | yes for UI, no for the gate |
