@@ -17,6 +17,17 @@ export function isDemoUnauthAllowed(): boolean {
 }
 
 /**
+ * Synthetic demo data requires an explicit opt-in AND a non-production process.
+ * Only the seed sites in `server/routes/github.ts` consult this: tests set
+ * ALLOW_DEMO_SEED=true in src/tests/setup.ts, while staging, preview and
+ * production deployments must leave it unset so no invented repository or
+ * telemetry event is ever served (PRODUCT.md: real or absent, never synthesised).
+ */
+export function isDemoSeedAllowed(): boolean {
+  return process.env.NODE_ENV !== 'production' && process.env.ALLOW_DEMO_SEED === 'true';
+}
+
+/**
  * Require a verified Firebase identity. Demo flag is ignored in production.
  */
 export function requireIdentity(req: Request, res: Response): boolean {
