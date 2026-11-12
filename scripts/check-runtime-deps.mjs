@@ -47,7 +47,7 @@ function main() {
 
   const pkg = JSON.parse(readFileSync(path.join(root, 'package.json'), 'utf8'));
   const runtimeDeps = new Set(Object.keys(pkg.dependencies || {}));
-  const required = collectBareRequires(readFileSync(bundle, 'utf8')).filter((name) => name !== 'dist');
+  const required = collectBareRequires(readFileSync(bundle, 'utf8'));
   const missing = required.filter((name) => !runtimeDeps.has(name));
 
   for (const name of missing) {

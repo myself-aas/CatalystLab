@@ -356,6 +356,20 @@ describe('SSRF guard surface (C5-adjacent)', () => {
     spy.mockRestore();
   });
 
+  it('never reflects resolver detail from validatePublicUrl-backed routes', async () => {
+    // Cross-review finding: /api/monitor/probe and /api/v1/engines/:engine/scan return
+    // validatePublicUrl's error verbatim, which interpolated the resolver message
+    // (`getaddrinfo ENOTFOUND <host>`). Assert both routes stay generic.
+    const target = 'https://does-not-resolve.invalid/x';
+    const probe = await request(app).post('/api/monitor/probe').send({ url: target });
+    const scan = await request(app).post('/api/v1/engines/health/scan').send({ url: target });
+    for (const res of [probe, scan]) {
+      expect(JSON.stringify(res.body)).not.toMatch(/ENOTFOUND|getaddrinfo|EAI_AGAIN/i);
+      expect(res.body.success).toBe(false);
+    }
+    expect(probe.status).toBe(400);
+  }, 30_000);
+
   it('never reflects internal error text from /api/run-engine', async () => {
     const engines = await vi.importActual<typeof import('../../../src/lib/nodeEngines')>(
       '../../../src/lib/nodeEngines'

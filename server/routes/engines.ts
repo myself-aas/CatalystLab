@@ -80,6 +80,7 @@ app.post('/api/run-engine', createEngineRateLimitMiddleware({ cost: SINGLE_ENGIN
     const isRepoEngine = engine === 'repo' || engine === 'code_quality';
     const validation = await validatePublicUrl(url, isRepoEngine);
     if (!validation.valid) {
+      logger.warn({ requestId: req.requestId, reason: validation.error }, '[engines/scan] SSRF guard rejected target');
       res.status(400).json({ success: false, error: validation.error || 'Invalid or forbidden target URL.' });
       return;
     }
@@ -145,6 +146,7 @@ app.post('/api/monitor/probe', createEngineRateLimitMiddleware({ cost: SINGLE_EN
     // verification stays enabled.
     const validation = await validatePublicUrl(parsedUrl.toString());
     if (!validation.valid) {
+      logger.warn({ requestId: req.requestId, reason: validation.error }, '[monitor/probe] SSRF guard rejected target');
       res.status(400).json({ success: false, error: validation.error || 'Target URL blocked by SSRF guard.' });
       return;
     }
