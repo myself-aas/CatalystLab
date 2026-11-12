@@ -272,6 +272,11 @@ describe('Catalog and introspection surfaces', () => {
   it('serves health, system-health, db-status and workflow endpoints', async () => {
     const health = await request(app).get('/api/health');
     expect(health.status).toBe(200);
+    expect(health.body.status).toBe('operational');
+    for (const leaked of ['nodeVersion', 'platform', 'database', 'memoryUsageMb', 'uptimeSeconds']) {
+      expect(health.body, `anonymous /api/health must not expose ${leaked}`).not.toHaveProperty(leaked);
+    }
+    expect(Object.keys(health.body).sort()).toEqual(['status', 'timestamp']);
 
     const sysHealth = await request(app).get('/api/v1/system/health');
     expect(sysHealth.status).toBe(200);

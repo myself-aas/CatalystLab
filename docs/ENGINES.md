@@ -65,7 +65,7 @@ identifiers — the API speaks the canonical ids/aliases.
 | `POST /api/run-engine` | Run one engine (`engine` + `url`), rate-limited, SSRF-guarded |
 | `POST /api/monitor/probe` | Uptime-style probe used by the monitoring UI |
 | `GET /api/monitor/system-health` | Host and dependency status for the system page |
-| `GET /api/health` | Liveness probe (used by the CI smoke test and the runbook) |
+| `GET /api/health` | Liveness probe (owned by `server/routes/system.ts`; used by the CI smoke test and the runbook). Anonymous callers receive only `status` + `timestamp` (Plan 3.5) |
 | `GET /api/v1/engines` · `GET /api/v1/engines/:engine` | Catalog and single-engine metadata |
 | `POST /api/v1/engines/:engine/scan` | One engine under the versioned surface |
 | `GET`/`POST /api/v1/audit/master/stream` (aliases: `GET`/`POST /api/scan/stream`) | SSE stream for the full 8-engine master audit: `session_init`, per-engine `engine_start` / `engine_complete`, then `audit_complete` |

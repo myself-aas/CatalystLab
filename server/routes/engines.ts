@@ -255,10 +255,8 @@ app.get('/api/monitor/system-health', (req: Request, res: Response) => {
   });
 });
 
-// Health check
-app.get('/api/health', (req: Request, res: Response) => {
-  res.json({ status: 'ok', timestamp: Date.now() });
-});
+// Liveness now lives in server/routes/system.ts (handleLiveness, Plan 3.5
+// anonymity redaction); the duplicate handler that shadowed it was removed.
 
 // ==========================================
 // RESTful API V1 CATALOG & ENDPOINTS
