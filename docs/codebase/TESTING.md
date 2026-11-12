@@ -32,7 +32,7 @@ All Vitest tests live under `src/tests/` — never beside source — in four buc
 | `src/tests/` (root) | 6 | Cross-cutting: rate limiter, network security, webhook security, telemetry parser, export engine, Phase-1 hardening |
 | `src/tests/helpers/` | 1 | `MemorySubscriptionStore` (in-memory transactional store contract) |
 
-Suite inventory (51 files, **447 tests, all passing** on 2026-11-12): `api.test.ts` (844 lines,
+Suite inventory (51 files, **448 tests, all passing** on 2026-11-12): `api.test.ts` (844 lines,
 the largest test), `apiKeys`, `backupRestore`, `compression`, `contact`, `dailyQuota`,
 `dependabotWorkflowGuard`, `domainAccess`, `errorTracking`, `logger`, `multiInstanceState`,
 `paymentWebhookRetry`, `rateLimit`, `retention`, `subscriptions`, `telemetryRateLimit`,
@@ -106,7 +106,7 @@ violations and strict headers on `/`, `/pricing`, `/blogs`, `/docs/llmo`, `/cont
 - `src/tests/server/api.test.ts`, `src/tests/server/paymentWebhookRetry.test.ts`, `src/tests/server/workerProxy.test.ts`, `src/tests/server/errorTracking.test.ts`, `src/tests/ui/routes.test.tsx`
 - `scripts/e2e-payment-sandbox.ts`, `scripts/run-loadtest.mjs`, `scripts/run-restore-drill.ts`, `ops/loadtest/k6-peak.js`, `e2e/smoke/release-smoke.spec.ts`
 - `.github/workflows/ci.yml` (gates + 4 extra jobs)
-- Session runs (2026-11-12, `npm run ci:full` exit 0): `npx vitest run` → **51 files / 447 tests passed**; `npm run test:coverage` → 71.41 / 59.47 / 75.3 / 72.64 (ratchet 68 / 55 / 72 / 69); `npm run drill:restore` → green (`withinRto: true`); `npm run test:payments-sandbox` → all 6 contract checks listed
+- Session runs (2026-11-12, `npm run ci:full` exit 0): `npx vitest run` → **51 files / 448 tests passed**; `npm run test:coverage` → 71.41 / 59.47 / 75.3 / 72.64 (ratchet 68 / 55 / 72 / 69); `npm run drill:restore` → green (`withinRto: true`); `npm run test:payments-sandbox` → all 6 contract checks listed
 
 ## Extended Sections (Optional)
 

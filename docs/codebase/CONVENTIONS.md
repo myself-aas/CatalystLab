@@ -125,7 +125,7 @@
 | bundle budgets | `npm run check:bundle` | 6 size budgets (ratchet) — `scripts/check-bundle-budget.mjs` |
 | secrets | `npm run sec:secrets` | HEAD + full history scan (`scripts/scan-secrets.mjs`, `.gitleaks.toml`) |
 | SAST | `semgrep --config .semgrep.yml` | no `eval`/`new Function`, no `dangerouslySetInnerHTML` (0 in tree), no `exec` with interpolation, no `'unsafe-inline'` in `server/`, no raw header projection in the logger |
-| types/lint/tests | `npm run typecheck`, `npm run lint`, `npm test` | clean tsc, 0 ESLint problems, 447 tests |
+| types/lint/tests | `npm run typecheck`, `npm run lint`, `npm test` | clean tsc, 0 ESLint problems, 448 tests |
 
 ### 8) Evidence
 

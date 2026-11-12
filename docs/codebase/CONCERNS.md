@@ -86,7 +86,7 @@ real churn. Substitute fragility signals from static evidence:
 | Highest decision density (most `D#`/`Q##` tags per file) | `server/app.ts`, `server/core/subscriptions.ts`, `server/core/rateLimit.ts`, `server/routes/engines.ts`, `worker/api-proxy.js` |
 | Most likely to break CI on unrelated changes | `scripts/check-env.mjs` (key-parity over three templates — now green with 42 keys), `scripts/check-bundle-budget.mjs` (six ratchets), `scripts/verify-media.mjs` (live network — now `skip`, not `fail`, when the network is unreachable) |
 | Coupled client↔server contracts | `src/lib/validation.ts` ↔ `server/core/enginesCatalog.ts`; `src/config/routeAliases.ts` ↔ `scripts/prerender.ts` ↔ `public/_redirects`; `dist/routes.json` ↔ `server/core/spaRoutes.ts` |
-| Documentation drift hotspots | `README.md` (test counts and the gate list — refreshed 2026-11-12 to 51 files / 447 tests), `docs/ENGINES.md` route table vs `server/app.ts` order, `docs/codebase/*` (this revision, 2026-11-12) |
+| Documentation drift hotspots | `README.md` (test counts and the gate list — refreshed 2026-11-12 to 51 files / 448 tests), `docs/ENGINES.md` route table vs `server/app.ts` order, `docs/codebase/*` (this revision, 2026-11-12) |
 
 ### 6) `[ASK USER]` Questions — all answered 2026-11-12
 
@@ -112,7 +112,7 @@ real churn. Substitute fragility signals from static evidence:
 | `npm run check:env` | pass — 42 parity-verified keys across `.env`, `.env.staging` & `.env.production` |
 | `npm run lint` | pass, 0 problems |
 | `npm run typecheck` (`tsc --noEmit`, `strict`) | pass, 0 errors |
-| `npm test` | **51 files / 447 tests passed** |
+| `npm test` | **51 files / 448 tests passed** |
 | `npm run build` | pass (prerender included) |
 | `npm run check:bundle` | all 6 budgets pass |
 | `npm run check:deps` | pass — 15 runtime requires, all declared |
