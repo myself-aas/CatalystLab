@@ -39,6 +39,7 @@ Two classes of document live under `docs/`:
 | [`adr/0001-clean-saas-palette.md`](adr/0001-clean-saas-palette.md) | Superseded palette ADR, retained for history |
 | [`adr/0002-meta-design-system.md`](adr/0002-meta-design-system.md) | Normative design-token source (Meta-derived `DESIGN.md`) and its open tensions |
 | [`codebase/`](codebase/) | `ARCHITECTURE` · `STRUCTURE` · `STACK` · `CONVENTIONS` · `INTEGRATIONS` · `TESTING` · `CONCERNS` — regenerated 2026-11-12 (branch `arena/b1761471-catalystlab`, base commit `1babd3a`) with `file:line` evidence; supersedes the 2026-10-21 revision |
+| [`superpowers/plans/2026-11-12-repo-hardening-ci-integrity.md`](superpowers/plans/2026-11-12-repo-hardening-ci-integrity.md) · [execution report](superpowers/plans/2026-11-12-hardening-execution-report.md) | Executed plan (10 tasks) and the report recording commits, rulings and deferrals |
 
 ## Dated records 🟡
 
