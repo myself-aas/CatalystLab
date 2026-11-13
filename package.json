@@ -61,7 +61,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.5",
-    "@lhci/cli": "^0.15.1",
+    "@lhci/cli": "^0.16.1",
     "@playwright/test": "^1.64.1",
     "@tailwindcss/vite": "^4.3.3",
     "@testing-library/jest-dom": "^7.0.1",
@@ -95,7 +95,9 @@
     "@puppeteer/browsers": "^3.2.5",
     "argparse": "^2.0.1",
     "basic-ftp": "^6.2.3",
+    "minimatch": "^11.0.1",
     "tmp": "^0.2.7",
-    "uuid": "^11.1.1"
+    "uuid": "^11.1.1",
+    "glob": "^14.0.6"
   }
 }
