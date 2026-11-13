@@ -11,6 +11,8 @@ import { dailyRateLimitStore } from '@server/core/rateLimit';
 import { setSubscriptionStoreForTests, SUBSCRIPTION_COLLECTION } from '@server/core/subscriptions';
 import { buildCheckoutCustomField } from '@server/core/subscriptions';
 import { MemorySubscriptionStore } from '../helpers/memorySubscriptionStore';
+import type { AppDeps } from '@server/core/deps';
+import { createApp } from '@server/app';
 
 let app: Express;
 
@@ -334,55 +336,72 @@ describe('SSRF guard surface (C5-adjacent)', () => {
     expect(res.body.reachable).toBe(false);
   });
 
-  // Ruling R5: submitting a blocked/unresolvable URL never reaches the handlers'
-  // outer catch (validation short-circuits with a fixed message), so the first
-  // version of these two tests was vacuous. They now force the leaking branch at
-  // the module surface the route module imports, which is the only path that used
-  // to echo err.message / err.stderr to the client.
+  // Seam: the app's real HTTP interface. The engine/network boundary is injected
+  // (server/core/deps.ts), so these assert what a client sees and never spy on the
+  // module that implements the route.
+  const failingDeps = (error: Error): AppDeps => ({
+    engine: {
+      runNativeEngine: async () => {
+        throw error;
+      },
+      validatePublicUrl: async () => ({ valid: true, normalizedUrl: 'https://example.com' }),
+      guardedFetch: async () => {
+        throw error;
+      }
+    }
+  });
+
   it('never reflects internal error text from /api/check-url', async () => {
-    // The inner catch around guardedFetch already answers with a fixed string, so the
-    // leaking branch is the defensive outer catch: force it by making validation throw.
-    const validation = await vi.importActual<typeof import('../../../src/lib/validation')>(
-      '../../../src/lib/validation'
-    );
-    const spy = vi
-      .spyOn(validation.checkUrlSchema, 'safeParse')
-      .mockImplementation(() => {
-        throw new Error('getaddrinfo ENOTFOUND internal-host at /srv/app/src/lib/networkSecurity.ts:88');
-      });
-    const res = await request(app).post('/api/check-url').send({ url: 'https://example.com' });
+    const isolated = await createApp({
+      deps: failingDeps(
+        new Error('getaddrinfo ENOTFOUND internal-host at /srv/app/src/lib/networkSecurity.ts:88')
+      )
+    });
+    const res = await request(isolated).post('/api/check-url').send({ url: 'https://example.com' });
     expect(JSON.stringify(res.body)).not.toMatch(/ENOTFOUND|getaddrinfo|stderr|networkSecurity\.ts/i);
     expect(typeof res.body.error).toBe('string');
-    spy.mockRestore();
   });
 
   it('never reflects resolver detail from validatePublicUrl-backed routes', async () => {
-    // Cross-review finding: /api/monitor/probe and /api/v1/engines/:engine/scan return
-    // validatePublicUrl's error verbatim, which interpolated the resolver message
-    // (`getaddrinfo ENOTFOUND <host>`). Assert both routes stay generic.
+    // Finding from the previous review: /api/monitor/probe and
+    // /api/v1/engines/:engine/scan return validatePublicUrl's error verbatim, and it
+    // used to interpolate the resolver message (`getaddrinfo ENOTFOUND <host>`).
+    // A resolver failure is a network-boundary outcome, so it is injected here.
+    const resolverFailure: AppDeps = {
+      engine: {
+        runNativeEngine: async () => '',
+        validatePublicUrl: async () => ({
+          valid: false,
+          error: 'DNS resolution failed for the target host. Access blocked.'
+        }),
+        guardedFetch: async () => {
+          throw new Error('unreachable');
+        }
+      }
+    };
+    const isolated = await createApp({ deps: resolverFailure });
     const target = 'https://does-not-resolve.invalid/x';
-    const probe = await request(app).post('/api/monitor/probe').send({ url: target });
-    const scan = await request(app).post('/api/v1/engines/health/scan').send({ url: target });
+    const probe = await request(isolated).post('/api/monitor/probe').send({ url: target });
+    const scan = await request(isolated)
+      .post('/api/v1/engines/health/scan')
+      .send({ url: target });
     for (const res of [probe, scan]) {
       expect(JSON.stringify(res.body)).not.toMatch(/ENOTFOUND|getaddrinfo|EAI_AGAIN/i);
       expect(res.body.success).toBe(false);
     }
     expect(probe.status).toBe(400);
-  }, 30_000);
+    dailyRateLimitStore.clear();
+  });
 
   it('never reflects internal error text from /api/run-engine', async () => {
-    const engines = await vi.importActual<typeof import('../../../src/lib/nodeEngines')>(
-      '../../../src/lib/nodeEngines'
-    );
-    const spy = vi
-      .spyOn(engines, 'runNativeEngine')
-      .mockRejectedValue(new Error('engine stderr: ECONNREFUSED 127.0.0.1:9 at nodeEngines.ts:512'));
-    const res = await request(app)
+    const isolated = await createApp({
+      deps: failingDeps(new Error('engine stderr: ECONNREFUSED 127.0.0.1:9 at nodeEngines.ts:512'))
+    });
+    const res = await request(isolated)
       .post('/api/run-engine')
       .send({ engine: 'health', url: 'https://example.com' });
     expect(res.status).toBe(500);
     expect(JSON.stringify(res.body)).not.toMatch(/ECONNREFUSED|stderr|nodeEngines\.ts/i);
-    spy.mockRestore();
     // Do not let this probe spend the shared engine quota the e2e run needs.
     dailyRateLimitStore.clear();
   });

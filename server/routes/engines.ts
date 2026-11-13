@@ -1,6 +1,5 @@
 import express, { Request, Response } from 'express';
-import { runNativeEngine } from '../../src/lib/nodeEngines';
-import { validatePublicUrl, guardedFetch } from '../../src/lib/networkSecurity';
+import type { EngineDeps } from '../core/deps';
 import { checkUrlSchema, monitorProbeSchema, firstIssue } from '../../src/lib/validation';
 import { engineRunSchema } from '../core/enginesCatalog';
 import { ENGINE_SCRIPT_MAP } from '../core/enginesCatalog';
@@ -24,7 +23,8 @@ function extractScoreFromOutput(output: string | undefined): number | null {
   return n;
 }
 
-export function registerEngineRoutes(app: express.Express): void {
+export function registerEngineRoutes(app: express.Express, deps: EngineDeps): void {
+  const { runNativeEngine, validatePublicUrl, guardedFetch } = deps;
 
 app.post('/api/check-url', createEngineRateLimitMiddleware({ cost: SINGLE_ENGINE_COST }), async (req: Request, res: Response): Promise<void> => {
   try {
