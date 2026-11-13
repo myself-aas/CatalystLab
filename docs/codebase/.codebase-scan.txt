@@ -1,5 +1,7 @@
 
 === DIRECTORY TREE (max depth 3, source files only) ===
+.assets
+.assets/manifest.json
 .dockerignore
 .env.example
 .env.production.example
@@ -10,6 +12,8 @@
 .github/dependabot.yml
 .github/fixtures
 .github/fixtures/ci-service-account.json
+.github/hooks
+.github/hooks/impeccable.json
 .github/workflows
 .github/workflows/backup.yml
 .github/workflows/ci.yml
@@ -19,43 +23,9 @@
 .gitignore
 .gitleaks.toml
 .impeccable
+.impeccable/config.json
 .impeccable/design.json
 .lighthouserc.json
-.mypy_cache
-.mypy_cache/.gitignore
-.mypy_cache/3.11
-.mypy_cache/3.11/cache.0.db
-.mypy_cache/3.11/cache.1.db
-.mypy_cache/3.11/cache.10.db
-.mypy_cache/3.11/cache.11.db
-.mypy_cache/3.11/cache.12.db
-.mypy_cache/3.11/cache.13.db
-.mypy_cache/3.11/cache.14.db
-.mypy_cache/3.11/cache.15.db
-.mypy_cache/3.11/cache.2.db
-.mypy_cache/3.11/cache.3.db
-.mypy_cache/3.11/cache.4.db
-.mypy_cache/3.11/cache.5.db
-.mypy_cache/3.11/cache.6.db
-.mypy_cache/3.11/cache.7.db
-.mypy_cache/3.11/cache.8.db
-.mypy_cache/3.11/cache.9.db
-.mypy_cache/CACHEDIR.TAG
-.mypy_cache/missing_stubs
-.nvmrc
-.pytest_cache
-.pytest_cache/.gitignore
-.pytest_cache/CACHEDIR.TAG
-.pytest_cache/README.md
-.pytest_cache/v
-.pytest_cache/v/cache
-.pytest_cache/v/cache/nodeids
-.ruff_cache
-.ruff_cache/.gitignore
-.ruff_cache/0.17.1
-.ruff_cache/0.17.1/12674998640961588163
-.ruff_cache/0.17.1/732960087626788634
-.ruff_cache/CACHEDIR.TAG
 .semgrep.yml
 AGENTS.md
 CLAUDE.md
@@ -65,7 +35,10 @@ Dockerfile
 GEMINI.md
 GLOSSARY.md
 PRODUCT.md
+PROGRAMMATIC-SEO-2026-10-23.md
 README.md
+SEO-AEO-AUDIT-2026-10-23.md
+SEO-AUDIT-2026-10-23.md
 archive
 archive/README.md
 archive/ds_section_divs.cjs
@@ -85,18 +58,33 @@ archive/update_heroes.cjs
 assets
 assets/banners
 assets/banners/hero-banner.html
+audit-output.txt
 components.json
 docs
 docs/ARCHITECTURE.md
+docs/Clab_brand_vision.md
 docs/ENGINES.md
+docs/README.md
 docs/adr
 docs/adr/0001-clean-saas-palette.md
+docs/adr/0002-meta-design-system.md
 docs/audit
+docs/audit/2026-10-22-design-system-review-uiux-pro-max.md
+docs/audit/2026-10-22-theme-visual-consistency-contrast.md
 docs/audit/agentic-master-2026-10
 docs/audit/agentic-master-2026-10/00-MASTER.md
 docs/audit/agentic-master-2026-10/domains.md
 docs/audit/agentic-master-2026-10/improvement-fields.md
 docs/audit/cs-frontend-engineer-2026-10.md
+docs/audit/evidence
+docs/audit/evidence/contrast-table-2026-10-22.md
+docs/audit/evidence/dark-blogs.png
+docs/audit/evidence/dark-products.png
+docs/audit/evidence/final-dark-products.png
+docs/audit/evidence/final-light-products.png
+docs/audit/evidence/light-products.png
+docs/audit/evidence/sheet-dark.png
+docs/audit/evidence/sheet-light.png
 docs/audit/header-footer-nav-2026-10.md
 docs/audit/perf-rendering-2026-10
 docs/audit/perf-rendering-2026-10/00-MASTER.md
@@ -109,6 +97,7 @@ docs/audit/perf-rendering-2026-10/tools
 docs/audit/seo-aeo-2026-10
 docs/audit/seo-aeo-2026-10/00-SEO-AEO-AUDIT.md
 docs/audit/seo-aeo-2026-10/tools
+docs/brand-guidelines.md
 docs/codebase
 docs/codebase/.codebase-scan.txt
 docs/codebase/ARCHITECTURE.md
@@ -119,6 +108,7 @@ docs/codebase/STACK.md
 docs/codebase/STRUCTURE.md
 docs/codebase/TESTING.md
 docs/design-system-audit.md
+docs/forms.md
 docs/hero-shape-brief.md
 docs/impeccable-audit.md
 docs/ops
@@ -145,8 +135,7 @@ eslint.config.js
 firebase-applet-config.json
 firestore.rules
 index.html
-meta
-meta/DESIGN.md
+metadata.json
 ops
 ops/gcloud
 ops/gcloud/setup-firestore-backups.sh
@@ -165,8 +154,6 @@ public/apple-touch-icon.png
 public/favicon.svg
 public/icon-192.png
 public/icon-512.png
-public/llms-full.txt
-public/llms.txt
 public/logo-mark.png
 public/logo-mark.svg
 public/logo.png
@@ -175,8 +162,6 @@ public/manifest.json
 public/og-banner.png
 public/og-image.png
 public/robots.txt
-public/rss.xml
-public/style.css
 public/sw.js
 public/telemetry.js
 public/xss-guard.js
@@ -185,7 +170,9 @@ scripts
 scripts/check-bundle-budget.mjs
 scripts/check-design-tokens.mjs
 scripts/check-env.mjs
+scripts/check-raw-color-literals.mjs
 scripts/e2e-payment-sandbox.ts
+scripts/generate-image-variants.mjs
 scripts/prerender.ts
 scripts/replace_images.py
 scripts/report-lhci.mjs
@@ -200,6 +187,19 @@ scripts/verify-deployment.mjs
 scripts/verify-media.mjs
 server
 server/app.ts
+server/core
+server/core/apiKeys.ts
+server/core/authz.ts
+server/core/backupRestore.ts
+server/core/dailyQuota.ts
+server/core/domainAccess.ts
+server/core/enginesCatalog.ts
+server/core/errorTracking.ts
+server/core/logger.ts
+server/core/pricing.ts
+server/core/rateLimit.ts
+server/core/retention.ts
+server/core/runtime.ts
 
 === STACK DETECTION (manifest files) ===
 
@@ -215,10 +215,8 @@ server/app.ts
       "version": "2.4.0",
       "dependencies": {
         "@sentry/node": "^11.8.0",
-        "@tailwindcss/vite": "^4.3.3",
         "@upstash/ratelimit": "^2.2.0",
         "@upstash/redis": "^1.39.0",
-        "@vitejs/plugin-react": "^6.1.2",
         "cheerio": "^1.2.0",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
@@ -239,7 +237,6 @@ server/app.ts
         "react-router-dom": "^7.18.4",
         "recharts": "^3.10.1",
         "tailwind-merge": "^3.7.0",
-        "tailwindcss": "^4.3.3",
         "tsx": "^4.23.15",
         "ua-parser-js": "^2.0.10",
         "vite": "^8.3.4",
@@ -250,6 +247,7 @@ server/app.ts
         "@eslint/js": "^9.39.5",
         "@lhci/cli": "^0.15.1",
         "@playwright/test": "^1.64.1",
+        "@tailwindcss/vite": "^4.3.3",
         "@testing-library/jest-dom": "^7.0.1",
         "@testing-library/react": "^16.3.3",
         "@types/d3": "^7.4.3",
@@ -260,6 +258,7 @@ server/app.ts
         "@types/react-dom": "^19.3.0",
         "@types/supertest": "^7.2.1",
         "@types/ua-parser-js": "^0.7.39",
+        "@vitejs/plugin-react": "^6.1.2",
         "@vitest/coverage-v8": "^5.0.5",
         "esbuild": "^0.28.2",
         "eslint": "^9.39.5",
@@ -268,6 +267,7 @@ server/app.ts
         "jsdom": "^30.1.3",
         "playwright": "^1.64.1",
         "supertest": "^7.3.1",
+        "tailwindcss": "^4.3.3",
         "terser": "^5.51.2",
         "typescript": "^6.0.3",
         "typescript-eslint": "^8.72.0",
@@ -285,7 +285,7 @@ server/app.ts
       "license": "MIT"
     },
 
-[TRUNCATED] Showing first 80 of 16207 lines.
+[TRUNCATED] Showing first 80 of 16251 lines.
 --- package.json ---
 {
   "name": "catalystlab",
@@ -293,7 +293,7 @@ server/app.ts
   "version": "2.4.0",
   "type": "module",
   "engines": {
-    "node": ">=24"
+    "node": ">=22"
   },
   "scripts": {
     "dev": "tsx server.ts",
@@ -308,21 +308,20 @@ server/app.ts
     "verify:deploy": "node scripts/verify-deployment.mjs",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
-    "ci": "npm run check:env && npm run lint && npm run typecheck && npm test && npm run build && npm run check:bundle",
+    "ci": "npm run check:env && npm run check:colors && npm run lint && npm run typecheck && npm test && npm run build && npm run check:bundle",
     "check:env": "node scripts/check-env.mjs",
     "media:check": "node scripts/verify-media.mjs",
     "test:coverage": "vitest run --coverage",
     "check:bundle": "node scripts/check-bundle-budget.mjs",
     "lhci": "lhci autorun",
     "ci:full": "npm run ci && npm run test:coverage && npm run drill:restore && npm run test:payments-sandbox && npm run sec:secrets",
-    "check:design": "node scripts/check-design-tokens.mjs"
+    "check:design": "node scripts/check-design-tokens.mjs",
+    "check:colors": "node scripts/check-raw-color-literals.mjs"
   },
   "dependencies": {
     "@sentry/node": "^11.8.0",
-    "@tailwindcss/vite": "^4.3.3",
     "@upstash/ratelimit": "^2.2.0",
     "@upstash/redis": "^1.39.0",
-    "@vitejs/plugin-react": "^6.1.2",
     "cheerio": "^1.2.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -343,7 +342,6 @@ server/app.ts
     "react-router-dom": "^7.18.4",
     "recharts": "^3.10.1",
     "tailwind-merge": "^3.7.0",
-    "tailwindcss": "^4.3.3",
     "tsx": "^4.23.15",
     "ua-parser-js": "^2.0.10",
     "vite": "^8.3.4",
@@ -354,6 +352,7 @@ server/app.ts
     "@eslint/js": "^9.39.5",
     "@lhci/cli": "^0.15.1",
     "@playwright/test": "^1.64.1",
+    "@tailwindcss/vite": "^4.3.3",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
     "@types/d3": "^7.4.3",
@@ -364,11 +363,12 @@ server/app.ts
     "@types/react-dom": "^19.3.0",
     "@types/supertest": "^7.2.1",
     "@types/ua-parser-js": "^0.7.39",
+    "@vitejs/plugin-react": "^6.1.2",
     "@vitest/coverage-v8": "^5.0.5",
     "esbuild": "^0.28.2",
     "eslint": "^9.39.5",
 
-[TRUNCATED] Showing first 80 of 99 lines.
+[TRUNCATED] Showing first 80 of 100 lines.
 --- pyproject.toml ---
 # Python tooling config for scripts/replace_images.py (inert to the JS toolchain).
 # Install dev tools:  python3 -m pip install -r scripts/requirements-dev.txt
@@ -454,25 +454,25 @@ V2CHECKOUT_SANDBOX_MODE=
 V2CHECKOUT_SECRET_KEY=
 VALID_API_KEYS=
 VITE_APP_ORIGIN=
+GEMINI_API_KEY=
 
 === TODO / FIXME / HACK (production code only, test dirs excluded) ===
 None found.
 
 === GIT RECENT COMMITS (last 20) ===
-d2c26ef refactor: update design system and component UI
+1babd3a fix: perform technical audit and improve accessibility
 
 === HIGH-CHURN FILES (last 90 days, top 20) ===
-   1 .aistudio/artifacts/brain/ad8c3d3b-543d-4dc6-a22c-8d9adbb5ea83/.tempmediaStorage/media_1792562337939_4c13ae60.png
-   1 .aistudio/artifacts/brain/ad8c3d3b-543d-4dc6-a22c-8d9adbb5ea83/.tempmediaStorage/media_1792562648838_8b432327.png
-   1 .aistudio/artifacts/brain/ad8c3d3b-543d-4dc6-a22c-8d9adbb5ea83/.tempmediaStorage/media_1792564014157_58fec7aa.png
-   1 .aistudio/artifacts/brain/ad8c3d3b-543d-4dc6-a22c-8d9adbb5ea83/implementation_plan.md
-   1 .aistudio/artifacts/brain/ad8c3d3b-543d-4dc6-a22c-8d9adbb5ea83/implementation_plan.md.metadata.json
+   1 .assets/manifest.json
    1 .dockerignore
    1 .env.example
+   1 .env.production.example
+   1 .env.staging.example
    1 .github/CODEOWNERS
    1 .github/copilot-instructions.md
    1 .github/dependabot.yml
    1 .github/fixtures/ci-service-account.json
+   1 .github/hooks/impeccable.json
    1 .github/workflows/backup.yml
    1 .github/workflows/ci.yml
    1 .github/workflows/deploy.yml
@@ -480,6 +480,7 @@ d2c26ef refactor: update design system and component UI
    1 .github/workflows/rollback.yml
    1 .gitignore
    1 .gitleaks.toml
+   1 .impeccable/config.json
    1 .impeccable/design.json
    1 .lighthouserc.json
 
@@ -487,27 +488,27 @@ d2c26ef refactor: update design system and component UI
 No monorepo signals detected.
 
 === CODE METRICS ===
-Total files scanned: 582
-Total lines of code: 102239
+Total files scanned: 642
+Total lines of code: 99144
 
 Files by language:
-  TypeScript/React: 266
-  Other: 171
-  TypeScript: 137
+  Other: 241
+  TypeScript/React: 240
+  TypeScript: 151
   JavaScript: 6
-  Python: 2
+  Python: 4
 
 Top 10 largest files:
-.mypy_cache/3.11/cache.9.db: 936.0KB
-package-lock.json: 567.0KB
-.mypy_cache/3.11/cache.2.db: 500.0KB
-.mypy_cache/3.11/cache.11.db: 496.0KB
-.mypy_cache/3.11/cache.13.db: 484.0KB
-.mypy_cache/3.11/cache.4.db: 416.0KB
-.mypy_cache/3.11/cache.8.db: 372.0KB
-.mypy_cache/3.11/cache.5.db: 360.0KB
-.mypy_cache/3.11/cache.6.db: 308.0KB
-.mypy_cache/3.11/cache.1.db: 296.0KB
+video/hero-launch/assets/captures/home-full.png: 1153.3KB
+video/hero-launch/assets/captures/products.png: 1021.6KB
+docs/audit/evidence/sheet-dark.png: 608.3KB
+docs/audit/evidence/sheet-light.png: 575.9KB
+package-lock.json: 567.8KB
+docs/audit/evidence/final-dark-products.png: 406.1KB
+docs/audit/evidence/dark-products.png: 402.9KB
+docs/audit/evidence/final-light-products.png: 346.3KB
+docs/audit/evidence/light-products.png: 346.0KB
+video/hero-launch/assets/captures/ai-readiness.png: 275.2KB
 
 === CI/CD PIPELINES ===
 CI/CD: GitHub Actions

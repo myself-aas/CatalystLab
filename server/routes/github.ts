@@ -3,7 +3,7 @@ import crypto from 'crypto';
 import { verifyHmacSha256 } from '../../src/lib/webhookSecurity';
 import { createEngineRateLimitMiddleware, SINGLE_ENGINE_COST } from '../core/rateLimit';
 import { logger } from '../core/logger';
-import { requireIdentity, isDemoUnauthAllowed } from '../core/authz';
+import { requireIdentity, isDemoUnauthAllowed, isDemoSeedAllowed } from '../core/authz';
 import { getAttachedIdentity, getAdminFirestore } from '../../src/lib/serverAuth';
 
 // GitHub repository webhooks (HMAC-verified), real-time telemetry SSE,
@@ -19,12 +19,14 @@ function randomIntInclusive(min: number, max: number): number {
 }
 
 export function registerGithubRoutes(app: express.Express): void {
-  const isProdAtInit = process.env.NODE_ENV === 'production';
+  // Phase-3 seeding needs an explicit opt-in (isDemoSeedAllowed): staging and
+  // preview deployments must never serve synthetic repos or telemetry.
+  const seedDemoData = isDemoSeedAllowed();
   const githubSseSubscribers = new Map<Response, string>();
 
   // Plan 3.7: Do NOT seed demo repositories or synthetic telemetry events in production.
   const serverConnectedRepos = new Map<string, any>(
-    isProdAtInit
+    !seedDemoData
       ? []
       : [
           [
@@ -49,7 +51,7 @@ export function registerGithubRoutes(app: express.Express): void {
         ]
   );
 
-  const serverTelemetryEvents: any[] = isProdAtInit
+  const serverTelemetryEvents: any[] = !seedDemoData
     ? []
     : [
         {

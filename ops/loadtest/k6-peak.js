@@ -7,7 +7,7 @@ import { check, group, sleep } from 'k6';
  * Exercises compiled `dist/server.cjs` across three workload tiers:
  *   1. Prerendered static HTML shells (`/`, `/pricing`, `/blog`)
  *   2. Fast JSON APIs (`/api/v1/system/health`, `POST /api/telemetry/event`)
- *   3. CPU/network diagnostic scan route (`POST /api/audit/run`)
+ *   3. CPU/network diagnostic scan route (`POST /api/run-engine`)
  *
  * Run via:
  *   k6 run -e BASE_URL=http://127.0.0.1:3099 ops/loadtest/k6-peak.js

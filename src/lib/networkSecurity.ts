@@ -162,7 +162,10 @@ export async function validatePublicUrl(rawUrl: string, isRepo: boolean = false)
     // connect, because the connection would resolve DNS a second time (TOCTOU).
     return {
       valid: false,
-      error: `DNS resolution failed for target host (${dnsErr?.message || 'unreachable'}). Access blocked.`,
+      // Do not interpolate dnsErr.message: it carries `getaddrinfo ENOTFOUND <host>`
+      // and this string is returned verbatim by /api/monitor/probe and
+      // /api/v1/engines/:engine/scan. The detail is logged at the call site.
+      error: 'DNS resolution failed for the target host. Access blocked.',
       hostname
     };
   }

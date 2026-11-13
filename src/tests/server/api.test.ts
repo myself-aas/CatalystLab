@@ -5,12 +5,14 @@
 // (404 JSON, request correlation, client-log sink).
 import type { Express } from 'express';
 import request from 'supertest';
-import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createHmac } from 'crypto';
 import { dailyRateLimitStore } from '@server/core/rateLimit';
 import { setSubscriptionStoreForTests, SUBSCRIPTION_COLLECTION } from '@server/core/subscriptions';
 import { buildCheckoutCustomField } from '@server/core/subscriptions';
 import { MemorySubscriptionStore } from '../helpers/memorySubscriptionStore';
+import type { AppDeps } from '@server/core/deps';
+import { createApp } from '@server/app';
 
 let app: Express;
 
@@ -272,6 +274,11 @@ describe('Catalog and introspection surfaces', () => {
   it('serves health, system-health, db-status and workflow endpoints', async () => {
     const health = await request(app).get('/api/health');
     expect(health.status).toBe(200);
+    expect(health.body.status).toBe('operational');
+    for (const leaked of ['nodeVersion', 'platform', 'database', 'memoryUsageMb', 'uptimeSeconds']) {
+      expect(health.body, `anonymous /api/health must not expose ${leaked}`).not.toHaveProperty(leaked);
+    }
+    expect(Object.keys(health.body).sort()).toEqual(['status', 'timestamp']);
 
     const sysHealth = await request(app).get('/api/v1/system/health');
     expect(sysHealth.status).toBe(200);
@@ -327,6 +334,76 @@ describe('SSRF guard surface (C5-adjacent)', () => {
     const res = await request(app).post('/api/check-url').send({ url: 'http://127.0.0.1:8080/admin' });
     expect(res.status).toBe(200);
     expect(res.body.reachable).toBe(false);
+  });
+
+  // Seam: the app's real HTTP interface. The engine/network boundary is injected
+  // (server/core/deps.ts), so these assert what a client sees and never spy on the
+  // module that implements the route.
+  const failingDeps = (error: Error): AppDeps => ({
+    engine: {
+      runNativeEngine: async () => {
+        throw error;
+      },
+      validatePublicUrl: async () => ({ valid: true, normalizedUrl: 'https://example.com' }),
+      guardedFetch: async () => {
+        throw error;
+      }
+    }
+  });
+
+  it('never reflects internal error text from /api/check-url', async () => {
+    const isolated = await createApp({
+      deps: failingDeps(
+        new Error('getaddrinfo ENOTFOUND internal-host at /srv/app/src/lib/networkSecurity.ts:88')
+      )
+    });
+    const res = await request(isolated).post('/api/check-url').send({ url: 'https://example.com' });
+    expect(JSON.stringify(res.body)).not.toMatch(/ENOTFOUND|getaddrinfo|stderr|networkSecurity\.ts/i);
+    expect(typeof res.body.error).toBe('string');
+  });
+
+  it('never reflects resolver detail from validatePublicUrl-backed routes', async () => {
+    // Finding from the previous review: /api/monitor/probe and
+    // /api/v1/engines/:engine/scan return validatePublicUrl's error verbatim, and it
+    // used to interpolate the resolver message (`getaddrinfo ENOTFOUND <host>`).
+    // A resolver failure is a network-boundary outcome, so it is injected here.
+    const resolverFailure: AppDeps = {
+      engine: {
+        runNativeEngine: async () => '',
+        validatePublicUrl: async () => ({
+          valid: false,
+          error: 'DNS resolution failed for the target host. Access blocked.'
+        }),
+        guardedFetch: async () => {
+          throw new Error('unreachable');
+        }
+      }
+    };
+    const isolated = await createApp({ deps: resolverFailure });
+    const target = 'https://does-not-resolve.invalid/x';
+    const probe = await request(isolated).post('/api/monitor/probe').send({ url: target });
+    const scan = await request(isolated)
+      .post('/api/v1/engines/health/scan')
+      .send({ url: target });
+    for (const res of [probe, scan]) {
+      expect(JSON.stringify(res.body)).not.toMatch(/ENOTFOUND|getaddrinfo|EAI_AGAIN/i);
+      expect(res.body.success).toBe(false);
+    }
+    expect(probe.status).toBe(400);
+    dailyRateLimitStore.clear();
+  });
+
+  it('never reflects internal error text from /api/run-engine', async () => {
+    const isolated = await createApp({
+      deps: failingDeps(new Error('engine stderr: ECONNREFUSED 127.0.0.1:9 at nodeEngines.ts:512'))
+    });
+    const res = await request(isolated)
+      .post('/api/run-engine')
+      .send({ engine: 'health', url: 'https://example.com' });
+    expect(res.status).toBe(500);
+    expect(JSON.stringify(res.body)).not.toMatch(/ECONNREFUSED|stderr|nodeEngines\.ts/i);
+    // Do not let this probe spend the shared engine quota the e2e run needs.
+    dailyRateLimitStore.clear();
   });
 
   it('blocks private-range targets through /api/check-url', async () => {

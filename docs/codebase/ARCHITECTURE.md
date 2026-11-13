@@ -1,91 +1,144 @@
 # Architecture
 
-> Regenerated 2026-10-21 by the `acquire-codebase-knowledge` workflow. Supersedes the 2026-10-19 revision. All claims verified against source at commit `d2c26ef`; the narrative docs (`docs/ARCHITECTURE.md`, README) are partially stale on versions — divergences listed in §5 and CONCERNS.
+> Regenerated 2026-11-12 against branch `arena/b1761471-catalystlab` (`1babd3a`).
+> Verified against source, not against the narrative docs; where `docs/ARCHITECTURE.md`
+> or `README.md` disagree, the divergence is listed in §5.
 
 ## Core Sections (Required)
 
 ### 1) Architectural Style
 
-- **Primary style:** Single-process modular monolith — one Express 5 HTTP server hosts both the JSON API (`server/routes/*`) and the React 19 SPA (Vite middleware in dev; static `dist/` + prerendered shells in production), with a stateless Cloudflare Worker as an edge proxy in the split-hosting deployment.
-- **Why this classification:** `server.ts` binds one `PORT`/`HOST` and mounts `createApp()` (`server/app.ts`) which registers 12 route modules and the SPA fallback; README: "One HTTP server hosts both the Express API and the SPA"; `docs/ARCHITECTURE.md`: "single-process deployable".
-- **Primary constraints:**
-  1. **Fail-closed everything** — every external integration degrades to a safe denial or in-memory mode when unconfigured (payments → 503, webhooks → 401, state sync → 401; README "Environment variables", `worker/api-proxy.js` 503 on placeholder `API_ORIGIN`).
-  2. **Server-derived trust only** — identity/tiers come exclusively from verified Firebase ID tokens, HMAC-verified webhooks, and the `cat_live_` API-key allowlist; client headers are never trusted (`docs/ARCHITECTURE.md` "Identity and trust boundaries", `src/lib/serverAuth.ts`).
-  3. **Zero budget** — hosting decisions D3(b)/Q30/Q32: Cloudflare Pages + Worker (free), Oracle Always Free API host, Render Free fallback; in-memory fallbacks exist to keep the app runnable at zero cost.
+- **Single-process modular monolith with a static edge tier.** One Express 5 process
+  (`server.ts` → `createApp()`) serves both the JSON API under `/api/*` and the React 19
+  SPA. In development the SPA comes from Vite middleware; in production from prerendered
+  shells + `dist/assets` (`server.ts:58-208`). A stateless Cloudflare
+  Worker (`worker/api-proxy.js`) is the only split component: it forwards `/api/*` from
+  the Pages-hosted frontend to the Node origin.
+- **Layering:** transport (`server.ts`) → middleware/composition (`server/app.ts`) →
+  route modules (`server/routes/*`) → services (`server/core/*`, `src/lib/*`) → external
+  systems. Shared pure modules live in `src/lib` and are imported by the server; the
+  reverse direction never occurs.
+- **Hard constraints visible in code:**
+  1. *Fail closed.* Missing config yields a safe denial, not a permissive default:
+     `/api/payments/*` → `503`, GitHub webhooks → `401`/`503`, state sync → `401`,
+     Worker → `503 API_ORIGIN_NOT_CONFIGURED`, Mailgun → mock-mode logging, Mongo →
+     in-memory buffer (`server/routes/payments.ts`, `server/routes/github.ts`,
+     `server/routes/stateSync.ts`, `worker/api-proxy.js:44-64`,
+     `src/lib/emailService.ts:313`, `src/lib/analyticsEngine.ts`).
+  2. *Server-derived trust only.* Tiers/entitlements come from verified Firebase ID
+     tokens, HMAC-verified webhooks, or hashed `cat_live_` API keys — never from client
+     headers (`src/lib/serverAuth.ts`, `server/core/rateLimit.ts`,
+     `server/core/apiKeys.ts`, `firestore.rules`).
+  3. *Zero-cost degradation.* Every integration has an in-memory or no-op mode so the
+     app boots with an empty `.env` (`README.md` "Environment variables",
+     `server/core/sharedLimiter.ts`, `server/core/dailyQuota.ts`).
+  4. *Honest data.* Routes that cannot serve real data answer `501` rather than
+     synthesising payloads (`server/routes/reports.ts:9-14`, `server/routes/account.ts:182,400,429`),
+     and the master audit reports per-engine measurements only, with no invented
+     composite score (`docs/ENGINES.md`, `server/routes/engines.ts:355-470`).
 
 ### 2) System Flow
 
 ```text
-Browser SPA ──Bearer ID token──▶ [Cloudflare Pages (static) ─▶ Worker /api/* proxy] ─▶ Node host: server.ts
-  server.ts (bind PORT/HOST; dev: Vite middleware · prod: static dist/ + shell cache + nonce injection)
-    ─▶ server/app.ts createApp() (helmet CSP w/ nonces+hashes · gzip middleware · body limits 256kb/2mb · request-ID pino logging · attachIdentity)
-      ─▶ server/core/rateLimit (tier resolve → daily units + 60s burst, Upstash or memory)
-        ─▶ server/routes/* (zod-validated handlers; engines route → src/lib/networkSecurity guardedFetch → src/lib/nodeEngines runNativeEngine → target site)
-          ─▶ data/integrations (Firestore via firebase-admin · MongoDB time-series · Mailgun · 2Checkout/Dodo · Sentry)
-    ─▶ JSON response / SSE stream (/api/v1/audit/master/stream) / prerendered HTML shell / real 404
+Browser (React 19 SPA)
+  └─ Firebase Auth (client SDK) ── ID token ──▶ fetch('/api/...', Authorization: Bearer …)
+        │
+Cloudflare Pages (static dist/) ── /api/* ──▶ Cloudflare Worker (worker/api-proxy.js)
+                                                 appends cf-connecting-ip as RIGHTMOST XFF
+                                                 strips hop-by-hop headers, streams SSE
+                                                 ▼
+                                          Node host: server.ts
+                                            · initErrorTracking() + process handlers
+                                            · initAnalyticsDB() (Mongo | memory)
+                                            · createApp(): helmet CSP(nonce+hashes) → Permissions-Policy
+                                              → SSE-safe gzip → request logging → JSON body limits
+                                              (256 KB; 2 MB for POST /api/state/sync) → attachIdentity
+                                              → 12 register*Routes() → API 404 → DB-offline 503 handler
+                                            · prod: .map 404, alias 301/302, noindex surfaces,
+                                              prerendered shell cache (≤256) + CSP nonce injection,
+                                              express.static(dist, immutable /assets), real 404 shell
+                                            · listen(PORT, HOST), SIGTERM/SIGINT drain ≤10 s
+                                                 ▼
+                                          server/routes/*  (zod → identity → quota → work)
+                                                 ▼
+      engines: validatePublicUrl → guardedFetch (DNS-pinned) → runNativeEngine (cheerio)
+      state:   Firestore (firebase-admin) · MongoDB (analytics/state) · Upstash (quota/burst)
+      outbound: Mailgun · 2Checkout/Dodo · GitHub webhooks · Slack/Discord · Sentry
 ```
 
-1. **Transport** — `server.ts:38-56`: `initErrorTracking()` + process handlers, async `initAnalyticsDB()` (warns and continues on failure), `createApp()`, `createHttpServer`, PORT/HOST from env (default 3000/0.0.0.0).
-2. **HTML delivery (prod)** — `server.ts:58-105`: `.map` files 404'd; `X-Robots-Tag: noindex` on app/auth routes (Plan 7b.2, D11); prerendered-shell fast path keyed by `dist/routes.json` (`server/core/spaRoutes.ts`) with an in-memory shell cache (≤256 entries) and per-request CSP-nonce injection (`injectNonceIntoHtml`, Plan 3.8); legacy `.html` 301s; real 404 from `dist/404.html`.
-3. **Security middleware** — `server/app.ts`: helmet CSP with zero `'unsafe-inline'` (startup SHA-256 hashes + per-request nonces), explicit `CSP_IMG_ALLOWLIST`/`CSP_CONNECT_ALLOWLIST` (`server/app.ts:28-62`), custom zero-dependency gzip middleware skipping SSE (`server/app.ts:69-120`), per-route JSON body limits, allowlist-serialized request logging with `x-request-id` (`server/core/logger.ts`), then `attachIdentity` (Firebase Admin `verifyIdToken` → plan/trial/superadmin claim, `src/lib/serverAuth.ts`).
-4. **Routing** — `server/app.ts:10-23` registers `register*Routes(app)` modules: telemetry, notifications, stateSync, plans, engines, reports, account, github, system, payments, clientLogs, contact; an API-404 catch-all always answers JSON so the SPA fallback can never shadow `/api/*` (`docs/ARCHITECTURE.md` step 3).
-5. **Engine execution** — `server/routes/engines.ts`: zod schema (`engineRunSchema`) → `createEngineRateLimitMiddleware` charges units → `validatePublicUrl`/`guardedFetch` SSRF guard → `runNativeEngine(url, engine)` in `src/lib/nodeEngines.ts` (switch over 8 canonical ids + aliases) → structured report; master audit supports JSON + SSE streaming.
-6. **Persistence** — Firestore (`server/core/subscriptions.ts`: webhook-only paid writes, idempotent on gateway event id, D1); MongoDB time-series telemetry (`src/lib/analyticsEngine.ts`, in-memory when `MONGODB_URI` unset); Upstash Redis shared limiter (`server/core/sharedLimiter.ts`, memory fallback).
+Request lifecycles worth naming:
+
+1. **Prerendered page** — `GET /pricing` → production middleware matches `dist/pricing/index.html`
+   → cache hit → `injectNonceIntoHtml` rewrites the `<meta property="csp-nonce">` and every
+   `<script>` without a nonce → 200 `text/html` with `Cache-Control: max-age=0, must-revalidate`.
+2. **Client-only route** — `GET /dashboard` → no shell, but `matchesSpaRoute(compiledRoutes, path)`
+   → serves `dist/index.html` with `X-Robots-Tag: noindex, nofollow`.
+3. **Alias / unknown surface** — `/pricing.html` → `301 /pricing`; `/docs/llmo` → `301` to the
+   canonical engine doc (`src/config/routeAliases.ts`); `/blogs/<unknown>` → `404` shell;
+   `/api/*` misses always answer JSON `404`, never the SPA.
+4. **Engine run** — `POST /api/run-engine` → `createEngineRateLimitMiddleware({cost:1})` →
+   `engineRunSchema` (zod enum over `ENGINE_SCRIPT_MAP`) → `validatePublicUrl` →
+   `runNativeEngine` → JSON with `rateLimit` snapshot.
+5. **Master audit** — `GET|POST /api/v1/audit/master/stream` (aliases `/api/master-audit/stream`,
+   `/api/scan/stream`) charges 10 units, then streams `session_init`, per-engine
+   `engine_start`/`engine_complete`, `audit_complete` over SSE; gzip middleware deliberately
+   skips `/stream` paths.
+6. **Entitlement write** — `POST /api/payments/webhook/2checkout` → HMAC-SHA256 over the raw
+   body (`express.json` `verify` hook keeps `rawBody`) → `applyGatewayEvent` transaction in
+   `server/core/subscriptions.ts` → idempotent on gateway event id, monotonic on event time.
+7. **State sync** — `GET/POST /api/state/sync`, `DELETE /api/state/sync/:collection/:id` →
+   `getAttachedIdentity(req).uid` (never body `ownerId`) → MongoDB collection allowlist
+   (`STATE_SYNC_COLLECTIONS`) → in-memory fallback payload when Mongo is absent.
 
 ### 3) Layer/Module Responsibilities
 
 | Layer or module | Owns | Must not own | Evidence |
 |-----------------|------|--------------|----------|
-| `server.ts` | Process bootstrap, HTTP binding, static/shell serving, nonce injection | Route logic, authz | `server.ts` |
-| `server/app.ts` | Middleware composition (CSP, compression, limits, logging, identity), route registration, terminal 404/error handlers | Business logic | `server/app.ts` |
-| `server/core/*` | Cross-cutting services: rate limit/quota, engine catalog + zod factory, TLS probe (pinned DNS, port 443 only), subscriptions state machine, API keys, authz, retention, backup/restore, runtime info, error tracking (Sentry), pino logger | Direct HTML serving | `server/core/` listing, `server/core/ssl.ts` per `docs/security/review-2026-10.md` SEC-2026-03 |
-| `server/routes/*` | Endpoint handlers per domain, zod validation, HTTP semantics | Trusting client identity headers; granting entitlements (only signed webhooks write paid state, D1) | `server/routes/engines.ts`, `server/core/subscriptions.ts:11-17` |
-| `src/lib/nodeEngines.ts` | All audit-engine implementations (single canonical path, D7) | Un-guarded outbound fetches | `docs/ENGINES.md`, `src/lib/nodeEngines.ts:3` |
-| `src/lib/networkSecurity.ts` | SSRF guard: scheme allowlist, private/loopback/reserved blocking, single DNS resolution pinned to validated address (anti-rebinding), per-hop redirect revalidation (max 3), 5 MB cap, TLS verify on, 10 s timeout | — | `docs/ENGINES.md` header |
-| `src/store/` + `src/context/` | Client state (zustand slices + mongoSync mutation queue; Auth/Subscription/RoleSecurity/Theme contexts) | Entitlement truth (server-derived only; client cache "can never upgrade the displayed entitlement on a failed server write") | `src/store/useAppStore.ts`, README "Security model" |
-| `worker/api-proxy.js` | Same-origin `/api/*` forwarding, fail-closed config validation, rightmost-XFF client IP integrity, hop-by-hop stripping, SSE passthrough | Buffering SSE, trusting leftmost XFF, placeholder origins | `worker/api-proxy.js:1-38` |
-| `scripts/prerender.ts` | Build-time shells for public routes, `404.html`, `sitemap.xml` (index) plus one sitemap per page type, `routes.json`, JSON-LD generated from the same data tables the UI renders (D11/D15) | Prerendering app/auth routes (client-only + noindex) | `scripts/prerender.ts:1-30` |
+| `server.ts` | Boot order, HTTP server, prod HTML delivery, nonce injection, shutdown drain | Route logic, authz | `server.ts` |
+| `server/app.ts` | CSP (no `'unsafe-inline'`), Permissions-Policy, gzip, request logging, body limits, identity attach, route registration, 404/error terminals | Business rules | `server/app.ts:193-351` |
+| `server/core/*` | Rate limit + daily quota, Upstash/memory ledgers, API keys, authz, subscriptions state machine, pricing, retention/expiry, backup/restore, SSL probe, engine catalog, SPA route manifest, logger, Sentry | HTTP routing, HTML | `server/core/` |
+| `server/routes/*` | Endpoint contracts, zod validation, status semantics, SSE framing | Trusting client identity; granting paid plans | `server/routes/` |
+| `src/lib/nodeEngines.ts` | 8 canonical engines + aliases (switch statement) | Outbound fetches without the guard | `src/lib/nodeEngines.ts`, `docs/ENGINES.md` |
+| `src/lib/networkSecurity.ts` | SSRF guard: scheme allowlist, private/loopback/link-local/CGNAT/metadata blocking, DNS pinning, ≤3 redirect hops, 5 MB cap, TLS verify, 10 s timeout | Scoring | `src/lib/networkSecurity.ts` |
+| `src/lib/serverAuth.ts` | Firebase ID-token verification, claim → plan/trial/superadmin, Firestore admin accessor | Client-visible entitlement state | `src/lib/serverAuth.ts` |
+| `src/lib/analyticsEngine.ts` | Mongo client lifecycle, batched event queue, cookieless visitor hashing, in-memory fallback | HTTP layer | `src/lib/analyticsEngine.ts` |
+| `src/store/**` + `src/context/**` | Client state, optimistic mutations with rollback, auth/subscription/theme/role providers | Source of truth for tiers | `src/store/useAppStore.ts`, `src/store/middleware/mongoSyncMiddleware.ts` |
+| `worker/api-proxy.js` | Same-origin `/api/*` forwarding, placeholder/HTTP origin rejection, XFF integrity, SSE passthrough | Business logic, auth | `worker/api-proxy.js` |
+| `scripts/prerender.ts` | Route shells (64), `404.html`, sitemap index + 4 sections, `routes.json`, `llms.txt`, `llms-full.txt`, `rss.xml`, `pricing.md`, JSON-LD from UI data tables | Runtime behaviour | `scripts/prerender.ts`, build log |
+| `src/config/` | Single source for origin/robots policy (`site.ts`), alias map (`routeAliases.ts`), sitemap sections (`sitemapSections.ts`) | Component styling | `src/config/` |
 
 ### 4) Reused Patterns
 
 | Pattern | Where found | Why it exists |
-|---------|-------------|---------------|
-| Route-module registrar (`register*Routes(app)`) | all 12 `server/routes/*.ts`, wired in `server/app.ts:10-23` | decomposition of a former monolithic `server.ts` (CODE_REVIEW Phase 2) |
-| Fail-closed degradation | payments (`503 PAYMENTS_DISABLED`), worker (`503 API_ORIGIN_NOT_CONFIGURED`), github (`503 GITHUB_WEBHOOK_NOT_CONFIGURED`), state sync (401), email (mock mode) | zero-config runnability without opening security holes (README, `docs/security/review-2026-10.md` SEC-2026-07/08) |
-| Slice pattern (zustand) | `src/store/slices/{domains,analytics,goals,alerts,audits,preferences}Slice.ts` merged in `useAppStore.ts` + `middleware/mongoSyncMiddleware.ts` | store decomposition (CODE_REVIEW Phase 2 item ⑫) |
-| Zod schema factories shared client/server | `src/lib/validation.ts` → `server/core/enginesCatalog.ts` (`engineRunSchemaFactory`) | one schema source for engine runs |
-| Lazy route code-splitting | `src/App.tsx` (`React.lazy` for ~30 pages; landing kept synchronous for FCP/LCP) | bundle budget + Core Web Vitals (product is a CWV auditor) |
-| Re-export shims | `src/components/telemetry/*.tsx` ↔ root `components/` | ⚠️ accidental-looking split tree; see CONCERNS §2 |
-| Decision-tagged comments (`D#`, `Q#`, `Plan x.y`, `SEC-2026-##`) | throughout `server/`, `src/lib/`, `scripts/`, `worker/` | traceability to `docs/plan/decisions.md` owner answers |
-| Memory-backed singleton with cloud upgrade | `server/core/sharedLimiter.ts` (Upstash or process memory), `src/lib/analyticsEngine.ts` (Mongo or memory buffer) | zero-cost dev mode; production requires the cloud backend |
+|---|---|---|
+| Route-module registrar — `register*Routes(app)` | all 12 files in `server/routes/`, wired in `server/app.ts:309-320` | decomposes the former monolithic handler set (CODE_REVIEW Phase 2) |
+| Middleware factory for quotas — `createEngineRateLimitMiddleware({cost})`, `masterStreamLimiter`, `telemetryIngestLimiter` | `server/core/rateLimit.ts`, `server/core/sharedLimiter.ts`, `server/routes/engines.ts` | one cost model for every metered surface |
+| Zod schema factory shared client/server — `engineRunSchemaFactory(ids)` | `src/lib/validation.ts` → `server/core/enginesCatalog.ts` | the enum of valid engines cannot drift between tiers |
+| Fail-closed gate before side effects — `checkCheckoutReadiness()`, `validateConfiguredOrigin()`, `getVerifiedUid() ?? 401` | `server/routes/payments.ts`, `worker/api-proxy.js`, `server/routes/stateSync.ts` | no partially-configured path can charge or authorise |
+| Memory-backed singleton with cloud upgrade | `server/core/sharedLimiter.ts`, `server/core/dailyQuota.ts`, `src/lib/analyticsEngine.ts`, `server/core/apiKeys.ts` | zero-cost dev, shared-accurate production |
+| Injection point for tests — `setDailyQuotaBackendForTests`, `setSubscriptionStoreForTests` | `server/core/dailyQuota.ts`, `server/core/subscriptions.ts`, `src/tests/server/*` | transaction semantics testable without Firestore/Redis |
+| Lazy route splits + synchronous landing | `src/App.tsx` (30+ `React.lazy`, landing eager) | CWV product promise + bundle budget |
+| Decision-tagged comments (`D#` `Q##` `Plan x.y` `SEC-2026-##`) | throughout `server/`, `src/lib/`, `scripts/`, `worker/` | traceability to `docs/plan/decisions.md` |
+| Build-time content generation from UI tables | `scripts/prerender.ts` consuming `src/data/{pricingData,engineSeo,blogSeo,docsSeo,blogContent}.ts`, `src/lib/edge/pops.ts` | SEO surface and UI cannot drift |
 
-### 5) Known Architectural Risks
+### 5) Intent vs Reality (divergences found this session)
 
-- **In-memory fallbacks break multi-instance correctness**: rate-limit counters and analytics buffers reset/fragment per process when Upstash/Mongo are unset — README itself says "not acceptable in production"; payments already hard-require Upstash in prod (SEC-2026-08) but rate limiting does not. (`server/core/rateLimit.ts`, README env table)
-- ~~**Split component tree**~~ **Resolved 2026-10-21 (Q45):** root `components/` and `types/` consolidated into `src/`; shim web deleted; `tsconfig` `@/*` is single-root (`./src/*`). Verified by `tsc --noEmit` + full suite.
-- **Single-process SPOF**: API + SPA + engine execution share one Node process on a free-tier host; long engine scans (10 s timeouts × 8 engines for master audits) compete with request serving; SLO 99.5%/30d with RTO 4 h is documented (`docs/ops/slo.md`, D16) but capacity headroom is unverified at HEAD (load test runs in CI: `.github/workflows/ci.yml` "peak load test").
-- ~~**Doc-vs-reality drift**~~ **Resolved 2026-10-21 (Q46):** README and `docs/ARCHITECTURE.md` refreshed to React 19 / Vite 8 / Express 5, `src/lib/nodeEngines.ts` (D7), 36 test files; dead `PRODUCTION_READINESS_AUDIT.md` link replaced with plan/decisions links.
-- ~~**Deployment broken at HEAD**~~ **Resolved 2026-10-21 (Q43):** `.nvmrc` (`24`), `package-lock.json` (npm, D6), `.env.staging.example` and `.env.production.example` restored; `npm ci`, `check:env` (CI mode), lint, typecheck, 330-test suite, coverage ratchet, build, bundle budget and the production smoke boot of `dist/server.cjs` all verified green this session.
+| Stated (README / docs) | Actual in tree | Evidence |
+|---|---|---|
+| "Node 24 everywhere (D5)", `.nvmrc` = 24 | **`.nvmrc` is absent**; `package.json` says `>=22`, lockfile root says `>=24`; 9 workflow steps reference `.nvmrc` | `git ls-files \| grep -i nvm` → empty; `package.json:8`; `package-lock.json:70` |
+| "42 parity-verified env keys incl. PORT/NODE_ENV added 2026-10-21" | `.env.example` has **41** keys and lacks `PORT`/`NODE_ENV`; staging/production have 42; `.env.example` has an extra `GEMINI_API_KEY` read by nothing → `npm run check:env` **fails** | `npm run check:env` output; `grep -rn GEMINI src server scripts` → empty |
+| "330 passed in 36 files" | **448 passed in 51 files**; coverage 71.41/59.47/75.3/72.64 (ratchet 68/55/72/69) | `npm test`, `npm run test:coverage` output (2026-11-12) |
+| Lighthouse CI "audits the real production host" (D17) | `.lighthouserc.json` starts `node dist/server.cjs` with `startServerReadyPattern` matched `"Server running"` while `server.ts` logs `"[CatalystLab] Server listening on …"` — the ready pattern never matches. (The `best-practices`/`seo` assertions are deliberately `off` in that config because `scripts/report-lhci.mjs` applies route-aware budgets instead — that part is intended.) | `.lighthouserc.json:15-20`, `server.ts:231`, `scripts/report-lhci.mjs:171-183` |
+| `docs/ENGINES.md` execution-surface table lists `GET/POST /api/scan/stream` as master-audit aliases | `/api/scan/stream` handlers exist in `server/routes/engines.ts` (registered alongside the master stream), verified live: `POST /api/v1/audit/master/stream` → 400 (needs `url`), while `POST /api/v1/reports` → 501 | live smoke this session; `server/routes/engines.ts:465-468` |
+| `src/lib/media/registry.ts` "zero-empty-slot, Pexels sources" | Registry now prefers self-hosted plates in `src/assets/images`; `npm run media:check` **fails** in this sandbox because 5 remote Pexels endpoints are unreachable | `src/lib/media/registry.ts:1-17`, `src/lib/media/plates.ts`, `npm run media:check` |
+| `docs/codebase/ARCHITECTURE.md` (2026-10-21) described a re-export shim tree `components/` ↔ `src/components/telemetry/` | no root `components/` directory exists; `src/components/telemetry/` holds 4 real components | `ls components` → absent |
 
 ### 6) Evidence
 
-- `server.ts`, `server/app.ts`, `server/core/` (16 modules), `server/routes/` (12 modules)
-- `src/main.tsx`, `src/App.tsx`, `src/store/useAppStore.ts`, `src/lib/{nodeEngines,networkSecurity,serverAuth,analyticsEngine,firebase,webhookService,logger}.ts`
-- `worker/api-proxy.js`, `wrangler.toml`, `scripts/prerender.ts`, `public/_headers`, `firestore.rules`
-- Narrative docs cross-checked: `docs/ARCHITECTURE.md`, `docs/ENGINES.md`, `docs/ops/runbook.md` (topology diagram), `docs/plan/decisions.md` (D1–D17, Q17–Q52), `docs/security/review-2026-10.md`
-- `README.md` ("Architecture", "Security model", env table), `package.json` (actual versions)
-
-## Extended: Deployment Topology (as documented + configured)
-
-```text
-Cloudflare zone catalystlab.tech
-├─ www.catalystlab.tech  → Cloudflare Pages (dist/, prerendered shells, _headers CSP, _redirects apex→www 301, D14)
-├─ catalystlab.tech/api/* & www…/api/* → Worker catalystlab-api-proxy (worker/api-proxy.js; API_ORIGIN via wrangler secret; staging env separate)
-└─ API_ORIGIN → Node host (Oracle Always Free 2 OCPU/12GB, Q32; Render Free fallback)
-      dist/server.cjs under Docker (Dockerfile) or systemd (ops/systemd/catalystlab.service)
-      ├─ Firestore (accounts/subscriptions; nightly backups: .github/workflows/backup.yml + ops/gcloud/setup-firestore-backups.sh; restore drill: scripts/run-restore-drill.ts)
-      ├─ MongoDB (telemetry time-series)      ├─ Upstash Redis (shared rate limits)
-      └─ Sentry (server errors + relayed client logs)
-CI/CD: ci.yml (gates) → deploy.yml (staging auto on main, production manual workflow_dispatch; Pages + Worker + smoke) → rollback.yml
-```
-Evidence: `wrangler.toml` (routes/envs), `docs/ops/runbook.md` §1, `.github/workflows/{ci,deploy,backup,rollback}.yml`, `Dockerfile`, `ops/systemd/catalystlab.service`.
+- `server.ts`, `server/app.ts`, `server/routes/*.ts` (12), `server/core/*.ts` (16)
+- `src/lib/{serverAuth,networkSecurity,nodeEngines,analyticsEngine,validation,emailService,webhookService}.ts`
+- `src/App.tsx`, `src/main.tsx`, `src/store/useAppStore.ts`, `src/store/middleware/mongoSyncMiddleware.ts`, `src/config/{site,routeAliases,sitemapSections}.ts`
+- `worker/api-proxy.js`, `wrangler.toml`, `firestore.rules`, `Dockerfile`
+- `scripts/prerender.ts`, `scripts/verify-deployment.mjs`, `.lighthouserc.json`, `scripts/report-lhci.mjs`
+- Live smoke this session (`node dist/server.cjs`, NODE_ENV=production): `GET /` 200, `GET /pricing` 200, `GET /dashboard` 200 (noindex), `GET /nope` 404, `GET /api/health` 200 `{"status":"ok"}`, `GET /api/v1/system/health` 200, `GET /api/v1/engines` 200, `GET /api/v1/reports` 501, `GET /docs/llmo` 301, `GET /docs/llm-kinase` 200
+- `docs/plan/decisions.md` (D1-D17, Q17-Q52), `docs/ENGINES.md`, `docs/ARCHITECTURE.md`, `docs/ops/slo.md`

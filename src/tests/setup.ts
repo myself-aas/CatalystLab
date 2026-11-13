@@ -6,6 +6,9 @@ import '@testing-library/jest-dom/vitest';
 // route suite can exercise GitHub/notifications without Firebase Admin.
 process.env.NODE_ENV = 'test';
 process.env.ALLOW_UNAUTH_DEMO = 'true';
+// Synthetic GitHub seeding is opt-in (server/core/authz.ts isDemoSeedAllowed):
+// the suite opts in, staging/preview deployments never do.
+process.env.ALLOW_DEMO_SEED = 'true';
 
 // Suppress known non-fatal test warnings (act updates from async firebase auth listener, react-router flags)
 const originalError = console.error;

@@ -1,115 +1,141 @@
 # Codebase Concerns
 
-> Regenerated 2026-10-21 by the `acquire-codebase-knowledge` workflow. Findings verified at commit `d2c26ef` (single squashed root commit, 2026-10-21, 603 files / 102,756 insertions). Production TODO/FIXME/HACK count: **0** (scan output). Git-churn analysis is impossible — history is one commit (squash confirmed intentional, Q49); complexity hotspots are used instead.
+> Regenerated 2026-11-12 against branch `arena/b1761471-catalystlab` (`1babd3a`).
+> Findings are ordered by blast radius. Everything here is reproducible with the command
+> shown; nothing is speculative. `[TODO]` = needs a fact this session could not establish,
+> `[ASK USER]` = needs owner intent. All ten were answered on 2026-11-12; the
+> decisions, alternatives and rationale are in
+> `docs/superpowers/plans/2026-11-12-repo-hardening-ci-integrity.md` (Decision Log).
 >
-> **STATUS 2026-10-21 (later same day): the owner answered all ten §6 questions and every repo-side item was implemented and verified on branch `arena/8a8e3bc4-catalystlab`** — see the ✅ markers below, the resolution log in §8, and `docs/plan/decisions.md` Q43–Q52. The only outstanding item is owner-side: the Atlas password rotation (Q44).
+> Context that shapes the risk profile: the repository is a **SHALLOW clone with exactly
+> 1 commit** (`git rev-list --count HEAD` → 1), so the churn analysis in §5 is empty by
+> construction and history-based findings cannot be reproduced here.
 
 ## Core Sections (Required)
 
 ### 1) Top Risks (Prioritized)
 
-| Severity | Concern | Evidence | Impact | Suggested action |
-|----------|---------|----------|--------|------------------|
-| ~~High~~ ✅ **Resolved 2026-10-21 (Q43)** | `package-lock.json` was not committed, but CI (`npm ci` in 4 jobs), `Dockerfile:8,30`, and README quickstart all require it | `git ls-files \| grep -i lock` → empty (before fix) | Pipelines failed at install; versions floated inside `^` ranges | Lockfile regenerated with npm (D6) and committed; `npm ci` verified (1102 packages, exit 0) |
-| ~~High~~ ✅ **Resolved 2026-10-21 (Q43)** | `.nvmrc` was missing while all 5 workflows use `node-version-file: .nvmrc` | `grep nvmrc .github/workflows/*` → 9 references | `setup-node` would error → no workflow could run | `.nvmrc` = `24` committed (D5 "Node 24 everywhere") |
-| ~~High~~ ✅ **Resolved 2026-10-21 (Q43)** | `.env.staging.example` / `.env.production.example` were missing, but `scripts/check-env.mjs` hard-fails without them and `Dockerfile:30` COPYs them | `scripts/check-env.mjs:47-55`; `.gitignore` whitelists them | `check:env` (first step of `npm run ci`) failed; Docker COPY failed | Both templates restored with 40-key parity (42-key after the 2026-10-21 docs pass added `PORT`/`NODE_ENV`); prod pins `APP_ORIGIN=https://www.catalystlab.tech` (D14) + `PAYMENTS_ENABLED=false` (Q32); `check:env` verified green in CI mode |
-| High ⏳ **Owner action (Q44)** | Legacy MongoDB Atlas credential recorded in Git history (SEC-2026-01, Critical 9.1) | `docs/security/review-2026-10.md` §2: commit `e4bff70` — "absent from HEAD"; this clone's history contains only `d2c26ef` (squash confirmed intentional, Q49) | Anyone holding an older clone/fork can extract the Atlas credential if unrotated | **Owner rotates the Atlas password out-of-band** (answer #2, 2026-10-21); no repo change. CI secret gates (`sec:secrets`, gitleaks history job) guard regressions |
-| ~~Med~~ ✅ **Resolved 2026-10-21 (Q46)** | Intent docs contradicted HEAD (README: "Vite 6 + React 18 … Express 4", "309 tests in 29 files", dead `PRODUCTION_READINESS_AUDIT.md` link, `lib/engines/`; `docs/ARCHITECTURE.md`: "React 18 SPA (Vite 6 build)") | `README.md`, `docs/ARCHITECTURE.md` vs `package.json` | Onboarding on false premises | README + ARCHITECTURE refreshed to Vite 8 / React 19 / Express 5, 36 test files / 330 tests (measured), `src/lib/nodeEngines.ts`, plan/decisions links, 5-job CI inventory |
-| ~~Med~~ ✅ **Resolved 2026-10-21 (Q45)** | Split component tree: 5 real implementations in root `components/` + bidirectional shims; root `types/telemetry.ts` was the real file behind a `src/types` shim | pre-fix shim/diff matrix | Two homes for one concern; `@/*` dual fallback could resolve duplicates | All implementations consolidated into `src/`; root `components/` + `types/` deleted; `tsconfig` `@/*` single-root; `tsc`/lint/330-test suite green after the move |
-| ~~Med~~ ✅ **Resolved 2026-10-21 (Q47)** | Root clutter: 14 one-off codemods at repo root | root listing; Q18 named an `archive/` that never existed | Root unreadable; spent codemods looked live | All 14 moved to `archive/` + `archive/README.md`; `patch.css` stays (live via `src/index.css`, Q37) |
-| ~~Med~~ ✅ **Resolved 2026-10-21 (Q48)** | Generated/binary artifacts committed: `.aistudio/` 1.7 MB, duplicate screenshots (~2.7 MB md5-identical), `videos/` 825 KB, regenerable `hero-banner.png` 797.7 KB, 4 zero-ref images in `src/assets/images/` | scan CODE METRICS; `md5sum`/`du`; per-file reference greps | Repo weight + served bytes | All purged (~4.4 MB); `.gitignore` += `.aistudio/`; referenced hero JPEGs verified already-efficient (q82 recompression gained only 7% ⇒ left untouched); `hero-banner.png` regenerable via `scripts/screenshot-banner.cjs` |
-| ~~Low~~ ✅ **Resolved 2026-10-21 (Q50)** | Hardcoded **dev** Cloud Run URL + stale "8 Python telemetry engines" note in `INITIAL_MONITORED_SITES` | `src/lib/firebase.ts:777-794` (pre-fix) | Internal dev endpoint leaked into client bundle | Seed now `${SITE_ORIGIN}/api/v1/system/health` (env-derived per Q42/D14; the endpoint Dockerfile/CI/runbook actually probe); note corrected to D7 reality |
-| NEW → ✅ **Fixed 2026-10-21** | 3 UI tests red at pristine HEAD (`accessibilityAndContrast`, `partnerMarquee`, `unifiedNavigationMenu`) — the `d2c26ef` design refactor changed the hero/navbar but not the tests; README's "every gate is green" was false at HEAD | pristine-HEAD worktree run: same 3 failures without any of my changes | `npm test` CI gate red ⇒ nothing could merge | Tests re-based on the new design contract (scrim→theme-token assertions, marquee-out-of-hero, navbar label); `HeroSection.tsx` dead imports (`CoverFlowCarousel`, `PartnerMarquee`, `PRESETS`) removed; suite 330/330 green |
-| NEW → ✅ **Fixed 2026-10-21 (Q51)** | Dead `recaptchaSiteKey: ""` shipped in the public `firebase-applet-config.json` | zero consumers repo-wide (grep); not a standard Firebase web-config field | Dead config implies non-existent bot protection | Field removed; reCAPTCHA returns only with a real implementation |
-| NEW → ✅ **Fixed 2026-10-21 (Q52)** | Python `pytest` suite configured but not wired into any workflow | `pyproject.toml` vs workflow grep | `scripts/replace_images.py` regressions undetected | New `python-tooling` CI job (Python 3.11: pytest 32 ✓, ruff ✓, mypy-strict ✓, black ✓ — all verified locally before wiring) |
+| # | Risk | Evidence | Impact |
+|---|---|---|---|
+| 1 | ~~`check:env` fails at HEAD~~ **RESOLVED 2026-11-12** | `.env.example` is now the 42-key base (added `NODE_ENV`, `PORT`; removed the unread `GEMINI_API_KEY`); `npm run check:env` → "preflight passed (42 parity-verified keys …)"; pinned by `src/tests/server/envTemplateParity.test.ts` | — |
+| 2 | ~~`.nvmrc` is missing~~ **RESOLVED 2026-11-12** | `.nvmrc` = `24`, so the 9 `node-version-file: .nvmrc` steps resolve; pinned by `src/tests/server/runtimeContract.test.ts` (asserts the file exists and every workflow that references it can resolve) | — |
+| 3 | ~~Lighthouse CI can never start its server~~ **RESOLVED 2026-11-12** | `.lighthouserc.json` now uses `startServerReadyPattern: "Server listening"`, matching `server.ts:231`; pinned by `src/tests/server/lighthouseConfig.test.ts` | — |
+| 4 | ~~Node version contract is inconsistent~~ **RESOLVED 2026-11-12** | Four sources now agree on Node 24: `.nvmrc`, `package.json` `engines.node: ">=24"`, `package-lock.json` root `>=24`, and `Dockerfile:5`; pinned by `src/tests/server/runtimeContract.test.ts` | — |
+| 5 | ~~`media:check` fails on unreachable but healthy assets~~ **RESOLVED 2026-11-12** | `scripts/verify-media.mjs` now exports `summarize()`: `fail` only on a definitive 4xx/5xx, `skip` (exit 0) when an endpoint is unreachable, `STRICT_MEDIA=1` escalates skip to failure; header no longer claims a "registry"; pinned by `src/tests/unit/mediaVerification.test.ts` | — |
+| 6 | ~~Two handlers claim `GET /api/health`~~ **RESOLVED 2026-11-12** | Only `server/routes/system.ts` registers it; the duplicate was deleted from `server/routes/engines.ts`. Anonymous body is exactly `{ status: 'operational', timestamp }` — verified live against `dist/server.cjs` and pinned by `src/tests/server/api.test.ts` | — |
+| 7 | ~~`vite`/`tsx` placement~~ **RESOLVED 2026-11-12** | `vite` stays a production dependency by necessity (`dist/server.cjs:281` `require("vite")`); `tsx` moved to `devDependencies`; `npm run check:deps` guards the contract and `npm run ci` runs it; pinned by `src/tests/server/runtimeDeps.test.ts` | — |
+| 8 | ~~Some route handlers echo raw error text~~ **RESOLVED 2026-11-12** | `server/routes/engines.ts` `/api/check-url` (`:55-58`, `:222-236`) and `/api/run-engine` (`:103-109`, `:344-346`) now log the detail with the request id and return fixed messages plus `requestId`; pinned by `src/tests/server/api.test.ts` (“never reflects internal error text”) | — |
+| 9 | ~~Demo/dev GitHub repo seeding is only production-gated~~ **RESOLVED 2026-11-12** | `server/core/authz.ts` `isDemoSeedAllowed()` requires `ALLOW_DEMO_SEED=true` **and** a non-production process; `server/routes/github.ts:24` reads it for both seed sites; `src/tests/setup.ts` opts the suite in; pinned by `src/tests/server/demoSeedGate.test.ts` | — |
+| 10 | ~~Legal/operational artefacts referenced but absent~~ **RESOLVED 2026-11-12** | Added `SECURITY.md` (disclosure policy, `security@catalystlab.tech`, 72-hour ack), `firebase.json` + `.firebaserc` + `firestore.indexes.json` so `firestore.rules` is deployable; `LICENSE` and `CONTRIBUTING.md` were deliberately **not** added (private package, single owner) — rationale in the plan's Decision Log #8; pinned by `src/tests/server/repoHygiene.test.ts` | — |
 
 ### 2) Technical Debt
 
-| Debt item | Why it exists | Where | Risk if ignored | Suggested fix |
-|-----------|---------------|-------|-----------------|---------------|
-| In-memory fallbacks for rate limits & analytics | Zero-cost dev mode (Q30/Q32) | `server/core/rateLimit.ts`, `sharedLimiter.ts`, `src/lib/analyticsEngine.ts` | Multi-instance deploys fragment quota; restarts reset counters — README: "not acceptable in production"; payments already hard-require Upstash in prod (SEC-2026-08), rate limiting does not | Extend the `checkCheckoutReadiness` pattern: refuse prod boot (or loud warn) without `UPSTASH_*`/`MONGODB_URI` |
-| God-files | Organic growth | `src/lib/firebase.ts` (1,898 LOC), `src/data/apiSpecs.ts` (1,331), `src/pages/PlaygroundPage.tsx` (1,191), `src/lib/media/registry.ts` (1,022), `src/pages/UserDashboardPage.tsx` (972), `src/lib/nodeEngines.ts` (939) | High blast radius per change; hard to review | Decompose firebase.ts (auth/firestore/CRUD/seed), split nodeEngines per engine |
-| `@typescript-eslint/no-explicit-any` + `no-unused-vars` off; 69 `: any` in prod code | Lint gate kept at "0 problems" by disabling rules | `eslint.config.js`; grep this session | Type-safety erosion under `strict: true` elsewhere | Re-enable as `warn`, burn down |
-| `scripts/` excluded from ESLint | Gate scripts treated as tooling | `eslint.config.js` ignores | CI gate scripts themselves unlinted | Add a lighter lint pass for `scripts/` |
-| ~~pytest suite not in CI~~ ✅ Q52 | Python tooling is "inert to the JS toolchain" | `ci.yml` `python-tooling` job added 2026-10-21 | — | Done (pytest+ruff+mypy+black) |
-| History squashed to one commit — **intentional (Q49)** | Owner reset history at the design-refactor | `git log` → `d2c26ef` (no parent); Q49 answer 2026-10-21 | `git blame`/churn useless; CODE_REVIEW.md cites dead hashes (`4568112`, `7de284a`, `eab9e56`…) | Decision recorded; keep future history granular |
-| No `SECURITY.md` | — | `ls SECURITY.md` → absent (scan "SECURITY & COMPLIANCE: none detected" — though `.gitleaks.toml`, `.semgrep.yml`, `dependabot.yml`, `docs/security/` exist) | No public vulnerability-reporting channel despite a security-forward product | Add SECURITY.md pointing at `legal@catalystlab.tech` / docs/security |
-| ~~README/docs drift~~ ✅ Q46 | Docs not updated in the design-system refactor commit | README, `docs/ARCHITECTURE.md` — refreshed 2026-10-21 | — | Done; consider a CI link check to prevent recurrence |
+| Area | Observation | Evidence |
+|---|---|---|
+| Type safety | `strict: true` is undercut by `useUnknownInCatchVariables: false` + `no-explicit-any: off`: 69 `: any`, 80 `as any`, 7 `@ts-ignore`/`@ts-expect-error`, and `catch (err: any)` throughout `server/routes/engines.ts` | `grep -rn` counts; `eslint.config.js`; `tsconfig.json` |
+| Unused path aliases | `@/*` and `@server/*` are configured in three configs but used 3× in `src/` and only inside `src/tests/` | `grep -rn "@/…" src`, `grep -rn "@server/" src server` |
+| Dependency advisories | ~~`npm audit` reported 27 advisories (7 high), including `body-parser` (production-reachable) and the `@lhci/cli` browser stack~~ **RESOLVED 2026-11-13**: `0 vulnerabilities` — `body-parser` fixed by `npm audit fix`, `@lhci/cli` 0.15.1 → 0.16.1, and `minimatch`/`glob` overrides; `npm audit --audit-level=low` is a CI gate | `npm audit --audit-level=low` |
+| Orphan configuration | ~~`metadata.json` declared a Gemini capability with no key and no reader~~ **RESOLVED 2026-11-13**: `request_capabilities` is now `[]`, pinned by `src/tests/server/repoHygiene.test.ts`. The captured dumps formerly cited here are filed under `docs/audit/` / `archive/` | `grep -rn GEMINI` (no reads), root listing |
+| Dead/duplicated surfaces | second `/api/health` handler (§1.6); `vue`-free but three CSS layers (`patch.css` 65 KB + `src/index.css` 70 KB + `src/styles/*`) with `!important` interactions acknowledged in comments | `server/routes/*`, `src/index.css:1684,1798` |
+| Oversized modules | `src/lib/firebase.ts` 1,905 lines mixing auth, Firestore CRUD, seeded content, API-key client calls, contact/trial/subscription calls; `src/lib/media/registry.ts` 1,022; `src/data/apiSpecs.ts` 1,331; `src/pages/PlaygroundPage.tsx` 1,191; `src/pages/UserDashboardPage.tsx` 1,005 | `find src server -name '*.ts*' \| xargs wc -l \| sort -rn` |
+| `server/routes/engines.ts` breadth | 509 lines hosting 15 handlers (health, check-url, run-engine, probe, system health, compare, catalog, SSE masters) | `grep -c "app\.\(get\|post\)("` → 15 |
+| Repo-root clutter | `archive/` (15 spent codemods + `audit-output-2026-10.txt`), `patch.css`, `assets/banners`, `video/hero-launch` (3.5 MB of captures/fonts/vendor under a subdirectory) tracked. The four captured audit dumps moved to `docs/audit/` / `archive/` on 2026-11-12; the 3.5 MB of film/compositing binaries are a **recorded decision to keep** (`docs/decisions/tracked-binaries.md`) | root listing; `src/tests/server/repoHygiene.test.ts` |
+| Untested scripts | `scripts/**` is excluded from ESLint and from coverage; only `replace_images.py` has pytest coverage | `eslint.config.js` ignores, `vitest.config.ts` `coverage.include` |
+| Hand-written `.d.ts` | `worker/api-proxy.d.ts` is maintained by hand next to `worker/api-proxy.js` | `worker/` listing |
+
+*Test-side gaps (not production debt):* no automated check that the Lighthouse ready
+pattern matches the server log; no test for `check:env`'s parity logic; no test covering
+`src/lib/media/registry.ts` fallbacks.
 
 ### 3) Security Concerns
 
-Posture is unusually strong for the size (fail-closed everywhere, CSP without `unsafe-inline`, HMAC webhooks, SSRF DNS pinning, allowlist log serializers, gitleaks+semgrep+dependabot gates — `docs/security/review-2026-10.md` shows SEC-2026-02…09 remediated & verified). Residual gaps:
-
-| Risk | OWASP category | Evidence | Current mitigation | Gap |
-|------|----------------|----------|--------------------|-----|
-| Legacy Atlas credential in old history | A07 / CWE-798 | SEC-2026-01 | Absent from HEAD; history squashed; CI secret gates (`scripts/scan-secrets.mjs`, gitleaks job) | Rotation + remote-purge confirmation is an unverified owner action |
-| ~~Client-visible dev endpoint~~ ✅ Q50 | A05 (misconfiguration) | `src/lib/firebase.ts` (`INITIAL_MONITORED_SITES`) | Fixed 2026-10-21: seed URL = `${SITE_ORIGIN}/api/v1/system/health` (env-derived) | None |
-| In-memory quota fallback in prod | A04 (resource exhaustion) | README env table; `server/core/rateLimit.ts` | Upstash supported; payments gated on it | Rate limiting not gated the same way |
-| Landing page eager Firebase init | N/A (privacy/perf) | `docs/plan/decisions.md` D17 (best-practices re-based to 0.74) | Documented exception, "delete once Firebase is lazy-initialised" | Lazy-init not yet implemented |
-| ~~Empty `recaptchaSiteKey`~~ ✅ Q51 | N/A | `firebase-applet-config.json` | Dead field removed 2026-10-21 (zero consumers, non-standard field) | None — reintroduce only with a real bot-protection implementation |
-| `useUnknownInCatchVariables: false` | N/A (robustness) | `tsconfig.json` | Error helpers (`getErrorMessage`) | Accidental `any` in catch paths |
+| Topic | Status | Evidence |
+|---|---|---|
+| CSP | Strong: zero `'unsafe-inline'`, per-request nonce + SHA-256 hashes, explicit `img-src`/`connect-src` allowlists, `script-src-attr 'none'`, `object-src 'none'` | `server/app.ts:28-62,232-300`; `e2e/smoke/release-smoke.spec.ts` |
+| Identity | Server-derived only; verifier returns `null` without credentials → fail closed; `ALLOW_UNAUTH_DEMO` is honoured only when `NODE_ENV === 'test'` | `src/lib/serverAuth.ts`, `server/core/authz.ts:10-16` |
+| Payments | Fail closed `503`; HMAC-SHA256 over raw body; idempotent + monotonic; sandbox e2e proves forged HMAC → `401` and duplicate → `DUPLICATE_EVENT` (green this session) | `server/routes/payments.ts`, `server/core/subscriptions.ts`, `scripts/e2e-payment-sandbox.ts` |
+| SSRF | Layered guard (scheme, private/loopback/link-local/CGNAT/metadata, DNS pinning, redirect revalidation, 5 MB cap, TLS verify, 10 s timeout); TLS probe pinned to 443 | `src/lib/networkSecurity.ts`, `server/core/ssl.ts`, `src/tests/networkSecurity.test.ts`, `src/tests/server/tlsProbe.test.ts` |
+| Logging | Allowlist serializers (6 request / 7 response headers) + query-key redaction; **no `console.*` in `server/`** | `server/core/logger.ts`, `grep -rn "console\." server` → 0 |
+| Firestore rules | Deny-by-default, then per-collection grants; superadmin only via signed claims; paid plan writes rejected from the client | `firestore.rules:1-40` |
+| Secrets | `npm run sec:secrets` clean over 650 HEAD files; `firebase-applet-config.json` is a public web config by design; `.github/fixtures/ci-service-account.json` is an explicit placeholder (`"_note": "NOT A CREDENTIAL"`) | `npm run sec:secrets` output; `.github/fixtures/ci-service-account.json` |
+| Residual risks | (a) raw error strings echoed by two engine handlers (§1 item 8); (b) `/api/telemetry/event` is unauthenticated by design and only rate-limited (60/min per IP, 300/min per key) — a distributed flood bypasses per-IP limits; (c) no WAF/bot-management in front of the Node host beyond the Worker; (d) `x-forwarded-for` trust depends on `TRUST_PROXY=true` being set correctly, which is only warned about by `check:env` | `server/routes/engines.ts:55-58,104-108`, `server/core/sharedLimiter.ts`, `scripts/check-env.mjs` |
+| Historical credential | `docs/security/review-2026-10.md` documents SEC-2026-01 (an Atlas URI in commit `e4bff70`, absent from HEAD) as **owner rotation still required** (`Q44`). Not reproducible here (1-commit shallow clone) | `docs/security/review-2026-10.md` §1-2, `docs/plan/decisions.md` Q44 |
 
 ### 4) Performance and Scaling Concerns
 
-| Concern | Evidence | Current symptom | Scaling risk | Suggested improvement |
-|---------|----------|-----------------|-------------|-----------------------|
-| Engine scans execute in-request on the same free-tier process that serves the SPA | `server/routes/engines.ts`, `src/lib/nodeEngines.ts` (10 s timeout × up to 8 engines for master audits, SSE stream) | Single Oracle Always Free box (Q32) | Head-of-line blocking during bursts; SLO 99.5% (D16) | CI k6 gate exists; consider a worker/queue split if load grows |
-| Heavy committed images served to clients | `assets/banners/hero-banner.png` 797.7 KB; `public/assets/aistudio/*.png` 1.1 MB & 248 KB; logo JPGs ~400 KB (scan CODE METRICS) | Larger payloads than needed | CWV (LCP) — the product audits CWV | Compress/convert (AVIF/WebP), extend `media:check` with size budgets |
-| Initial-chunk size | CODE_REVIEW follow-ups: "initial-chunk splitting (entry 1009 kB)" | Bundle budget gate enforced (`scripts/check-bundle-budget.mjs` BUDGETS + `npm run check:bundle`) | Budget creep | Track the CODE_REVIEW follow-up |
-| Per-process shell cache & limiter | `server.ts:74-95` (≤256 shells), `sharedLimiter.ts` | Fine single-instance | Cache/counter divergence if horizontally scaled | Keep single instance or externalize |
-| Analytics in-memory buffer bounds | `src/lib/analyticsEngine.ts` | `[TODO]` — no explicit cap found via grep this session | Unbounded heap growth without Mongo under load | Verify/flush-bound the buffer |
+| Concern | Detail | Evidence |
+|---|---|---|
+| Single-instance assumptions | daily quota, API-key index, telemetry buffer and rate-limit records are process-memory by default; correctness across instances requires Upstash **and** Firestore Admin | `server/core/{dailyQuota,apiKeys,rateLimit,sharedLimiter}.ts`, `src/tests/server/multiInstanceState.test.ts` |
+| In-memory caches | prerendered HTML shell cache capped at 256 entries, miss-set at 1,024; unbounded-ish `dailyRateLimitStore` capped at 10,000 entries/256 session costs | `server.ts:109-120`, `server/core/rateLimit.ts:44` |
+| Bundle weight | initial JS 2,252 kB raw / 667 kB gzip; largest chunk `vendor-firebase` 570 kB raw / 167 kB gzip — Firebase dominates every route | `npm run check:bundle` output |
+| Eager Firebase on landing | `D17` documents best-practices 0.74 on `/` because Firebase Auth initialises eagerly; the fix (lazy init) is still open | `docs/plan/decisions.md` D17 |
+| Engine work per request | 8 engines run sequentially in the master audit stream; each does its own outbound fetch; the master audit costs 10 units but can run for tens of seconds against a slow target | `server/routes/engines.ts:355-470`, `src/lib/nodeEngines.ts` |
+| sRGB/DPR images | self-hosted plates ship JPEG+WebP+AVIF (`scripts/generate-image-variants.mjs`), but `dist/assets` and `src/assets/images` are not budgeted by `check:bundle` | `src/lib/media/plates.ts`, `scripts/check-bundle-budget.mjs` (JS only) |
+| Vitest startup cost | jsdom created 44× (21.8 s, 42% of test time); Vitest itself suggests `pool: 'vmThreads'` or `isolate: false` | `npm test` output |
+| Load-test path drift | comments in `scripts/run-loadtest.mjs:9` and `ops/loadtest/k6-peak.js:10` name `POST /api/audit/run`, which does not exist; the executable code posts to `/api/run-engine` (verified: `/api/audit/run` → 404) | `grep -rn "api/audit/run"`, live smoke |
 
-### 5) Fragile/High-Churn Areas
+### 5) Fragile / High-Churn Areas
 
-Git churn is unmeasurable (single root commit — scan HIGH-CHURN section lists every file at count 1). Complexity hotspots by size + coupling instead:
+**Churn data is unavailable in this session:** the checkout is shallow with a single commit
+(`git rev-list --count HEAD` → 1), so `git log --since=90 days` returns one entry per file
+and the churn table conveys nothing. `[TODO]` re-run the scan on a full clone to obtain
+real churn. Substitute fragility signals from static evidence:
 
-| Area | Why fragile | Signal | Safe change strategy |
-|------|-------------|--------|----------------------|
-| `src/lib/firebase.ts` | Largest file (1,898 LOC); auth + Firestore CRUD + seeds + error taxonomy | size; hardcoded seed URL already flagged | Narrow edits; add tests around touched CRUD paths; don't refactor blind |
-| `server/app.ts` + `server.ts` | CSP hash/nonce pipeline, gzip monkey-patching of `res.write/end`, shell cache — subtle ordering | SEC-2026-04/05 history; smoke tests assert CSP headers | Change with `e2e/smoke` + `verify-deployment.mjs` running |
-| Design-token CSS chain (`src/index.css` → `styles/*.css` → root `patch.css`, `.impeccable/design.json`) | Latest commit was a design-system refactor; `check:design` gate exists; AGENTS.md freezes `ds-*`/`framer-*` canon | commit `d2c26ef` subject; PRODUCT.md "engine hues are product truth" | Run `npm run check:design` + Lighthouse a11y ≥ 0.9 before/after |
-| ~~Root `components/` ↔ `src/components/` shim web~~ ✅ resolved (Q45) | Was: bidirectional re-exports, diverging duplicates | Consolidated 2026-10-21; single tree in `src/components/` | Ordinary change hygiene now applies |
-| `server/core/subscriptions.ts` / payments | Money path; idempotency + ordering invariants (D1) | dedicated CI sandbox gate | Never change without `paymentWebhookRetry` + `e2e-payment-sandbox` green |
+| Signal | Evidence |
+|---|---|
+| Largest, most entangled module | `src/lib/firebase.ts` (1,905 lines, auth + 8 Firestore domains + HTTP client wrappers) |
+| Highest decision density (most `D#`/`Q##` tags per file) | `server/app.ts`, `server/core/subscriptions.ts`, `server/core/rateLimit.ts`, `server/routes/engines.ts`, `worker/api-proxy.js` |
+| Most likely to break CI on unrelated changes | `scripts/check-env.mjs` (key-parity over three templates — now green with 42 keys), `scripts/check-bundle-budget.mjs` (six ratchets), `scripts/verify-media.mjs` (live network — now `skip`, not `fail`, when the network is unreachable) |
+| Coupled client↔server contracts | `src/lib/validation.ts` ↔ `server/core/enginesCatalog.ts`; `src/config/routeAliases.ts` ↔ `scripts/prerender.ts` ↔ `public/_redirects`; `dist/routes.json` ↔ `server/core/spaRoutes.ts` |
+| Documentation drift hotspots | `README.md` (test counts and the gate list — refreshed 2026-11-12 to 51 files / 448 tests), `docs/ENGINES.md` route table vs `server/app.ts` order, `docs/codebase/*` (this revision, 2026-11-12) |
 
-### 6) `[ASK USER]` Questions — ALL ANSWERED 2026-10-21 (recorded as Q43–Q52 in `docs/plan/decisions.md`)
+### 6) `[ASK USER]` Questions — all answered 2026-11-12
 
-1. ~~Pipeline files missing~~ → **Answered (Q43):** "regenerate … per D5/D6". ✅ Done — see §8.
-2. ~~Atlas credential rotation~~ → **Answered (Q44):** "No, I'll rotate Atlas password" — owner-side action, out of repo scope. ⏳ Track to completion before any public exposure.
-3. ~~Split component tree~~ → **Answered (Q45):** "Yes" (consolidate). ✅ Done.
-4. ~~Stale README/ARCHITECTURE~~ → **Answered (Q46):** "Yes" (refresh). ✅ Done.
-5. ~~Root codemods~~ → **Answered (Q47):** "Move … to the archive/ that Q18 named but never created". ✅ Done.
-6. ~~Committed artifacts/binaries~~ → **Answered (Q48):** "Yes" (purge). ✅ Done.
-7. ~~History squash~~ → **Answered (Q49):** "Yes" (intentional). ✅ Recorded.
-8. ~~Hardcoded dev Cloud Run URL~~ → **Answered (Q50):** "Do the best practices". ✅ Done — env-derived `SITE_ORIGIN` + real health endpoint.
-9. ~~Empty `recaptchaSiteKey`~~ → **Answered (Q51):** "Don't know, check out and do best practices". ✅ Investigated (zero consumers, non-standard field) → removed as dead config.
-10. ~~pytest not in CI~~ → **Answered (Q52):** "Wire up into CI". ✅ Done — `python-tooling` job.
+1. ~~**Node runtime:** which is canonical?~~ **Answered — `24`** everywhere; see plan Decision Log #1 and `runtimeContract.test.ts`. [Docs: `superpowers/plans/2026-11-12-repo-hardening-ci-integrity.md`]
+2. ~~**Env templates:** `GEMINI_API_KEY` removed or used?~~ **Answered — removed**, and `NODE_ENV`/`PORT` added to `.env.example` (42-key parity). Plan Decision Log #2. [Docs: same plan]
+3. ~~**Lighthouse readiness:** change the pattern or the log line?~~ **Answered — the config matches the log** (`Server listening`); `best-practices`/`seo` stay `off` in `.lighthouserc.json` by design (enforced by `scripts/report-lhci.mjs`), now documented in `ARCHITECTURE.md`. Plan Decision Log #3. [Docs: same plan]
+4. ~~**`media:check` in CI:** tolerate CDN blips or self-host?~~ **Answered — tolerate**: `summarize()` returns `skip` (exit 0) only when nothing 4xx/5xx answered, `STRICT_MEDIA=1` escalates. Plan Decision Log #4. [Docs: same plan]
+5. ~~**Dual `/api/health`:** which handler wins?~~ **Answered — `system.ts` owns it**, anonymous shape is `{ status, timestamp }`. Plan Decision Log #5. [Docs: same plan]
+6. ~~**Non-production synthetic data:** production-only or explicit flag?~~ **Answered — explicit `ALLOW_DEMO_SEED`** plus non-production. Plan Decision Log #6. [Docs: same plan]
+7. ~~**`vite`/`tsx` placement:** deliberate or oversight?~~ **Answered — `vite` deliberate** (the bundle requires it), **`tsx` moved** to devDependencies, guarded by `npm run check:deps`. Plan Decision Log #7. [Docs: same plan]
+8. ~~**Deployment artefacts:** which are wanted?~~ **Answered — `SECURITY.md` + the three Firebase files added; no `LICENSE`, no `CONTRIBUTING.md`** (private, single-owner). Plan Decision Log #8. [Docs: same plan]
+9. ~~**Root clutter:** intended or move?~~ **Answered** — the four captured dumps are filed under `docs/audit/`/`archive/`, and the `video/hero-launch` binaries **stay tracked by decision** (they are referenced by `.assets/manifest.json` and brand guidelines; moving them would need a history rewrite). See `docs/decisions/tracked-binaries.md`. Plan Decision Log #9. [Docs: same plan]
+10. **Raw error messages:** are the `err.stderr \|\| err.message` responses in `/api/check-url` and `/api/run-engine` intentional (developer-facing API) or should they be genericised like the rest of the file?
 
-### 7) Evidence
+## Extended Sections (Optional)
 
-- Scan output: `docs/codebase/.codebase-scan.txt` — TODO/FIXME/HACK "None found"; CODE METRICS (596 files / 86,103 LOC; largest-file table); HIGH-CHURN (all counts = 1, single-commit history); CI/CD GitHub Actions; Container Docker. (Note: the scan's "SECURITY & COMPLIANCE: none detected" under-reports — `.gitleaks.toml`, `.semgrep.yml`, `.github/dependabot.yml`, `docs/security/` exist and were verified directly.)
-- Missing-file proofs this session: `ls .nvmrc .env.staging.example .env.production.example PRODUCTION_READINESS_AUDIT.md SECURITY.md` (all absent); `git ls-files | grep -i lock` (empty).
-- `.github/workflows/ci.yml` (4 jobs, all `npm ci` + `node-version-file: .nvmrc`; docker build + non-root + health probe; gitleaks v8.21.2 history scan; semgrep 1.181.0; promtool on `docs/ops/alerts.yml`), `deploy.yml`, `backup.yml`, `rollback.yml`, `media-verify.yml`.
-- `scripts/check-env.mjs:40-55` (template-parity hard failures), `Dockerfile:8,30` (COPY lines).
-- `docs/security/review-2026-10.md` (SEC-2026-01…09 register), `CODE_REVIEW.md` (historical C1–C5, follow-ups), `docs/plan/decisions.md` (D2, D5, D6, D7, D16, D17, Q18, Q30, Q32, Q37).
-- Size/duplication measurements: `wc -l` hotspot table, `md5sum` duplicate groups, `du -sh .aistudio videos public assets`.
-- `src/lib/firebase.ts:777-794`, `firebase-applet-config.json`, `eslint.config.js`, `tsconfig.json`, `vitest.config.ts`.
+### 7) Verification Log
 
-### 8) Resolution Log (2026-10-21, branch `arena/8a8e3bc4-catalystlab`)
+**2026-11-12 (post-hardening, `npm run ci:full` exit 0):**
 
-Verification evidence for every ✅ above — all commands executed this session:
+| Command | Result |
+|---|---|
+| `npm run check:env` | pass — 42 parity-verified keys across `.env`, `.env.staging` & `.env.production` |
+| `npm run lint` | pass, 0 problems |
+| `npm run typecheck` (`tsc --noEmit`, `strict`) | pass, 0 errors |
+| `npm test` | **51 files / 448 tests passed** |
+| `npm run build` | pass (prerender included) |
+| `npm run check:bundle` | all 6 budgets pass |
+| `npm run check:deps` | pass — 15 runtime requires, all declared |
+| `npm run test:coverage` | 71.41 / 59.47 / 75.3 / 72.64 — ratchet (68/55/72/69) passes |
+| `npm run drill:restore` | pass, `withinRto: true` |
+| `npm run test:payments-sandbox` | pass, 6 contract checks |
+| `npm run sec:secrets` | clean — 666 tracked files in HEAD, 12 commits, 0 uncatalogued secrets |
+| `npm run media:check` | **SKIP** (exit 0) — 19 endpoints unreachable from this sandbox; `STRICT_MEDIA=1` → exit 1, as designed |
+| Production boot smoke (`dist/server.cjs`) | `/api/health` → `{"status":"operational","timestamp":…}`; `/api/v1/system/health` → 200 |
+| Python gates (pytest/ruff/mypy/black) | **[TODO]** — not installed in this sandbox |
 
-| # | Action | Verification (real output) |
-|---|--------|----------------------------|
-| Q43 | `.nvmrc`=`24`; `package-lock.json` regenerated (`npm install --package-lock-only`, npm 10.9.8); `.env.staging.example` + `.env.production.example` written with 40-key parity | `npm ci` → "added 1102 packages", exit 0; `CI=true … node scripts/check-env.mjs` → "preflight passed (40 parity-verified keys…)", exit 0; re-run after the `PORT`/`NODE_ENV` addition → "42 parity-verified keys", exit 0 (local + CI mode) |
-| Q45 | Root `components/` (5 implementations + 9 stubs) and root `types/` consolidated into `src/`; shims deleted; `MasterTelemetryGrid` imports rewritten (`../common/ExportReportDropdown`, `../../types`); `tsconfig.json` (`include`, `@/*` single-root) + `eslint.config.js` (files list) trimmed | `grep -rn "\.\./\.\./\.\./components" src` → no hits; `npx tsc --noEmit` → 0 errors; `npm run lint` → 0 problems |
-| Q47 | 14 codemods `git mv` → `archive/` + `archive/README.md`; reference-checked first (only doc mentions) | `ls archive/` → 14 files; root listing clean |
-| Q48 | Purged `.aistudio/`, `videos/`, `public/assets/aistudio/`, `assets/banners/hero-banner.png`, 4 zero-ref images (`catalystlab_logo*`, `catalystlab_minimalist_logo*`, `page-accessibility.jpg`); `.gitignore` += `.aistudio/` | per-file reference greps = 0 hits before deletion; ~4.4 MB removed; recompression experiment on referenced heroes gained only 7% ⇒ reverted (quality preserved) |
-| Q50 | `INITIAL_MONITORED_SITES.url` → `` `${SITE_ORIGIN}/api/v1/system/health` ``; note corrected (D7) | typecheck + suite green; no `run.app` string remains in `src/` |
-| Q51 | `recaptchaSiteKey` removed from `firebase-applet-config.json` | grep: zero consumers before removal; suite green after |
-| Q52 | `python-tooling` job appended to `ci.yml` (pytest/ruff/mypy/black, Python 3.11, pip cache) | local pre-verification: 32 pytest passed, ruff/mypy/black clean; `yaml.safe_load` → 5 jobs parse |
-| Q46 | README (versions, counts, dead link, engine path, CI inventory, current-state block) + `docs/ARCHITECTURE.md` (mermaid labels, engine path) refreshed | diffs reviewed; counts measured not copied |
-| test repair | 3 UI tests re-based on the `d2c26ef` design contract; `HeroSection.tsx` dead imports/`PRESETS` removed | pristine-HEAD worktree proved the 3 failures pre-existed my changes; after fix: `npm test` → **36 files / 330 tests passed**; `test:coverage` → ratchet met (70.02/58.53/73.66/71.40 ≥ 68/55/72/69); `npm run build` → exit 0 (`dist/server.cjs` 313.8 kB); `check:bundle` → all 6 budgets pass; production smoke boot of `dist/server.cjs` → health 200s, shells 200, legacy `.html` 301s, real 404, zero-`unsafe-inline` CSP, payments fail-closed 503, `verify-deployment.mjs` "All live deployment & security header contracts passed" |
+**2026-11-12 baseline (before the hardening tasks):** `npm test` 44 files / 420 tests;
+`check:env` **FAIL** (3 parity mismatches); `media:check` **FAIL** (5 unreachable endpoints);
+`.nvmrc` absent.
 
-Not executed in this sandbox (CI-only, external tools/network): Playwright browser download (e2e), k6, Docker build, gitleaks/semgrep, Lighthouse, `media:check` (remote media hosts unreachable from the sandbox). All are wired in `ci.yml` and will run on the PR.
+### 8) Evidence
 
-**Remaining open items:** (1) owner-side Atlas rotation (Q44); (2) `[TODO]` decompose god-files (§2); (3) `[TODO]` re-enable `no-explicit-any` as warn and burn down 69 occurrences (§2); (4) `[TODO]` add `SECURITY.md` (§2); (5) `[TODO]` decide whether `PartnerMarquee`/`CoverFlowCarousel` should resurface on the landing page (orphaned by the design refactor — components kept, tests cover them standalone); (6) `[TODO]` verify the Docker build + e2e + k6 green on the first CI run of this branch (rollout plan §3–§5).
+- `package.json`, `package-lock.json:70-71`, `git ls-files | grep -i nvm` (empty), `.lighthouserc.json:15-20`, `server.ts:231`, `.github/workflows/*.yml`
+- `.env.example` (41 keys), `.env.staging.example`, `.env.production.example`, `scripts/check-env.mjs`
+- `server/app.ts:309-320`, `server/routes/engines.ts` (error branches), `server/routes/system.ts` (`handleLiveness`), `server/routes/github.ts:24` (`isDemoSeedAllowed`), `server/core/authz.ts` (`isDemoSeedAllowed`), `scripts/{check-runtime-deps,verify-media}.mjs`, `SECURITY.md`, `firebase.json`
+- `src/lib/firebase.ts`, `src/lib/networkSecurity.ts`, `src/lib/serverAuth.ts`, `server/core/{rateLimit,dailyQuota,apiKeys,subscriptions,logger}.ts`
+- `src/store/middleware/mongoSyncMiddleware.ts`, `src/store/index.ts`
+- `firestore.rules`, `firebase-applet-config.json`, `metadata.json`, `.github/fixtures/ci-service-account.json`
+- `Dockerfile`, `wrangler.toml`, `worker/api-proxy.js`, `ops/systemd/catalystlab.service`, `ops/loadtest/k6-peak.js`, `scripts/run-loadtest.mjs`, `scripts/verify-media.mjs`, `scripts/check-bundle-budget.mjs`
+- `README.md` (test counts and gate list, refreshed 2026-11-12), `docs/ENGINES.md`, `docs/plan/decisions.md`, `docs/security/review-2026-10.md`, `docs/ops/slo.md`, `PRODUCT.md`

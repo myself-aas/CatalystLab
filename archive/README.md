@@ -1,7 +1,7 @@
 # archive/
 
-Spent one-off codemods and dev utilities, moved out of the repository root on
-2026-10-21 per owner decision (Q18 named this destination; see
+Spent one-off codemods, dev utilities and captured transcripts, moved out of the
+repository root on 2026-10-21 (codemods) and 2026-11-12 (audit transcript) per owner decision (Q18 named this destination; see
 `docs/plan/decisions.md` and `docs/codebase/CONCERNS.md` §6 answer #5).
 
 These scripts were single-run find/replace migrations used during the design
@@ -18,6 +18,7 @@ tree without review — their regexes target markup that no longer exists.
 | `fix-slate-replacements.mjs`, `replace-slate.mjs`, `replace-colors.mjs`, `replace_colors.sh` | slate/theme color token → Tailwind white/black swaps |
 | `replace_padding.cjs`, `replace_padding_v2.cjs` | Padding class normalization |
 | `ds_section_divs.cjs`, `update_hero_layout.cjs`, `update_heroes.cjs` | `ds-*` section div restructuring and hero layout updates |
+| `audit-output-2026-10.txt` | Captured transcript of a pasted skill prompt from the October audit round (moved off the repository root 2026-11-12; not a document, kept only for provenance) |
 | `test-browser.mjs` | Manual headless-Chromium console/page-error inspector |
 
 Deletion is safe at any time; they are kept only as a record of how the

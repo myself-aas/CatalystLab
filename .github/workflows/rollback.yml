@@ -30,12 +30,12 @@ jobs:
       FIREBASE_SERVICE_ACCOUNT_PATH: .github/fixtures/ci-service-account.json
     steps:
       - name: Checkout target ref
-        uses: actions/checkout@v7
+        uses: actions/checkout@v7.0.1
         with:
           ref: ${{ inputs.ref }}
 
       - name: Setup Node.js
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@v7.1.0
         with:
           node-version-file: .nvmrc
           cache: npm
@@ -64,7 +64,7 @@ jobs:
           node scripts/verify-deployment.mjs http://127.0.0.1:3000
 
       - name: Upload verified rollback artifact
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v7.0.2
         with:
           name: rollback-dist-${{ inputs.ref }}
           path: dist

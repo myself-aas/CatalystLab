@@ -1,6 +1,5 @@
 import express, { Request, Response } from 'express';
-import { runNativeEngine } from '../../src/lib/nodeEngines';
-import { validatePublicUrl, guardedFetch } from '../../src/lib/networkSecurity';
+import type { EngineDeps } from '../core/deps';
 import { checkUrlSchema, monitorProbeSchema, firstIssue } from '../../src/lib/validation';
 import { engineRunSchema } from '../core/enginesCatalog';
 import { ENGINE_SCRIPT_MAP } from '../core/enginesCatalog';
@@ -24,7 +23,8 @@ function extractScoreFromOutput(output: string | undefined): number | null {
   return n;
 }
 
-export function registerEngineRoutes(app: express.Express): void {
+export function registerEngineRoutes(app: express.Express, deps: EngineDeps): void {
+  const { runNativeEngine, validatePublicUrl, guardedFetch } = deps;
 
 app.post('/api/check-url', createEngineRateLimitMiddleware({ cost: SINGLE_ENGINE_COST }), async (req: Request, res: Response): Promise<void> => {
   try {
@@ -51,9 +51,15 @@ app.post('/api/check-url', createEngineRateLimitMiddleware({ cost: SINGLE_ENGINE
         res.json({ reachable: false, error: 'Target is unreachable, invalid, or blocked by the SSRF guard.' });
       }
     }
-  } catch (e: any) {
+  } catch (e: unknown) {
+    // Generic client-facing error: internal messages stay in logs (Plan 7).
+    logger.warn({ err: e, requestId: req.requestId }, '[check-url] unexpected failure');
     if (!res.headersSent) {
-      res.json({ reachable: false, error: e.message });
+      res.json({
+        reachable: false,
+        error: 'Target verification failed.',
+        requestId: req.requestId
+      });
     }
   }
 });
@@ -74,6 +80,7 @@ app.post('/api/run-engine', createEngineRateLimitMiddleware({ cost: SINGLE_ENGIN
     const isRepoEngine = engine === 'repo' || engine === 'code_quality';
     const validation = await validatePublicUrl(url, isRepoEngine);
     if (!validation.valid) {
+      logger.warn({ requestId: req.requestId, reason: validation.error }, '[engines/scan] SSRF guard rejected target');
       res.status(400).json({ success: false, error: validation.error || 'Invalid or forbidden target URL.' });
       return;
     }
@@ -101,10 +108,11 @@ app.post('/api/run-engine', createEngineRateLimitMiddleware({ cost: SINGLE_ENGIN
       output: output || 'Engine completed with no output.'
     });
   } catch (err: any) {
-    logger.error(`Error executing engine:`, err);
+    logger.error({ err, requestId: req.requestId }, 'Error executing engine');
     res.status(500).json({
       success: false,
-      error: err.stderr || err.message || 'Execution error during telemetry scan.'
+      error: 'Execution error during telemetry scan.',
+      requestId: req.requestId
     });
   }
 });
@@ -138,6 +146,7 @@ app.post('/api/monitor/probe', createEngineRateLimitMiddleware({ cost: SINGLE_EN
     // verification stays enabled.
     const validation = await validatePublicUrl(parsedUrl.toString());
     if (!validation.valid) {
+      logger.warn({ requestId: req.requestId, reason: validation.error }, '[monitor/probe] SSRF guard rejected target');
       res.status(400).json({ success: false, error: validation.error || 'Target URL blocked by SSRF guard.' });
       return;
     }
@@ -227,12 +236,14 @@ app.post('/api/monitor/probe', createEngineRateLimitMiddleware({ cost: SINGLE_EN
         statusCode: 0,
         responseTimeMs,
         status: 'down',
-        error: err.message || 'Connection failed',
+        error: 'Connection failed',
+        requestId: req.requestId,
         timestamp: Date.now()
       });
     }
   } catch (outerErr: any) {
-    res.status(500).json({ success: false, error: outerErr.message });
+    logger.warn({ err: outerErr, requestId: req.requestId }, 'URL probe failed');
+    res.status(500).json({ success: false, error: 'URL probe failed.', requestId: req.requestId });
   }
 });
 
@@ -255,10 +266,8 @@ app.get('/api/monitor/system-health', (req: Request, res: Response) => {
   });
 });
 
-// Health check
-app.get('/api/health', (req: Request, res: Response) => {
-  res.json({ status: 'ok', timestamp: Date.now() });
-});
+// Liveness now lives in server/routes/system.ts (handleLiveness, Plan 3.5
+// anonymity redaction); the duplicate handler that shadowed it was removed.
 
 // ==========================================
 // RESTful API V1 CATALOG & ENDPOINTS
@@ -344,7 +353,12 @@ app.post('/api/v1/engines/:engine/scan', createEngineRateLimitMiddleware({ cost:
       timestamp: Date.now()
     });
   } catch (e: any) {
-    res.status(500).json({ success: false, error: e.message });
+    logger.error({ err: e, requestId: req.requestId }, 'Engine execution failed');
+    res.status(500).json({
+      success: false,
+      error: 'Execution error during telemetry scan.',
+      requestId: req.requestId
+    });
   }
 });
 

@@ -21,11 +21,11 @@ jobs:
       VITE_APP_ORIGIN: https://www.catalystlab.tech
       FIREBASE_SERVICE_ACCOUNT_PATH: .github/fixtures/ci-service-account.json
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@v7.1.0
         with:
           node-version-file: .nvmrc
           cache: npm
@@ -94,7 +94,7 @@ jobs:
 
       - name: Upload build output
         if: github.event_name == 'push'
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v7.0.2
         with:
           name: dist
           path: dist
@@ -104,11 +104,11 @@ jobs:
     name: "Security, SAST, Alert Rules & Container Audit"
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@v7.1.0
         with:
           node-version-file: .nvmrc
           cache: npm
@@ -180,9 +180,9 @@ jobs:
       VITE_APP_ORIGIN: http://127.0.0.1:3098
       FIREBASE_SERVICE_ACCOUNT_PATH: .github/fixtures/ci-service-account.json
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7.0.1
 
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@v7.1.0
         with:
           node-version-file: .nvmrc
           cache: npm
@@ -218,9 +218,9 @@ jobs:
       VITE_APP_ORIGIN: https://www.catalystlab.tech
       FIREBASE_SERVICE_ACCOUNT_PATH: .github/fixtures/ci-service-account.json
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7.0.1
 
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@v7.1.0
         with:
           node-version-file: .nvmrc
           cache: npm
@@ -279,7 +279,7 @@ jobs:
 
       - name: Upload Lighthouse reports
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v7.0.2
         with:
           name: lighthouse-reports
           path: .lighthouseci
@@ -300,9 +300,9 @@ jobs:
     name: "Python tooling gates (pytest · ruff · mypy · black)"
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7.0.1
 
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v6.3.0
         with:
           python-version: '3.11'   # pyproject.toml target-version
           cache: pip

@@ -4,7 +4,7 @@ Website-quality intelligence platform: a Vite 8 + React 19 SPA with an integrate
 
 > Review remediation status: **Phase 0 ✅ · Phase 1 ✅ · Phase 2 ✅ · Phase 3 ✅** — see [`CODE_REVIEW.md`](./CODE_REVIEW.md) for the historical audit, [`docs/plan/production-readiness-plan.md`](./docs/plan/production-readiness-plan.md) for the phased plan, and [`docs/plan/decisions.md`](./docs/plan/decisions.md) for the owner decision log (D1–D17, Q17–Q52). Repository-level knowledge docs live in [`docs/codebase/`](./docs/codebase/); the full documentation index — living specs vs dated records — is [`docs/README.md`](./docs/README.md).
 
-> **Current state (2026-10-21):** every local gate re-verified green after the pipeline restore — `npm run check:env` (42 parity-verified keys across `.env.example` / `.env.staging.example` / `.env.production.example`, including `PORT`/`NODE_ENV` added 2026-10-21), `npm run lint` (0 problems over `src/`, `server/`, `server.ts`), `npx tsc --noEmit` (0 errors, `strict: true`), `npm test` (330 passed in 36 files), `npm run test:coverage` (ratchet met for `server/**`), `npm run build` (including the prerender step), `npm run check:bundle` (all six budgets pass), a production smoke boot of `dist/server.cjs` (prerendered shells, legacy `.html` 301s, real 404s, zero-`unsafe-inline` CSP, fail-closed payments `503`, `verify-deployment.mjs` contracts) and the Python tooling gates (32 pytest + ruff + mypy strict + black). Runs executed on Node v22.22.3 in the working sandbox; declared runtime is Node 24 (`.nvmrc`, D5). CI runs the same set plus gitleaks/semgrep/Docker/k6/Playwright/Lighthouse on every PR.
+> **Current state (2026-11-12):** every local gate re-verified green after the pipeline restore — `npm run check:env` (42 parity-verified keys across `.env.example` / `.env.staging.example` / `.env.production.example`, including `PORT`/`NODE_ENV`, added to the base template 2026-11-12; the unread `GEMINI_API_KEY` removed), `npm run lint` (0 problems over `src/`, `server/`, `server.ts`), `npx tsc --noEmit` (0 errors, `strict: true`), `npm test` (448 passed in 51 files), `npm run test:coverage` (71.41 / 59.47 / 75.3 / 72.64 against the 68 / 55 / 72 / 69 ratchet), `npm run check:deps` (the bundle's 15 runtime requires all declared), `npm run build` (including the prerender step), `npm run check:bundle` (all six budgets pass), `npm run media:check` (SKIP, exit 0, in this egress-restricted sandbox), a production smoke boot of `dist/server.cjs` (prerendered shells, legacy `.html` 301s, real 404s, zero-`unsafe-inline` CSP, fail-closed payments `503`, `verify-deployment.mjs` contracts) and the Python tooling gates (32 pytest + ruff + mypy strict + black). Runs executed on Node v22.22.3 in the working sandbox; declared runtime is Node 24 (`.nvmrc`, D5). CI runs the same set plus gitleaks/semgrep/Docker/k6/Playwright/Lighthouse on every PR.
 
 ## Quickstart
 
@@ -23,7 +23,7 @@ GITHUB_WEBHOOK_SECRET=dev-secret npm run dev   # Express (port 3000) + Vite midd
 | --- | --- |
 | `npm run dev` | tsx server.ts (Express + Vite middleware, HMR off for proxy compatibility) |
 | `npm run build` | Production bundle to `dist/`, then `scripts/prerender.ts` (65 route shells, `404.html`, `sitemap.xml` index plus `sitemap-core|engines|docs|blog.xml`, `routes.json`), then esbuild → `dist/server.cjs` |
-| `npm test` | Vitest suite (36 test files: UI (jsdom) + server route suite (node + supertest) + unit) |
+| `npm test` | Vitest suite (51 test files: UI (jsdom) + server route suite (node + supertest) + unit) |
 | `npm run test:coverage` | Same suite with v8 coverage; global thresholds are the measured baseline (68/55/72/69) and may only be raised |
 | `npm run typecheck` | `tsc --noEmit` (hard gate, must stay clean) |
 | `npm run lint` | ESLint (0 warnings tolerated) |
@@ -81,6 +81,8 @@ worker/api-proxy.js       Cloudflare Worker: same-origin /api/* proxy (split hos
 - **Payments**: fail closed. `/api/payments/verify` never grants entitlements; webhooks require HMAC-SHA256 over the raw body; missing gateway credentials → `503`.
 - **Webhooks**: GitHub deliveries verify `x-hub-signature-256` over the raw body; unknown `repoId`s are rejected, never auto-provisioned. Repo secrets are never echoed back to clients.
 - **SSRF**: every engine request goes through the guard — scheme allowlist, private/loophead range blocking, DNS resolution pinned to the validated address (anti-rebinding), response-size caps, TLS verification on.
+- **Disclosure**: vulnerabilities go to `security@catalystlab.tech`, never a public issue — scope, service levels and safe-harbour terms are in [`SECURITY.md`](./SECURITY.md); the October 2026 findings register is [`docs/security/review-2026-10.md`](./docs/security/review-2026-10.md).
+- **Deployable rules**: `firebase deploy --only firestore:rules` reads `firebase.json` → `firestore.rules` (+ an empty `firestore.indexes.json`), so the checked-in rules are the deployed rules.
 - **Rate limiting**: per-identity daily unit budgets + 60s burst windows, keyed by server-derived identity; visitor budget 20 units/day, master audit 10 units, single engine 1 unit. The ledger uses Upstash when configured and process memory otherwise (`server/core/rateLimit.ts`, `server/core/dailyQuota.ts`).
 - **Secrets hygiene**: the Firebase **web** config (`firebase-applet-config.json`) is public by design — it identifies the Firebase project and is safe to ship in the client bundle. The Admin **service account** is the credential, kept out of Git and provided via `FIREBASE_SERVICE_ACCOUNT_*`. No Sentry DSN or SDK ships to the browser: client errors relay through `POST /api/client-logs` and the server forwards them, scrubbed.
 
@@ -92,7 +94,7 @@ worker/api-proxy.js       Cloudflare Worker: same-origin /api/* proxy (split hos
 ## Testing
 
 ```bash
-npm test                 # 36 test files — UI (jsdom) + server routes (node + supertest) + unit
+npm test                 # 51 test files — UI (jsdom) + server routes (node + supertest) + unit
 npm run test:coverage    # coverage ratchet: global thresholds are the measured baseline (see vitest.config.ts)
 ```
 

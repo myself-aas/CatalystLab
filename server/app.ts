@@ -9,6 +9,8 @@ import { requestLoggingMiddleware, logger } from './core/logger';
 import { captureException } from './core/errorTracking';
 
 // Decomposed route modules (Phase 2) + client-log sink (Phase 3).
+import type { AppDeps } from './core/deps';
+import { defaultDeps } from './core/defaultDeps';
 import { registerTelemetryRoutes } from './routes/telemetry';
 import { registerNotificationRoutes } from './routes/notifications';
 import { registerStateSyncRoutes } from './routes/stateSync';
@@ -190,7 +192,17 @@ export function extractInlineHashes(html: string, tagName: 'script' | 'style'): 
  * Builds the fully-configured Express app (security headers, body limits,
  * identity middleware, all API routes, 404 + error fallbacks).
  */
-export async function createApp(): Promise<express.Express> {
+export interface CreateAppOptions {
+  /**
+   * External boundaries (network, engine runners). Defaults to the real
+   * implementations; tests inject fakes so they can assert client-visible
+   * behaviour without spying on internal modules.
+   */
+  deps?: AppDeps;
+}
+
+export async function createApp(options: CreateAppOptions = {}): Promise<express.Express> {
+  const deps = options.deps ?? defaultDeps;
   const app = express();
   const isProduction = process.env.NODE_ENV === 'production';
   if (process.env.TRUST_PROXY === 'true') {
@@ -310,7 +322,7 @@ export async function createApp(): Promise<express.Express> {
   registerNotificationRoutes(app);
   registerStateSyncRoutes(app);
   registerPlanRoutes(app);
-  registerEngineRoutes(app);
+  registerEngineRoutes(app, deps.engine);
   registerReportRoutes(app);
   registerAccountRoutes(app);
   registerGithubRoutes(app);
