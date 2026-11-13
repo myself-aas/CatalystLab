@@ -12,6 +12,14 @@ describe('repository hygiene', () => {
     expect(read('SECURITY.md')).toContain('security@catalystlab.tech');
   });
 
+  it('advertises no capability the code cannot serve', () => {
+    // metadata.json requested SERVER_SIDE_GEMINI_API; the key was removed on
+    // 2026-11-12 because no file read it. A stale capability declaration is how a
+    // platform ends up provisioning (and billing for) an API nothing calls.
+    const meta = JSON.parse(read('metadata.json'));
+    expect(meta.request_capabilities ?? []).toEqual([]);
+  });
+
   it('makes firestore.rules deployable', () => {
     const cfg = JSON.parse(read('firebase.json'));
     expect(cfg.firestore.rules).toBe('firestore.rules');
@@ -23,6 +31,23 @@ describe('repository hygiene', () => {
     const pkg = JSON.parse(read('package.json'));
     expect(pkg.private).toBe(true);
     expect(existsSync(path.join(root, 'LICENSE'))).toBe(false);
+  });
+
+  it('keeps every deliberately tracked binary declared by the asset manifest', () => {
+    // docs/decisions/tracked-binaries.md: these stay in Git, so a rename or deletion
+    // must not land without the manifest moving with it.
+    const manifest = JSON.parse(read('.assets/manifest.json'));
+    const declared = new Set<string>(
+      (manifest.assets ?? []).map((a: { path: string }) => a.path)
+    );
+    for (const p of [
+      'video/hero-launch/assets/brand/logo-mark.svg',
+      'video/hero-launch/assets/captures/home-full.png',
+      'video/hero-launch/assets/fonts/inter-latin-wght-normal.woff2'
+    ]) {
+      expect(existsSync(path.join(root, p)), `${p} is tracked`).toBe(true);
+    }
+    expect([...declared].some((p) => p.includes('video/hero-launch/assets/brand/'))).toBe(true);
   });
 
   it('keeps captured dumps out of the repository root', () => {
