@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import type { BlogPost } from '../types';
-import { getBlogPosts } from '../lib/firebase';
-import { ENGINE_SEEDED_BLOGS } from '../data/engineBlogs';
+import { getAllPosts, getFeaturedPosts } from '@/lib/blogLoader';
+import type { BlogPost } from '@/types/blog';
 import { useAuth } from '../context/AuthContext';
 import { 
   ArrowRight, Search, BookOpen, Settings, Clock, 
@@ -11,28 +10,14 @@ import {
 } from 'lucide-react';
 import { SEOHead } from '../components/common/SEOHead';
 import { PlateImage } from '../components/common/PlateImage';
-import { getBlogCoverImage } from '../utils/blogImageMap';
-import { getArticleReadingTime } from '../utils/readingTime';
 import { logger } from '../lib/logger';
 import { BlogCardSkeleton } from '../components/skeleton';
 import { motion, AnimatePresence } from 'motion/react';
 
-const SEEDED_BLOG_POSTS = Object.values(ENGINE_SEEDED_BLOGS)
-  .flat()
-  .filter((post, index, posts) => posts.findIndex((item) => item.slug === post.slug) === index) as BlogPost[];
-
-const TOPICS = [
-  { key: 'All', label: 'Discover' },
-  { key: 'Health', label: 'Health' },
-  { key: 'Politics', label: 'Politics' },
-  { key: 'Art', label: 'Art' },
-  { key: 'Food', label: 'Food' },
-  { key: 'Science', label: 'Science' }
-];
-
 export const BlogsPage: React.FC = () => {
   const { user, isAdmin } = useAuth();
   const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [featuredPosts, setFeaturedPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTopic, setSelectedTopic] = useState('All');
@@ -40,16 +25,14 @@ export const BlogsPage: React.FC = () => {
   useEffect(() => {
     const loadPosts = async () => {
       try {
-        const data = await getBlogPosts();
-        if (!data || data.length === 0) {
-          setPosts(SEEDED_BLOG_POSTS);
-        } else {
-          const published = data.filter(p => p.status !== 'archived');
-          setPosts(published.length > 0 ? published : SEEDED_BLOG_POSTS);
-        }
+        const [allPosts, featured] = await Promise.all([
+          getAllPosts(),
+          getFeaturedPosts(),
+        ]);
+        setPosts(allPosts);
+        setFeaturedPosts(featured);
       } catch (err) {
         logger.error("Error loading blog posts:", err);
-        setPosts(SEEDED_BLOG_POSTS);
       } finally {
         setLoading(false);
       }
@@ -64,11 +47,16 @@ export const BlogsPage: React.FC = () => {
       const matchesTopic = selectedTopic === 'All' || 
                            (post.category && post.category.toLowerCase().includes(selectedTopic.toLowerCase()));
       return matchesSearch && matchesTopic;
-    }).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+    });
   }, [posts, searchQuery, selectedTopic]);
 
-  const heroPost = filteredPosts.length > 0 ? filteredPosts[0] : null;
-  const listPosts = filteredPosts.length > 1 ? filteredPosts.slice(1) : [];
+  const heroPost = featuredPosts[0] ?? filteredPosts[0] ?? null;
+  const listPosts = filteredPosts.filter(p => p.slug !== heroPost?.slug);
+
+    const TOPICS = useMemo(() => {
+      const categories = [...new Set(posts.map(p => p.category))];
+      return [{ key: 'All', label: 'Discover' }, ...categories.map(c => ({ key: c, label: c }))];
+    }, [posts]);
 
   return (
     <div className="min-h-screen ds-page-top bg-background text-foreground font-sans pb-20">
@@ -95,6 +83,28 @@ export const BlogsPage: React.FC = () => {
           <p className="text-sm text-muted-foreground">Written by the engineers who build the engines, with the measurement each post is based on.</p>
         </div>
 
+                {/* Topic Pills - dynamic from frontmatter categories */}
+                <div className="px-6 mb-6 overflow-x-auto no-scrollbar">
+                  <div className="flex items-center gap-2 pb-1 min-w-max">
+                    {TOPICS.map((topic) => {
+                      const isActive = selectedTopic === topic.key;
+                      return (
+                        <button
+                          key={topic.key}
+                          onClick={() => setSelectedTopic(topic.key)}
+                          className={`px-4 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition border ${
+                            isActive
+                              ? 'bg-primary text-primary-foreground border-transparent shadow-[0_2px_10px_rgba(240,250,255,0.15)]'
+                              : 'bg-muted text-foreground/80 border-foreground/10 hover:text-foreground hover:border-foreground/20'
+                          }`}
+                        >
+                          {topic.label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
         {/* Search — pill shape */}
         <div className="px-6 mb-5">
           <div className="relative">
@@ -109,28 +119,6 @@ export const BlogsPage: React.FC = () => {
             <button type="button" aria-label="Filter articles" className="absolute right-3 top-1/2 -translate-y-1/2 size-8 rounded-full bg-background border border-foreground/10 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors">
               <Sliders className="w-3.5 h-3.5" />
             </button>
-          </div>
-        </div>
-
-        {/* Topic Pills */}
-        <div className="px-6 mb-6 overflow-x-auto no-scrollbar">
-          <div className="flex items-center gap-2 pb-1 min-w-max">
-            {TOPICS.map((topic) => {
-              const isActive = selectedTopic === topic.key;
-              return (
-                <button
-                  key={topic.key}
-                  onClick={() => setSelectedTopic(topic.key)}
-                  className={`px-4 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition border ${
-                    isActive
-                      ? 'bg-primary text-primary-foreground border-transparent shadow-[0_2px_10px_rgba(240,250,255,0.15)]'
-                      : 'bg-muted text-foreground/80 border-foreground/10 hover:text-foreground hover:border-foreground/20'
-                  }`}
-                >
-                  {topic.label}
-                </button>
-              );
-            })}
           </div>
         </div>
 
@@ -156,10 +144,10 @@ export const BlogsPage: React.FC = () => {
                     transition={{ delay: idx * 0.04 }}
                     key={post.id || post.slug}
                   >
-                    <Link to={`/blog/${post.slug || post.id}`} className="group flex gap-4 items-center p-3 rounded-2xl hover:bg-muted transition-colors border border-transparent hover:border-foreground/10">
+                    <Link to={`/blog/${post.slug}`} className="group flex gap-4 items-center p-3 rounded-2xl hover:bg-muted transition-colors border border-transparent hover:border-foreground/10">
                       <div className="w-20 h-20 shrink-0 rounded-2xl overflow-hidden bg-muted border border-foreground/10">
                         <PlateImage
-                          {...getBlogCoverImage(post)}
+                                                  src={post.coverImage}
                           alt={post.title}
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                         />
@@ -171,10 +159,10 @@ export const BlogsPage: React.FC = () => {
                         <div className="flex items-center gap-3 text-[11px] text-muted-foreground font-medium">
                           <span className="flex items-center gap-1.5">
                             <Clock className="w-3 h-3" />
-                            {getArticleReadingTime(post)}
+                            {post.readTime}
                           </span>
-                          {post.authorName && (
-                            <span className="truncate">By {post.authorName}</span>
+                          {post.author && (
+                                                      <span className="truncate">By {post.author}</span>
                           )}
                         </div>
                       </div>
