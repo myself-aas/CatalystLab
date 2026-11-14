@@ -1,0 +1,64 @@
+---
+title: "Automating Git Repository SecOps & Hygiene Verification in Modern CI/CD"
+seoTitle: "Git SecOps and Repository Hygiene in CI | CatalystLab"
+date: "2026-10-14"
+excerpt: "How automated branch protection, license checks, and SECURITY.md audits prevent catastrophic supply-chain leaks."
+author: "Dr. Aris Thorne"
+authorEmail: "aris.thorne@catalystlab.tech"
+authorAvatar: "/blogs/assets/images/avatars/avatar-1.jpg"
+category: "SecOps"
+tags: ["Git", "SecOps", "Security", "DevSecOps", "CI/CD"]
+coverImage: "/blogs/assets/images/covers/automating-git-secops-hygiene.jpg"
+featured: false
+status: "published"
+readTime: "5 min read"
+views: 940
+---
+
+## Supply chain risk starts in the repository settings
+
+Most breach retellings start at a firewall. Most breach timelines start earlier, with a credential committed to a public repository, a dependency that was never updated, or a maintainer with no way to receive a vulnerability report. Those are configuration problems, and configuration can be tested in CI.
+
+### Six checks worth automating
+
+1. **Secret scanning on every push.** GitHub's push protection and equivalent pre-commit hooks block a credential before it reaches the default branch. Scanning after the fact is recovery, not prevention.
+2. **A SECURITY.md with a real channel.** Without it a researcher has no safe way to report a vulnerability, so they either publish it or sell it. Name a mailbox and a response window.
+3. **Branch protection on the default branch.** Required reviews and required status checks turn "please do not push directly" into an enforced rule.
+4. **Dependency updates.** Dependabot or Renovate opens the pull request; a human still has to merge it. Alert fatigue is the failure mode to design against, so group minor updates.
+5. **A licence file.** Without one the code is not open source in any useful sense, and downstream users inherit an unresolved legal question.
+6. **Pinned CI actions.** A workflow that references an action by tag can change under you. Pin to a commit SHA for anything with repository write access.
+
+```yaml
+name: repo-hygiene
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Require SECURITY.md
+        run: test -f SECURITY.md
+      - name: Fail on committed .env files
+        run: '! git ls-files | grep -E "(^|/)\\.env$"'
+```
+
+### Treat the check as a gate, not a report
+
+A scan that writes a warning into a log nobody reads has the same effect as no scan. Wire the result into the required status checks so a failing hygiene job blocks the merge. Keep the rule set small enough that it stays green when the repository is healthy, because a permanently failing gate gets ignored.
+
+### Keep the ruleset maintainable
+
+A hygiene job that fails for reasons nobody can fix gets disabled. Keep the required checks to the ones with a clear owner, put the rest in a warning-only job, and review the rule set when the repository changes shape. The goal is a gate that is green when the repository is healthy, not a scanner with the longest possible output.
+
+### The disclosure side
+
+Security.txt (RFC 9116) puts the contact and the disclosure policy at a predictable path, `/.well-known/security.txt`. Publishing it costs one file and removes the "how do I even report this" step for a researcher.
+
+## Sources
+
+- [OWASP Top 10](https://owasp.org/www-project-top-ten/)
+- [Adding a security policy to your repository, GitHub Docs](https://docs.github.com/en/code-security/security-advisories/guidance-on-reporting-and-writing-information-about-vulnerabilities/adding-a-security-policy-to-your-repository)
+- [RFC 9116: security.txt](https://www.rfc-editor.org/rfc/rfc9116.html)
+- [Dependabot documentation, GitHub Docs](https://docs.github.com/en/code-security/dependabot)

@@ -1,0 +1,66 @@
+---
+title: "The /llms.txt Standard: Preparing Knowledge Bases for Autonomous AI Crawlers"
+seoTitle: "The llms.txt Standard for AI Crawlers | CatalystLab"
+date: "2026-10-17"
+excerpt: "How to structure root documentation manifests and robots.txt policies to ensure seamless vector ingestion by frontier AI models."
+author: "Marcus Chen"
+authorEmail: "marcus.chen@catalystlab.tech"
+authorAvatar: "/blogs/assets/images/avatars/avatar-1.jpg"
+category: "AI & LLMO"
+tags: ["llms.txt", "AI Readiness", "RAG", "GPTBot", "ClaudeBot"]
+coverImage: "/blogs/assets/images/covers/llmstxt-standard-autonomous-ai-crawlers.jpg"
+featured: true
+status: "published"
+readTime: "6 min read"
+views: 2120
+---
+
+## What llms.txt is, and what it is not
+
+`/llms.txt` is a proposal published in September 2024: a markdown file at the site root that gives an AI system a short, curated map of the site's important pages and what each one covers. It is not a standard, no search engine has committed to consuming it, and Google's guidance is explicit that no special file is required for its AI features.
+
+Useful framing: `robots.txt` says what a crawler may fetch, `sitemap.xml` lists what exists, and `llms.txt` says what matters and why. Only the first two are honoured universally.
+
+### Write one for humans and machines at once
+
+The format is plain markdown with a single H1 and a blockquote summary, followed by link sections:
+
+```markdown
+# CatalystLab
+
+> Web health, security and AI-readiness telemetry for one domain.
+
+## Diagnostic engines
+- [Website health](/health): DOM depth, payload and Core Web Vitals budgets.
+- [Edge latency](/latency): time to first byte from every point of presence.
+
+## Documentation
+- [API guide](/docs/api): endpoints, authentication and rate limits.
+```
+
+Two rules keep it useful. Never duplicate the sitemap: a file that lists every URL is a worse sitemap. And keep the descriptions specific, because a generic one gives the reader no reason to open the page.
+
+### Decide crawler policy by purpose
+
+Crawler user agents are not interchangeable, and a single "AI bots" rule conflates three different things:
+
+- **Search discovery**: `OAI-SearchBot`, `PerplexityBot`, `Claude-SearchBot`, `meta-webindexer`. Blocking these removes you from answers that would otherwise cite and link you.
+- **User-triggered retrieval**: `ChatGPT-User`, `Claude-User`, `Perplexity-User`. These fetch a page because a person asked about it.
+- **Model training**: `GPTBot`, `ClaudeBot`, `Google-Extended`, `Applebot-Extended`, `CCBot`. Blocking these does not remove a page from search results.
+
+Blocking training while allowing retrieval is a coherent position. Flipping one switch for all of them is not, and it is the most common mistake in AI crawler policy.
+
+### Make the page readable in the first place
+
+No manifest compensates for a page whose content only exists after a client render. If the article body arrives from an API call, many fetchers see the shell and nothing else. Server-render the prose, keep the heading hierarchy semantic, and put the answer in the first paragraph where both a person and a retrieval system will find it.
+
+### Verify what actually happens
+
+Fetch your own pages with the user agents you care about, then check that the response body contains the text, not just a mounting point. Check the status codes too: a soft 404 that returns 200 with an empty shell is the most expensive failure mode, because it looks fine in a log.
+
+## Sources
+
+- [llms.txt proposal](https://llmstxt.org/)
+- [AI features and your website, Google Search Central](https://developers.google.com/search/docs/appearance/ai-features)
+- [Robots.txt specification, RFC 9309](https://www.rfc-editor.org/rfc/rfc9309.html)
+- [Google crawlers and user-triggered fetchers](https://developers.google.com/search/docs/crawling-indexing/google-common-crawlers)

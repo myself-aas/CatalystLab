@@ -1,0 +1,71 @@
+---
+title: "Decoupling Critical CSS and Preloading Key Display Fonts for Sub-Second LCP"
+seoTitle: "Critical CSS and Font Preloading for LCP | CatalystLab"
+date: "2026-10-15"
+excerpt: "How inlining critical path CSS while asynchronous loading secondary styles reduces Largest Contentful Paint to under 800ms."
+author: "Maria Angelica"
+authorEmail: "maria@catalystlab.tech"
+authorAvatar: "/blogs/assets/images/avatars/avatar-2.jpg"
+category: "Core Performance"
+tags: ["LCP", "CSS", "Fonts", "Web Vitals"]
+coverImage: "/blogs/assets/images/covers/decoupling-critical-css-font-preloading.jpg"
+featured: false
+status: "published"
+readTime: "4 min read"
+views: 890
+---
+
+## What Largest Contentful Paint actually waits for
+
+Largest Contentful Paint reports when the largest text block or image in the viewport finishes rendering. Four things have to happen first: the HTML arrives, the render-blocking CSS arrives and is parsed, the font used by the largest text block arrives (or a fallback is swapped in), and layout runs. A custom display font that is discovered late delays the last step.
+
+The target is 2.5 seconds at the 75th percentile. Most sites miss it because of a stylesheet that blocks rendering until a font file has been fetched, not because the server is slow.
+
+### Step one: keep the critical CSS in the document
+
+Critical CSS is the subset of rules needed to render the first viewport. Inlining it removes a round trip from the critical path. Everything else can load asynchronously:
+
+```html
+<style>/* inlined first-viewport rules, generated at build time */</style>
+<link rel="stylesheet" href="/css/site.css" media="print" onload="this.media='all'" />
+<noscript><link rel="stylesheet" href="/css/site.css" /></noscript>
+```
+
+Inlining everything is a mistake: an oversized inline block delays the HTML itself and cannot be cached separately. Aim for a few kilobytes, regenerated whenever the hero markup changes.
+
+### Step two: make the font non-blocking
+
+`font-display: swap` lets the browser paint a fallback immediately and swap when the webfont arrives. That protects LCP at the cost of a visible swap, which is why the fallback should be metrically close to the real face.
+
+```css
+@font-face {
+  font-family: 'Inter var';
+  src: url('/fonts/inter-var.woff2') format('woff2-variations');
+  font-display: swap;
+  font-weight: 100 900;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153;
+}
+```
+
+`unicode-range` matters for sites with more than one script: a Latin-only visitor should never download the Cyrillic subset.
+
+### Step three: preload only what the first viewport uses
+
+Preloading tells the browser about a font before it has parsed the CSS that references it. It must be used sparingly, because every preload competes with the request the page actually needs.
+
+```html
+<link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+```
+
+The `crossorigin` attribute is required even for same-origin fonts. Without it the browser fetches the file twice and the preload is wasted.
+
+### What to verify
+
+Check that no stylesheet in the head exceeds roughly 50 KB uncompressed, that the hero font is requested in the first two network round trips, and that the LCP element is identified in the trace rather than guessed. If the LCP element is an image, the same rules apply with `fetchpriority="high"` and explicit dimensions instead of a font preload, because an unsized image also causes layout shift.
+
+## Sources
+
+- [Largest Contentful Paint, web.dev](https://web.dev/articles/lcp)
+- [Optimize LCP, web.dev](https://web.dev/articles/optimize-lcp)
+- [font-display, MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display)
+- [Preload critical assets, web.dev](https://web.dev/articles/preload-critical-assets)

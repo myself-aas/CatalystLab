@@ -1,0 +1,53 @@
+---
+title: "Zero-Downtime Platform Migration: 301 Redirects and SEO Canonical Parity"
+seoTitle: "Zero-Downtime Migration and SEO Parity | CatalystLab"
+date: "2026-10-10"
+excerpt: "Architectural blueprint for transitioning legacy CMS systems to modern decoupled edge frameworks without traffic loss."
+author: "Alex Rivera"
+authorEmail: "alex.rivera@catalystlab.tech"
+authorAvatar: "/blogs/assets/images/avatars/avatar-2.jpg"
+category: "Architecture"
+tags: ["Migration", "301 Redirects", "SEO", "Cloud Portability", "DevOps"]
+coverImage: "/blogs/assets/images/covers/zero-downtime-platform-migration-seo-parity.jpg"
+featured: false
+status: "published"
+readTime: "6 min read"
+views: 980
+---
+
+## A migration is a URL contract, not a redesign
+
+Search engines do not care which framework renders a page. They care that the URL that used to return content still returns the same content, at the same URL, or that a permanent redirect points to it. Traffic loss after a replatform is almost always a broken URL contract: a redirect chain, a redirect to a soft 404, or a canonical tag that disagrees with the sitemap.
+
+### Build the URL inventory before touching the stack
+
+Export every URL with impressions or links from Search Console, the analytics tool, the server log and the sitemap. Combine them, deduplicate, and map each one to its destination. That mapping is the deliverable the cutover depends on; everything else is implementation.
+
+The map needs to answer four questions per URL: does it still exist, does it redirect permanently, does the destination return 200, and does the destination canonical point at itself.
+
+```tsv
+/about-us            /about              301
+/blog/old-post-123   /blogs/old-post     301
+/legacy/page         /                    301
+```
+
+### Three failure modes to test for
+
+1. **Redirect chains.** A to B to C loses signal and slows the crawl. Resolve every chain to a single hop.
+2. **Soft 404s.** A 200 response with an empty shell, usually because the new router renders a not-found view without setting the status. Serve a real 404.
+3. **Canonical disagreement.** If the canonical says one URL and the sitemap lists another, you have asked the engine to choose. Make them identical.
+
+### Cutover sequence
+
+Ship the new stack behind the same hostname with the redirect map live, then verify a sample of at least a few hundred URLs with a script that asserts status, canonical and the presence of the H1. Keep the old sitemap available for comparison, publish the new one, and watch coverage daily for the first fortnight. Do not change content and structure in the same release: if traffic moves, you want to know which change caused it.
+
+### What actually recovers traffic
+
+Nothing recovers a 301 that points at a page with different intent. If a URL's topic changed, the redirect target has to answer the original query or the ranking will not transfer. That is a content decision, and it is cheaper to make before the cutover than after.
+
+## Sources
+
+- [Site moves with URL changes, Google Search Central](https://developers.google.com/search/docs/crawling-indexing/site-move-with-url-changes)
+- [Redirects and Google Search](https://developers.google.com/search/docs/crawling-indexing/301-redirects)
+- [Consolidate duplicate URLs with canonical tags](https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls)
+- [HTTP redirection, MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Redirections)

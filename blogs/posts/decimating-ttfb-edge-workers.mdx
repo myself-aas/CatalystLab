@@ -1,0 +1,52 @@
+---
+title: "Decimating TTFB with Multi-Region Edge Workers & Smart Anycast Routing"
+seoTitle: "Cutting TTFB With Edge Workers | CatalystLab"
+date: "2026-10-16"
+excerpt: "A deep-dive into synthetic edge latency telemetry across Tokyo, Frankfurt, Virginia, and Sydney points of presence."
+author: "Elena Rostova"
+authorEmail: "elena.rostova@catalystlab.tech"
+authorAvatar: "/blogs/assets/images/avatars/avatar-1.jpg"
+category: "Edge Latency"
+tags: ["Edge", "TTFB", "Performance", "CDN", "Infrastructure"]
+coverImage: "/blogs/assets/images/covers/decimating-ttfb-edge-workers.jpg"
+featured: true
+status: "published"
+readTime: "8 min read"
+views: 1540
+---
+
+## TTFB is a geography problem before it is a code problem
+
+Time to first byte is the gap between the request leaving the client and the first byte of the response arriving. It includes DNS, the TCP or QUIC handshake, TLS, and however long the origin takes to produce the first byte. On a long-haul path, the speed of light sets a floor no application optimisation can move.
+
+That is why the same origin measures well from one continent and poorly from another, and why a single-region deployment cannot promise a consistent TTFB worldwide.
+
+### The four levers, in order of effect
+
+1. **Serve from the edge.** Run the response logic that does not need the primary database at the point of presence, so the handshake and the first byte share a round trip with the user instead of crossing an ocean.
+2. **Terminate TLS close to the user.** TLS 1.3 (RFC 8446) removes a round trip from the handshake compared with TLS 1.2, and session resumption removes another. 0-RTT resumption has replay risk and should be limited to requests that are safe to repeat.
+3. **Use HTTP/3 where it is available.** QUIC multiplexes streams independently over UDP, so one lost packet no longer stalls every response on the connection, which is what head-of-line blocking costs on HTTP/2 over a lossy mobile link.
+4. **Cache the first byte.** A hit at the edge skips the origin entirely. `stale-while-revalidate` keeps serving instantly while refreshing in the background.
+
+```http
+Cache-Control: public, max-age=0, s-maxage=600, stale-while-revalidate=86400
+```
+
+### Measure from where your users are
+
+A single synthetic test from one region tells you almost nothing. Sample from several continents, record p50 and p75 separately, and hold the connection profile constant so the numbers are comparable across runs. Cold and warm runs must be reported separately too: a warm connection can look twice as fast as a first visit.
+
+### Instrument the phases before optimising
+
+A single TTFB number hides four costs that need different fixes. If DNS dominates, the answer is a resolver closer to the user or a longer-lived record cache. If the TLS handshake dominates, session resumption and certificate chain size are the suspects. If waiting on the server dominates, the query or the cold start is the problem. Collect the phases separately and fix the largest one.
+
+### What the number does not tell you
+
+TTFB is not a ranking factor on its own, and a fast first byte with a slow render still produces a poor Largest Contentful Paint. Treat it as a diagnostic for the network and server layers, then measure rendering separately.
+
+## Sources
+
+- [Time to First Byte, web.dev](https://web.dev/articles/ttfb)
+- [RFC 9114: HTTP/3](https://www.rfc-editor.org/rfc/rfc9114.html)
+- [RFC 8446: TLS 1.3](https://www.rfc-editor.org/rfc/rfc8446.html)
+- [HTTP caching, MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching)

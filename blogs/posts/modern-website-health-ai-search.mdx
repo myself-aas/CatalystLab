@@ -1,0 +1,52 @@
+---
+title: "The Modern Anatomy of Website Health in the Era of AI Search"
+seoTitle: "Website Health in the Age of AI Search | CatalystLab"
+date: "2026-10-17"
+excerpt: "Why traditional SEO is yielding ground to structured RAG indexing and how llms.txt standardizes generative search ingestion."
+author: "Dr. Aris Thorne"
+authorEmail: "aris.thorne@catalystlab.tech"
+authorAvatar: "/blogs/assets/images/avatars/avatar-1.jpg"
+category: "AI & LLMO"
+tags: ["LLMO", "AI Search", "RAG", "llms.txt", "SEO"]
+coverImage: "/blogs/assets/images/covers/modern-website-health-ai-search.jpg"
+featured: true
+status: "published"
+readTime: "6 min read"
+views: 2400
+---
+
+## One domain, several independent measurements
+
+Website health is usually reported as a single score, which hides the fact that the underlying measurements disagree with each other. A page can be fast and inaccessible, secure and uncrawlable, light and unreadable by an AI retrieval system. Collapsing those into one number makes the trade-offs invisible.
+
+The useful model is a small set of dimensions measured separately, each with its own budget and its own evidence: rendering and Core Web Vitals, network latency from real locations, transport and header security, accessibility against WCAG, transfer weight and carbon, and crawler and AI-readiness policy.
+
+### Why separate dimensions beat a composite score
+
+A composite hides which input moved. If the score drops four points after a deploy, someone has to guess whether a font got heavier or a header got dropped. Separate dimensions make the cause visible in one look, and they let a team own the part it can change.
+
+The other reason is honesty. Some readings are measurements and some are estimates. A carbon figure is modelled; a TTFB sample is measured; an accessibility check covers what an automated rule set can detect, not what a person experiences. Mixing them into one number implies a precision that does not exist.
+
+### The questions worth answering before a launch
+
+- Does every public URL return 200 with the content in the HTML, or does some of it wait for JavaScript?
+- Does a missing page return 404 rather than a 200 shell?
+- Are titles and descriptions unique, and is the canonical self-referential?
+- Do the security headers survive the CDN?
+- Does the page work at 320 pixels wide with a keyboard only?
+- Is the crawler policy deliberate per user agent rather than a single block rule?
+
+### Make the report readable by a person
+
+A report that only a dashboard can read is a report nobody acts on. Print the measured value, the budget it was compared against, and the one change that would close the gap. A reader should be able to hand a single row to an engineer without translating a score.
+
+### What to do with the output
+
+Fix in order of blast radius: indexation and status codes first, then rendering, then transport, then content. A page that is not indexed gains nothing from a faster font. And re-measure with the same tool after the change, because an improvement you cannot reproduce is a coincidence.
+
+## Sources
+
+- [Core Web Vitals, web.dev](https://web.dev/articles/vitals)
+- [Search Essentials, Google Search Central](https://developers.google.com/search/docs/essentials)
+- [WCAG 2.2 quick reference, W3C](https://www.w3.org/WAI/WCAG22/quickref/)
+- [OWASP Top 10](https://owasp.org/www-project-top-ten/)

@@ -1,0 +1,56 @@
+---
+title: "OWASP Hardened Security Headers & GDPR Cookie Governance Architecture"
+seoTitle: "OWASP Headers and GDPR Cookies | CatalystLab"
+date: "2026-10-12"
+excerpt: "Complete production implementation of Strict-Transport-Security, Content-Security-Policy nonces, and privacy consent tiers."
+author: "Elena Rostova"
+authorEmail: "elena.rostova@catalystlab.tech"
+authorAvatar: "/blogs/assets/images/avatars/avatar-1.jpg"
+category: "Compliance & Security"
+tags: ["OWASP", "HSTS", "CSP", "GDPR", "CCPA", "Security"]
+coverImage: "/blogs/assets/images/covers/owasp-security-headers-gdpr-governance.jpg"
+featured: false
+status: "published"
+readTime: "7 min read"
+views: 1350
+---
+
+## Headers are the cheapest defence you will ever ship
+
+A web application firewall inspects traffic. Response headers instruct the browser, which is the only place some attacks can be stopped: a clickjacked frame, a MIME-sniffed upload, a downgraded connection. They cost one line of configuration per header and no runtime work.
+
+### The set worth deploying today
+
+- **Strict-Transport-Security**: `max-age=63072000; includeSubDomains; preload`. Once a browser has seen it, plain HTTP to your host is replaced before the request leaves. The preload list is a one-way commitment, so confirm every subdomain serves HTTPS first.
+- **Content-Security-Policy**: the only header that meaningfully limits script injection. A nonce or hash based policy with `strict-dynamic` is the modern shape; `unsafe-inline` in `script-src` removes most of the benefit.
+- **X-Content-Type-Options**: `nosniff`. Stops a browser guessing that an uploaded text file is executable script.
+- **Referrer-Policy**: `strict-origin-when-cross-origin` is a sane default that keeps full paths same-origin and sends only the origin cross-site.
+- **Permissions-Policy**: switch off camera, microphone and geolocation unless a feature needs them.
+- **Cross-Origin-Opener-Policy**: `same-origin` isolates your window from cross-origin openers.
+
+```http
+Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-{RANDOM}' 'strict-dynamic'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'
+```
+
+`frame-ancestors 'none'` supersedes `X-Frame-Options` in every browser that matters, but keep both while older clients exist.
+
+### Consent is a data problem, not a banner problem
+
+GDPR does not require a cookie banner. It requires a lawful basis before non-essential storage is used. A banner that fires analytics before the visitor interacts is worse than no banner, because it documents the violation.
+
+Practical rules: block non-essential scripts until consent, store the choice with a timestamp and a policy version, make rejection as easy as acceptance, and keep the record so you can answer "what did this visitor agree to" months later.
+
+### Roll a policy out without breaking the site
+
+A Content-Security-Policy that ships in report-only mode first is the only sane way to deploy one. Send `Content-Security-Policy-Report-Only` with the intended directive set, collect the violations for a week, fix or allow-list the sources that legitimately load, then enforce. Shipping enforcement on the first deploy turns every unlisted analytics tag into a silent failure in production.
+
+### Check the deployed response, not the source
+
+Headers are frequently lost at a proxy, duplicated by two layers, or overridden by a CDN default. Test the production URL with an HTTP client, not the development server, and assert the headers in CI so a platform change cannot silently remove them.
+
+## Sources
+
+- [OWASP Secure Headers Project](https://owasp.org/www-project-secure-headers/)
+- [OWASP HTTP headers cheat sheet](https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Headers_Cheat_Sheet.html)
+- [Content-Security-Policy, MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy)
+- [HSTS preload list](https://hstspreload.org/)

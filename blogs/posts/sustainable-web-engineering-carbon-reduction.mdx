@@ -1,0 +1,50 @@
+---
+title: "Sustainable Web Engineering: Reducing Digital Carbon Footprints with Modern Formats"
+seoTitle: "Website Carbon and Modern Formats | CatalystLab"
+date: "2026-10-13"
+excerpt: "Applying the Sustainable Web Design (SWD) model, choosing 100% renewable datacenters, and optimizing transfer weights."
+author: "Sofia Lindqvist"
+authorEmail: "sofia.lindqvist@catalystlab.tech"
+authorAvatar: "/blogs/assets/images/avatars/avatar-2.jpg"
+category: "Sustainability"
+tags: ["Green Web", "CO2 Reduction", "AVIF", "Eco", "ESG"]
+coverImage: "/blogs/assets/images/covers/sustainable-web-engineering-carbon-reduction.jpg"
+featured: false
+status: "published"
+readTime: "6 min read"
+views: 1100
+---
+
+## Transfer weight is the lever you control
+
+A page's carbon estimate is driven by how much data moves, how far it moves, and what the device does with it. Hosting on renewable energy addresses one part of that. The rest is page weight, and page weight is an engineering decision.
+
+The Sustainable Web Design model, maintained by Wholegrain Digital and Mightybytes, estimates energy per gigabyte and splits it across data centres, networks and end-user devices. Device energy is the largest share in the model, which is the counter-intuitive part: a lighter page helps most on the device that renders it.
+
+### Where the bytes go
+
+On a typical marketing page the transfer is dominated by three things: images, JavaScript, and fonts. Measure before optimising, because the ranking varies by site.
+
+- **Images**: serve AVIF or WebP with explicit dimensions, and size the file to the largest slot it is rendered into. A 2000-pixel image in a 600-pixel card is the most common waste on the web.
+- **JavaScript**: every framework dependency ships to every visitor. Ship less, and split the rest so the first route does not pay for the last one.
+- **Fonts**: subset with `unicode-range`, prefer variable files over four static weights, and preload only what the first viewport needs.
+- **Compression**: Brotli for text, and confirm the CDN is not decompressing and recompressing on the way through.
+
+### Measure the estimate, not the feeling
+
+Tools disagree, and that is expected: they model different energy intensities and different grid carbon factors. Pick one model, state which, and track the same page over time rather than comparing your number to a vendor's headline claim. A shift from 1.2 g to 0.6 g CO2e per view is a real improvement in transfer terms even if the absolute figure is an estimate.
+
+### Where teams usually start
+
+The highest-return change is almost always the hero image and the third-party script bundle, in that order. A single unoptimised hero can outweigh every other asset on the page, and analytics or chat widgets routinely add more JavaScript than the application. Audit the third-party list before touching application code, because removing one widget is cheaper than refactoring a component tree.
+
+### Be careful with the claims
+
+Carbon estimates are modelled, not measured. Publishing one as a precise measurement is the same mistake as publishing a benchmark you did not run. Label the number as an estimate, name the model and the grid mix, and date it.
+
+## Sources
+
+- [Sustainable Web Design model](https://sustainablewebdesign.org/)
+- [Website Carbon Calculator methodology](https://www.websitecarbon.com/how-does-it-work/)
+- [Image formats and compression, web.dev](https://web.dev/learn/images/)
+- [Reduce JavaScript payloads, web.dev](https://web.dev/articles/reduce-javascript-payloads-with-code-splitting)

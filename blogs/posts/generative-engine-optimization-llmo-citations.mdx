@@ -1,0 +1,50 @@
+---
+title: "Generative Engine Optimization (LLMO): Mastering Citations in Perplexity and SearchGPT"
+seoTitle: "GEO and LLMO: Citations in AI Search | CatalystLab"
+date: "2026-10-18"
+excerpt: "How to structure Schema.org entity graphs, factual densities, and semantic hierarchies to dominate answer engine summaries."
+author: "Marcus Chen"
+authorEmail: "marcus.chen@catalystlab.tech"
+authorAvatar: "/blogs/assets/images/avatars/avatar-1.jpg"
+category: "AI Search"
+tags: ["LLMO", "SearchGPT", "Perplexity", "JSON-LD", "Semantic Web"]
+coverImage: "/blogs/assets/images/covers/generative-engine-optimization-llmo-citations.jpg"
+featured: true
+status: "published"
+readTime: "6 min read"
+views: 1890
+---
+
+## Being cited is a different problem from being ranked
+
+Answer engines retrieve passages, not pages. A model reads a chunk of your document, decides whether it answers the question, and either cites it or does not. That changes what matters: a page that ranks well on a long tail can still never be quoted if its answer is buried under three paragraphs of introduction, and a page on page two can be cited if it states the answer plainly.
+
+The documented levers are not exotic. Google's guidance remains that ordinary helpful content, structured with headings and paragraphs, is what its AI features use. For engines that read markdown-shaped text, the structural work pays off directly.
+
+### Write passages that survive extraction
+
+Every section should open with a direct answer of roughly 40 to 60 words, then expand. That length is long enough to be complete and short enough to be lifted whole.
+
+- Lead with the answer, not the context.
+- Use the question as the heading, phrased the way a person would ask it.
+- Keep one idea per paragraph.
+- Put numbers in a sentence, not only in a chart, and name where the number came from.
+
+### Give the model an entity to attach to
+
+Structured data tells a retrieval system what the page is about and who published it. `Organization`, `WebPage`, `Article` or `TechArticle`, `BreadcrumbList`, and a named author are the useful set. Google states structured data is not required for its AI features and no study isolates a citation lift from schema; the argument for it is disambiguation, not a ranking trick.
+
+### Citations are earned off-site as much as on it
+
+A model's shortlist is shaped by what the wider web says about you: review sites, forums, directories, press. Your own pages win citations; third-party consensus wins recommendations. Publishing a "best tools" listicle that ranks competitors above yourself is a known failure mode, and it is not a substitute for being described accurately elsewhere.
+
+### Measure honestly
+
+AI answers are non-deterministic. One query run once is an anecdote. Track a fixed prompt set, run each prompt several times per platform, and record the rate with its sample size. Repeat monthly and compare rates, not single observations.
+
+## Sources
+
+- [AI features and your website, Google Search Central](https://developers.google.com/search/docs/appearance/ai-features)
+- [Structured data introduction, Google Search Central](https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data)
+- [llms.txt proposal](https://llmstxt.org/)
+- [Generative Engine Optimization, Aggarwal et al., KDD 2024](https://arxiv.org/abs/2311.09735)
