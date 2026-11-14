@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["title", "date", "excerpt", "author", "category"],
+  "properties": {
+    "title": { "type": "string", "minLength": 1 },
+    "seoTitle": { "type": "string", "maxLength": 60 },
+    "date": { "type": "string", "format": "date" },
+    "excerpt": { "type": "string", "minLength": 50, "maxLength": 160 },
+    "author": { "type": "string" },
+    "authorEmail": { "type": "string", "format": "email" },
+    "authorAvatar": { "type": "string" },
+    "category": { "type": "string", "enum": ["Core Performance", "Edge Latency", "AI & LLMO", "SecOps", "Sustainability", "Compliance & Security", "Architecture", "AI Search", "Release Notes"] },
+    "tags": { "type": "array", "items": { "type": "string" }, "maxItems": 10 },
+    "coverImage": { "type": "string" },
+    "featured": { "type": "boolean", "default": false },
+    "status": { "type": "string", "enum": ["draft", "published"], "default": "published" },
+    "readTime": { "type": "string" },
+    "views": { "type": "integer", "default": 0 }
+  }
+}
