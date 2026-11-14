@@ -13,18 +13,16 @@ export type { BillingCycle } from './pricing';
 // activate a paid plan, every event is applied at most once (idempotent on the
 // gateway event id), and an older event can never overwrite a newer state.
 //
-// D2: 2Checkout is the single live gateway. Dodo Payments stays in the code
-// base but is disabled unless `PAYMENT_GATEWAY=dodopay` is set explicitly.
+// D2: Lemon Squeezy is the single live gateway.
 
-export type GatewayId = '2checkout' | 'dodopay';
+export type GatewayId = 'lemonsqueezy';
 
 export const SUBSCRIPTION_COLLECTION = 'user_subscriptions';
 export const PAYMENT_EVENT_COLLECTION = 'payment_events';
 
 /** The gateway this deployment accepts payments through. */
 export function activeGateway(): GatewayId {
-  const configured = (process.env.PAYMENT_GATEWAY || '').trim().toLowerCase();
-  return configured === 'dodopay' ? 'dodopay' : '2checkout';
+  return 'lemonsqueezy';
 }
 
 /** True when `gateway` is the configured live gateway (D2). */
@@ -101,6 +99,50 @@ export function parseCheckoutCustomField(raw: unknown): {
   };
 }
 
+/**
+ * Builds the Lemon Squeezy checkout URL.
+ * Lemon Squeezy uses variant IDs for products, which we map via LEMONSQUEEZY_VARIANT_IDS env var.
+ * Format: JSON object mapping "planId:billingCycle" -> variant ID.
+ * Example: '{"pro:monthly":"12345","pro:annual":"12346","starter:monthly":"12347"}'
+ */
+export function buildLemonSqueezyCheckoutUrl(
+  planId: string,
+  billingCycle: BillingCycle,
+  customField: string,
+  isSandbox: boolean
+): string | null {
+  const variantIdsRaw = process.env.LEMONSQUEEZY_VARIANT_IDS || '{}';
+  let variantIds: Record<string, string>;
+  try {
+    variantIds = JSON.parse(variantIdsRaw);
+  } catch {
+    logger.warn({ variantIdsRaw }, '[LemonSqueezy] Failed to parse LEMONSQUEEZY_VARIANT_IDS, using empty map');
+    variantIds = {};
+  }
+
+  const variantKey = `${planId}:${billingCycle}`;
+  const variantId = variantIds[variantKey];
+  if (!variantId) {
+    logger.warn({ planId, billingCycle, variantKey }, '[LemonSqueezy] No variant ID configured for plan');
+    return null;
+  }
+
+  const storeId = process.env.LEMONSQUEEZY_STORE_ID;
+  if (!storeId) {
+    logger.warn('[LemonSqueezy] LEMONSQUEEZY_STORE_ID not configured');
+    return null;
+  }
+
+  const host = isSandbox ? 'https://checkout.lemonsqueezy.com' : 'https://checkout.lemonsqueezy.com';
+  const params = new URLSearchParams({
+    variant: variantId,
+    custom: customField,
+    embed: '1'
+  });
+
+  return `${host}/buy/${variantId}?${params.toString()}`;
+}
+
 function toEpochMs(value: unknown, fallback: number): number {
   if (typeof value === 'number' && Number.isFinite(value)) {
     // Gateway timestamps are commonly in seconds; normalise to milliseconds.
@@ -121,80 +163,40 @@ function firstString(...values: unknown[]): string | undefined {
   return undefined;
 }
 
-/**
- * Normalises a 2Checkout / Verifone INS (instant notification) payload.
- * Only fields the gateway signs over are used; anything the merchant controls
- * (plan, cycle, owner) comes from the `custom` passthrough we wrote into the
- * checkout URL.
- */
-export function normalize2CheckoutEvent(payload: any, receivedAt = Date.now()): GatewayEvent {
-  const messageType = String(payload?.message_type || payload?.messageType || '').toUpperCase();
-  const saleId = firstString(payload?.sale_id, payload?.saleId);
-  const invoiceId = firstString(payload?.invoice_id, payload?.invoiceId);
-  const recurringId = firstString(payload?.recurring_id, payload?.recurringId);
-  const reference = saleId || invoiceId || recurringId || 'unknown';
-  const invoiceStatus = String(payload?.invoice_status || payload?.list_status || payload?.status || '').toLowerCase();
-  const custom = parseCheckoutCustomField(payload?.custom ?? payload?.merchant_custom_field);
+/** Normalises a Lemon Squeezy webhook payload. */
+export function normalizeLemonSqueezyEvent(payload: any, receivedAt = Date.now()): GatewayEvent {
+  // Lemon Squeezy sends event names like `order_created`, `subscription_created`, etc.
+  const rawEventType = String(payload?.meta?.event_name || payload?.event_name || '').toLowerCase();
+  const data = payload?.data ?? {};
+  const attributes = data?.attributes ?? {};
+  const meta = payload?.meta ?? {};
+  const eventId = firstString(data?.id, meta?.event_id) || 'unknown';
+  const custom = parseCheckoutCustomField(attributes?.custom_data ?? meta?.custom_data ?? payload?.custom_data);
 
   let kind: GatewayEventKind = 'ignored';
-  if (messageType.includes('REFUND') || messageType.includes('CHARGEBACK')) {
+  if (rawEventType.includes('refund') || rawEventType.includes('payment_refunded')) {
     kind = 'refunded';
-  } else if (messageType.includes('RECURRING_STOPPED') || messageType.includes('CANCEL') || invoiceStatus === 'canceled') {
+  } else if (rawEventType.includes('cancel') || rawEventType.includes('subscription_cancelled') || rawEventType.includes('subscription_expired')) {
     kind = 'canceled';
-  } else if (messageType.includes('ORDER_CREATED') || messageType.includes('INVOICE_INCOMING_PAYMENT') || invoiceStatus === 'paid') {
-    kind = recurringId && messageType.includes('INVOICE_INCOMING_PAYMENT') ? 'renewed' : 'paid';
+  } else if (rawEventType.includes('payment_success') || rawEventType.includes('subscription_payment_success') || rawEventType.includes('order_created') || rawEventType.includes('subscription_created') || rawEventType.includes('subscription_resumed') || rawEventType.includes('subscription_unpaused')) {
+    kind = rawEventType.includes('renewed') || rawEventType.includes('subscription_payment_success') ? 'renewed' : 'paid';
   }
 
-  // item_list carries the product we passed as `prod=<planId>` at checkout.
-  const itemList = Array.isArray(payload?.item_list) ? payload.item_list : [];
-  const productPlan = itemList
-    .map((item: any) => item?.product_id ?? item?.productId)
-    .find((value: unknown) => isKnownPlanId(value)) as SubscriptionPlanId | undefined;
+  // Lemon Squeezy uses variant IDs; we map them via the custom passthrough or the first_order_item
+  const firstOrderItem = attributes?.first_order_item ?? {};
+  const variantId = firstString(firstOrderItem?.variant_id, firstOrderItem?.variantId);
 
   return {
-    eventId: `2checkout:${messageType || 'notification'}:${reference}`,
-    gateway: '2checkout',
+    eventId: `lemonsqueezy:${rawEventType || 'notification'}:${eventId}`,
+    gateway: 'lemonsqueezy',
     kind,
-    occurredAt: toEpochMs(payload?.timestamp ?? payload?.event_date ?? payload?.created_at, receivedAt),
-    ownerId: custom.ownerId || firstString(payload?.customer_id),
-    ownerEmail: firstString(payload?.customer_email, payload?.email),
-    planId: custom.planId || productPlan,
+    occurredAt: toEpochMs(meta?.event_time ?? attributes?.created_at ?? payload?.created_at, receivedAt),
+    ownerId: custom.ownerId || firstString(attributes?.user_email, attributes?.customer_email),
+    ownerEmail: firstString(attributes?.user_email, attributes?.customer_email),
+    planId: custom.planId,
     billingCycle: custom.billingCycle,
-    orderId: custom.orderId || saleId,
-    note: kind === 'ignored' ? `Unhandled 2Checkout message_type "${messageType || 'none'}".` : undefined
-  };
-}
-
-/** Normalises a Dodo Payments webhook payload (gateway disabled by default, D2). */
-export function normalizeDodoEvent(payload: any, receivedAt = Date.now()): GatewayEvent {
-  // Dodo sends dotted event names (`payment.succeeded`); canonicalise the
-  // separators so the classifier below can match on one spelling.
-  const rawEventType = String(payload?.event || payload?.type || '').toLowerCase();
-  const eventType = rawEventType.replace(/[.\-\s]/g, '_');
-  const object = payload?.object ?? payload?.data ?? {};
-  const eventId = firstString(payload?.event_id, payload?.id, object?.id) || 'unknown';
-  const custom = parseCheckoutCustomField(object?.metadata?.custom ?? object?.custom ?? payload?.custom);
-
-  let kind: GatewayEventKind = 'ignored';
-  if (eventType.includes('refund') || eventType.includes('dispute')) {
-    kind = 'refunded';
-  } else if (eventType.includes('cancel') || eventType.includes('subscription_inactive')) {
-    kind = 'canceled';
-  } else if (eventType.includes('payment_succeeded') || eventType.includes('subscription_active') || eventType.includes('renewed')) {
-    kind = eventType.includes('renewed') || eventType.includes('subscription_active') ? 'renewed' : 'paid';
-  }
-
-  return {
-    eventId: `dodopay:${rawEventType || 'notification'}:${eventId}`,
-    gateway: 'dodopay',
-    kind,
-    occurredAt: toEpochMs(payload?.created_at ?? object?.created_at, receivedAt),
-    ownerId: custom.ownerId || firstString(object?.customer?.id),
-    ownerEmail: firstString(object?.customer?.email, payload?.customer_email),
-    planId: custom.planId || (isKnownPlanId(object?.product_id) ? object.product_id : undefined),
-    billingCycle: custom.billingCycle,
-    orderId: custom.orderId || firstString(object?.payment_id, object?.id),
-    note: kind === 'ignored' ? `Unhandled Dodo Payments event "${rawEventType || 'none'}".` : undefined
+    orderId: custom.orderId || firstString(data?.id, attributes?.order_id),
+    note: kind === 'ignored' ? `Unhandled Lemon Squeezy event "${rawEventType || 'none'}".` : undefined
   };
 }
 

@@ -1,18 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import type { BlogPost } from '../types';
-import { getBlogPostBySlug } from '../lib/firebase';
+import { getPostBySlug } from '@/lib/blogLoader';
+import type { BlogPost } from '@/types/blog';
 import { useAuth } from '../context/AuthContext';
-import { MarkdownRenderer } from '../components/common/MarkdownRenderer';
 import { PlateImage } from '../components/common/PlateImage';
-import { getBlogCoverImage } from '../utils/blogImageMap';
-import { getArticleReadingTime } from '../utils/readingTime';
 import { 
   ArrowLeft, Bookmark, Clock, Share2, Check, Edit3, Eye
 } from 'lucide-react';
 import { SEOHead } from '../components/common/SEOHead';
-import { BLOG_SEO_BY_SLUG } from '../data/blogSeo';
-import { getSeededBlogPost } from '../data/engineBlogs';
 import { logger } from '../lib/logger';
 import { motion } from 'motion/react';
 
@@ -27,28 +22,12 @@ export const BlogPostPage: React.FC = () => {
   useEffect(() => {
     const load = async () => {
       if (!slug) return;
-      // Seed first, then replace if Firestore has a newer copy (2026-10-23).
-      // The prerendered document carries the seeded body, so rendering nothing
-      // until a network round trip finishes would replace a full article with a
-      // spinner. Posts that only exist in Firestore still arrive in the swap.
-      const seeded = getSeededBlogPost(slug);
-      if (seeded) {
-        setPost(seeded);
-        setLoading(false);
-      } else {
-        setLoading(true);
-      }
-      try {
-        const data = await getBlogPostBySlug(slug);
+        const data = await getPostBySlug(slug);
         if (data) setPost(data);
-      } catch (err) {
-        if (!seeded) logger.error("Error loading blog post:", err);
-      } finally {
         setLoading(false);
-      }
+        window.scrollTo(0, 0);
     };
     load();
-    window.scrollTo(0, 0);
   }, [slug]);
 
   const handleShare = () => {
@@ -80,7 +59,7 @@ export const BlogPostPage: React.FC = () => {
         />
         <h1 className="text-2xl font-bold mb-2">Article Not Found</h1>
         <p className="text-muted-foreground mb-6 text-center">The article you are looking for does not exist.</p>
-        <Link to="/blogs" className="px-6 py-3 bg-fog rounded-full text-sm font-medium hover:bg-fog transition-colors">
+          <Link to="/blogs" className="px-6 py-3 bg-muted rounded-full text-sm font-medium hover:bg-muted/80 transition-colors">
           Back to Discover
         </Link>
       </div>
@@ -90,12 +69,20 @@ export const BlogPostPage: React.FC = () => {
   return (
     <div className="min-h-screen overflow-x-hidden bg-background text-foreground font-sans pb-24">
       <SEOHead
-        // Same strings the build wrote into this page's <head>, so hydration
-        // does not rewrite the title a crawler already indexed.
-        title={BLOG_SEO_BY_SLUG[post.slug]?.seoTitle ?? post.title}
-        description={BLOG_SEO_BY_SLUG[post.slug]?.excerpt ?? post.excerpt ?? `Read ${post.title}`}
-        canonicalPath={`/blogs/${post.slug}`}
+              title={post.seoTitle ?? post.title}
+              description={post.excerpt}
+              canonicalPath={`/blog/${post.slug}`}
         absoluteTitle
+              structuredData={{
+                '@context': 'https://schema.org',
+                '@type': 'BlogPosting',
+                headline: post.title,
+                description: post.excerpt,
+                image: post.coverImage,
+                datePublished: post.date,
+                author: { '@type': 'Person', name: post.author },
+                publisher: { '@type': 'Organization', name: 'CatalystLab' },
+              }}
       />
 
       <div className="relative mx-auto min-h-screen w-full max-w-5xl bg-background">
@@ -103,7 +90,7 @@ export const BlogPostPage: React.FC = () => {
         {/* Full Bleed Image Header */}
         <div className="relative h-[45vh] min-h-[300px] max-h-[560px] w-full">
           <PlateImage
-            {...getBlogCoverImage(post)}
+                      src={post.coverImage}
             alt={post.title}
             className="w-full h-full object-cover"
             loading="eager"
@@ -148,22 +135,22 @@ export const BlogPostPage: React.FC = () => {
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-muted text-foreground flex items-center justify-center font-bold overflow-hidden">
                 {post.authorAvatar ? (
-                  <img src={post.authorAvatar} alt={post.authorName} className="w-full h-full object-cover" loading="lazy" decoding="async" />
+                                <img src={post.authorAvatar} alt={post.author} className="w-full h-full object-cover" loading="lazy" decoding="async" />
                 ) : (
-                  (post.authorName || 'C')[0]
+                                post.author[0]
                 )}
               </div>
-              <span className="font-semibold text-sm text-foreground">{post.authorName || 'Catalyst Team'}</span>
+                            <span className="font-semibold text-sm text-foreground">{post.author}</span>
             </div>
             
             <div className="flex items-center gap-4 text-xs font-medium text-muted-foreground">
               <span className="flex items-center gap-1">
                 <Clock className="w-3.5 h-3.5" />
-                {getArticleReadingTime(post)}
+                            {post.readTime}
               </span>
               <span className="flex items-center gap-1">
                 <Eye className="w-3.5 h-3.5" />
-                {(post as any).views || 376}
+                            {post.views}
               </span>
             </div>
           </div>
@@ -181,7 +168,7 @@ export const BlogPostPage: React.FC = () => {
           
           {user && (isAdmin || user.email === post.authorEmail) && (
             <Link 
-              to={`/blogs/edit/${post.id || post.slug}`}
+                        to={`/blogs/edit/${post.slug}`}
               className="flex items-center gap-2 text-sm font-medium text-foreground hover:bg-muted/80 transition-colors px-4 py-2 rounded-full bg-muted border border-border"
             >
               <Edit3 className="w-4 h-4" />
@@ -192,7 +179,7 @@ export const BlogPostPage: React.FC = () => {
 
         {/* Main Content */}
         <article className="mx-auto max-w-3xl px-6 pb-16 prose dark:prose-invert prose-p:text-muted-foreground prose-p:leading-relaxed prose-headings:text-foreground sm:px-8">
-          <MarkdownRenderer content={post.content} />
+                  {post.content}
         </article>
 
       </div>

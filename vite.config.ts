@@ -17,6 +17,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "./src"),
+        "@blogs": path.resolve(import.meta.dirname, "./blogs"),
     },
   },
   server: {

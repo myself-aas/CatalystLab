@@ -18,6 +18,7 @@ let app: Express;
 
 const GH_SECRET = 'whsec_test_secret';
 const PAY_SECRET = 'whsec_payments_test';
+const LS_SECRET = 'whsec_lemonsqueezy_test';
 
 function hmacSha256(body: string, secret: string): string {
   return `sha256=${createHmac('sha256', secret).update(body).digest('hex')}`;
@@ -30,6 +31,7 @@ beforeAll(async () => {
   // default repo record snapshots GITHUB_WEBHOOK_SECRET at module load.
   process.env.GITHUB_WEBHOOK_SECRET = GH_SECRET;
   process.env.PAYMENTS_WEBHOOK_SECRET = PAY_SECRET;
+  process.env.LEMONSQUEEZY_WEBHOOK_SECRET = LS_SECRET;
   const { createApp } = await import('@server/app');
   app = await createApp();
 });
@@ -45,43 +47,52 @@ describe('C1: payments fail closed', () => {
   });
 
   it('POST /api/payments/create-checkout is 503 without gateway credentials', async () => {
-    const res = await request(app).post('/api/payments/create-checkout').send({ planId: 'pro', gateway: '2checkout' });
+    const res = await request(app).post('/api/payments/create-checkout').send({ planId: 'pro', gateway: 'lemonsqueezy' });
     expect(res.status).toBe(503);
     expect(res.body.success).toBe(false);
   });
 
-  it('2Checkout webhook rejects unsigned payloads with a configured secret', async () => {
-    const res = await request(app).post('/api/payments/webhook/2checkout').send({ message_type: 'ORDER_CREATED' });
+  it('Lemon Squeezy webhook rejects unsigned payloads with a configured secret', async () => {
+    const res = await request(app).post('/api/payments/webhook/lemonsqueezy').send({ meta: { event_name: 'order_created' } });
     expect(res.status).toBe(401);
     expect(res.body.status).toBe('error');
   });
 
-  it('2Checkout webhook refuses a signed payload it cannot attribute (422)', async () => {
-    const body = JSON.stringify({ message_type: 'ORDER_CREATED', sale_id: 12345 });
+  it('Lemon Squeezy webhook refuses a signed payload it cannot attribute (422)', async () => {
+    const body = JSON.stringify({ meta: { event_name: 'order_created' }, data: { id: 'evt_1' } });
     const res = await request(app)
-      .post('/api/payments/webhook/2checkout')
+      .post('/api/payments/webhook/lemonsqueezy')
       .set('Content-Type', 'application/json')
-      .set('x-signature-256', hmacSha256(body, PAY_SECRET))
+      .set('x-signature', hmacSha256(body, LS_SECRET))
       .send(body);
     expect(res.status).toBe(422);
     expect(res.body.reason).toBe('MISSING_OWNER');
     expect(res.body.applied).toBe(false);
   });
 
-  it('2Checkout webhook activates the subscription from a signed payload (D1)', async () => {
+  it('Lemon Squeezy webhook activates the subscription from a signed payload (D1)', async () => {
     const store = new MemorySubscriptionStore();
     setSubscriptionStoreForTests(store);
     try {
       const body = JSON.stringify({
-        message_type: 'ORDER_CREATED',
-        sale_id: '998877',
-        customer_email: 'owner@example.com',
-        custom: buildCheckoutCustomField('uid_webhook_1', 'pro', 'annual', 'ord_webhook_1')
+        meta: {
+          event_name: 'order_created',
+          event_time: '2026-11-14T10:00:00Z',
+          custom_data: buildCheckoutCustomField('uid_webhook_1', 'pro', 'annual', 'ord_webhook_1')
+        },
+        data: {
+          id: 'evt_1',
+          attributes: {
+            custom_data: buildCheckoutCustomField('uid_webhook_1', 'pro', 'annual', 'ord_webhook_1'),
+            user_email: 'owner@example.com',
+            first_order_item: { variant_id: 'var_pro_annual' }
+          }
+        }
       });
       const res = await request(app)
-        .post('/api/payments/webhook/2checkout')
+        .post('/api/payments/webhook/lemonsqueezy')
         .set('Content-Type', 'application/json')
-        .set('x-signature-256', hmacSha256(body, PAY_SECRET))
+        .set('x-signature', hmacSha256(body, LS_SECRET))
         .send(body);
 
       expect(res.status).toBe(200);
@@ -93,9 +104,9 @@ describe('C1: payments fail closed', () => {
 
       // Replaying the same signed bytes must be a no-op, not a second write.
       const replay = await request(app)
-        .post('/api/payments/webhook/2checkout')
+        .post('/api/payments/webhook/lemonsqueezy')
         .set('Content-Type', 'application/json')
-        .set('x-signature-256', hmacSha256(body, PAY_SECRET))
+        .set('x-signature', hmacSha256(body, LS_SECRET))
         .send(body);
       expect(replay.status).toBe(200);
       expect(replay.body.applied).toBe(false);
@@ -105,27 +116,37 @@ describe('C1: payments fail closed', () => {
     }
   });
 
-  it('2Checkout webhook answers 503 when no subscription store is configured', async () => {
+  it('Lemon Squeezy webhook answers 503 when no subscription store is configured', async () => {
     const body = JSON.stringify({
-      message_type: 'ORDER_CREATED',
-      sale_id: '555',
-      custom: buildCheckoutCustomField('uid_webhook_2', 'starter', 'monthly', 'ord_webhook_2')
+      meta: {
+        event_name: 'order_created',
+        event_time: '2026-11-14T10:00:00Z',
+        custom_data: buildCheckoutCustomField('uid_webhook_2', 'starter', 'monthly', 'ord_webhook_2')
+      },
+      data: {
+        id: 'evt_2',
+        attributes: {
+          custom_data: buildCheckoutCustomField('uid_webhook_2', 'starter', 'monthly', 'ord_webhook_2'),
+          user_email: 'owner@example.com',
+          first_order_item: { variant_id: 'var_starter_monthly' }
+        }
+      }
     });
     const res = await request(app)
-      .post('/api/payments/webhook/2checkout')
+      .post('/api/payments/webhook/lemonsqueezy')
       .set('Content-Type', 'application/json')
-      .set('x-signature-256', hmacSha256(body, PAY_SECRET))
+      .set('x-signature', hmacSha256(body, LS_SECRET))
       .send(body);
     expect(res.status).toBe(503);
     expect(res.body.reason).toBe('STORE_UNAVAILABLE');
   });
 
-  it('2Checkout webhook rejects a tampered signature', async () => {
-    const body = JSON.stringify({ message_type: 'ORDER_CREATED' });
+  it('Lemon Squeezy webhook rejects a tampered signature', async () => {
+    const body = JSON.stringify({ meta: { event_name: 'order_created' } });
     const res = await request(app)
-      .post('/api/payments/webhook/2checkout')
+      .post('/api/payments/webhook/lemonsqueezy')
       .set('Content-Type', 'application/json')
-      .set('x-signature-256', hmacSha256(body, 'attacker-controlled-secret'))
+      .set('x-signature', hmacSha256(body, 'attacker-controlled-secret'))
       .send(body);
     expect(res.status).toBe(401);
   });
@@ -610,32 +631,25 @@ describe('State-sync auth coverage (C4 completion)', () => {
   });
 });
 
-describe('DodoPay gateway is disabled (D2)', () => {
-  // Owner decision: 2Checkout is the single live gateway. Dodo stays in code
-  // but its webhook and checkout paths refuse to operate.
+describe('Lemon Squeezy gateway (D2)', () => {
+  // Owner decision: Lemon Squeezy is the single live gateway.
   afterEach(() => {
     delete process.env.PAYMENT_GATEWAY;
   });
 
-  it('rejects every webhook delivery with GATEWAY_DISABLED, signed or not', async () => {
-    const unsigned = await request(app).post('/api/payments/webhook/dodopay').send({ event: 'payment.succeeded' });
-    expect(unsigned.status).toBe(503);
-    expect(unsigned.body.code).toBe('GATEWAY_DISABLED');
-
-    const body = JSON.stringify({ event: 'payment.succeeded', payment_id: 'pay_1' });
-    const signed = await request(app)
-      .post('/api/payments/webhook/dodopay')
-      .set('Content-Type', 'application/json')
-      .set('x-signature-256', hmacSha256(body, PAY_SECRET))
-      .send(body);
-    expect(signed.status).toBe(503);
-    expect(signed.body.code).toBe('GATEWAY_DISABLED');
+  it('always enables Lemon Squeezy as the single live gateway', async () => {
+    // Lemon Squeezy is the only gateway, so it's always enabled
+    const res = await request(app).post('/api/payments/webhook/lemonsqueezy').send({ meta: { event_name: 'order_created' } });
+    // Should not be GATEWAY_DISABLED (503), but rather 401 for unsigned or 422 for missing owner
+    expect(res.status).not.toBe(503);
+    expect(res.status).not.toBe(400);
   });
 
-  it('refuses a client-selected gateway that is not live', async () => {
-    const res = await request(app).post('/api/payments/create-checkout').send({ planId: 'pro', gateway: 'dodopay' });
-    expect(res.status).toBe(400);
-    expect(res.body.code).toBe('GATEWAY_NOT_AVAILABLE');
+  it('accepts Lemon Squeezy as the only valid gateway for checkout', async () => {
+    const res = await request(app).post('/api/payments/create-checkout').send({ planId: 'pro', gateway: 'lemonsqueezy' });
+    // Should not be GATEWAY_NOT_AVAILABLE (400), but rather 503 for missing credentials
+    expect(res.status).not.toBe(400);
+    expect(res.status).toBe(503); // PAYMENTS_NOT_CONFIGURED
   });
 
   it('rejects unknown and unpurchasable planIds instead of defaulting to pro', async () => {

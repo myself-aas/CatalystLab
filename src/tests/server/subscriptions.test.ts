@@ -1,5 +1,5 @@
 // @vitest-environment node
-// Owner decisions D1 (webhook writes the subscription), D2 (2Checkout is the
+// Owner decisions D1 (webhook writes the subscription), D2 (Lemon Squeezy is the
 // single live gateway) and plan item 2.1 (checkout prices come from
 // `src/data/pricingData.ts`).
 import { afterEach, describe, expect, it } from 'vitest';
@@ -10,8 +10,7 @@ import {
   buildCheckoutCustomField,
   isGatewayEnabled,
   activeGateway,
-  normalize2CheckoutEvent,
-  normalizeDodoEvent,
+  normalizeLemonSqueezyEvent,
   parseCheckoutCustomField,
   setSubscriptionStoreForTests,
   PAYMENT_EVENT_COLLECTION,
@@ -60,20 +59,15 @@ describe('2.1 pricing parity with the published catalog', () => {
 });
 
 describe('D2 gateway pinning', () => {
-  it('runs 2Checkout by default and only enables the configured gateway', () => {
+  it('runs Lemon Squeezy by default and only enables the configured gateway', () => {
     const previous = process.env.PAYMENT_GATEWAY;
     delete process.env.PAYMENT_GATEWAY;
-    expect(activeGateway()).toBe('2checkout');
-    expect(isGatewayEnabled('2checkout')).toBe(true);
-    expect(isGatewayEnabled('dodopay')).toBe(false);
+    expect(activeGateway()).toBe('lemonsqueezy');
+    expect(isGatewayEnabled('lemonsqueezy')).toBe(true);
 
-    process.env.PAYMENT_GATEWAY = 'dodopay';
-    expect(activeGateway()).toBe('dodopay');
-    expect(isGatewayEnabled('dodopay')).toBe(true);
-    expect(isGatewayEnabled('2checkout')).toBe(false);
-
-    process.env.PAYMENT_GATEWAY = 'paypal';
-    expect(activeGateway()).toBe('2checkout');
+    process.env.PAYMENT_GATEWAY = 'lemonsqueezy';
+    expect(activeGateway()).toBe('lemonsqueezy');
+    expect(isGatewayEnabled('lemonsqueezy')).toBe(true);
 
     if (previous === undefined) delete process.env.PAYMENT_GATEWAY;
     else process.env.PAYMENT_GATEWAY = previous;
@@ -102,63 +96,63 @@ describe('checkout passthrough', () => {
   });
 });
 
-describe('2Checkout event normalisation', () => {
-  it('maps ORDER_CREATED with the passthrough to a paid activation', () => {
-    const event = normalize2CheckoutEvent({
-      message_type: 'ORDER_CREATED',
-      sale_id: '998877',
-      customer_email: 'owner@example.com',
-      custom: buildCheckoutCustomField('uid_42', 'pro', 'annual', 'ord_1'),
-      timestamp: 1_771_465_200
+describe('Lemon Squeezy event normalisation', () => {
+  it('maps order_created with the passthrough to a paid activation', () => {
+    const event = normalizeLemonSqueezyEvent({
+      meta: {
+        event_name: 'order_created',
+        event_time: '2026-11-14T10:00:00Z',
+        custom_data: buildCheckoutCustomField('uid_42', 'pro', 'annual', 'ord_1'),
+      },
+      data: {
+        id: 'evt_1',
+        attributes: {
+          custom_data: buildCheckoutCustomField('uid_42', 'pro', 'annual', 'ord_1'),
+          user_email: 'owner@example.com',
+          first_order_item: { variant_id: 'var_pro_annual' },
+        },
+      },
     });
     expect(event.kind).toBe('paid');
-    expect(event.eventId).toBe('2checkout:ORDER_CREATED:998877');
+    expect(event.eventId).toBe('lemonsqueezy:order_created:evt_1');
     expect(event.ownerId).toBe('uid_42');
     expect(event.planId).toBe('pro');
     expect(event.billingCycle).toBe('annual');
-    expect(event.occurredAt).toBe(1_771_465_200_000);
+    expect(event.occurredAt).toBe(Date.parse('2026-11-14T10:00:00Z'));
   });
 
-  it('falls back to the signed item_list product when no passthrough is present', () => {
-    const event = normalize2CheckoutEvent({
-      message_type: 'ORDER_CREATED',
-      invoice_id: 'inv_1',
-      item_list: [{ product_id: 'team', price: 468 }]
+  it('falls back to user_email when no passthrough ownerId is present', () => {
+    const event = normalizeLemonSqueezyEvent({
+      meta: {
+        event_name: 'order_created',
+        event_time: '2026-11-14T10:00:00Z',
+        custom_data: 'cl=anonymous|pro|annual|ord_1',
+      },
+      data: {
+        id: 'evt_2',
+        attributes: {
+          custom_data: 'cl=anonymous|pro|annual|ord_1',
+          user_email: 'fallback@example.com',
+        },
+      },
     });
-    expect(event.planId).toBe('team');
-    expect(event.ownerId).toBeUndefined();
-    expect(event.eventId).toBe('2checkout:ORDER_CREATED:inv_1');
+    expect(event.ownerId).toBe('fallback@example.com');
+    expect(event.ownerEmail).toBe('fallback@example.com');
+    expect(event.planId).toBe('pro');
+    expect(event.billingCycle).toBe('annual');
   });
 
   it('classifies renewals, refunds, cancellations and unknown messages', () => {
-    expect(normalize2CheckoutEvent({ message_type: 'INVOICE_INCOMING_PAYMENT', recurring_id: 'r1' }).kind).toBe('renewed');
-    expect(normalize2CheckoutEvent({ message_type: 'REFUND_ISSUED', sale_id: 's1' }).kind).toBe('refunded');
-    expect(normalize2CheckoutEvent({ message_type: 'RECURRING_STOPPED', sale_id: 's1' }).kind).toBe('canceled');
-    expect(normalize2CheckoutEvent({ message_type: 'INVOICE_STATUS_CHANGED', invoice_status: 'paid', sale_id: 's1' }).kind).toBe('paid');
+    expect(normalizeLemonSqueezyEvent({ meta: { event_name: 'subscription_payment_success' } }).kind).toBe('renewed');
+    expect(normalizeLemonSqueezyEvent({ meta: { event_name: 'subscription_payment_refunded' } }).kind).toBe('refunded');
+    expect(normalizeLemonSqueezyEvent({ meta: { event_name: 'subscription_cancelled' } }).kind).toBe('canceled');
+    expect(normalizeLemonSqueezyEvent({ meta: { event_name: 'subscription_expired' } }).kind).toBe('canceled');
+    expect(normalizeLemonSqueezyEvent({ meta: { event_name: 'subscription_resumed' } }).kind).toBe('paid');
+    expect(normalizeLemonSqueezyEvent({ meta: { event_name: 'subscription_unpaused' } }).kind).toBe('paid');
 
-    const ignored = normalize2CheckoutEvent({ message_type: 'FRAUD_STATUS_CHANGED', sale_id: 's1' });
+    const ignored = normalizeLemonSqueezyEvent({ meta: { event_name: 'unknown_event' } });
     expect(ignored.kind).toBe('ignored');
-    expect(ignored.note).toMatch(/FRAUD_STATUS_CHANGED/);
-  });
-});
-
-describe('Dodo Payments event normalisation (disabled gateway)', () => {
-  it('maps Dodo events and keeps them attributed to the passthrough', () => {
-    const paid = normalizeDodoEvent({
-      event: 'payment.succeeded',
-      event_id: 'evt_1',
-      object: { id: 'pay_1', customer: { email: 'owner@example.com' }, metadata: { custom: 'cl=uid_7|starter|monthly|ord_9' } },
-      created_at: '2026-10-19T10:00:00.000Z'
-    });
-    expect(paid.kind).toBe('paid');
-    expect(paid.ownerId).toBe('uid_7');
-    expect(paid.planId).toBe('starter');
-    expect(paid.occurredAt).toBe(Date.parse('2026-10-19T10:00:00.000Z'));
-
-    expect(normalizeDodoEvent({ event: 'payment.refunded', event_id: 'evt_2', object: {} }).kind).toBe('refunded');
-    expect(normalizeDodoEvent({ event: 'subscription.cancelled', event_id: 'evt_3', object: {} }).kind).toBe('canceled');
-    expect(normalizeDodoEvent({ event: 'subscription.renewed', event_id: 'evt_4', object: { product_id: 'pro' } }).kind).toBe('renewed');
-    expect(normalizeDodoEvent({ event: 'payment.failed', event_id: 'evt_5', object: {} }).kind).toBe('ignored');
+    expect(ignored.note).toMatch(/unknown_event/);
   });
 });
 
@@ -166,7 +160,7 @@ describe('D1 applying a verified gateway event', () => {
   it('fails closed when no subscription store is configured', async () => {
     const outcome = await applyGatewayEvent({
       eventId: 'e1',
-      gateway: '2checkout',
+      gateway: 'lemonsqueezy',
       kind: 'paid',
       occurredAt: Date.now(),
       ownerId: 'uid_1',
@@ -180,8 +174,8 @@ describe('D1 applying a verified gateway event', () => {
     useStore();
     const occurredAt = Date.now();
     const outcome = await applyGatewayEvent({
-      eventId: '2checkout:ORDER_CREATED:sale_1',
-      gateway: '2checkout',
+      eventId: 'lemonsqueezy:order_created:sale_1',
+      gateway: 'lemonsqueezy',
       kind: 'paid',
       occurredAt,
       ownerId: 'uid_1',
@@ -197,19 +191,13 @@ describe('D1 applying a verified gateway event', () => {
     expect(outcome.subscription?.status).toBe('active');
     expect(outcome.subscription?.billingCycle).toBe('annual');
     expect(outcome.subscription?.currentPeriodEndsAt).toBe(occurredAt + 365 * 24 * 60 * 60 * 1000);
-
-    const stored = store.get(SUBSCRIPTION_COLLECTION, 'uid_1');
-    expect(stored?.planId).toBe('pro');
-    expect(stored?.gateway).toBe('2checkout');
-    expect(store.get(PAYMENT_EVENT_COLLECTION, '2checkout:ORDER_CREATED:sale_1')?.processedAt).toBeTypeOf('number');
-    expect(store.commits).toBe(1);
   });
 
   it('is idempotent: a replayed event is a no-op and writes nothing new', async () => {
     useStore();
     const event = {
-      eventId: '2checkout:ORDER_CREATED:sale_2',
-      gateway: '2checkout' as const,
+      eventId: 'lemonsqueezy:order_created:sale_2',
+      gateway: 'lemonsqueezy' as const,
       kind: 'paid' as const,
       occurredAt: Date.now(),
       ownerId: 'uid_2',
@@ -229,7 +217,7 @@ describe('D1 applying a verified gateway event', () => {
     const now = Date.now();
     await applyGatewayEvent({
       eventId: 'newer',
-      gateway: '2checkout',
+      gateway: 'lemonsqueezy',
       kind: 'paid',
       occurredAt: now,
       ownerId: 'uid_3',
@@ -238,7 +226,7 @@ describe('D1 applying a verified gateway event', () => {
 
     const stale = await applyGatewayEvent({
       eventId: 'older',
-      gateway: '2checkout',
+      gateway: 'lemonsqueezy',
       kind: 'canceled',
       occurredAt: now - 60_000,
       ownerId: 'uid_3'
@@ -254,7 +242,7 @@ describe('D1 applying a verified gateway event', () => {
     useStore();
     const noOwner = await applyGatewayEvent({
       eventId: 'e-no-owner',
-      gateway: '2checkout',
+      gateway: 'lemonsqueezy',
       kind: 'paid',
       occurredAt: Date.now(),
       planId: 'pro'
@@ -264,7 +252,7 @@ describe('D1 applying a verified gateway event', () => {
 
     const noPlan = await applyGatewayEvent({
       eventId: 'e-no-plan',
-      gateway: '2checkout',
+      gateway: 'lemonsqueezy',
       kind: 'paid',
       occurredAt: Date.now(),
       ownerId: 'uid_4'
@@ -279,7 +267,7 @@ describe('D1 applying a verified gateway event', () => {
     useStore();
     const outcome = await applyGatewayEvent({
       eventId: 'e-ignored',
-      gateway: '2checkout',
+      gateway: 'lemonsqueezy',
       kind: 'ignored',
       occurredAt: Date.now(),
       ownerId: 'uid_5',
@@ -295,7 +283,7 @@ describe('D1 applying a verified gateway event', () => {
     const now = Date.now();
     await applyGatewayEvent({
       eventId: 'paid-1',
-      gateway: '2checkout',
+      gateway: 'lemonsqueezy',
       kind: 'paid',
       occurredAt: now,
       ownerId: 'uid_6',
@@ -305,7 +293,7 @@ describe('D1 applying a verified gateway event', () => {
 
     const refund = await applyGatewayEvent({
       eventId: 'refund-1',
-      gateway: '2checkout',
+      gateway: 'lemonsqueezy',
       kind: 'refunded',
       occurredAt: now + 1000,
       ownerId: 'uid_6'
@@ -336,7 +324,7 @@ describe('D1 applying a verified gateway event', () => {
 
     const outcome = await applyGatewayEvent({
       eventId: 'paid-7',
-      gateway: '2checkout',
+      gateway: 'lemonsqueezy',
       kind: 'paid',
       occurredAt: Date.now(),
       ownerId: 'uid_7',

@@ -3,6 +3,7 @@ import { getAnalyticsStats } from '../../src/lib/analyticsEngine';
 import { generateWeeklyReportHtml, generateAnomalyAlertHtml, sendEmailViaMailgun, AnalyticsWeeklyData, AnomalyAlertData } from '../../src/lib/emailService';
 import { sendSlackWebhook, sendDiscordWebhook, sendGenericWebhook } from '../../src/lib/webhookService';
 import { requireSuperadminInProduction } from '../core/authz';
+import { logger } from '../core/logger';
 
 // Notification pipelines: Mailgun email (digests, anomaly alerts) and
 // outbound telemetry webhooks (Slack / Discord / generic).
@@ -59,8 +60,9 @@ app.post('/api/notifications/email/weekly-digest', async (req: Request, res: Res
       sentTo: recipientEmail,
       timestamp: Date.now()
     });
-  } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
+  } catch (err: unknown) {
+    logger.error({ err }, 'Failed to send weekly digest email');
+    res.status(500).json({ success: false, error: 'Failed to send email.' });
   }
 });
 
@@ -109,8 +111,9 @@ app.post('/api/notifications/email/anomaly-alert', async (req: Request, res: Res
       error: emailResult.error,
       sentTo: recipientEmail
     });
-  } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
+  } catch (err: unknown) {
+    logger.error({ err }, 'Failed to send anomaly alert email');
+    res.status(500).json({ success: false, error: 'Failed to send email.' });
   }
 });
 
@@ -150,8 +153,9 @@ app.post('/api/notifications/email/send-test', async (req: Request, res: Respons
       error: result.error,
       recipientEmail
     });
-  } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
+  } catch (err: unknown) {
+    logger.error({ err }, 'Failed to send test email');
+    res.status(500).json({ success: false, error: 'Failed to send email.' });
   }
 });
 
@@ -201,8 +205,9 @@ app.get('/api/notifications/email/preview-html', async (req: Request, res: Respo
 
     res.setHeader('Content-Type', 'text/html');
     res.send(html);
-  } catch (err: any) {
-    res.status(500).send(`Error generating email preview: ${err.message}`);
+  } catch (err: unknown) {
+    logger.error({ err }, 'Failed to generate email preview');
+    res.status(500).send('Error generating email preview.');
   }
 });
 
@@ -234,8 +239,9 @@ app.post('/api/notifications/webhook/dispatch', async (req: Request, res: Respon
       success: true,
       results
     });
-  } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
+  } catch (err: unknown) {
+    logger.error({ err }, 'Failed to dispatch webhook');
+    res.status(500).json({ success: false, error: 'Failed to dispatch webhook.' });
   }
 });
 
@@ -265,8 +271,9 @@ app.post('/api/notifications/webhook/test-slack', async (req: Request, res: Resp
     });
 
     res.json(result);
-  } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
+  } catch (err: unknown) {
+    logger.error({ err }, 'Failed to test Slack webhook');
+    res.status(500).json({ success: false, error: 'Failed to test webhook.' });
   }
 });
 
@@ -296,8 +303,9 @@ app.post('/api/notifications/webhook/test-discord', async (req: Request, res: Re
     });
 
     res.json(result);
-  } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
+  } catch (err: unknown) {
+    logger.error({ err }, 'Failed to test Discord webhook');
+    res.status(500).json({ success: false, error: 'Failed to test webhook.' });
   }
 });
 

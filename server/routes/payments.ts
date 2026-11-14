@@ -8,9 +8,9 @@ import {
   activeGateway,
   applyGatewayEvent,
   buildCheckoutCustomField,
+  buildLemonSqueezyCheckoutUrl,
   isGatewayEnabled,
-  normalize2CheckoutEvent,
-  normalizeDodoEvent,
+  normalizeLemonSqueezyEvent,
   type ApplyOutcome,
   type GatewayId,
   type GatewayEvent
@@ -19,8 +19,7 @@ import {
 // Payment gateways. Owner decisions (2026-10-19):
 //   D1  — a signed gateway webhook writes the subscription. The client never
 //         activates a paid plan and never reports its own entitlement.
-//   D2  — 2Checkout is the single live gateway; Dodo Payments stays in the code
-//         base but is disabled unless PAYMENT_GATEWAY=dodopay is set.
+//   D2  — Lemon Squeezy is the single live gateway.
 //   Q32 — Paid checkout stays off until shared distributed state (4.1),
 //         scheduled backups + verified restore (4.6), and webhook retry tests
 //         are enabled on the live host via `PAYMENTS_ENABLED=true`.
@@ -95,47 +94,31 @@ function outcomeBody(outcome: ApplyOutcome): Record<string, unknown> {
 }
 
 async function handleGatewayWebhook(
-  gateway: GatewayId,
   req: Request,
-  res: Response,
-  normalize: (payload: unknown, receivedAt: number) => GatewayEvent
+  res: Response
 ): Promise<void> {
   try {
-    if (!isGatewayEnabled(gateway)) {
-      logger.warn({ gateway, active: activeGateway() }, '[Payments] Webhook for a disabled gateway');
-      res.status(503).json({
-        status: 'error',
-        code: 'GATEWAY_DISABLED',
-        error: `The ${gateway} gateway is disabled on this deployment. ${activeGateway()} is the single live gateway (owner decision D2).`
-      });
-      return;
-    }
-
-    const secret =
-      (gateway === '2checkout'
-        ? process.env.PAYMENTS_WEBHOOK_SECRET_2CHECKOUT || process.env.V2CHECKOUT_SECRET_KEY
-        : process.env.PAYMENTS_WEBHOOK_SECRET_DODOPAY || process.env.DODOPAY_WEBHOOK_SECRET) ||
-      process.env.PAYMENT_SIGNING_SECRET ||
-      process.env.PAYMENTS_WEBHOOK_SECRET ||
-      '';
+    const secret = process.env.LEMONSQUEEZY_WEBHOOK_SECRET || '';
     const rawBody = (req as express.Request & { rawBody?: Buffer }).rawBody || '';
-    const verification = verifyHmacSha256(rawBody, req.headers['x-signature-256'] as string | undefined, secret);
+    // Lemon Squeezy uses 'X-Signature' header
+    const signature = (req.headers['x-signature'] as string) || '';
+    const verification = verifyHmacSha256(rawBody, signature, secret);
     if (!verification.valid) {
-      logger.warn({ gateway, reason: verification.reason }, '[Payments] Webhook rejected');
+      logger.warn({ reason: verification.reason }, '[Payments] Lemon Squeezy webhook rejected');
       res.status(secret ? 401 : 503).json({ status: 'error', error: verification.reason });
       return;
     }
 
-    const event = normalize(req.body, Date.now());
+    const event = normalizeLemonSqueezyEvent(req.body, Date.now());
     logger.info(
-      { gateway, eventId: event.eventId, kind: event.kind, hasOwner: Boolean(event.ownerId) },
-      '[Payments] Webhook verified'
+      { eventId: event.eventId, kind: event.kind, hasOwner: Boolean(event.ownerId) },
+      '[Payments] Lemon Squeezy webhook verified'
     );
 
     const outcome = await applyGatewayEvent(event);
     res.status(outcomeStatus(outcome)).json(outcomeBody(outcome));
   } catch (err) {
-    logger.error({ err, gateway }, '[Payments] Webhook processing error');
+    logger.error({ err }, '[Payments] Lemon Squeezy webhook processing error');
     res.status(500).json({ status: 'error', error: 'Webhook processing error' });
   }
 }
@@ -189,71 +172,32 @@ export function registerPaymentRoutes(app: express.Express): void {
         orderId
       );
 
-      if (live === '2checkout') {
-        const merchantCode = process.env.V2CHECKOUT_MERCHANT_CODE;
-        if (!merchantCode) {
-          res.status(503).json({
-            success: false,
-            code: 'PAYMENTS_NOT_CONFIGURED',
-            error: 'Payments are not configured (missing V2CHECKOUT_MERCHANT_CODE).'
-          });
-          return;
-        }
-        const isSandbox = process.env.V2CHECKOUT_SANDBOX_MODE !== 'false';
-        const host = isSandbox ? 'https://sandbox.2checkout.com' : 'https://secure.2checkout.com';
-        const params = new URLSearchParams({
-          merchant: merchantCode,
-          tpi: '1',
-          prod: price.planId,
-          price: String(price.amount),
-          currency: price.currency,
-          custom,
-          merchant_order_id: orderId,
-          lang: 'en'
-        });
-        if (typeof userEmail === 'string' && userEmail.includes('@')) {
-          params.set('email', userEmail);
-        }
-
-        res.json({
-          success: true,
-          gateway: '2checkout',
-          mode: isSandbox ? 'sandbox' : 'live',
-          checkoutUrl: `${host}/checkout/purchase?${params.toString()}`,
-          orderId,
-          amount: price.amount,
-          currency: price.currency,
-          planId: price.planId,
-          planName: price.name,
-          billingCycle: price.billingCycle
-        });
-        return;
-      }
-
-      const apiKey = process.env.DODOPAY_API_KEY;
+      // Lemon Squeezy is the only supported gateway
+      const apiKey = process.env.LEMONSQUEEZY_API_KEY;
       if (!apiKey) {
         res.status(503).json({
           success: false,
           code: 'PAYMENTS_NOT_CONFIGURED',
-          error: 'Payments are not configured (missing DODOPAY_API_KEY).'
+          error: 'Payments are not configured (missing LEMONSQUEEZY_API_KEY).'
         });
         return;
       }
-      const isSandbox = process.env.DODOPAY_SANDBOX_MODE !== 'false';
-      const host = isSandbox ? 'https://test.dodopayments.com' : 'https://checkout.dodopayments.com';
-      const params = new URLSearchParams({
-        amount: String(price.amount),
-        currency: price.currency,
-        plan: price.planId,
-        custom,
-        merchant_order_id: orderId
-      });
+      const isSandbox = process.env.LEMONSQUEEZY_SANDBOX_MODE !== 'false';
+      const checkoutUrl = buildLemonSqueezyCheckoutUrl(price.planId, price.billingCycle, custom, isSandbox);
+      if (!checkoutUrl) {
+        res.status(503).json({
+          success: false,
+          code: 'PAYMENTS_NOT_CONFIGURED',
+          error: 'Lemon Squeezy checkout URL could not be generated (missing variant ID or store ID).'
+        });
+        return;
+      }
 
       res.json({
         success: true,
-        gateway: 'dodopay',
+        gateway: 'lemonsqueezy',
         mode: isSandbox ? 'sandbox' : 'live',
-        checkoutUrl: `${host}/pay/${orderId}?${params.toString()}`,
+        checkoutUrl,
         orderId,
         amount: price.amount,
         currency: price.currency,
@@ -261,18 +205,15 @@ export function registerPaymentRoutes(app: express.Express): void {
         planName: price.name,
         billingCycle: price.billingCycle
       });
+      return;
     } catch (err: unknown) {
       logger.error({ err }, '[Payments] Checkout initialization failed');
       res.status(500).json({ success: false, error: 'Payment initialization failed' });
     }
   });
 
-  app.post('/api/payments/webhook/2checkout', express.json(), async (req: Request, res: Response): Promise<void> => {
-    await handleGatewayWebhook('2checkout', req, res, (payload, receivedAt) => normalize2CheckoutEvent(payload, receivedAt));
-  });
-
-  app.post('/api/payments/webhook/dodopay', express.json(), async (req: Request, res: Response): Promise<void> => {
-    await handleGatewayWebhook('dodopay', req, res, (payload, receivedAt) => normalizeDodoEvent(payload, receivedAt));
+  app.post('/api/payments/webhook/lemonsqueezy', express.json(), async (req: Request, res: Response): Promise<void> => {
+    await handleGatewayWebhook(req, res);
   });
 
   app.post('/api/payments/verify', express.json(), async (req: Request, res: Response): Promise<void> => {

@@ -1,11 +1,12 @@
 # Codebase Concerns
 
-> Regenerated 2026-11-12 against branch `arena/b1761471-catalystlab` (`1babd3a`).
+> Regenerated 2026-11-14 against branch `arena/b1761471-catalystlab` (`1babd3a`).
 > Findings are ordered by blast radius. Everything here is reproducible with the command
 > shown; nothing is speculative. `[TODO]` = needs a fact this session could not establish,
 > `[ASK USER]` = needs owner intent. All ten were answered on 2026-11-12; the
 > decisions, alternatives and rationale are in
 > `docs/superpowers/plans/2026-11-12-repo-hardening-ci-integrity.md` (Decision Log).
+> **2026-11-14 update:** Raw error message exposure in engine handlers, notifications, and state-sync routes resolved — all now return generic client-facing messages with full details logged server-side.
 >
 > Context that shapes the risk profile: the repository is a **SHALLOW clone with exactly
 > 1 commit** (`git rev-list --count HEAD` → 1), so the churn analysis in §5 is empty by
@@ -32,7 +33,7 @@
 
 | Area | Observation | Evidence |
 |---|---|---|
-| Type safety | `strict: true` is undercut by `useUnknownInCatchVariables: false` + `no-explicit-any: off`: 69 `: any`, 80 `as any`, 7 `@ts-ignore`/`@ts-expect-error`, and `catch (err: any)` throughout `server/routes/engines.ts` | `grep -rn` counts; `eslint.config.js`; `tsconfig.json` |
+| Type safety | `strict: true` is undercut by `useUnknownInCatchVariables: false` + `no-explicit-any: off`: 69 `: any`, 80 `as any`, 7 `@ts-ignore`/`@ts-expect-error`; `catch (err: any)` in `server/routes/engines.ts` **RESOLVED 2026-11-14** (changed to `err: unknown`); remaining in `server/routes/notifications.ts` and `server/routes/stateSync.ts` **RESOLVED 2026-11-14** | `grep -rn` counts; `eslint.config.js`; `tsconfig.json` |
 | Unused path aliases | `@/*` and `@server/*` are configured in three configs but used 3× in `src/` and only inside `src/tests/` | `grep -rn "@/…" src`, `grep -rn "@server/" src server` |
 | Dependency advisories | ~~`npm audit` reported 27 advisories (7 high), including `body-parser` (production-reachable) and the `@lhci/cli` browser stack~~ **RESOLVED 2026-11-13**: `0 vulnerabilities` — `body-parser` fixed by `npm audit fix`, `@lhci/cli` 0.15.1 → 0.16.1, and `minimatch`/`glob` overrides; `npm audit --audit-level=low` is a CI gate | `npm audit --audit-level=low` |
 | Orphan configuration | ~~`metadata.json` declared a Gemini capability with no key and no reader~~ **RESOLVED 2026-11-13**: `request_capabilities` is now `[]`, pinned by `src/tests/server/repoHygiene.test.ts`. The captured dumps formerly cited here are filed under `docs/audit/` / `archive/` | `grep -rn GEMINI` (no reads), root listing |
@@ -58,7 +59,7 @@ pattern matches the server log; no test for `check:env`'s parity logic; no test 
 | Logging | Allowlist serializers (6 request / 7 response headers) + query-key redaction; **no `console.*` in `server/`** | `server/core/logger.ts`, `grep -rn "console\." server` → 0 |
 | Firestore rules | Deny-by-default, then per-collection grants; superadmin only via signed claims; paid plan writes rejected from the client | `firestore.rules:1-40` |
 | Secrets | `npm run sec:secrets` clean over 650 HEAD files; `firebase-applet-config.json` is a public web config by design; `.github/fixtures/ci-service-account.json` is an explicit placeholder (`"_note": "NOT A CREDENTIAL"`) | `npm run sec:secrets` output; `.github/fixtures/ci-service-account.json` |
-| Residual risks | (a) raw error strings echoed by two engine handlers (§1 item 8); (b) `/api/telemetry/event` is unauthenticated by design and only rate-limited (60/min per IP, 300/min per key) — a distributed flood bypasses per-IP limits; (c) no WAF/bot-management in front of the Node host beyond the Worker; (d) `x-forwarded-for` trust depends on `TRUST_PROXY=true` being set correctly, which is only warned about by `check:env` | `server/routes/engines.ts:55-58,104-108`, `server/core/sharedLimiter.ts`, `scripts/check-env.mjs` |
+| Residual risks | (a) ~~raw error strings echoed by two engine handlers (§1 item 8)~~ **RESOLVED 2026-11-14** — all engine handlers (`/api/check-url`, `/api/run-engine`, `/api/monitor/probe`, `/api/v1/engines/:engine/scan`, master audit SSE stream) and notification/state-sync routes now return generic messages with full details logged server-side; (b) `/api/telemetry/event` is unauthenticated by design and only rate-limited (60/min per IP, 300/min per key) — a distributed flood bypasses per-IP limits; (c) no WAF/bot-management in front of the Node host beyond the Worker; (d) `x-forwarded-for` trust depends on `TRUST_PROXY=true` being set correctly, which is only warned about by `check:env` | `server/routes/engines.ts`, `server/routes/notifications.ts`, `server/routes/stateSync.ts`, `server/core/sharedLimiter.ts`, `scripts/check-env.mjs` |
 | Historical credential | `docs/security/review-2026-10.md` documents SEC-2026-01 (an Atlas URI in commit `e4bff70`, absent from HEAD) as **owner rotation still required** (`Q44`). Not reproducible here (1-commit shallow clone) | `docs/security/review-2026-10.md` §1-2, `docs/plan/decisions.md` Q44 |
 
 ### 4) Performance and Scaling Concerns
@@ -100,11 +101,19 @@ real churn. Substitute fragility signals from static evidence:
 7. ~~**`vite`/`tsx` placement:** deliberate or oversight?~~ **Answered — `vite` deliberate** (the bundle requires it), **`tsx` moved** to devDependencies, guarded by `npm run check:deps`. Plan Decision Log #7. [Docs: same plan]
 8. ~~**Deployment artefacts:** which are wanted?~~ **Answered — `SECURITY.md` + the three Firebase files added; no `LICENSE`, no `CONTRIBUTING.md`** (private, single-owner). Plan Decision Log #8. [Docs: same plan]
 9. ~~**Root clutter:** intended or move?~~ **Answered** — the four captured dumps are filed under `docs/audit/`/`archive/`, and the `video/hero-launch` binaries **stay tracked by decision** (they are referenced by `.assets/manifest.json` and brand guidelines; moving them would need a history rewrite). See `docs/decisions/tracked-binaries.md`. Plan Decision Log #9. [Docs: same plan]
-10. **Raw error messages:** are the `err.stderr \|\| err.message` responses in `/api/check-url` and `/api/run-engine` intentional (developer-facing API) or should they be genericised like the rest of the file?
+10. ~~**Raw error messages:** are the `err.stderr \|\| err.message` responses in `/api/check-url` and `/api/run-engine` intentional (developer-facing API) or should they be genericised like the rest of the file?~~ **Answered — genericised** (2026-11-14): `/api/check-url`, `/api/run-engine`, `/api/monitor/probe`, `/api/v1/engines/:engine/scan`, and the master audit SSE stream (`/api/v1/audit/master/stream`) now all return fixed generic messages (`'Target is unreachable, invalid, or blocked by the SSRF guard.'`, `'Execution error during telemetry scan.'`, `'Connection failed'`, `'Engine execution failed.'`) while logging full details with `requestId`. Also fixed `server/routes/notifications.ts` and `server/routes/stateSync.ts` to use `err: unknown` and generic error responses. Pinned by `src/tests/server/api.test.ts` ("never reflects internal error text").
 
 ## Extended Sections (Optional)
 
 ### 7) Verification Log
+
+**2026-11-14 (post-error-handling-fix, `npm test` exit 0):**
+
+| Command | Result |
+|---|---|
+| `npm test` | **52 files / 453 tests passed** (5 new tests added for error handling) |
+| `npm run lint` | pass, 0 problems |
+| `npm run typecheck` (`tsc --noEmit`, `strict`) | pass, 0 errors |
 
 **2026-11-12 (post-hardening, `npm run ci:full` exit 0):**
 
@@ -133,7 +142,8 @@ real churn. Substitute fragility signals from static evidence:
 
 - `package.json`, `package-lock.json:70-71`, `git ls-files | grep -i nvm` (empty), `.lighthouserc.json:15-20`, `server.ts:231`, `.github/workflows/*.yml`
 - `.env.example` (41 keys), `.env.staging.example`, `.env.production.example`, `scripts/check-env.mjs`
-- `server/app.ts:309-320`, `server/routes/engines.ts` (error branches), `server/routes/system.ts` (`handleLiveness`), `server/routes/github.ts:24` (`isDemoSeedAllowed`), `server/core/authz.ts` (`isDemoSeedAllowed`), `scripts/{check-runtime-deps,verify-media}.mjs`, `SECURITY.md`, `firebase.json`
+- `server/app.ts:309-320`, `server/routes/engines.ts` (error branches — **genericised 2026-11-14**), `server/routes/system.ts` (`handleLiveness`), `server/routes/github.ts:24` (`isDemoSeedAllowed`), `server/core/authz.ts` (`isDemoSeedAllowed`), `scripts/{check-runtime-deps,verify-media}.mjs`, `SECURITY.md`, `firebase.json`
+- `server/routes/notifications.ts` (**genericised 2026-11-14**), `server/routes/stateSync.ts` (**genericised 2026-11-14**)
 - `src/lib/firebase.ts`, `src/lib/networkSecurity.ts`, `src/lib/serverAuth.ts`, `server/core/{rateLimit,dailyQuota,apiKeys,subscriptions,logger}.ts`
 - `src/store/middleware/mongoSyncMiddleware.ts`, `src/store/index.ts`
 - `firestore.rules`, `firebase-applet-config.json`, `metadata.json`, `.github/fixtures/ci-service-account.json`

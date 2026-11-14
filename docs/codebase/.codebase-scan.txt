@@ -1,205 +1,205 @@
 
 === DIRECTORY TREE (max depth 3, source files only) ===
 .assets
-.assets/manifest.json
+.assets\manifest.json
 .dockerignore
 .env.example
 .env.production.example
 .env.staging.example
+.firebaserc
 .github
-.github/CODEOWNERS
-.github/copilot-instructions.md
-.github/dependabot.yml
-.github/fixtures
-.github/fixtures/ci-service-account.json
-.github/hooks
-.github/hooks/impeccable.json
-.github/workflows
-.github/workflows/backup.yml
-.github/workflows/ci.yml
-.github/workflows/deploy.yml
-.github/workflows/media-verify.yml
-.github/workflows/rollback.yml
+.github\CODEOWNERS
+.github\copilot-instructions.md
+.github\dependabot.yml
+.github\fixtures
+.github\fixtures\ci-service-account.json
+.github\hooks
+.github\hooks\impeccable.json
+.github\workflows
+.github\workflows\backup.yml
+.github\workflows\ci.yml
+.github\workflows\deploy.yml
+.github\workflows\media-verify.yml
+.github\workflows\rollback.yml
 .gitignore
 .gitleaks.toml
 .impeccable
-.impeccable/config.json
-.impeccable/design.json
+.impeccable\config.json
+.impeccable\design.json
 .lighthouserc.json
+.nvmrc
 .semgrep.yml
 AGENTS.md
+archive
+archive\audit-output-2026-10.txt
+archive\ds_section_divs.cjs
+archive\fix-bg-white5.mjs
+archive\fix-slate-replacements.mjs
+archive\fix_ambient.cjs
+archive\fix_badges.cjs
+archive\fix_sections.cjs
+archive\README.md
+archive\replace-colors.mjs
+archive\replace-slate.mjs
+archive\replace_colors.sh
+archive\replace_padding.cjs
+archive\replace_padding_v2.cjs
+archive\test-browser.mjs
+archive\update_hero_layout.cjs
+archive\update_heroes.cjs
+assets
+assets\banners
+assets\banners\hero-banner.html
 CLAUDE.md
 CODE_REVIEW.md
+components.json
 DESIGN.md
 Dockerfile
-GEMINI.md
-GLOSSARY.md
-PRODUCT.md
-PROGRAMMATIC-SEO-2026-10-23.md
-README.md
-SEO-AEO-AUDIT-2026-10-23.md
-SEO-AUDIT-2026-10-23.md
-archive
-archive/README.md
-archive/ds_section_divs.cjs
-archive/fix-bg-white5.mjs
-archive/fix-slate-replacements.mjs
-archive/fix_ambient.cjs
-archive/fix_badges.cjs
-archive/fix_sections.cjs
-archive/replace-colors.mjs
-archive/replace-slate.mjs
-archive/replace_colors.sh
-archive/replace_padding.cjs
-archive/replace_padding_v2.cjs
-archive/test-browser.mjs
-archive/update_hero_layout.cjs
-archive/update_heroes.cjs
-assets
-assets/banners
-assets/banners/hero-banner.html
-audit-output.txt
-components.json
 docs
-docs/ARCHITECTURE.md
-docs/Clab_brand_vision.md
-docs/ENGINES.md
-docs/README.md
-docs/adr
-docs/adr/0001-clean-saas-palette.md
-docs/adr/0002-meta-design-system.md
-docs/audit
-docs/audit/2026-10-22-design-system-review-uiux-pro-max.md
-docs/audit/2026-10-22-theme-visual-consistency-contrast.md
-docs/audit/agentic-master-2026-10
-docs/audit/agentic-master-2026-10/00-MASTER.md
-docs/audit/agentic-master-2026-10/domains.md
-docs/audit/agentic-master-2026-10/improvement-fields.md
-docs/audit/cs-frontend-engineer-2026-10.md
-docs/audit/evidence
-docs/audit/evidence/contrast-table-2026-10-22.md
-docs/audit/evidence/dark-blogs.png
-docs/audit/evidence/dark-products.png
-docs/audit/evidence/final-dark-products.png
-docs/audit/evidence/final-light-products.png
-docs/audit/evidence/light-products.png
-docs/audit/evidence/sheet-dark.png
-docs/audit/evidence/sheet-light.png
-docs/audit/header-footer-nav-2026-10.md
-docs/audit/perf-rendering-2026-10
-docs/audit/perf-rendering-2026-10/00-MASTER.md
-docs/audit/perf-rendering-2026-10/01-measurements.md
-docs/audit/perf-rendering-2026-10/02-client-rendering.md
-docs/audit/perf-rendering-2026-10/03-delivery-and-bundle.md
-docs/audit/perf-rendering-2026-10/04-state-build-server-deps-tests.md
-docs/audit/perf-rendering-2026-10/05-remediation.md
-docs/audit/perf-rendering-2026-10/tools
-docs/audit/seo-aeo-2026-10
-docs/audit/seo-aeo-2026-10/00-SEO-AEO-AUDIT.md
-docs/audit/seo-aeo-2026-10/tools
-docs/brand-guidelines.md
-docs/codebase
-docs/codebase/.codebase-scan.txt
-docs/codebase/ARCHITECTURE.md
-docs/codebase/CONCERNS.md
-docs/codebase/CONVENTIONS.md
-docs/codebase/INTEGRATIONS.md
-docs/codebase/STACK.md
-docs/codebase/STRUCTURE.md
-docs/codebase/TESTING.md
-docs/design-system-audit.md
-docs/forms.md
-docs/hero-shape-brief.md
-docs/impeccable-audit.md
-docs/ops
-docs/ops/alerts.yml
-docs/ops/architecture-redundancy.md
-docs/ops/drills
-docs/ops/drills/restore-drill-2026-10-21.md
-docs/ops/environment-and-deployment-guide.md
-docs/ops/runbook.md
-docs/ops/slo.md
-docs/plan
-docs/plan/decisions.md
-docs/plan/grilling-tree.md
-docs/plan/production-readiness-plan.md
-docs/plan/rollout-pipeline-restore-2026-10-21.md
-docs/release
-docs/release/checklist.md
-docs/security
-docs/security/review-2026-10.md
+docs\adr
+docs\adr\0001-clean-saas-palette.md
+docs\adr\0002-meta-design-system.md
+docs\ARCHITECTURE.md
+docs\audit
+docs\audit\2026-10-22-design-system-review-uiux-pro-max.md
+docs\audit\2026-10-22-theme-visual-consistency-contrast.md
+docs\audit\agentic-master-2026-10
+docs\audit\agentic-master-2026-10\00-MASTER.md
+docs\audit\agentic-master-2026-10\domains.md
+docs\audit\agentic-master-2026-10\improvement-fields.md
+docs\audit\cs-frontend-engineer-2026-10.md
+docs\audit\evidence
+docs\audit\evidence\contrast-table-2026-10-22.md
+docs\audit\evidence\dark-blogs.png
+docs\audit\evidence\dark-products.png
+docs\audit\evidence\final-dark-products.png
+docs\audit\evidence\final-light-products.png
+docs\audit\evidence\light-products.png
+docs\audit\evidence\sheet-dark.png
+docs\audit\evidence\sheet-light.png
+docs\audit\header-footer-nav-2026-10.md
+docs\audit\perf-rendering-2026-10
+docs\audit\perf-rendering-2026-10\00-MASTER.md
+docs\audit\perf-rendering-2026-10\01-measurements.md
+docs\audit\perf-rendering-2026-10\02-client-rendering.md
+docs\audit\perf-rendering-2026-10\03-delivery-and-bundle.md
+docs\audit\perf-rendering-2026-10\04-state-build-server-deps-tests.md
+docs\audit\perf-rendering-2026-10\05-remediation.md
+docs\audit\perf-rendering-2026-10\tools
+docs\audit\PROGRAMMATIC-SEO-2026-10-23.md
+docs\audit\seo-aeo-2026-10
+docs\audit\seo-aeo-2026-10\00-SEO-AEO-AUDIT.md
+docs\audit\seo-aeo-2026-10\tools
+docs\audit\SEO-AEO-AUDIT-2026-10-23.md
+docs\audit\SEO-AUDIT-2026-10-23.md
+docs\brand-guidelines.md
+docs\Clab_brand_vision.md
+docs\codebase
+docs\codebase\.codebase-scan.txt
+docs\codebase\ARCHITECTURE.md
+docs\codebase\CONCERNS.md
+docs\codebase\CONVENTIONS.md
+docs\codebase\INTEGRATIONS.md
+docs\codebase\STACK.md
+docs\codebase\STRUCTURE.md
+docs\codebase\TESTING.md
+docs\decisions
+docs\decisions\tracked-binaries.md
+docs\design-system-audit.md
+docs\ENGINES.md
+docs\forms.md
+docs\hero-shape-brief.md
+docs\impeccable-audit.md
+docs\ops
+docs\ops\alerts.yml
+docs\ops\architecture-redundancy.md
+docs\ops\drills
+docs\ops\drills\restore-drill-2026-10-21.md
+docs\ops\environment-and-deployment-guide.md
+docs\ops\runbook.md
+docs\ops\slo.md
+docs\plan
+docs\plan\decisions.md
+docs\plan\grilling-tree.md
+docs\plan\production-readiness-plan.md
+docs\plan\rollout-pipeline-restore-2026-10-21.md
+docs\README.md
+docs\release
+docs\release\checklist.md
+docs\security
+docs\security\review-2026-10.md
+docs\superpowers
+docs\superpowers\plans
+docs\superpowers\plans\2026-11-12-hardening-execution-report.md
+docs\superpowers\plans\2026-11-12-repo-hardening-ci-integrity.md
 e2e
-e2e/smoke
-e2e/smoke/release-smoke.spec.ts
+e2e\smoke
+e2e\smoke\release-smoke.spec.ts
 eslint.config.js
 firebase-applet-config.json
+firebase.json
+firestore.indexes.json
 firestore.rules
+GEMINI.md
+GLOSSARY.md
 index.html
 metadata.json
 ops
-ops/gcloud
-ops/gcloud/setup-firestore-backups.sh
-ops/loadtest
-ops/loadtest/k6-peak.js
-ops/systemd
-ops/systemd/catalystlab.service
+ops\gcloud
+ops\gcloud\setup-firestore-backups.sh
+ops\loadtest
+ops\loadtest\k6-peak.js
+ops\systemd
+ops\systemd\catalystlab.service
 package-lock.json
 package.json
 patch.css
 playwright.config.ts
+PRODUCT.md
 public
-public/_headers
-public/_redirects
-public/apple-touch-icon.png
-public/favicon.svg
-public/icon-192.png
-public/icon-512.png
-public/logo-mark.png
-public/logo-mark.svg
-public/logo.png
-public/logo.svg
-public/manifest.json
-public/og-banner.png
-public/og-image.png
-public/robots.txt
-public/sw.js
-public/telemetry.js
-public/xss-guard.js
+public\_headers
+public\_redirects
+public\apple-touch-icon.png
+public\favicon.svg
+public\icon-192.png
+public\icon-512.png
+public\logo-mark.png
+public\logo-mark.svg
+public\logo.png
+public\logo.svg
+public\manifest.json
+public\og-banner.png
+public\og-image.png
+public\robots.txt
+public\sw.js
+public\telemetry.js
+public\xss-guard.js
 pyproject.toml
+README.md
 scripts
-scripts/check-bundle-budget.mjs
-scripts/check-design-tokens.mjs
-scripts/check-env.mjs
-scripts/check-raw-color-literals.mjs
-scripts/e2e-payment-sandbox.ts
-scripts/generate-image-variants.mjs
-scripts/prerender.ts
-scripts/replace_images.py
-scripts/report-lhci.mjs
-scripts/requirements-dev.txt
-scripts/run-loadtest.mjs
-scripts/run-restore-drill.ts
-scripts/scan-secrets.mjs
-scripts/screenshot-banner.cjs
-scripts/tests
-scripts/tests/test_replace_images.py
-scripts/verify-deployment.mjs
-scripts/verify-media.mjs
+scripts\check-bundle-budget.mjs
+scripts\check-design-tokens.mjs
+scripts\check-env.mjs
+scripts\check-raw-color-literals.mjs
+scripts\check-runtime-deps.d.mts
+scripts\check-runtime-deps.mjs
+scripts\e2e-payment-sandbox.ts
+scripts\generate-image-variants.mjs
+scripts\prerender.ts
+scripts\replace_images.py
+scripts\report-lhci.mjs
+scripts\requirements-dev.txt
+scripts\run-loadtest.mjs
+scripts\run-restore-drill.ts
+scripts\scan-secrets.mjs
+scripts\screenshot-banner.cjs
+scripts\tests
+scripts\tests\test_replace_images.py
+scripts\verify-deployment.mjs
+scripts\verify-media.d.mts
+scripts\verify-media.mjs
+SECURITY.md
 server
-server/app.ts
-server/core
-server/core/apiKeys.ts
-server/core/authz.ts
-server/core/backupRestore.ts
-server/core/dailyQuota.ts
-server/core/domainAccess.ts
-server/core/enginesCatalog.ts
-server/core/errorTracking.ts
-server/core/logger.ts
-server/core/pricing.ts
-server/core/rateLimit.ts
-server/core/retention.ts
-server/core/runtime.ts
 
 === STACK DETECTION (manifest files) ===
 
@@ -237,7 +237,6 @@ server/core/runtime.ts
         "react-router-dom": "^7.18.4",
         "recharts": "^3.10.1",
         "tailwind-merge": "^3.7.0",
-        "tsx": "^4.23.15",
         "ua-parser-js": "^2.0.10",
         "vite": "^8.3.4",
         "zod": "^4.6.7",
@@ -245,7 +244,7 @@ server/core/runtime.ts
       },
       "devDependencies": {
         "@eslint/js": "^9.39.5",
-        "@lhci/cli": "^0.15.1",
+        "@lhci/cli": "^0.16.1",
         "@playwright/test": "^1.64.1",
         "@tailwindcss/vite": "^4.3.3",
         "@testing-library/jest-dom": "^7.0.1",
@@ -269,6 +268,7 @@ server/core/runtime.ts
         "supertest": "^7.3.1",
         "tailwindcss": "^4.3.3",
         "terser": "^5.51.2",
+        "tsx": "^4.23.15",
         "typescript": "^6.0.3",
         "typescript-eslint": "^8.72.0",
         "vitest": "^5.0.5"
@@ -285,7 +285,7 @@ server/core/runtime.ts
       "license": "MIT"
     },
 
-[TRUNCATED] Showing first 80 of 16251 lines.
+[TRUNCATED] Showing first 80 of 15488 lines.
 --- package.json ---
 {
   "name": "catalystlab",
@@ -293,7 +293,7 @@ server/core/runtime.ts
   "version": "2.4.0",
   "type": "module",
   "engines": {
-    "node": ">=22"
+    "node": ">=24"
   },
   "scripts": {
     "dev": "tsx server.ts",
@@ -308,7 +308,7 @@ server/core/runtime.ts
     "verify:deploy": "node scripts/verify-deployment.mjs",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
-    "ci": "npm run check:env && npm run check:colors && npm run lint && npm run typecheck && npm test && npm run build && npm run check:bundle",
+    "ci": "npm run check:env && npm run check:colors && npm run lint && npm run typecheck && npm test && npm run build && npm run check:bundle && npm run check:deps",
     "check:env": "node scripts/check-env.mjs",
     "media:check": "node scripts/verify-media.mjs",
     "test:coverage": "vitest run --coverage",
@@ -316,7 +316,8 @@ server/core/runtime.ts
     "lhci": "lhci autorun",
     "ci:full": "npm run ci && npm run test:coverage && npm run drill:restore && npm run test:payments-sandbox && npm run sec:secrets",
     "check:design": "node scripts/check-design-tokens.mjs",
-    "check:colors": "node scripts/check-raw-color-literals.mjs"
+    "check:colors": "node scripts/check-raw-color-literals.mjs",
+    "check:deps": "node scripts/check-runtime-deps.mjs"
   },
   "dependencies": {
     "@sentry/node": "^11.8.0",
@@ -342,7 +343,6 @@ server/core/runtime.ts
     "react-router-dom": "^7.18.4",
     "recharts": "^3.10.1",
     "tailwind-merge": "^3.7.0",
-    "tsx": "^4.23.15",
     "ua-parser-js": "^2.0.10",
     "vite": "^8.3.4",
     "zod": "^4.6.7",
@@ -350,7 +350,7 @@ server/core/runtime.ts
   },
   "devDependencies": {
     "@eslint/js": "^9.39.5",
-    "@lhci/cli": "^0.15.1",
+    "@lhci/cli": "^0.16.1",
     "@playwright/test": "^1.64.1",
     "@tailwindcss/vite": "^4.3.3",
     "@testing-library/jest-dom": "^7.0.1",
@@ -368,7 +368,7 @@ server/core/runtime.ts
     "esbuild": "^0.28.2",
     "eslint": "^9.39.5",
 
-[TRUNCATED] Showing first 80 of 100 lines.
+[TRUNCATED] Showing first 80 of 103 lines.
 --- pyproject.toml ---
 # Python tooling config for scripts/replace_images.py (inert to the JS toolchain).
 # Install dev tools:  python3 -m pip install -r scripts/requirements-dev.txt
@@ -454,61 +454,86 @@ V2CHECKOUT_SANDBOX_MODE=
 V2CHECKOUT_SECRET_KEY=
 VALID_API_KEYS=
 VITE_APP_ORIGIN=
-GEMINI_API_KEY=
+
+# --- Runtime mode (non-secret defaults; identical in .env.staging/.env.production) ---
+# Server code requires NODE_ENV=production for secure defaults (CSP, static hosting,
+# noindex app shells). PORT/HOST honour the env; server.ts falls back to 3000/0.0.0.0.
+NODE_ENV=production
+PORT=3000
+
 
 === TODO / FIXME / HACK (production code only, test dirs excluded) ===
 None found.
 
 === GIT RECENT COMMITS (last 20) ===
-1babd3a fix: perform technical audit and improve accessibility
+4e82951 Merge pull request #46 from myself-aas/arena/b1761471-catalystlab
+e72640b deps: clear the audit gate (body-parser, lhci 0.16, minimatch/glob overrides)
+dcc1522 chore(repo): drop the unserved Gemini capability and record why the film binaries stay
+cf771c4 ci: pin action versions and guard the setup-node invariant that broke every job
+64b19ed refactor(server): inject the engine/network boundary instead of spying on modules
+9d244c9 docs: index the hardening plan and execution report
+74555a9 docs: add the hardening execution report
+3fe4313 docs: refresh the test count after the review fix
+fcadd58 fix(security): keep resolver detail out of SSRF-guard error bodies
+23c87a8 docs: record the green gate sweep and close the resolved concerns
+aacb2d0 chore(repo): add disclosure policy and Firebase deploy config; file captured dumps
+f72717c fix(media): skip unverifiable CDN endpoints instead of failing the gate
+88371a5 fix(api): stop echoing internal error text; log it with the request id instead
+0f9f533 fix(deps): move tsx to devDependencies and guard the bundle's runtime requires
+658ab79 fix(github): require ALLOW_DEMO_SEED so staging never serves synthetic repos
+787d587 fix(api): let system.ts own /api/health so anonymous probes stop leaking host detail
+e3d14e0 fix(lhci): match the server's real startup line so the audit can boot the host
+66c6b4c fix(env): make .env.example the 42-key base and drop the unread GEMINI_API_KEY
+92bb90e fix(ci): restore .nvmrc=24 and align engines with the lockfile and Dockerfile
+e53a1e8 docs(plan): add repo hardening & CI integrity implementation plan
 
 === HIGH-CHURN FILES (last 90 days, top 20) ===
-   1 .assets/manifest.json
-   1 .dockerignore
-   1 .env.example
-   1 .env.production.example
-   1 .env.staging.example
-   1 .github/CODEOWNERS
-   1 .github/copilot-instructions.md
-   1 .github/dependabot.yml
-   1 .github/fixtures/ci-service-account.json
-   1 .github/hooks/impeccable.json
-   1 .github/workflows/backup.yml
-   1 .github/workflows/ci.yml
-   1 .github/workflows/deploy.yml
-   1 .github/workflows/media-verify.yml
-   1 .github/workflows/rollback.yml
-   1 .gitignore
-   1 .gitleaks.toml
-   1 .impeccable/config.json
-   1 .impeccable/design.json
-   1 .lighthouserc.json
+  43 src/index.css
+  42 package.json
+  41 src/components/layout/Navbar.tsx
+  39 src/pages/UserDashboardPage.tsx
+  38 src/pages/PricingPage.tsx
+  36 src/pages/BlogsPage.tsx
+  35 package-lock.json
+  35 src/components/layout/Footer.tsx
+  34 src/components/home/HeroSection.tsx
+  33 src/App.tsx
+  32 src/components/layout/MainMenuOverlay.tsx
+  32 src/pages/ContactPage.tsx
+  31 src/pages/BlogPostPage.tsx
+  31 src/pages/ToolPage.tsx
+  30 server.ts
+  30 src/pages/ReportsDirectoryPage.tsx
+  29 src/pages/ProductsPage.tsx
+  29 bun.lock
+  28 src/pages/ComparePage.tsx
+  28 src/pages/MasterAuditPage.tsx
 
 === MONOREPO SIGNALS ===
 No monorepo signals detected.
 
 === CODE METRICS ===
-Total files scanned: 642
-Total lines of code: 99144
+Total files scanned: 661
+Total lines of code: 99031
 
 Files by language:
-  Other: 241
+  Other: 250
   TypeScript/React: 240
-  TypeScript: 151
+  TypeScript: 161
   JavaScript: 6
   Python: 4
 
 Top 10 largest files:
-video/hero-launch/assets/captures/home-full.png: 1153.3KB
-video/hero-launch/assets/captures/products.png: 1021.6KB
-docs/audit/evidence/sheet-dark.png: 608.3KB
-docs/audit/evidence/sheet-light.png: 575.9KB
-package-lock.json: 567.8KB
-docs/audit/evidence/final-dark-products.png: 406.1KB
-docs/audit/evidence/dark-products.png: 402.9KB
-docs/audit/evidence/final-light-products.png: 346.3KB
-docs/audit/evidence/light-products.png: 346.0KB
-video/hero-launch/assets/captures/ai-readiness.png: 275.2KB
+video\hero-launch\assets\captures\home-full.png: 1153.3KB
+video\hero-launch\assets\captures\products.png: 1021.6KB
+docs\audit\evidence\sheet-dark.png: 608.3KB
+docs\audit\evidence\sheet-light.png: 575.9KB
+package-lock.json: 552.7KB
+docs\audit\evidence\final-dark-products.png: 406.1KB
+docs\audit\evidence\dark-products.png: 402.9KB
+docs\audit\evidence\final-light-products.png: 346.3KB
+docs\audit\evidence\light-products.png: 346.0KB
+video\hero-launch\assets\captures\ai-readiness.png: 275.2KB
 
 === CI/CD PIPELINES ===
 CI/CD: GitHub Actions
@@ -517,7 +542,7 @@ CI/CD: GitHub Actions
 Container: Docker found
 
 === SECURITY & COMPLIANCE ===
-No security configs detected.
+Security: SECURITY.md
 
 === PERFORMANCE & TESTING ===
 No performance testing configs detected.

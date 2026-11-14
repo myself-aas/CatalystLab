@@ -248,6 +248,175 @@ async function main() {
       throw new Error(`Expected refund revocation to free tier, got ${JSON.stringify(refundBody)}`);
     }
 
+    // ============================================================
+    // LEMON SQUEEZY TESTS (gateway = lemonsqueezy)
+    // ============================================================
+    console.log('[e2e] Starting Lemon Squeezy tests...');
+
+    // Configure Lemon Squeezy as active gateway
+    process.env.PAYMENT_GATEWAY = 'lemonsqueezy';
+    const lsWebhookSecret = 'whsec_ls_sandbox_' + crypto.randomBytes(16).toString('hex');
+    process.env.LEMONSQUEEZY_WEBHOOK_SECRET = lsWebhookSecret;
+    process.env.LEMONSQUEEZY_STORE_ID = 'store_sandbox_123';
+    process.env.LEMONSQUEEZY_VARIANT_IDS = JSON.stringify({
+      'pro:monthly': 'var_pro_monthly_sandbox',
+      'pro:annual': 'var_pro_annual_sandbox',
+      'starter:monthly': 'var_starter_monthly_sandbox',
+      'starter:annual': 'var_starter_annual_sandbox',
+    });
+    process.env.LEMONSQUEEZY_SANDBOX_MODE = 'true';
+    process.env.LEMONSQUEEZY_API_KEY = 'ls_sandbox_key_' + crypto.randomBytes(16).toString('hex');
+
+    // 10. Lemon Squeezy sandbox checkout URL issued
+    const lsCheckout = await postJson(baseUrl, '/api/payments/create-checkout', {
+      planId: 'pro',
+      billingCycle: 'monthly',
+      userId: testUid,
+      userEmail: 'founder@acme.io',
+    });
+    if (lsCheckout.status !== 200 || !lsCheckout.json.checkoutUrl || lsCheckout.json.gateway !== 'lemonsqueezy') {
+      throw new Error(`Expected 200 Lemon Squeezy sandbox checkout URL, got ${lsCheckout.status}: ${JSON.stringify(lsCheckout.json)}`);
+    }
+    console.log('[e2e] Lemon Squeezy sandbox checkout URL issued');
+
+    const lsCustomPassthrough = buildCheckoutCustomField(testUid, 'pro', 'monthly', lsCheckout.json.orderId);
+    const lsOrderPayload = {
+      meta: {
+        event_name: 'order_created',
+        event_time: '2026-11-14T10:00:00Z',
+        custom_data: lsCustomPassthrough,
+      },
+      data: {
+        id: `evt_ls_${Date.now()}`,
+        attributes: {
+          custom_data: lsCustomPassthrough,
+          user_email: 'founder@acme.io',
+          first_order_item: { variant_id: 'var_pro_monthly_sandbox' },
+        },
+      },
+    };
+    const rawLsOrder = JSON.stringify(lsOrderPayload);
+
+    function signLsHeader(rawBody: string, secret: string): string {
+      return 'sha256=' + crypto.createHmac('sha256', secret).update(rawBody, 'utf8').digest('hex');
+    }
+
+    // 11. Reject forged Lemon Squeezy signature with 401
+    const lsForged = await postJson(baseUrl, '/api/payments/webhook/lemonsqueezy', lsOrderPayload, {
+      'x-signature': signLsHeader(rawLsOrder, 'wrong_secret'),
+    });
+    if (lsForged.status !== 401) {
+      throw new Error(`Expected 401 on forged Lemon Squeezy HMAC, got ${lsForged.status}`);
+    }
+    console.log('[e2e] Forged Lemon Squeezy HMAC rejected 401');
+
+    // 12. Simulate temporary Firestore outage -> gateway receives HTTP 503 so it retries!
+    setSubscriptionStoreForTests(null);
+    const lsOutageAttempt = await fetch(`${baseUrl}/api/payments/webhook/lemonsqueezy`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-signature': signLsHeader(rawLsOrder, lsWebhookSecret),
+      },
+      body: rawLsOrder,
+    });
+    if (lsOutageAttempt.status !== 503) {
+      throw new Error(`Expected 503 during store outage so gateway retries, got ${lsOutageAttempt.status}`);
+    }
+    console.log('[e2e] Transient store outage returns 503 for Lemon Squeezy');
+
+    // 13. Restore store -> gateway retry #1 succeeds cleanly (`APPLIED`)
+    setSubscriptionStoreForTests(memSubs.store);
+    const lsRetrySuccess = await fetch(`${baseUrl}/api/payments/webhook/lemonsqueezy`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-signature': signLsHeader(rawLsOrder, lsWebhookSecret),
+      },
+      body: rawLsOrder,
+    });
+    const lsBodySuccess = await lsRetrySuccess.json();
+    if (lsRetrySuccess.status !== 200 || lsBodySuccess.applied !== true || lsBodySuccess.reason !== 'APPLIED') {
+      throw new Error(`Expected Lemon Squeezy retry #1 200 APPLIED, got ${lsRetrySuccess.status}: ${JSON.stringify(lsBodySuccess)}`);
+    }
+    if (memSubs.readSubscription(testUid)?.planId !== 'pro') {
+      throw new Error('Expected active pro subscription in store after Lemon Squeezy webhook');
+    }
+    console.log('[e2e] Lemon Squeezy gateway retry activates pro entitlement');
+
+    // 14. Duplicate gateway retry #2 -> idempotent 200 `DUPLICATE_EVENT`
+    const lsRetryDuplicate = await fetch(`${baseUrl}/api/payments/webhook/lemonsqueezy`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-signature': signLsHeader(rawLsOrder, lsWebhookSecret),
+      },
+      body: rawLsOrder,
+    });
+    const lsBodyDuplicate = await lsRetryDuplicate.json();
+    if (lsRetryDuplicate.status !== 200 || lsBodyDuplicate.reason !== 'DUPLICATE_EVENT') {
+      throw new Error(`Expected Lemon Squeezy DUPLICATE_EVENT, got ${JSON.stringify(lsBodyDuplicate)}`);
+    }
+    console.log('[e2e] Lemon Squeezy duplicate webhook retry idempotent DUPLICATE_EVENT');
+
+    // 15. Out-of-order stale event timestamp -> safely ignored (`STALE_EVENT`)
+    const lsStalePayload = JSON.stringify({
+      meta: {
+        event_name: 'subscription_cancelled',
+        event_time: '2026-11-13T00:00:00Z', // Older than the order_created
+        custom_data: lsCustomPassthrough,
+      },
+      data: {
+        id: `evt_ls_stale_${Date.now()}`,
+        attributes: {
+          custom_data: lsCustomPassthrough,
+          user_email: 'founder@acme.io',
+        },
+      },
+    });
+    const lsStaleRes = await fetch(`${baseUrl}/api/payments/webhook/lemonsqueezy`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-signature': signLsHeader(lsStalePayload, lsWebhookSecret),
+      },
+      body: lsStalePayload,
+    });
+    const lsStaleBody = await lsStaleRes.json();
+    if (lsStaleRes.status !== 200 || lsStaleBody.reason !== 'STALE_EVENT' || memSubs.readSubscription(testUid)?.status !== 'active') {
+      throw new Error(`Expected Lemon Squeezy STALE_EVENT preserving active pro subscription, got ${JSON.stringify(lsStaleBody)}`);
+    }
+    console.log('[e2e] Lemon Squeezy out-of-order stale event monotonic STALE_EVENT');
+
+    // 16. Newer subscription_payment_refunded revokes paid plan back to `free` (`status: "canceled"`)
+    const lsRefundPayload = JSON.stringify({
+      meta: {
+        event_name: 'subscription_payment_refunded',
+        event_time: '2026-11-15T00:00:00Z', // Newer than the order_created
+        custom_data: lsCustomPassthrough,
+      },
+      data: {
+        id: `evt_ls_refund_${Date.now()}`,
+        attributes: {
+          custom_data: lsCustomPassthrough,
+          user_email: 'founder@acme.io',
+        },
+      },
+    });
+    const lsRefundRes = await fetch(`${baseUrl}/api/payments/webhook/lemonsqueezy`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-signature': signLsHeader(lsRefundPayload, lsWebhookSecret),
+      },
+      body: lsRefundPayload,
+    });
+    const lsRefundBody = await lsRefundRes.json();
+    if (lsRefundRes.status !== 200 || lsRefundBody.reason !== 'APPLIED' || memSubs.readSubscription(testUid)?.planId !== 'free') {
+      throw new Error(`Expected Lemon Squeezy refund revocation to free tier, got ${JSON.stringify(lsRefundBody)}`);
+    }
+    console.log('[e2e] Lemon Squeezy refund issued revokes to free tier');
+
     console.log(
       JSON.stringify(
         {
@@ -263,6 +432,13 @@ async function main() {
             'duplicate_webhook_retry_idempotent_DUPLICATE_EVENT',
             'out_of_order_stale_event_monotonic_STALE_EVENT',
             'refund_issued_revokes_to_free_tier',
+            'lemonsqueezy_sandbox_checkout_url_issued',
+            'lemonsqueezy_forged_hmac_rejected_401',
+            'lemonsqueezy_transient_store_outage_returns_503',
+            'lemonsqueezy_gateway_retry_activates_pro_entitlement',
+            'lemonsqueezy_duplicate_webhook_retry_idempotent_DUPLICATE_EVENT',
+            'lemonsqueezy_out_of_order_stale_event_monotonic_STALE_EVENT',
+            'lemonsqueezy_refund_issued_revokes_to_free_tier',
           ],
         },
         null,

@@ -61,9 +61,9 @@ app.get('/api/state/sync', async (req: Request, res: Response): Promise<void> =>
         auditRecords
       }
     });
-  } catch (err: any) {
-    logger.error('[State Sync GET] Error querying MongoDB state:', err);
-    res.status(500).json({ success: false, error: err.message });
+  } catch (err: unknown) {
+    logger.error({ err }, '[State Sync GET] Error querying MongoDB state');
+    res.status(500).json({ success: false, error: 'Failed to retrieve state.' });
   }
 });
 
@@ -127,9 +127,9 @@ app.post('/api/state/sync', async (req: Request, res: Response): Promise<void> =
       document: resultDocument,
       persistedAt: Date.now()
     });
-  } catch (err: any) {
-    logger.error('[State Sync POST] Error executing mutation on MongoDB:', err);
-    res.status(500).json({ success: false, error: err.message });
+  } catch (err: unknown) {
+    logger.error({ err }, '[State Sync POST] Error executing mutation on MongoDB');
+    res.status(500).json({ success: false, error: 'Failed to sync state.' });
   }
 });
 
@@ -149,8 +149,9 @@ app.delete('/api/state/sync/:collection/:id', async (req: Request, res: Response
       await db.collection(collection).deleteOne({ id, ownerId: uid });
     }
     res.json({ success: true, collection, id, deleted: true });
-  } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
+  } catch (err: unknown) {
+    logger.error({ err }, '[State Sync DELETE] Error deleting document');
+    res.status(500).json({ success: false, error: 'Failed to delete document.' });
   }
 });
 

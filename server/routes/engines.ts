@@ -107,7 +107,7 @@ app.post('/api/run-engine', createEngineRateLimitMiddleware({ cost: SINGLE_ENGIN
       },
       output: output || 'Engine completed with no output.'
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
     logger.error({ err, requestId: req.requestId }, 'Error executing engine');
     res.status(500).json({
       success: false,
@@ -228,7 +228,7 @@ app.post('/api/monitor/probe', createEngineRateLimitMiddleware({ cost: SINGLE_EN
         sslProbeSkipped: sslInfo.skippedReason,
         timestamp: Date.now()
       });
-    } catch (err: any) {
+    } catch (err: unknown) {
       const responseTimeMs = Math.round(performance.now() - startTime);
       res.json({
         success: false,
@@ -241,7 +241,7 @@ app.post('/api/monitor/probe', createEngineRateLimitMiddleware({ cost: SINGLE_EN
         timestamp: Date.now()
       });
     }
-  } catch (outerErr: any) {
+  } catch (outerErr: unknown) {
     logger.warn({ err: outerErr, requestId: req.requestId }, 'URL probe failed');
     res.status(500).json({ success: false, error: 'URL probe failed.', requestId: req.requestId });
   }
@@ -448,13 +448,14 @@ const handleMasterAuditStream = async (req: Request, res: Response): Promise<voi
             progress: Math.round((finishedCount / engines.length) * 100),
             timestamp: Date.now()
           });
-        } catch (err: any) {
+        } catch (err: unknown) {
           finishedCount += 1;
+          logger.warn({ err, requestId: req.requestId, engine: eng.key }, '[master-audit] engine execution failed');
           sendSse('engine_complete', {
             engine: eng.key,
             name: eng.name,
             status: 'error',
-            error: err.message || 'Engine execution failed',
+            error: 'Engine execution failed.',
             progress: Math.round((finishedCount / engines.length) * 100),
             timestamp: Date.now()
           });
