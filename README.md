@@ -35,6 +35,23 @@ GITHUB_WEBHOOK_SECRET=dev-secret npm run dev   # Express (port 3000) + Vite midd
 
 Every pull request runs the full gate set in [`.github/workflows/ci.yml`](./.github/workflows/ci.yml) on Node 24 (`.nvmrc`, owner answer #8 / D5) across five jobs: **gates** — `npm run ci` (check:env incl. the three-template env parity gate, ESLint over `src/`, `server/` and `server.ts`, `tsc --noEmit` under `strict: true`, the Vitest suite, the production build including prerender, and the bundle budget), then the coverage ratchet, `npm audit --audit-level=low`, the backup/restore drill, the payment sandbox e2e, the working-tree + history secret audit, the k6 peak-load SLO check, a production smoke test that boots `dist/server.cjs` and asserts the prerendered shells, the real 404 status, the legacy `.html` 301s and the `501` synthetic endpoints, and `npm run media:check`; **security-and-container** — gitleaks full-history scan, semgrep SAST, promtool validation of `docs/ops/alerts.yml`, and a Docker build asserting the non-root runtime + live health/contract probes; **e2e-chromium** — the Playwright zero-CSP-violation smoke; **lighthouse** — Lighthouse CI against the running production server (answer #12, D17); **python-tooling** — pytest/ruff/mypy/black over `scripts/replace_images.py`. `.github/workflows/media-verify.yml` is kept for media integrity on its own trigger.
 
+## Blog authoring
+
+Blog posts are MDX files in [`blogs/posts/`](./blogs/posts/); the filename is the slug (`blogs/posts/my-post.mdx` → `/blogs/my-post`). There is no database: posts are compiled into the site at build time.
+
+1. Copy [`blogs/templates/post-template.mdx`](./blogs/templates/post-template.mdx) to `blogs/posts/<slug>.mdx` (or use the editor at `/admin/blogs/create`, which validates the file and downloads it).
+2. Fill in the frontmatter. See [`blogs/instructions/frontmatter-reference.md`](./blogs/instructions/frontmatter-reference.md).
+3. Put images under `blogs/assets/` and reference them as `/blogs/assets/...` or `../assets/...`.
+4. Run `npx tsx scripts/validate-mdx-posts.ts`, then `npm test`, and commit.
+
+How it fits together:
+
+- `blogs/src/lib/postSchema.ts` validates frontmatter. An invalid post or a missing asset fails `vite build`, the prerender and the tests, with the file and field named.
+- `virtual:blog-index` (`blogs/src/lib/vitePlugin.ts`) ships validated metadata only. Each post body is its own lazily loaded chunk compiled by `@mdx-js/rollup`. `src/lib/blogLoader.ts` is the client API.
+- `scripts/prerender.ts` writes static HTML for every published post (plus sitemap, RSS and `llms.txt`), so crawlers read the article without JavaScript.
+- Custom components (`<Callout>`, `<Tabs>`/`<Tab>`, fenced code blocks) are documented in [`blogs/instructions/component-usage.md`](./blogs/instructions/component-usage.md).
+- `status: draft` posts are not published, and their bodies compile to empty stubs in production builds.
+
 ## Environment variables
 
 Everything is optional; behavior when unset is listed. See [`.env.example`](./.env.example) for the full list.
