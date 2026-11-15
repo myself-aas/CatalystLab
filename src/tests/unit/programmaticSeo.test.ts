@@ -13,7 +13,9 @@ import path from 'path';
 import { describe, expect, it } from 'vitest';
 import { DOC_SEO, DOC_SEO_BY_PATH } from '@/data/docsSeo';
 import { ENGINE_SEO, ENGINE_SEO_BY_PATH, engineSeoForPath } from '@/data/engineSeo';
-import { BLOG_SEO } from '@/data/blogSeo';
+import { readBlogSeo } from '@blogs/src/lib/readPosts';
+
+const BLOG_SEO = readBlogSeo().entries;
 import { ENGINES_MAP } from '@/data/engines';
 import { PLAYGROUND_ENGINE_IDS, isPlaygroundEngineId } from '@/data/playgroundEngines';
 import { PLAYGROUND_ENGINES } from '@/components/playground/PlaygroundNavSidebar';

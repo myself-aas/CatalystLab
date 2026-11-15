@@ -1,11 +1,15 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { blogPlugins } from './blogs/src/lib/vitePlugin';
 import tailwindcss from '@tailwindcss/vite';
 import path from 'path';
 
 export default defineConfig({
   plugins: [
-    react(),
+    // Blog posts: .mdx bodies compile to lazy chunks; frontmatter is served
+    // validated via virtual:blog-index (blogs/src/lib/vitePlugin.ts).
+    ...blogPlugins(),
+    react({ include: /\.(jsx|js|mdx|md|tsx|ts)$/ }),
     tailwindcss(),
     {
       name: 'disable-preview-hmr-client',
@@ -17,7 +21,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "./src"),
-        "@blogs": path.resolve(import.meta.dirname, "./blogs"),
+      "@blogs": path.resolve(import.meta.dirname, "./blogs"),
     },
   },
   server: {

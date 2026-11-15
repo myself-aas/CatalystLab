@@ -10,6 +10,33 @@
 
 **Spec:** This plan implements the user's requirement for an MDX-based blog system with directory structure `blogs/{posts,src,assets,templates,instructions}/` where `.mdx` filename = slug.
 
+## Execution Notes (2026-11-15) — deviations from this plan
+
+Tasks 1–4 landed as written. Before Tasks 5–9 ran, a production build showed that the
+written architecture could not work in this Vite SPA: `src/lib/blogLoader.ts` used
+Node `fs` and `next-mdx-remote/rsc` (React Server Components) inside browser pages,
+shipping a 570 KB chunk with a stubbed `fs`. The owner chose, in order:
+
+1. **Build-time MDX instead of `next-mdx-remote`.** `@mdx-js/rollup` compiles each post
+   body into a lazy chunk. `virtual:blog-index` (`blogs/src/lib/vitePlugin.ts`) ships
+   validated frontmatter only. `blogs/src/lib/postSchema.ts` (zod) is the single
+   validator for the Vite plugin, the prerender and the tests. `mdxCompiler.ts` was removed.
+2. **The editor exports `.mdx` files** (download or copy) instead of writing to disk (Task 6).
+   The browser cannot write to the repo, and the server must not.
+3. **`/blogs/:slug` stays canonical.** The `/blog/:slug` links in this plan were reverted,
+   and `/blog/:slug` remains an alias route.
+
+Further changes found during execution:
+- The admin and dashboard blog lists, the home-page news strip and navbar search also
+  read Firestore. They now read the MDX index, and publish/delete became file edits.
+- `@tailwindcss/typography` is not installed, so the `prose` classes did nothing. Element
+  overrides in `blogs/src/components/elements.tsx` style MDX output instead.
+- Drafts compile to empty stubs in production builds. Referenced assets must exist,
+  or the build fails.
+- `scripts/prerender.test.ts` was not written: `prerender.ts` runs `main()` on import.
+  Its blog input (`readBlogSeo`) is covered by `src/tests/lib/blogPostSchema.test.ts`
+  and the existing SEO unit tests.
+
 ## Global Constraints
 
 - **Node 24** (`.nvmrc`, `package.json`, `Dockerfile`)
@@ -26,13 +53,13 @@
 
 ## Review Focus
 
-| Input / Condition | Expected Behavior | Test Location |
-|-------------------|-------------------|---------------|
-| MDX file with invalid frontmatter | Graceful error at build time, clear error message | `scripts/prerender.ts` test |
-| Missing required frontmatter fields (title, date, excerpt) | Build fails with clear field name | `scripts/prerender.ts` test |
-| MDX file with relative image paths | Images resolve via `assets/` directory | `BlogPostPage.tsx` test |
-| MDX with custom components (e.g., `<Callout />`) | Components render via component map | `MarkdownRenderer.tsx` test |
-| Empty `blogs/` directory | Build succeeds, empty blog index | `BlogsPage.tsx` test |
+| Input / Condition                                          | Expected Behavior                                 | Test Location                 |
+| ---------------------------------------------------------- | ------------------------------------------------- | ----------------------------- |
+| MDX file with invalid frontmatter                          | Graceful error at build time, clear error message | `scripts/prerender.ts` test |
+| Missing required frontmatter fields (title, date, excerpt) | Build fails with clear field name                 | `scripts/prerender.ts` test |
+| MDX file with relative image paths                         | Images resolve via `assets/` directory          | `BlogPostPage.tsx` test     |
+| MDX with custom components (e.g., `<Callout />`)         | Components render via component map               | `MarkdownRenderer.tsx` test |
+| Empty `blogs/` directory                                 | Build succeeds, empty blog index                  | `BlogsPage.tsx` test        |
 
 ---
 
@@ -82,6 +109,7 @@ blogs/
 ## Task 1: Create Blog Directory Structure & Configuration
 
 **Files:**
+
 - Create: `blogs/posts/.gitkeep`
 - Create: `blogs/src/components/index.ts`
 - Create: `blogs/src/utils/readingTime.ts`
@@ -97,6 +125,7 @@ blogs/
 - Create: `blogs/instructions/component-usage.md`
 
 **Interfaces:**
+
 - Produces: Directory structure for all subsequent tasks
 - Consumes: None (foundational task)
 
@@ -177,6 +206,7 @@ console.log('Hello MDX');
 ## Sources
 
 - [Source Title](https://example.com)
+
 ```
 
 - [ ] **Step 4: Create MDX compiler utility**
@@ -268,21 +298,25 @@ git commit -m "feat(blog): create MDX blog directory structure and configuration
 ## Task 2: Migrate Seeded Posts to MDX Files
 
 **Files:**
+
 - Create: `blogs/posts/*.mdx` (12 files, one per seeded post)
 - Modify: `blogs/assets/images/covers/` (add cover images referenced in frontmatter)
 
 **Interfaces:**
+
 - Consumes: `blogs/templates/post-template.mdx`, `blogs/templates/frontmatter-schema.json`
 - Produces: 12 `.mdx` files in `blogs/posts/`
 
 - [ ] **Step 1: Create MDX file for each seeded post**
 
 For each post in `src/data/engineBlogs.ts`, create a corresponding `.mdx` file in `blogs/posts/` with:
+
 - Frontmatter matching `frontmatter-schema.json`
 - Content from `src/data/blogContent.ts`
 - Cover image path: `/blogs/assets/images/covers/{slug}.jpg`
 
 Example for `optimizing-dom-depth-render-blocking-nextjs.mdx`:
+
 ```mdx
 ---
 title: "Optimizing DOM Depth and Eliminating Render-Blocking Bottlenecks in Next.js"
@@ -332,11 +366,13 @@ git commit -m "feat(blog): migrate 12 seeded posts to MDX files"
 ## Task 3: Create MDX Blog Loader & Types
 
 **Files:**
+
 - Create: `src/types/blog.ts` (BlogPost, BlogPostFrontmatter types)
 - Create: `src/lib/blogLoader.ts` (load all posts, get by slug, filter)
 - Create: `src/lib/blogLoader.test.ts` (unit tests)
 
 **Interfaces:**
+
 - Consumes: `blogs/src/lib/mdxCompiler.ts`, `blogs/src/utils/readingTime.ts`
 - Produces: `getAllPosts()`, `getPostBySlug(slug)`, `getPostsByCategory(category)`, `getFeaturedPosts()`
 
@@ -389,7 +425,7 @@ export async function getAllPosts(): Promise<BlogPost[]> {
       const slug = file.replace('.mdx', '');
       const source = await fs.readFile(path.join(POSTS_DIR, file), 'utf-8');
       const { frontmatter, content } = await compileMDXPost(source);
-      
+    
       return {
         ...frontmatter,
         slug,
@@ -473,10 +509,12 @@ git commit -m "feat(blog): add MDX blog loader and types"
 ## Task 4: Update Blog Index Page (`/blogs`)
 
 **Files:**
+
 - Modify: `src/pages/BlogsPage.tsx`
 - Test: `src/pages/BlogsPage.test.tsx` (new)
 
 **Interfaces:**
+
 - Consumes: `src/lib/blogLoader.ts` (`getAllPosts`, `getFeaturedPosts`)
 - Produces: Updated blog index page using MDX data
 
@@ -578,10 +616,12 @@ git commit -m "feat(blog): update BlogsPage to use MDX blog loader"
 ## Task 5: Update Blog Post Page (`/blog/:slug`)
 
 **Files:**
+
 - Modify: `src/pages/BlogPostPage.tsx`
 - Test: `src/pages/BlogPostPage.test.tsx` (new)
 
 **Interfaces:**
+
 - Consumes: `src/lib/blogLoader.ts` (`getPostBySlug`)
 - Produces: Updated blog post page using MDX content
 
@@ -723,10 +763,12 @@ git commit -m "feat(blog): update BlogPostPage to use MDX blog loader"
 ## Task 5: Update Prerender Script for MDX Posts
 
 **Files:**
+
 - Modify: `scripts/prerender.ts`
 - Test: `scripts/prerender.test.ts` (new)
 
 **Interfaces:**
+
 - Consumes: `src/lib/blogLoader.ts` (`getAllPosts`, `getPostBySlug`)
 - Produces: Static HTML files for all blog posts at build time
 
@@ -809,10 +851,12 @@ git commit -m "feat(blog): update prerender for MDX blog posts"
 ## Task 6: Update Blog Editor for MDX Files
 
 **Files:**
+
 - Modify: `src/pages/BlogEditorPage.tsx`
 - Create: `src/lib/blogEditor.ts` (save/load MDX files)
 
 **Interfaces:**
+
 - Consumes: `blogs/src/lib/mdxCompiler.ts`, `blogs/src/utils/slugify.ts`
 - Produces: Editor that reads/writes `.mdx` files directly
 
@@ -941,6 +985,7 @@ git commit -m "feat(blog): update BlogEditorPage for MDX file-based editing"
 ## Task 7: Add Custom MDX Components
 
 **Files:**
+
 - Create: `blogs/src/components/Callout.tsx`
 - Create: `blogs/src/components/Tabs.tsx`
 - Create: `blogs/src/components/CodeBlock.tsx`
@@ -948,6 +993,7 @@ git commit -m "feat(blog): update BlogEditorPage for MDX file-based editing"
 - Modify: `blogs/src/lib/mdxCompiler.ts` (register components)
 
 **Interfaces:**
+
 - Consumes: `blogs/src/components/` (new components)
 - Produces: Component map for MDX compilation
 
@@ -1056,6 +1102,7 @@ git commit -m "feat(blog): add custom MDX components (Callout, Tabs, CodeBlock)"
 ## Task 8: Clean Up Legacy Blog Files
 
 **Files:**
+
 - Delete: `src/data/engineBlogs.ts`
 - Delete: `src/data/blogSeo.ts`
 - Delete: `src/data/blogContent.ts`
@@ -1064,6 +1111,7 @@ git commit -m "feat(blog): add custom MDX components (Callout, Tabs, CodeBlock)"
 - Modify: `src/lib/analyticsEngine.ts` (remove blog analytics if any)
 
 **Interfaces:**
+
 - Consumes: None (cleanup)
 - Produces: Cleaner codebase without legacy blog system
 
@@ -1105,12 +1153,14 @@ git commit -m "chore(blog): remove legacy Firestore-based blog system"
 ## Task 9: Update Documentation & Configuration
 
 **Files:**
+
 - Modify: `README.md` (add blog authoring instructions)
 - Modify: `package.json` (add MDX dependencies if needed)
 - Modify: `tsconfig.json` (add path aliases for `blogs/`)
 - Modify: `vite.config.ts` (configure MDX plugin if needed)
 
 **Interfaces:**
+
 - Consumes: All previous tasks
 - Produces: Complete documentation and configuration
 

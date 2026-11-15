@@ -1,40 +1,51 @@
-import { render, screen, waitFor } from '@testing-library/react';
-import { BlogsPage } from '@/pages/BlogsPage';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { AuthProvider } from '@/context/AuthContext';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import type { BlogPostMeta } from '@/types/blog';
 
-vi.mock('@/lib/blogLoader', () => ({
-  getAllPosts: vi.fn().mockResolvedValue([
-    {
-      slug: 'test-post',
-      title: 'Test Post',
-      excerpt: 'Test excerpt',
-      category: 'Core Performance',
-      date: '2026-11-15',
-      coverImage: '/cover.jpg',
-      readTime: '5 min read',
-      featured: false,
-      status: 'published',
-      author: 'Test Author',
-      authorAvatar: '/avatar.jpg',
-      tags: [],
-      views: 0,
-      seoTitle: '',
-      authorEmail: '',
-    }
-  ]),
-  getFeaturedPosts: vi.fn().mockResolvedValue([]),
-}));
+vi.mock('@/context/AuthContext', () => ({ useAuth: () => ({ user: null, isAdmin: false }) }));
+
+const override = vi.hoisted(() => ({ posts: undefined as BlogPostMeta[] | undefined }));
+vi.mock('@/lib/blogLoader', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/lib/blogLoader')>();
+  return { ...actual, getAllPosts: () => override.posts ?? actual.getAllPosts() };
+});
+
+const { BlogsPage } = await import('@/pages/BlogsPage');
+const { getAllPosts } = await import('@/lib/blogLoader');
+
+const renderPage = () =>
+  render(
+    <MemoryRouter>
+      <BlogsPage />
+    </MemoryRouter>
+  );
 
 describe('BlogsPage', () => {
-  it('renders blog posts from MDX loader', async () => {
-    render(
-      <MemoryRouter>
-        <AuthProvider>
-          <BlogsPage />
-        </AuthProvider>
-      </MemoryRouter>
-    );
-    await waitFor(() => expect(screen.getByText('Test Post')).toBeInTheDocument());
+  afterEach(() => {
+    override.posts = undefined;
+  });
+
+  it('lists every MDX post on first render, linking to /blogs/:slug', () => {
+    renderPage();
+    for (const post of getAllPosts()) {
+      const link = screen.getByRole('link', { name: new RegExp(post.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')) });
+      expect(link).toHaveAttribute('href', `/blogs/${post.slug}`);
+    }
+  });
+
+  it('filters by a frontmatter category', () => {
+    renderPage();
+    const [first] = getAllPosts();
+    fireEvent.click(screen.getByRole('button', { name: first.category }));
+    const shown = screen.getAllByRole('heading', { level: 2 }).map((heading) => heading.textContent);
+    const expected = getAllPosts().filter((post) => post.category === first.category).map((post) => post.title);
+    expect(shown).toEqual(expected);
+  });
+
+  it('shows the empty state when there are no posts', () => {
+    override.posts = [];
+    renderPage();
+    expect(screen.getByText('No articles found.')).toBeInTheDocument();
   });
 });

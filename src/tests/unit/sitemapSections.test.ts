@@ -18,7 +18,9 @@ import {
 } from '@/config/sitemapSections';
 import { ENGINE_SEO } from '@/data/engineSeo';
 import { DOC_SEO } from '@/data/docsSeo';
-import { BLOG_SEO } from '@/data/blogSeo';
+import { readBlogSeo } from '@blogs/src/lib/readPosts';
+
+const BLOG_SEO = readBlogSeo().entries;
 
 describe('sitemap sections', () => {
   it('declares four sections with unique ids and paths', () => {

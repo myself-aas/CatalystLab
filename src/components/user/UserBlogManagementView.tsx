@@ -1,115 +1,53 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import type { BlogPost } from '../../types';
-import { getUserBlogPosts, saveBlogPost, deleteBlogPost } from '../../lib/firebase';
+import React, { useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
+import type { BlogPostMeta } from '@/types/blog';
+import { getManagedPosts } from '@/lib/blogLoader';
 import { useAuth } from '../../context/AuthContext';
-import { getArticleReadingTime } from '../../utils/readingTime';
 import {
-  BookOpen, 
-  Plus, 
-  Edit3, 
-  Trash2,
+  BookOpen,
+  Plus,
+  Edit3,
   ExternalLink,
-  CheckCircle2,
-  Clock,
-  RefreshCw,
   Search,
   Copy,
   Check,
-  Send
+  FileCode2
 } from 'lucide-react';
-import { errorMessage } from '../../lib/utils';
-import { logger } from '../../lib/logger';
-import { SkeletonTable } from '../skeleton';
 
+/**
+ * The signed-in author's MDX posts (matched on `authorEmail` frontmatter).
+ * Status changes and deletion are file edits committed to blogs/posts/.
+ */
 export const UserBlogManagementView: React.FC = () => {
   const { user } = useAuth();
-  const navigate = useNavigate();
-  const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [loading, setLoading] = useState(true);
+  const posts = useMemo(
+    () => (user?.email ? getManagedPosts().filter((post) => post.authorEmail === user.email) : []),
+    [user?.email]
+  );
   const [searchQuery, setSearchQuery] = useState('');
-  const [notification, setNotification] = useState<string | null>(null);
-  const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [copiedSlug, setCopiedSlug] = useState<string | null>(null);
 
-  useEffect(() => {
-    fetchPosts();
-  }, [user]);
-
-  const fetchPosts = async () => {
-    if (!user?.email) return;
-    setLoading(true);
-    try {
-      const fetched = await getUserBlogPosts(user.email);
-      setPosts(fetched);
-    } catch (error) {
-      logger.error('Failed to fetch user blogs:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const showNotification = (msg: string) => {
-    setNotification(msg);
-    setTimeout(() => setNotification(null), 3000);
-  };
-
-  const handleDeletePost = async (post: BlogPost) => {
-    if (!confirm(`Are you sure you want to delete "${post.title}"? This cannot be undone.`)) return;
-    try {
-      if (post.id) {
-        await deleteBlogPost(post.id);
-        setPosts(posts.filter((p) => p.id !== post.id));
-        showNotification('Article deleted successfully.');
-      }
-    } catch (err: unknown) {
-      logger.error('Failed to delete post:', err);
-      showNotification(`Failed to delete post: ${errorMessage(err)}`);
-    }
-  };
-
-  const handleToggleStatus = async (post: BlogPost) => {
-    try {
-      const newStatus = post.status === 'published' ? 'draft' : 'published';
-      await saveBlogPost({ ...post, status: newStatus });
-      setPosts(posts.map((p) => (p.id === post.id ? { ...p, status: newStatus } : p)));
-      showNotification(`Article ${newStatus === 'published' ? 'published' : 'saved as draft'}.`);
-    } catch (err: unknown) {
-      logger.error('Failed to toggle status:', err);
-    }
-  };
-
-  const handleCopyLink = (post: BlogPost) => {
-    const slug = post.slug || post.id || '';
-    const url = `${window.location.origin}/blogs/${slug}`;
-    navigator.clipboard.writeText(url);
-    setCopiedId(post.id || post.slug || 'article');
-    setTimeout(() => setCopiedId(null), 2000);
+  const handleCopyLink = (post: BlogPostMeta) => {
+    void navigator.clipboard?.writeText(`${window.location.origin}/blogs/${post.slug}`);
+    setCopiedSlug(post.slug);
+    setTimeout(() => setCopiedSlug(null), 2000);
   };
 
   const filteredPosts = useMemo(() => {
-    return posts.filter((post) => {
-      const q = searchQuery.toLowerCase().trim();
-      return (
+    const q = searchQuery.toLowerCase().trim();
+    return posts.filter(
+      (post) =>
         !q ||
         post.title.toLowerCase().includes(q) ||
-        post.excerpt?.toLowerCase().includes(q) ||
-        post.category?.toLowerCase().includes(q) ||
-        post.tags?.some((t) => t.toLowerCase().includes(q))
-      );
-    });
+        post.excerpt.toLowerCase().includes(q) ||
+        post.category.toLowerCase().includes(q) ||
+        post.tags.some((t) => t.toLowerCase().includes(q))
+    );
   }, [posts, searchQuery]);
 
   return (
     <div className="space-y-6">
       
-      {/* Notification Toast */}
-      {notification && (
-        <div className="fixed bottom-6 right-6 z-50 rounded-xl bg-emerald-600 px-4 py-3 text-xs font-bold text-primary-foreground shadow-2xl backdrop-blur-sm flex items-center gap-2">
-          <CheckCircle2 className="h-4 w-4" />
-          <span>{notification}</span>
-        </div>
-      )}
-
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-5">
         <div>
@@ -120,19 +58,11 @@ export const UserBlogManagementView: React.FC = () => {
             <h2 className="text-xl font-bold text-foreground">My Published Articles & Drafts</h2>
           </div>
           <p className="text-xs ds-muted mt-1">
-            Author and manage your architecture and telemetry articles on CatalystLab.
+            Your posts in <code className="font-mono">blogs/posts/</code>. Export from the editor and commit the file to publish.
           </p>
         </div>
 
         <div className="flex items-center gap-2">
-          <button
-            onClick={fetchPosts}
-            className="p-2.5 ds-card ds-muted hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            title="Refresh articles"
-          >
-            <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
-          </button>
-
           {/* Dedicated URL for Create (No Popup!) */}
           <Link
             to="/dashboard/blogs/create"
@@ -158,9 +88,7 @@ export const UserBlogManagementView: React.FC = () => {
 
       {/* Articles List */}
       <div className="space-y-3">
-        {loading ? (
-          <SkeletonTable rows={4} columns={4} />
-        ) : filteredPosts.length === 0 ? (
+        {filteredPosts.length === 0 ? (
           <div className="py-16 text-center ds-muted rounded-2xl border border-dashed border-border bg-background p-8 shadow-xs">
             <BookOpen className="mx-auto h-10 w-10 ds-muted mb-3" />
             <h3 className="text-base font-bold text-foreground">No Articles Found</h3>
@@ -177,10 +105,9 @@ export const UserBlogManagementView: React.FC = () => {
           </div>
         ) : (
           filteredPosts.map((post) => {
-            const articleIdOrSlug = post.id || post.slug || '';
             return (
               <div
-                key={post.id || post.slug}
+                key={post.slug}
                 className="ds-card p-4 sm:p-5 shadow-xs transition hover:border-border hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -189,7 +116,7 @@ export const UserBlogManagementView: React.FC = () => {
                   <div className="space-y-1.5 flex-1 min-w-0">
                     <div className="flex flex-wrap items-center gap-2">
                       <span className="rounded-md bg-cream/10 px-2 py-0.5 text-[11px] font-bold text-foreground border border-cream/20">
-                        {post.category || 'Technology'}
+                        {post.category}
                       </span>
                       <span className={`rounded-md px-2 py-0.5 text-[11px] font-bold ${
                         post.status === 'published'
@@ -199,35 +126,35 @@ export const UserBlogManagementView: React.FC = () => {
                         {post.status === 'published' ? 'Published' : 'Draft'}
                       </span>
                       <span className="text-xs ds-muted font-mono">
-                        {new Date(post.createdAt || Date.now()).toLocaleDateString('en-US', {
+                        {new Date(`${post.date}T00:00:00Z`).toLocaleDateString('en-US', {
+                          timeZone: 'UTC',
                           month: 'short',
                           day: 'numeric',
                           year: 'numeric'
                         })}
                       </span>
                       <span className="text-xs text-sky-700 font-mono font-medium">
-                        • {getArticleReadingTime(post)}
+                        • {post.readTime}
                       </span>
                     </div>
 
                     <h3 className="text-base font-bold text-foreground truncate">
-                      <Link to={`/dashboard/blogs/edit/${articleIdOrSlug}`} className="hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                      <Link to={`/dashboard/blogs/edit/${post.slug}`} className="hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
                         {post.title}
                       </Link>
                     </h3>
 
-                    {post.excerpt && (
-                      <p className="text-xs ds-muted line-clamp-2 leading-relaxed">
-                        {post.excerpt}
-                      </p>
-                    )}
+                    <p className="text-xs ds-muted line-clamp-2 leading-relaxed">
+                      {post.excerpt}
+                    </p>
                   </div>
 
                   {/* Actions */}
                   <div className="flex flex-wrap items-center gap-2 shrink-0 border-t border-border pt-3 sm:border-t-0 sm:pt-0">
                     
+                    {post.status === 'published' && (
                     <a
-                      href={`/blogs/${post.slug || post.id}`}
+                      href={`/blogs/${post.slug}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1 ds-card px-3 py-1.5 text-xs font-semibold ds-muted hover:bg-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -236,6 +163,7 @@ export const UserBlogManagementView: React.FC = () => {
                       <ExternalLink className="h-3.5 w-3.5" />
                       <span>View</span>
                     </a>
+                    )}
 
                     <button
                       type="button"
@@ -243,7 +171,7 @@ export const UserBlogManagementView: React.FC = () => {
                       className="p-2 ds-card ds-muted hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                       title="Copy public link"
                     >
-                      {copiedId === (post.id || post.slug) ? (
+                      {copiedSlug === post.slug ? (
                         <Check className="h-3.5 w-3.5 text-emerald-600" />
                       ) : (
                         <Copy className="h-3.5 w-3.5" />
@@ -252,29 +180,17 @@ export const UserBlogManagementView: React.FC = () => {
 
                     {/* Dedicated Edit Page Navigation */}
                     <Link
-                      to={`/dashboard/blogs/edit/${articleIdOrSlug}`}
+                      to={`/dashboard/blogs/edit/${post.slug}`}
                       className="inline-flex items-center gap-1.5 rounded-xl border border-cream/20 bg-cream/10 px-3.5 py-1.5 text-xs font-bold text-foreground hover:bg-cream/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                     >
                       <Edit3 className="h-3.5 w-3.5" />
                       <span>Edit Article</span>
                     </Link>
 
-                    <button
-                      type="button"
-                      onClick={() => handleToggleStatus(post)}
-                      className="ds-card px-3 py-1.5 text-xs font-semibold ds-muted hover:bg-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                    >
-                      {post.status === 'published' ? 'Draft' : 'Publish'}
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => handleDeletePost(post)}
-                      className="p-2 rounded-xl border border-rose-500/20 bg-white/10 text-rose-400 hover:bg-white/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                      title="Delete article"
-                    >
-                      <Trash2 className="h-3.5 w-3.5" />
-                    </button>
+                    <span className="inline-flex items-center gap-1 px-2 py-1.5 font-mono text-[11px] ds-muted" title="Source file">
+                      <FileCode2 className="h-3.5 w-3.5" />
+                      {post.slug}.mdx
+                    </span>
                   </div>
                 </div>
               </div>
