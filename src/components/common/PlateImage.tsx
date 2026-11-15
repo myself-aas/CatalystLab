@@ -21,7 +21,7 @@ export interface PlateImageProps extends ImgHTMLAttributes<HTMLImageElement> {
  * first `<source>` whose type they support; crawlers and ancient clients fall
  * through to the JPEG `<img>`, which also carries the alt text.
  *
- * Registries that pass plain `src` strings (engines.ts, engineBlogs.ts,
+ * Registries that pass plain `src` strings (engines.ts, blog posts,
  * media/registry.ts) keep working unchanged — pass `webp`/`avif` only where
  * the render site can import the siblings.
  */

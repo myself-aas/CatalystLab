@@ -1,68 +1,43 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { getAllPosts, getFeaturedPosts } from '@/lib/blogLoader';
-import type { BlogPost } from '@/types/blog';
+import { DEFAULT_BLOG_COVER, getAllPosts } from '@/lib/blogLoader';
 import { useAuth } from '../context/AuthContext';
-import { 
-  ArrowRight, Search, BookOpen, Settings, Clock, 
-  Bookmark, Sparkles, Plus, X, User, Home,
-  Sliders
-} from 'lucide-react';
+import { Search, Clock, Plus, Sliders } from 'lucide-react';
 import { SEOHead } from '../components/common/SEOHead';
 import { PlateImage } from '../components/common/PlateImage';
-import { logger } from '../lib/logger';
-import { BlogCardSkeleton } from '../components/skeleton';
 import { motion, AnimatePresence } from 'motion/react';
 
 export const BlogsPage: React.FC = () => {
   const { user, isAdmin } = useAuth();
-  const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [featuredPosts, setFeaturedPosts] = useState<BlogPost[]>([]);
-  const [loading, setLoading] = useState(true);
+  // Build-time index: synchronous, so the list renders on first paint.
+  const posts = getAllPosts();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTopic, setSelectedTopic] = useState('All');
 
-  useEffect(() => {
-    const loadPosts = async () => {
-      try {
-        const [allPosts, featured] = await Promise.all([
-          getAllPosts(),
-          getFeaturedPosts(),
-        ]);
-        setPosts(allPosts);
-        setFeaturedPosts(featured);
-      } catch (err) {
-        logger.error("Error loading blog posts:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadPosts();
-  }, []);
-
   const filteredPosts = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
     return posts.filter(post => {
-      const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                            (post.excerpt && post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()));
-      const matchesTopic = selectedTopic === 'All' || 
-                           (post.category && post.category.toLowerCase().includes(selectedTopic.toLowerCase()));
+      const matchesSearch = !query ||
+        post.title.toLowerCase().includes(query) ||
+        post.excerpt.toLowerCase().includes(query) ||
+        post.tags.some(tag => tag.toLowerCase().includes(query));
+      const matchesTopic = selectedTopic === 'All' || post.category === selectedTopic;
       return matchesSearch && matchesTopic;
     });
   }, [posts, searchQuery, selectedTopic]);
 
-  const heroPost = featuredPosts[0] ?? filteredPosts[0] ?? null;
-  const listPosts = filteredPosts.filter(p => p.slug !== heroPost?.slug);
-
-    const TOPICS = useMemo(() => {
-      const categories = [...new Set(posts.map(p => p.category))];
-      return [{ key: 'All', label: 'Discover' }, ...categories.map(c => ({ key: c, label: c }))];
-    }, [posts]);
+  const topics = useMemo(() => {
+    const categories = [...new Set(posts.map(p => p.category))];
+    return [{ key: 'All', label: 'Discover' }, ...categories.map(c => ({ key: c, label: c }))];
+  }, [posts]);
 
   return (
     <div className="min-h-screen ds-page-top bg-background text-foreground font-sans pb-20">
-      <SEOHead 
-        title="Discover News | CatalystLab" 
-        description="Latest news from all over the world." 
+      <SEOHead
+        title="Engineering Blog: Web Health, Performance and AI Search | CatalystLab"
+        description="Research notes on Core Web Vitals, DOM cost, AI crawler policy, structured data and sustainable web engineering, written by the team that builds the engines."
+        canonicalPath="/blogs"
+        absoluteTitle
       />
 
       <div className="max-w-2xl mx-auto relative min-h-screen flex flex-col">
@@ -83,27 +58,29 @@ export const BlogsPage: React.FC = () => {
           <p className="text-sm text-muted-foreground">Written by the engineers who build the engines, with the measurement each post is based on.</p>
         </div>
 
-                {/* Topic Pills - dynamic from frontmatter categories */}
-                <div className="px-6 mb-6 overflow-x-auto no-scrollbar">
-                  <div className="flex items-center gap-2 pb-1 min-w-max">
-                    {TOPICS.map((topic) => {
-                      const isActive = selectedTopic === topic.key;
-                      return (
-                        <button
-                          key={topic.key}
-                          onClick={() => setSelectedTopic(topic.key)}
-                          className={`px-4 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition border ${
-                            isActive
-                              ? 'bg-primary text-primary-foreground border-transparent shadow-[0_2px_10px_rgba(240,250,255,0.15)]'
-                              : 'bg-muted text-foreground/80 border-foreground/10 hover:text-foreground hover:border-foreground/20'
-                          }`}
-                        >
-                          {topic.label}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
+        {/* Topic Pills - one per frontmatter category */}
+        <div className="px-6 mb-6 overflow-x-auto no-scrollbar">
+          <div className="flex items-center gap-2 pb-1 min-w-max">
+            {topics.map((topic) => {
+              const isActive = selectedTopic === topic.key;
+              return (
+                <button
+                  key={topic.key}
+                  type="button"
+                  aria-pressed={isActive}
+                  onClick={() => setSelectedTopic(topic.key)}
+                  className={`px-4 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition border ${
+                    isActive
+                      ? 'bg-primary text-primary-foreground border-transparent shadow-[0_2px_10px_rgba(240,250,255,0.15)]'
+                      : 'bg-muted text-foreground/80 border-foreground/10 hover:text-foreground hover:border-foreground/20'
+                  }`}
+                >
+                  {topic.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
 
         {/* Search — pill shape */}
         <div className="px-6 mb-5">
@@ -124,13 +101,7 @@ export const BlogsPage: React.FC = () => {
 
         {/* Content Area */}
         <div className="flex-1 px-6 pb-12">
-          {loading ? (
-            <div className="space-y-4">
-              {Array.from({ length: 4 }).map((_, idx) => (
-                <BlogCardSkeleton key={idx} />
-              ))}
-            </div>
-          ) : filteredPosts.length === 0 ? (
+          {filteredPosts.length === 0 ? (
             <div className="py-12 text-center text-foreground/50 rounded-3xl border border-foreground/10 bg-muted">
               No articles found.
             </div>
@@ -142,12 +113,12 @@ export const BlogsPage: React.FC = () => {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: idx * 0.04 }}
-                    key={post.id || post.slug}
+                    key={post.slug}
                   >
-                    <Link to={`/blog/${post.slug}`} className="group flex gap-4 items-center p-3 rounded-2xl hover:bg-muted transition-colors border border-transparent hover:border-foreground/10">
+                    <Link to={`/blogs/${post.slug}`} className="group flex gap-4 items-center p-3 rounded-2xl hover:bg-muted transition-colors border border-transparent hover:border-foreground/10">
                       <div className="w-20 h-20 shrink-0 rounded-2xl overflow-hidden bg-muted border border-foreground/10">
                         <PlateImage
-                                                  src={post.coverImage}
+                          src={post.coverImage ?? DEFAULT_BLOG_COVER}
                           alt={post.title}
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                         />
@@ -161,9 +132,7 @@ export const BlogsPage: React.FC = () => {
                             <Clock className="w-3 h-3" />
                             {post.readTime}
                           </span>
-                          {post.author && (
-                                                      <span className="truncate">By {post.author}</span>
-                          )}
+                          <span className="truncate">By {post.author}</span>
                         </div>
                       </div>
                     </Link>

@@ -79,25 +79,7 @@ export interface EngineExecutionResult {
   error?: string;
 }
 
-export interface BlogPost {
-  id?: string;
-  title: string;
-  slug: string;
-  excerpt: string;
-  content: string;
-  category: string;
-  tags: string[];
-  authorName: string;
-  authorEmail: string;
-  authorAvatar?: string;
-  status: 'published' | 'draft' | 'archived';
-  readTime: string;
-  coverImage?: PlateSource | string;
-  featured?: boolean;
-  createdAt: number;
-  updatedAt?: number;
-  views?: number;
-}
+// Blog post types live in ./blog.ts (MDX frontmatter schema).
 
 export interface MonitoredSite {
   id?: string;

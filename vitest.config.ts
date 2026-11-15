@@ -1,15 +1,19 @@
 /// <reference types="vitest" />
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { blogPlugins } from './blogs/src/lib/vitePlugin';
 import path from 'path';
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    ...blogPlugins(),
+    react({ include: /\.(jsx|js|mdx|md|tsx|ts)$/ }),
+  ],
   resolve: {
     alias: {
       '@': path.resolve(import.meta.dirname, './src'),
       '@server': path.resolve(import.meta.dirname, './server'),
-        '@blogs': path.resolve(import.meta.dirname, './blogs'),
+      '@blogs': path.resolve(import.meta.dirname, './blogs'),
     },
   },
   test: {

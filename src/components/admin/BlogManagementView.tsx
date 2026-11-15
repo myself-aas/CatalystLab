@@ -1,152 +1,62 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import type { BlogPost } from '../../types';
-import { getBlogPosts, saveBlogPost, deleteBlogPost } from '../../lib/firebase';
-import { useAuth } from '../../context/AuthContext';
-import { getArticleReadingTime } from '../../utils/readingTime';
+import React, { useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
+import type { BlogPostMeta } from '@/types/blog';
+import { getManagedPosts } from '@/lib/blogLoader';
+import { BLOG_CATEGORIES } from '@blogs/src/lib/categories';
 import {
-  BookOpen, 
-  Plus, 
-  Edit3, 
-  Trash2, 
-  Eye, 
-  CheckCircle2, 
-  Clock, 
-  Tag, 
-  Sparkles, 
-  Layers, 
+  BookOpen,
+  Plus,
+  Edit3,
   ExternalLink,
   Search,
-  Filter,
-  RefreshCw,
   Copy,
   Check,
-  FileText,
-  TrendingUp,
-  BarChart2
+  FileCode2
 } from 'lucide-react';
-import { errorMessage } from '../../lib/utils';
-import { logger } from '../../lib/logger';
-import { SkeletonTable } from '../skeleton';
 
-const CATEGORIES = [
-  'All Categories',
-  'AI & LLMO',
-  'Edge Latency',
-  'SecOps & Compliance',
-  'DOM & Performance',
-  'Web Architecture',
-  'Sustainability & Green Web',
-  'Release Notes',
-  'Engineering'
-];
+const CATEGORIES = ['All Categories', ...BLOG_CATEGORIES];
 
+/**
+ * Lists the MDX posts in blogs/posts/. Publishing, unpublishing and deleting
+ * are file changes (edit `status:` or remove the file, then commit), so this
+ * view only links out to the article and to the .mdx export editor.
+ */
 export const BlogManagementView: React.FC = () => {
-  const { user } = useAuth();
-  const navigate = useNavigate();
-  const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [loading, setLoading] = useState(true);
+  const posts = useMemo(() => getManagedPosts(), []);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
   const [selectedStatus, setSelectedStatus] = useState<'all' | 'published' | 'draft'>('all');
-  const [notification, setNotification] = useState<string | null>(null);
-  const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [copiedSlug, setCopiedSlug] = useState<string | null>(null);
 
-  const fetchPosts = async () => {
-    setLoading(true);
-    try {
-      const data = await getBlogPosts();
-      setPosts(data);
-    } catch (err) {
-      logger.error('Error fetching blog posts:', err);
-    } finally {
-      setLoading(false);
-    }
+  const handleCopyLink = (post: BlogPostMeta) => {
+    void navigator.clipboard?.writeText(`${window.location.origin}/blogs/${post.slug}`);
+    setCopiedSlug(post.slug);
+    setTimeout(() => setCopiedSlug(null), 2000);
   };
 
-  useEffect(() => {
-    fetchPosts();
-  }, []);
-
-  const showNotification = (msg: string) => {
-    setNotification(msg);
-    setTimeout(() => setNotification(null), 3500);
-  };
-
-  const handleToggleStatus = async (post: BlogPost) => {
-    try {
-      const newStatus = post.status === 'published' ? 'draft' : 'published';
-      await saveBlogPost({ ...post, status: newStatus });
-      setPosts(posts.map((p) => (p.id === post.id ? { ...p, status: newStatus } : p)));
-      showNotification(`Article status updated to ${newStatus}.`);
-    } catch (err: unknown) {
-      logger.error('Error toggling status:', err);
-      showNotification(`Failed to toggle status: ${errorMessage(err)}`);
-    }
-  };
-
-  const handleDeletePost = async (post: BlogPost) => {
-    if (!confirm(`Are you sure you want to permanently delete "${post.title}"? This cannot be undone.`)) {
-      return;
-    }
-    try {
-      if (post.id) {
-        await deleteBlogPost(post.id);
-        setPosts(posts.filter((p) => p.id !== post.id));
-        showNotification('Article deleted successfully.');
-      }
-    } catch (err: unknown) {
-      logger.error('Failed to delete post:', err);
-      showNotification(`Failed to delete post: ${errorMessage(err)}`);
-    }
-  };
-
-  const handleCopyLink = (post: BlogPost) => {
-    const slug = post.slug || post.id || '';
-    const url = `${window.location.origin}/blogs/${slug}`;
-    navigator.clipboard.writeText(url);
-    setCopiedId(post.id || post.slug || 'article');
-    setTimeout(() => setCopiedId(null), 2000);
-  };
-
-  // Filtered posts
   const filteredPosts = useMemo(() => {
+    const query = searchQuery.toLowerCase().trim();
     return posts.filter((post) => {
-      const query = searchQuery.toLowerCase().trim();
       const matchesSearch =
         !query ||
         post.title.toLowerCase().includes(query) ||
-        post.excerpt?.toLowerCase().includes(query) ||
-        post.authorName?.toLowerCase().includes(query) ||
-        post.category?.toLowerCase().includes(query) ||
-        post.tags?.some((t) => t.toLowerCase().includes(query));
-
-      const matchesCat =
-        selectedCategory === 'All Categories' || post.category?.toLowerCase() === selectedCategory.toLowerCase();
-
-      const matchesStatus =
-        selectedStatus === 'all' || post.status === selectedStatus;
-
+        post.excerpt.toLowerCase().includes(query) ||
+        post.author.toLowerCase().includes(query) ||
+        post.category.toLowerCase().includes(query) ||
+        post.tags.some((t) => t.toLowerCase().includes(query));
+      const matchesCat = selectedCategory === 'All Categories' || post.category === selectedCategory;
+      const matchesStatus = selectedStatus === 'all' || post.status === selectedStatus;
       return matchesSearch && matchesCat && matchesStatus;
     });
   }, [posts, searchQuery, selectedCategory, selectedStatus]);
 
-  // Aggregate stats
-  const totalViews = useMemo(() => posts.reduce((acc, p) => acc + (p.views || 0), 0), [posts]);
+  const totalViews = useMemo(() => posts.reduce((acc, p) => acc + p.views, 0), [posts]);
   const publishedCount = useMemo(() => posts.filter((p) => p.status === 'published').length, [posts]);
-  const draftCount = useMemo(() => posts.filter((p) => p.status === 'draft').length, [posts]);
+  const draftCount = posts.length - publishedCount;
 
   return (
     <div className="space-y-6">
       
-      {/* Toast Notification */}
-      {notification && (
-        <div className="fixed bottom-6 right-6 z-50 rounded-xl bg-emerald-950/90 border border-emerald-500/40 px-4 py-3 text-xs font-bold text-emerald-200 shadow-2xl backdrop-blur-md flex items-center gap-2">
-          <CheckCircle2 className="h-4 w-4 text-emerald-400" />
-          <span>{notification}</span>
-        </div>
-      )}
-
       {/* Header & Primary CTA */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-5">
         <div>
@@ -159,19 +69,11 @@ export const BlogManagementView: React.FC = () => {
             </h2>
           </div>
           <p className="text-xs ds-muted mt-1">
-            Author and orchestrate technical benchmark publications, telemetry analyses, and architecture briefs.
+            Posts are MDX files in <code className="font-mono">blogs/posts/</code>. Change status or delete by editing the file and committing.
           </p>
         </div>
 
         <div className="flex items-center gap-2.5">
-          <button
-            onClick={fetchPosts}
-            className="p-2.5 ds-card ds-muted hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            title="Refresh articles"
-          >
-            <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
-          </button>
-
           {/* Dedicated Page Navigation Link (No Popups!) */}
           <Link
             to="/admin/blogs/create"
@@ -231,7 +133,7 @@ export const BlogManagementView: React.FC = () => {
 
           <select
             value={selectedStatus}
-            onChange={(e) => setSelectedStatus(e.target.value as any)}
+            onChange={(e) => setSelectedStatus(e.target.value as 'all' | 'published' | 'draft')}
             className="ds-card px-3 py-2 text-xs font-semibold text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <option value="all">All Statuses</option>
@@ -243,9 +145,7 @@ export const BlogManagementView: React.FC = () => {
 
       {/* Articles Stream / List */}
       <div className="space-y-3">
-        {loading ? (
-          <SkeletonTable rows={4} columns={4} />
-        ) : filteredPosts.length === 0 ? (
+        {filteredPosts.length === 0 ? (
           <div className="py-16 text-center ds-muted ds-card p-8 shadow-xl">
             <BookOpen className="mx-auto h-10 w-10 text-amber-600/40 mb-3" />
             <h3 className="text-base font-bold text-foreground">No Matching Articles Found</h3>
@@ -262,10 +162,9 @@ export const BlogManagementView: React.FC = () => {
           </div>
         ) : (
           filteredPosts.map((post) => {
-            const articleIdOrSlug = post.id || post.slug || '';
             return (
               <div
-                key={post.id || post.slug}
+                key={post.slug}
                 className="ds-card p-4 sm:p-5 shadow-md transition hover:border-cyan-500/40 hover:bg-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
@@ -274,7 +173,7 @@ export const BlogManagementView: React.FC = () => {
                   <div className="space-y-2 flex-1 min-w-0">
                     <div className="flex flex-wrap items-center gap-2">
                       <span className="rounded-md bg-cyan-950/80 px-2.5 py-0.5 text-[11px] font-bold text-amber-600 border border-cyan-500/30">
-                        {post.category || 'Engineering'}
+                        {post.category}
                       </span>
                       <span className={`rounded-md px-2.5 py-0.5 text-[11px] font-bold ${
                         post.status === 'published'
@@ -284,32 +183,31 @@ export const BlogManagementView: React.FC = () => {
                         {post.status === 'published' ? 'Published' : 'Draft'}
                       </span>
                       <span className="text-xs ds-muted font-mono">
-                        {new Date(post.createdAt || Date.now()).toLocaleDateString('en-US', {
+                        {new Date(`${post.date}T00:00:00Z`).toLocaleDateString('en-US', {
+                          timeZone: 'UTC',
                           month: 'short',
                           day: 'numeric',
                           year: 'numeric'
                         })}
                       </span>
                       <span className="text-xs text-amber-600 font-mono">
-                        • {getArticleReadingTime(post)}
+                        • {post.readTime}
                       </span>
                     </div>
 
                     <h3 className="text-base sm:text-lg font-bold text-foreground truncate hover:text-amber-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-                      <Link to={`/admin/blogs/edit/${articleIdOrSlug}`}>
+                      <Link to={`/admin/blogs/edit/${post.slug}`}>
                         {post.title}
                       </Link>
                     </h3>
 
-                    {post.excerpt && (
-                      <p className="text-xs ds-muted line-clamp-2 leading-relaxed">
-                        {post.excerpt}
-                      </p>
-                    )}
+                    <p className="text-xs ds-muted line-clamp-2 leading-relaxed">
+                      {post.excerpt}
+                    </p>
 
                     <div className="flex flex-wrap items-center gap-1.5 pt-1">
-                      <span className="text-[11px] font-mono ds-muted">By {post.authorName || 'CatalystLab Team'}</span>
-                      {post.tags && post.tags.length > 0 && (
+                      <span className="text-[11px] font-mono ds-muted">By {post.author}</span>
+                      {post.tags.length > 0 && (
                         <>
                           <span className="ds-muted">•</span>
                           {post.tags.slice(0, 4).map((t) => (
@@ -325,9 +223,10 @@ export const BlogManagementView: React.FC = () => {
                   {/* Right Actions Bar */}
                   <div className="flex flex-wrap items-center gap-2 shrink-0 border-t border-border pt-3 lg:border-t-0 lg:pt-0">
                     
-                    {/* View Live Article Button */}
+                    {/* View Live Article Button (drafts have no public page) */}
+                    {post.status === 'published' && (
                     <a
-                      href={`/blogs/${post.slug || post.id}`}
+                      href={`/blogs/${post.slug}`}
                       target="_blank" rel="noopener noreferrer"
                       className="inline-flex items-center gap-1 ds-card px-3 py-1.5 text-xs font-semibold ds-muted hover:text-foreground hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                       title="View live article"
@@ -335,6 +234,7 @@ export const BlogManagementView: React.FC = () => {
                       <ExternalLink className="h-3.5 w-3.5" />
                       <span>View</span>
                     </a>
+                    )}
 
                     {/* Copy Link Button */}
                     <button
@@ -343,7 +243,7 @@ export const BlogManagementView: React.FC = () => {
                       className="p-2 ds-card ds-muted hover:text-amber-600 hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                       title="Copy public link"
                     >
-                      {copiedId === (post.id || post.slug) ? (
+                      {copiedSlug === post.slug ? (
                         <Check className="h-3.5 w-3.5 text-emerald-400" />
                       ) : (
                         <Copy className="h-3.5 w-3.5" />
@@ -352,31 +252,20 @@ export const BlogManagementView: React.FC = () => {
 
                     {/* Dedicated Edit Page Button (Navigates to unique URL) */}
                     <Link
-                      to={`/admin/blogs/edit/${articleIdOrSlug}`}
+                      to={`/admin/blogs/edit/${post.slug}`}
                       className="inline-flex items-center gap-1.5 rounded-xl border border-cyan-500/40 bg-foreground/10 px-3.5 py-1.5 text-xs font-bold text-amber-600 hover:bg-foreground/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                     >
                       <Edit3 className="h-3.5 w-3.5" />
                       <span>Edit</span>
                     </Link>
 
-                    {/* Toggle Status */}
-                    <button
-                      type="button"
-                      onClick={() => handleToggleStatus(post)}
-                      className="ds-card px-3 py-1.5 text-xs font-semibold ds-muted hover:text-foreground hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    <span
+                      className="inline-flex items-center gap-1 px-2 py-1.5 font-mono text-[11px] ds-muted"
+                      title="Source file"
                     >
-                      {post.status === 'published' ? 'Draft' : 'Publish'}
-                    </button>
-
-                    {/* Delete */}
-                    <button
-                      type="button"
-                      onClick={() => handleDeletePost(post)}
-                      className="p-2 rounded-xl border border-rose-500/30 bg-rose-950/20 text-rose-400 hover:bg-rose-950/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                      title="Delete article"
-                    >
-                      <Trash2 className="h-3.5 w-3.5" />
-                    </button>
+                      <FileCode2 className="h-3.5 w-3.5" />
+                      {post.slug}.mdx
+                    </span>
                   </div>
                 </div>
               </div>

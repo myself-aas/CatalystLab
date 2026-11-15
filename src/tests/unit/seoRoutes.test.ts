@@ -14,8 +14,9 @@ import { readFileSync } from 'fs';
 import path from 'path';
 import { describe, expect, it } from 'vitest';
 import { ROUTE_ALIASES, SPLAT_ALIASES, aliasTargetFor, splatAliasFor } from '@/config/routeAliases';
-import { BLOG_SEO, BLOG_SEO_BY_SLUG, isKnownBlogSlug } from '@/data/blogSeo';
-import { ENGINE_SEEDED_BLOGS } from '@/data/engineBlogs';
+import { readBlogSeo, readPostsSync } from '@blogs/src/lib/readPosts';
+
+const BLOG_SEO = readBlogSeo().entries;
 
 const repoRoot = path.resolve(import.meta.dirname, '../../..');
 const appSource = readFileSync(path.join(repoRoot, 'src/App.tsx'), 'utf8');
@@ -74,22 +75,22 @@ describe('route aliases (audit issue 5)', () => {
 });
 
 describe('blog SEO metadata (audit issue 4)', () => {
-  const seeded = Object.values(ENGINE_SEEDED_BLOGS).flat();
+  const posts = readPostsSync().map((post) => post.meta);
 
-  it('covers every seeded post exactly once', () => {
-    const seededSlugs = seeded.map((post) => post.slug).sort();
-    expect(BLOG_SEO.map((entry) => entry.slug).sort()).toEqual(seededSlugs);
+  it('has one entry per published MDX post, keyed by filename', () => {
+    expect(BLOG_SEO.map((entry) => entry.slug)).toEqual(posts.map((post) => post.slug));
     expect(new Set(BLOG_SEO.map((entry) => entry.slug)).size).toBe(BLOG_SEO.length);
+    expect(BLOG_SEO.length).toBeGreaterThan(0);
   });
 
-  it('copies title, excerpt, author and category from the post data', () => {
-    for (const post of seeded) {
-      const entry = BLOG_SEO_BY_SLUG[post.slug];
+  it('copies title, excerpt, author and category from the frontmatter', () => {
+    for (const post of posts) {
+      const entry = BLOG_SEO.find((candidate) => candidate.slug === post.slug);
       expect(entry, `no SEO entry for ${post.slug}`).toBeDefined();
-      expect(entry.title).toBe(post.title);
-      expect(entry.excerpt).toBe(post.excerpt);
-      expect(entry.author).toBe(post.authorName);
-      expect(entry.category).toBe(post.category);
+      expect(entry?.title).toBe(post.title);
+      expect(entry?.excerpt).toBe(post.excerpt);
+      expect(entry?.author).toBe(post.author);
+      expect(entry?.category).toBe(post.category);
     }
   });
 
@@ -113,9 +114,4 @@ describe('blog SEO metadata (audit issue 4)', () => {
     }
   });
 
-  it('recognises a known slug and rejects an invented one', () => {
-    expect(isKnownBlogSlug(BLOG_SEO[0].slug)).toBe(true);
-    expect(isKnownBlogSlug('not-a-post')).toBe(false);
-    expect(isKnownBlogSlug('__proto__')).toBe(false);
-  });
 });
