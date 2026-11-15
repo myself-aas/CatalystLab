@@ -65,7 +65,7 @@ Everything is optional; behavior when unset is listed. See [`.env.example`](./.e
 | Firebase Admin (server) | `FIREBASE_SERVICE_ACCOUNT_JSON` / `_PATH` | `/api/state/sync` → `401` for everyone (fail closed) |
 | MongoDB | `MONGODB_URI`, `MONGODB_DB_NAME` | Analytics buffer in memory (zero-cost mode) |
 | Mailgun | `MAILGUN_*` | Emails dispatch in **mock mode** (logged, never sent) |
-| Payments | `V2CHECKOUT_*`, `DODOPAY_*`, `PAYMENTS_WEBHOOK_SECRET*` | Checkout/verify → `503`; webhooks → `401` |
+| Payments | `LEMONSQUEEZY_API_KEY`, `LEMONSQUEEZY_WEBHOOK_SECRET`, `LEMONSQUEEZY_STORE_ID`, `LEMONSQUEEZY_VARIANT_IDS`, `LEMONSQUEEZY_SANDBOX_MODE` | Checkout/verify → `503`; webhooks → `401` (`503` when the webhook secret is unset) |
 | GitHub webhooks | `GITHUB_WEBHOOK_SECRET` | All webhook deliveries rejected |
 | Rate-limit API keys | `VALID_API_KEYS` (comma-separated `cat_live_…`) | `api_pro` tier disabled entirely |
 | Logging | `LOG_LEVEL` (`debug`/`info`/`warn`/`error`), `PORT`, `HOST` | `info` in production, `debug` otherwise |
