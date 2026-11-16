@@ -195,7 +195,12 @@ I checked the dashboard signed in through the dev-only sandbox session (`loginWi
   - The RoleContentGate overlay (C-14) was tinted dark by patch.css's `absolute inset-0 … bg-background` drawer-scrim rule (1.53 and 2.98:1). It now uses `bg-card/90` over a `bg-muted/40` base.
   - The RoleContentGate locked preview used an `aria-hidden` *class* (High). It now uses `aria-hidden="true"` + `inert`, which a browser check confirmed takes it out of the tab order.
 - **Result:** 0 text elements below AA on every tab, in both themes.
-- **Still open:** the scrim rule also matches content overlays in ParallaxSection, LatestNewsAndInsights and particles-bg. It was left as-is because it can't tell overlays from real modal backdrops by class alone.
+- **Scrim rule:** it also matched content overlays. **Fixed later the same day:** the patch.css drawer-scrim rule now honours a `data-scrim="none"` opt-out, set on three content overlays:
+  - **ParallaxSection veil:** its inline colour was `rgba(255,255,255,…)` in both themes. It now follows `--app-background`.
+  - **LatestNewsAndInsights:** the loading overlay.
+  - **particles-bg:** currently unused.
+
+  Measured in the browser: the /products veil went from a dark scrim (light: rgba(28,30,33,.4); dark: rgba(31,34,35,.6), both with 8px blur) to the page background at 88% (white in light, ink in dark). Real close-backdrops (DocsLayout, DevSiteLayout) still get the scrim.
 
 The repo-hygiene test now expects the CC BY 4.0 licence (owner decision), so the full suite has only the pre-existing BlogPostPage failure.
 
