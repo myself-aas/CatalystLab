@@ -1,57 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
-import { ArrowUpRight, ArrowRight, Loader2 } from 'lucide-react';
-import type { BlogPost } from '../../types';
-import { getBlogPosts } from '../../lib/firebase';
-import { ENGINE_SEEDED_BLOGS } from '../../data/engineBlogs';
-import { getBlogCoverImage } from '../../utils/blogImageMap';
-import { getArticleReadingTime } from '../../utils/readingTime';
-import { logger } from '../../lib/logger';
+import { ArrowUpRight, ArrowRight } from 'lucide-react';
+import { DEFAULT_BLOG_COVER, getAllPosts } from '@/lib/blogLoader';
 
-type Article = BlogPost;
+type Tab = 'Engineering' | 'Security' | 'AI';
 
-const FALLBACK_ARTICLES: Article[] = Object.values(ENGINE_SEEDED_BLOGS)
-  .flat()
-  .filter((post, index, posts) => posts.findIndex((item) => item.slug === post.slug) === index)
-  .slice(0, 3) as Article[];
+/** "AI" must match the word, not the letters inside "maintain" or "detail". */
+const TAB_PATTERNS: Record<Exclude<Tab, 'Engineering'>, RegExp> = {
+  Security: /secur|secops|owasp/i,
+  AI: /\bai\b|llm/i,
+};
 
 export const LatestNewsAndInsights: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'Engineering' | 'Security' | 'AI'>('Engineering');
-  const [articles, setArticles] = useState<Article[]>(FALLBACK_ARTICLES);
-  const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState<Tab>('Engineering');
 
-  useEffect(() => {
-    let cancelled = false;
-    const fetchNews = async () => {
-      setLoading(true);
-      try {
-        const remotePosts = await getBlogPosts();
-        if (cancelled) return;
-        const published = remotePosts.filter((post) => post.status !== 'archived');
-        const seeded = FALLBACK_ARTICLES;
-        const merged = [...published, ...seeded].filter((post, index, posts) => {
-          const key = post.slug || post.id;
-          return posts.findIndex((item) => (item.slug || item.id) === key) === index;
-        });
-        const filtered = merged.filter((post) => {
-          const value = `${post.category || ''} ${(post.tags || []).join(' ')}`.toLowerCase();
-          return activeTab === 'Engineering' || value.includes(activeTab.toLowerCase());
-        });
-        setArticles((filtered.length ? filtered : merged).slice(0, 3));
-      } catch (err) {
-        if (cancelled) return;
-        logger.warn('Could not fetch homepage blog articles, using seeded posts:', err);
-        setArticles(FALLBACK_ARTICLES.slice(0, 3));
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    };
-
-    fetchNews();
-    return () => {
-      cancelled = true;
-    };
+  // Build-time MDX index: newest first, no fetch.
+  const articles = useMemo(() => {
+    const posts = getAllPosts();
+    if (activeTab === 'Engineering') return posts.slice(0, 3);
+    const pattern = TAB_PATTERNS[activeTab];
+    const matching = posts.filter((post) => pattern.test(`${post.category} ${post.tags.join(' ')}`));
+    return (matching.length ? matching : posts).slice(0, 3);
   }, [activeTab]);
 
   return (
@@ -84,17 +54,11 @@ export const LatestNewsAndInsights: React.FC = () => {
         </div>
 
         <div className="relative min-h-[400px]">
-          {loading && (
-            <div data-scrim="none" className="absolute inset-0 z-20 flex items-center justify-center bg-background/50 backdrop-blur-sm rounded-3xl">
-              <Loader2 className="size-8 animate-spin text-muted-foreground" />
-            </div>
-          )}
-          
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
             <AnimatePresence mode="popLayout">
               {articles.map((article, index) => (
                 <motion.div
-                  key={article.id}
+                  key={article.slug}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95 }}
@@ -102,13 +66,13 @@ export const LatestNewsAndInsights: React.FC = () => {
                   transition={{ duration: 0.4, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
                 >
                     <Link
-                      to={`/blog/${article.slug || article.id}`}
+                      to={`/blogs/${article.slug}`}
                       className="group relative block aspect-[4/5] overflow-hidden rounded-3xl sm:rounded-[32px] border border-cream/10 shadow-lg"
                     >
                     {/* Background Image */}
                     <div 
                       className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                      style={{ backgroundImage: `url(${getBlogCoverImage(article).src})` }}
+                      style={{ backgroundImage: `url(${article.coverImage ?? DEFAULT_BLOG_COVER})` }}
                     />
                     
                     {/* Gradient Overlay for Text Readability */}
@@ -120,8 +84,8 @@ export const LatestNewsAndInsights: React.FC = () => {
                       {/* Top Row: Meta & Icon */}
                       <div className="flex justify-between items-start">
                         <div className="flex flex-col gap-1.5 text-xs font-mono font-medium opacity-90 drop-shadow-sm uppercase tracking-wider">
-                          <span className="text-white/75">{article.createdAt ? new Date(article.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Latest'}</span>
-                          <span className="text-white">{article.category || 'Engineering'}</span>
+                          <span className="text-white/75">{new Date(`${article.date}T00:00:00Z`).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                          <span className="text-white">{article.category}</span>
                         </div>
                         <div className="size-10 rounded-full border border-white/20 backdrop-blur-md flex items-center justify-center transition-colors duration-300 group-hover:bg-white/20 group-hover:border-white/40 shrink-0">
                           <ArrowUpRight className="size-5" />

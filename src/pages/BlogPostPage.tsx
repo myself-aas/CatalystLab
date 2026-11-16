@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { getPostBySlug } from '@/lib/blogLoader';
-import type { BlogPost } from '@/types/blog';
+import type { MDXContent } from 'mdx/types';
+import { DEFAULT_BLOG_COVER, getPostBySlug, getPostMeta } from '@/lib/blogLoader';
+import { mdxComponents } from '@blogs/src/components';
 import { useAuth } from '../context/AuthContext';
 import { PlateImage } from '../components/common/PlateImage';
-import { MarkdownRenderer } from '../components/common/MarkdownRenderer';
 import { 
   ArrowLeft, Bookmark, Clock, Share2, Check, Edit3, Eye
 } from 'lucide-react';
@@ -12,24 +12,37 @@ import { SEOHead } from '../components/common/SEOHead';
 import { logger } from '../lib/logger';
 import { motion } from 'motion/react';
 
+const absoluteUrl = (url: string) => new URL(url, window.location.origin).toString();
+
 export const BlogPostPage: React.FC = () => {
-  const { slug } = useParams<{ slug: string }>();
+  const { slug = '' } = useParams<{ slug: string }>();
   const { user, isAdmin } = useAuth();
-  const [post, setPost] = useState<BlogPost | null>(null);
-  const [loading, setLoading] = useState(true);
+  // Metadata is in the build-time index, so the header renders immediately;
+  // only the compiled body is fetched.
+  const post = getPostMeta(slug);
+  const [body, setBody] = useState<{ slug: string; Content: MDXContent } | null>(null);
+  const [bodyFailed, setBodyFailed] = useState(false);
   const [copied, setCopied] = useState(false);
   const [bookmarked, setBookmarked] = useState(false);
 
   useEffect(() => {
-    const load = async () => {
-      if (!slug) return;
-        const data = await getPostBySlug(slug);
-        if (data) setPost(data);
-        setLoading(false);
-        window.scrollTo(0, 0);
+    let cancelled = false;
+    setBodyFailed(false);
+    window.scrollTo(0, 0);
+    getPostBySlug(slug)
+      .then((loaded) => {
+        if (!cancelled && loaded) setBody({ slug, Content: loaded.Content });
+      })
+      .catch((err) => {
+        logger.error('Error loading blog post body:', err);
+        if (!cancelled) setBodyFailed(true);
+      });
+    return () => {
+      cancelled = true;
     };
-    load();
   }, [slug]);
+
+  const Content = body?.slug === slug ? body.Content : null;
 
   const handleShare = () => {
     if (navigator.clipboard) {
@@ -38,14 +51,6 @@ export const BlogPostPage: React.FC = () => {
       setTimeout(() => setCopied(false), 2000);
     }
   };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="w-8 h-8 border-4 border-fog border-t-white rounded-full animate-spin"></div>
-      </div>
-    );
-  }
 
   if (!post) {
     return (
@@ -70,20 +75,27 @@ export const BlogPostPage: React.FC = () => {
   return (
     <div className="min-h-screen overflow-x-hidden bg-background text-foreground font-sans pb-24">
       <SEOHead
-              title={post.seoTitle ?? post.title}
-              description={post.excerpt}
-              canonicalPath={`/blog/${post.slug}`}
+        title={post.seoTitle}
+        description={post.excerpt}
+        canonicalPath={`/blogs/${post.slug}`}
         absoluteTitle
-              structuredData={{
-                '@context': 'https://schema.org',
-                '@type': 'BlogPosting',
-                headline: post.title,
-                description: post.excerpt,
-                image: post.coverImage,
-                datePublished: post.date,
-                author: { '@type': 'Person', name: post.author },
-                publisher: { '@type': 'Organization', name: 'CatalystLab' },
-              }}
+        ogType="article"
+        ogImage={absoluteUrl(post.coverImage ?? DEFAULT_BLOG_COVER)}
+        author={post.author}
+        publishedTime={post.publishedAt}
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'BlogPosting',
+          headline: post.title,
+          description: post.excerpt,
+          image: absoluteUrl(post.coverImage ?? DEFAULT_BLOG_COVER),
+          datePublished: post.publishedAt,
+          dateModified: post.publishedAt,
+          articleSection: post.category,
+          keywords: post.tags.join(', '),
+          author: { '@type': 'Person', name: post.author },
+          publisher: { '@type': 'Organization', name: 'CatalystLab' },
+        }}
       />
 
       <div className="relative mx-auto min-h-screen w-full max-w-5xl bg-background">
@@ -91,7 +103,7 @@ export const BlogPostPage: React.FC = () => {
         {/* Full Bleed Image Header */}
         <div className="relative h-[45vh] min-h-[300px] max-h-[560px] w-full">
           <PlateImage
-                      src={post.coverImage}
+            src={post.coverImage ?? DEFAULT_BLOG_COVER}
             alt={post.title}
             className="w-full h-full object-cover"
             loading="eager"
@@ -136,22 +148,22 @@ export const BlogPostPage: React.FC = () => {
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-muted text-foreground flex items-center justify-center font-bold overflow-hidden">
                 {post.authorAvatar ? (
-                                <img src={post.authorAvatar} alt={post.author} className="w-full h-full object-cover" loading="lazy" decoding="async" />
+                  <img src={post.authorAvatar} alt={post.author} className="w-full h-full object-cover" loading="lazy" decoding="async" />
                 ) : (
-                                post.author[0]
+                  post.author[0]
                 )}
               </div>
-                            <span className="font-semibold text-sm text-foreground">{post.author}</span>
+              <span className="font-semibold text-sm text-foreground">{post.author}</span>
             </div>
             
             <div className="flex items-center gap-4 text-xs font-medium text-muted-foreground">
               <span className="flex items-center gap-1">
                 <Clock className="w-3.5 h-3.5" />
-                            {post.readTime}
+                {post.readTime}
               </span>
               <span className="flex items-center gap-1">
                 <Eye className="w-3.5 h-3.5" />
-                            {post.views}
+                {post.views}
               </span>
             </div>
           </div>
@@ -169,7 +181,7 @@ export const BlogPostPage: React.FC = () => {
           
           {user && (isAdmin || user.email === post.authorEmail) && (
             <Link 
-                        to={`/blogs/edit/${post.slug}`}
+              to={`/blogs/edit/${post.slug}`}
               className="flex items-center gap-2 text-sm font-medium text-foreground hover:bg-muted/80 transition-colors px-4 py-2 rounded-full bg-muted border border-border"
             >
               <Edit3 className="w-4 h-4" />
@@ -179,8 +191,20 @@ export const BlogPostPage: React.FC = () => {
         </div>
 
         {/* Main Content */}
-        <article className="mx-auto max-w-3xl px-6 pb-16 prose dark:prose-invert prose-p:text-muted-foreground prose-p:leading-relaxed prose-headings:text-foreground sm:px-8">
-                  <MarkdownRenderer content={post.content} />
+        <article className="mx-auto max-w-3xl px-6 pb-16 sm:px-8" aria-busy={!Content && !bodyFailed}>
+          {Content ? (
+            <Content components={mdxComponents} />
+          ) : bodyFailed ? (
+            <p className="text-sm text-muted-foreground">
+              This article could not be loaded. Check your connection and reload the page.
+            </p>
+          ) : (
+            <div className="space-y-3" aria-hidden="true">
+              {['w-full', 'w-11/12', 'w-4/5', 'w-full', 'w-10/12', 'w-3/5'].map((width, idx) => (
+                <div key={idx} className={`h-4 rounded bg-muted animate-pulse ${width}`} />
+              ))}
+            </div>
+          )}
         </article>
 
       </div>

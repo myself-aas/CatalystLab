@@ -16,10 +16,6 @@ import {
   type SubscriptionStore,
 } from '../server/core/subscriptions';
 
-function signHeader(rawBody: string, secret: string): string {
-  return 'sha256=' + crypto.createHmac('sha256', secret).update(rawBody, 'utf8').digest('hex');
-}
-
 function createInMemorySubscriptionStore() {
   const collections = new Map<string, Map<string, Record<string, unknown>>>();
   const getCol = (name: string) => {
@@ -74,7 +70,6 @@ async function postJson(
 }
 
 async function main() {
-  const webhookSecret = 'whsec_sandbox_e2e_' + crypto.randomBytes(16).toString('hex');
   const testUid = `usr_sandbox_${Date.now()}`;
   const memSubs = createInMemorySubscriptionStore();
 
@@ -95,10 +90,6 @@ async function main() {
 
   process.env.NODE_ENV = 'production';
   process.env.APP_ORIGIN = 'https://staging.catalystlab.tech';
-  process.env.PAYMENTS_WEBHOOK_SECRET_2CHECKOUT = webhookSecret;
-  process.env.V2CHECKOUT_MERCHANT_CODE = '255000099999';
-  process.env.V2CHECKOUT_SECRET_KEY = 'sandbox_secret_' + crypto.randomBytes(8).toString('hex');
-  process.env.V2CHECKOUT_SANDBOX_MODE = 'true';
 
   const app = await createApp();
   const server = http.createServer(app);
@@ -131,130 +122,10 @@ async function main() {
       throw new Error(`Expected 503 PAYMENTS_SHARED_STATE_REQUIRED, got ${blockedNoRedis.status}: ${JSON.stringify(blockedNoRedis.json)}`);
     }
 
-    // 3. Enable shared Upstash backend & issue signed 2Checkout sandbox URL
+    // 3. Enable the shared Upstash-style quota backend so checkout is allowed.
     setDailyQuotaBackendForTests(mockQuotaBackend);
-    const checkout = await postJson(baseUrl, '/api/payments/create-checkout', {
-      planId: 'pro',
-      billingCycle: 'monthly',
-      userId: testUid,
-      userEmail: 'founder@acme.io',
-    });
-    if (checkout.status !== 200 || !checkout.json.checkoutUrl) {
-      throw new Error(`Expected 200 sandbox checkout URL, got ${checkout.status}: ${JSON.stringify(checkout.json)}`);
-    }
 
-    const customPassthrough = buildCheckoutCustomField(testUid, 'pro', 'monthly', checkout.json.orderId);
-    const orderPayload = {
-      message_id: `msg_sale_${Date.now()}`,
-      message_type: 'ORDER_CREATED',
-      timestamp: '2026-10-21T10:00:00Z',
-      sale_id: 'sale_2co_sandbox_001',
-      customer_email: 'founder@acme.io',
-      custom: customPassthrough,
-    };
-    const rawOrder = JSON.stringify(orderPayload);
-
-    // 4. Reject forged signature with 401
-    const forged = await postJson(baseUrl, '/api/payments/webhook/2checkout', orderPayload, {
-      'x-signature-256': 'sha256=0000deadbeef',
-    });
-    if (forged.status !== 401) {
-      throw new Error(`Expected 401 on forged HMAC, got ${forged.status}`);
-    }
-
-    // 5. Simulate temporary Firestore outage -> gateway receives HTTP 503 so it retries!
-    setSubscriptionStoreForTests(null);
-    const outageAttempt = await fetch(`${baseUrl}/api/payments/webhook/2checkout`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-signature-256': signHeader(rawOrder, webhookSecret),
-      },
-      body: rawOrder,
-    });
-    if (outageAttempt.status !== 503) {
-      throw new Error(`Expected 503 during store outage so gateway retries, got ${outageAttempt.status}`);
-    }
-
-    // 6. Restore store -> gateway retry #1 succeeds cleanly (`APPLIED`)
-    setSubscriptionStoreForTests(memSubs.store);
-    const retrySuccess = await fetch(`${baseUrl}/api/payments/webhook/2checkout`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-signature-256': signHeader(rawOrder, webhookSecret),
-      },
-      body: rawOrder,
-    });
-    const bodySuccess = await retrySuccess.json();
-    if (retrySuccess.status !== 200 || bodySuccess.applied !== true || bodySuccess.reason !== 'APPLIED') {
-      throw new Error(`Expected retry #1 200 APPLIED, got ${retrySuccess.status}: ${JSON.stringify(bodySuccess)}`);
-    }
-    if (memSubs.readSubscription(testUid)?.planId !== 'pro') {
-      throw new Error('Expected active pro subscription in store');
-    }
-
-    // 7. Duplicate gateway retry #2 -> idempotent 200 `DUPLICATE_EVENT`
-    const retryDuplicate = await fetch(`${baseUrl}/api/payments/webhook/2checkout`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-signature-256': signHeader(rawOrder, webhookSecret),
-      },
-      body: rawOrder,
-    });
-    const bodyDuplicate = await retryDuplicate.json();
-    if (retryDuplicate.status !== 200 || bodyDuplicate.reason !== 'DUPLICATE_EVENT') {
-      throw new Error(`Expected DUPLICATE_EVENT, got ${JSON.stringify(bodyDuplicate)}`);
-    }
-
-    // 8. Out-of-order stale event timestamp -> safely ignored (`STALE_EVENT`)
-    const stalePayload = JSON.stringify({
-      message_id: `msg_stale_${Date.now()}`,
-      message_type: 'RECURRING_STOPPED',
-      timestamp: '2026-10-20T00:00:00Z',
-      custom: customPassthrough,
-    });
-    const staleRes = await fetch(`${baseUrl}/api/payments/webhook/2checkout`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-signature-256': signHeader(stalePayload, webhookSecret),
-      },
-      body: stalePayload,
-    });
-    const staleBody = await staleRes.json();
-    if (staleRes.status !== 200 || staleBody.reason !== 'STALE_EVENT' || memSubs.readSubscription(testUid)?.status !== 'active') {
-      throw new Error(`Expected STALE_EVENT preserving active pro subscription, got ${JSON.stringify(staleBody)}`);
-    }
-
-    // 9. Newer REFUND_ISSUED revokes paid plan back to `free` (`status: "canceled"`)
-    const refundPayload = JSON.stringify({
-      message_id: `msg_refund_${Date.now()}`,
-      message_type: 'REFUND_ISSUED',
-      timestamp: '2026-10-22T00:00:00Z',
-      custom: customPassthrough,
-    });
-    const refundRes = await fetch(`${baseUrl}/api/payments/webhook/2checkout`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-signature-256': signHeader(refundPayload, webhookSecret),
-      },
-      body: refundPayload,
-    });
-    const refundBody = await refundRes.json();
-    if (refundRes.status !== 200 || refundBody.reason !== 'APPLIED' || memSubs.readSubscription(testUid)?.planId !== 'free') {
-      throw new Error(`Expected refund revocation to free tier, got ${JSON.stringify(refundBody)}`);
-    }
-
-    // ============================================================
-    // LEMON SQUEEZY TESTS (gateway = lemonsqueezy)
-    // ============================================================
-    console.log('[e2e] Starting Lemon Squeezy tests...');
-
-    // Configure Lemon Squeezy as active gateway
-    process.env.PAYMENT_GATEWAY = 'lemonsqueezy';
+    // Lemon Squeezy is the single live gateway (owner decision D2).
     const lsWebhookSecret = 'whsec_ls_sandbox_' + crypto.randomBytes(16).toString('hex');
     process.env.LEMONSQUEEZY_WEBHOOK_SECRET = lsWebhookSecret;
     process.env.LEMONSQUEEZY_STORE_ID = 'store_sandbox_123';
@@ -267,7 +138,7 @@ async function main() {
     process.env.LEMONSQUEEZY_SANDBOX_MODE = 'true';
     process.env.LEMONSQUEEZY_API_KEY = 'ls_sandbox_key_' + crypto.randomBytes(16).toString('hex');
 
-    // 10. Lemon Squeezy sandbox checkout URL issued
+    // 4. Lemon Squeezy sandbox checkout URL issued
     const lsCheckout = await postJson(baseUrl, '/api/payments/create-checkout', {
       planId: 'pro',
       billingCycle: 'monthly',
@@ -301,7 +172,7 @@ async function main() {
       return 'sha256=' + crypto.createHmac('sha256', secret).update(rawBody, 'utf8').digest('hex');
     }
 
-    // 11. Reject forged Lemon Squeezy signature with 401
+    // 5. Reject forged Lemon Squeezy signature with 401
     const lsForged = await postJson(baseUrl, '/api/payments/webhook/lemonsqueezy', lsOrderPayload, {
       'x-signature': signLsHeader(rawLsOrder, 'wrong_secret'),
     });
@@ -310,7 +181,7 @@ async function main() {
     }
     console.log('[e2e] Forged Lemon Squeezy HMAC rejected 401');
 
-    // 12. Simulate temporary Firestore outage -> gateway receives HTTP 503 so it retries!
+    // 6. Simulate temporary Firestore outage -> gateway receives HTTP 503 so it retries!
     setSubscriptionStoreForTests(null);
     const lsOutageAttempt = await fetch(`${baseUrl}/api/payments/webhook/lemonsqueezy`, {
       method: 'POST',
@@ -325,7 +196,7 @@ async function main() {
     }
     console.log('[e2e] Transient store outage returns 503 for Lemon Squeezy');
 
-    // 13. Restore store -> gateway retry #1 succeeds cleanly (`APPLIED`)
+    // 7. Restore store -> gateway retry #1 succeeds cleanly (`APPLIED`)
     setSubscriptionStoreForTests(memSubs.store);
     const lsRetrySuccess = await fetch(`${baseUrl}/api/payments/webhook/lemonsqueezy`, {
       method: 'POST',
@@ -344,7 +215,7 @@ async function main() {
     }
     console.log('[e2e] Lemon Squeezy gateway retry activates pro entitlement');
 
-    // 14. Duplicate gateway retry #2 -> idempotent 200 `DUPLICATE_EVENT`
+    // 8. Duplicate gateway retry #2 -> idempotent 200 `DUPLICATE_EVENT`
     const lsRetryDuplicate = await fetch(`${baseUrl}/api/payments/webhook/lemonsqueezy`, {
       method: 'POST',
       headers: {
@@ -359,7 +230,7 @@ async function main() {
     }
     console.log('[e2e] Lemon Squeezy duplicate webhook retry idempotent DUPLICATE_EVENT');
 
-    // 15. Out-of-order stale event timestamp -> safely ignored (`STALE_EVENT`)
+    // 9. Out-of-order stale event timestamp -> safely ignored (`STALE_EVENT`)
     const lsStalePayload = JSON.stringify({
       meta: {
         event_name: 'subscription_cancelled',
@@ -388,7 +259,7 @@ async function main() {
     }
     console.log('[e2e] Lemon Squeezy out-of-order stale event monotonic STALE_EVENT');
 
-    // 16. Newer subscription_payment_refunded revokes paid plan back to `free` (`status: "canceled"`)
+    // 10. Newer subscription_payment_refunded revokes paid plan back to `free` (`status: "canceled"`)
     const lsRefundPayload = JSON.stringify({
       meta: {
         event_name: 'subscription_payment_refunded',
@@ -425,13 +296,6 @@ async function main() {
           verifiedChecks: [
             'Q32_fail_closed_when_PAYMENTS_ENABLED_false',
             'Q32_fail_closed_in_prod_without_shared_Upstash_store',
-            '2checkout_sandbox_checkout_url_issued',
-            'forged_hmac_rejected_401',
-            'transient_store_outage_returns_503_triggering_gateway_retry',
-            'gateway_retry_activates_pro_entitlement',
-            'duplicate_webhook_retry_idempotent_DUPLICATE_EVENT',
-            'out_of_order_stale_event_monotonic_STALE_EVENT',
-            'refund_issued_revokes_to_free_tier',
             'lemonsqueezy_sandbox_checkout_url_issued',
             'lemonsqueezy_forged_hmac_rejected_401',
             'lemonsqueezy_transient_store_outage_returns_503',

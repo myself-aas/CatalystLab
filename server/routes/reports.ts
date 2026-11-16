@@ -46,12 +46,12 @@ app.post('/api/v1/reports/:id/export', (req: Request, res: Response) => {
 // 5. Blogs API
 app.get('/api/v1/blogs', (req: Request, res: Response) => {
   void req;
-  notImplemented(res, 'The blogs API', 'Articles are read from Firestore by the client (getBlogPosts) and rendered at /blogs.');
+  notImplemented(res, 'The blogs API', 'Articles are MDX files compiled into the site at build time and rendered at /blogs; see /rss.xml.');
 });
 
 app.get('/api/v1/blogs/:slug', (req: Request, res: Response) => {
   void req.params;
-  notImplemented(res, 'The blogs API', 'Articles are read from Firestore by the client (getBlogPosts) and rendered at /blogs/:slug.');
+  notImplemented(res, 'The blogs API', 'Articles are MDX files compiled into the site at build time and rendered at /blogs/:slug.');
 });
 
 }

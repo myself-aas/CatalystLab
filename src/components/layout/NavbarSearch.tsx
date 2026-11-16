@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { clickableProps } from '../../lib/keyboard';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
@@ -19,7 +19,7 @@ import {
   CheckCircle2,
   Sliders
 } from 'lucide-react';
-import { getBlogPosts } from '../../lib/firebase';
+import { getAllPosts } from '../../lib/blogLoader';
 
 export interface SearchSuggestionItem {
   id: string;
@@ -177,32 +177,24 @@ export const NavbarSearch: React.FC<NavbarSearchProps> = ({ isScrolled }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [blogItems, setBlogItems] = useState<SearchSuggestionItem[]>([]);
   
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
-  // Load blog articles for live suggestions
-  useEffect(() => {
-    const loadBlogs = async () => {
-      try {
-        const posts = await getBlogPosts();
-        const items: SearchSuggestionItem[] = posts.slice(0, 10).map((p) => ({
-          id: `blog-${p.id || p.slug}`,
-          title: p.title,
-          category: 'Blog',
-          description: p.excerpt || 'Engineering article on web infrastructure and telemetry.',
-          route: `/blog/${p.slug || p.id}`,
-          keywords: ['blog', 'article', p.category, ...(p.tags || [])]
-        }));
-        setBlogItems(items);
-      } catch {
-        // Silently fallback to static suggestions
-      }
-    };
-    loadBlogs();
-  }, []);
+  // Blog articles for live suggestions (build-time MDX index, no fetch).
+  const blogItems = useMemo<SearchSuggestionItem[]>(
+    () =>
+      getAllPosts().slice(0, 10).map((p) => ({
+        id: `blog-${p.slug}`,
+        title: p.title,
+        category: 'Blog',
+        description: p.excerpt,
+        route: `/blogs/${p.slug}`,
+        keywords: ['blog', 'article', p.category, ...p.tags]
+      })),
+    []
+  );
 
   // Handle global keyboard shortcuts (Cmd+K / Ctrl+K or '/')
   useEffect(() => {

@@ -11,8 +11,7 @@
  */
 import { describe, expect, it } from 'vitest';
 import { ENGINE_SEO } from '@/data/engineSeo';
-import { BLOG_SEO } from '@/data/blogSeo';
-import { BLOG_CONTENT } from '@/data/blogContent';
+import { readBlogSeo } from '@blogs/src/lib/readPosts';
 import { DOC_SEO, DOC_SOURCES } from '@/data/docsSeo';
 
 const wordCount = (value: string) => value.trim().split(/\s+/).length;
@@ -62,6 +61,8 @@ describe('engine answer blocks', () => {
     }
   });
 });
+
+const { entries: BLOG_SEO, bodies: BLOG_CONTENT } = readBlogSeo();
 
 describe('article bodies', () => {
   it('has a body for every published post', () => {

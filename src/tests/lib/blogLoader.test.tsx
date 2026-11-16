@@ -1,48 +1,86 @@
-import { describe, it, expect } from 'vitest';
-import { getAllPosts, getPostBySlug, getFeaturedPosts, parseFrontmatter } from '@/lib/blogLoader';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
+import {
+  getAllPosts,
+  getFeaturedPosts,
+  getManagedPosts,
+  getPostBySlug,
+  getPostMeta,
+  getPostSource,
+  getPostsByCategory,
+} from '@/lib/blogLoader';
+import { readPostsSync } from '@blogs/src/lib/readPosts';
+import { resolveBlogAsset } from '@blogs/src/lib/assets';
+import { mdxComponents } from '@blogs/src/components';
+import Fixture from '../fixtures/blog/components.mdx';
 
-// Runs against the real posts in blogs/posts (bundled via import.meta.glob),
-// so it fails if the loader stops working in a browser-like environment.
-describe('blogLoader', () => {
-  it('loads the published posts, newest first, with markdown bodies', async () => {
-    const posts = await getAllPosts();
-    expect(posts.length).toBeGreaterThanOrEqual(10);
-    for (const post of posts) {
-      expect(post.status).toBe('published');
-      expect(post.title).not.toBe('');
-      expect(typeof post.content).toBe('string');
-      expect(post.content.startsWith('---')).toBe(false);
-      expect(post.readingTime).toMatch(/min read/);
-    }
-    for (let i = 1; i < posts.length; i++) {
-      expect(new Date(posts[i - 1].date).getTime()).toBeGreaterThanOrEqual(new Date(posts[i].date).getTime());
-    }
+describe('blogLoader (virtual:blog-index)', () => {
+  const onDisk = readPostsSync();
+
+  it('lists every published post on disk, newest first', () => {
+    const posts = getAllPosts();
+    expect(posts.map((post) => post.slug)).toEqual(onDisk.map((post) => post.meta.slug));
+    const dates = posts.map((post) => post.date);
+    expect([...dates].sort().reverse()).toEqual(dates);
   });
 
-  it('loads a single post by slug with typed frontmatter', async () => {
-    const post = await getPostBySlug('modern-website-health-ai-search');
-    expect(post).not.toBeNull();
-    expect(post?.slug).toBe('modern-website-health-ai-search');
-    expect(post?.featured).toBe(true);
-    expect(Array.isArray(post?.tags)).toBe(true);
-    expect(typeof post?.views).toBe('number');
-    expect(post?.content).toContain('## One domain, several independent measurements');
+  it('maps asset paths through the bundled asset table', () => {
+    // Dev and test serve root files at their own path; `vite build` swaps in
+    // the fingerprinted URL. Either way relative paths become absolute.
+    expect(resolveBlogAsset('../assets/images/avatars/avatar-1.jpg')).toMatch(/^\/.*avatar-1.*\.jpg$/);
+    expect(resolveBlogAsset('https://example.com/x.png')).toBe('https://example.com/x.png');
+    for (const post of getAllPosts()) expect(post.coverImage, post.slug).toBeTruthy();
   });
 
-  it('returns null for an unknown slug', async () => {
+  it('filters by category and featured flag', () => {
+    const [first] = getAllPosts();
+    expect(getPostsByCategory(first.category).every((post) => post.category === first.category)).toBe(true);
+    expect(getFeaturedPosts().every((post) => post.featured)).toBe(true);
+    expect(getManagedPosts().length).toBeGreaterThanOrEqual(getAllPosts().length);
+  });
+
+  it('loads a compiled body for a known slug and null for unknown ones', async () => {
+    const [first] = getAllPosts();
+    const post = await getPostBySlug(first.slug);
+    expect(post?.title).toBe(first.title);
+    expect(typeof post?.Content).toBe('function');
     expect(await getPostBySlug('does-not-exist')).toBeNull();
+    expect(getPostMeta('does-not-exist')).toBeNull();
   });
 
-  it('returns only featured posts from getFeaturedPosts', async () => {
-    const featured = await getFeaturedPosts();
-    expect(featured.every((post) => post.featured)).toBe(true);
+  it('returns the raw source with frontmatter for the editor', async () => {
+    const [first] = getAllPosts();
+    const source = await getPostSource(first.slug);
+    expect(source?.startsWith('---')).toBe(true);
+    expect(source).toContain(`title: "${first.title}"`);
+    expect(await getPostSource('does-not-exist')).toBeNull();
   });
+});
 
-  it('parses quoted strings, arrays, booleans and numbers in frontmatter', () => {
-    const { data, body } = parseFrontmatter(
-      '---\ntitle: "A: B"\ntags: ["x", "y"]\nfeatured: true\nviews: 12\n---\n\nBody text',
-    );
-    expect(data).toEqual({ title: 'A: B', tags: ['x', 'y'], featured: true, views: 12 });
-    expect(body).toBe('Body text');
+describe('MDX component map', () => {
+  it('renders custom components, code blocks, tables and resolved images', async () => {
+    const { container } = render(<Fixture components={mdxComponents} />);
+
+    const callout = screen.getByRole('note', { name: 'Heads up' });
+    expect(callout).toHaveAttribute('data-callout', 'warning');
+    expect(callout).toHaveTextContent('Callout body text.');
+
+    expect(screen.getByRole('tab', { name: 'npm' })).toHaveAttribute('aria-selected', 'true');
+    expect(screen.getByRole('tabpanel')).toHaveTextContent('Install with npm.');
+    fireEvent.click(screen.getByRole('tab', { name: 'pnpm' }));
+    await waitFor(() => expect(screen.getByRole('tabpanel')).toHaveTextContent('Install with pnpm.'));
+
+    expect(screen.getByText('ts')).toBeInTheDocument();
+    expect(container.querySelector('pre code')?.textContent).toContain('const answer = 42;');
+    expect(screen.getByRole('button', { name: 'Copy code' })).toBeInTheDocument();
+
+    expect(screen.getByRole('columnheader', { name: 'Metric' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 2, name: 'Fixture heading' })).toBeInTheDocument();
+
+    const image = screen.getByRole('img', { name: 'Diagram' });
+    expect(image.getAttribute('src')).not.toMatch(/^\.\.\/assets\//);
+
+    expect(screen.queryByRole('link', { name: 'Unsafe link' })).toBeNull();
+    expect(screen.getByRole('link', { name: 'safe link' })).toHaveAttribute('rel', 'noopener noreferrer');
   });
 });

@@ -1,22 +1,9 @@
-export interface BlogPostFrontmatter {
-  title: string;
-  seoTitle: string;
-  date: string; // ISO date string
-  excerpt: string;
-  author: string;
-  authorEmail: string;
-  authorAvatar: string;
-  category: string;
-  tags: string[];
-  coverImage: string;
-  featured: boolean;
-  status: 'draft' | 'published';
-  readTime: string;
-  views: number;
-}
+import type { MDXContent } from 'mdx/types';
+import type { BlogPostMeta } from '@blogs/src/lib/postSchema';
 
-export interface BlogPost extends BlogPostFrontmatter {
-  slug: string;
-  content: string; // Markdown body (rendered by MarkdownRenderer)
-  readingTime: string;
+export type { BlogFrontmatter, BlogPostMeta } from '@blogs/src/lib/postSchema';
+
+/** A post with its compiled MDX body, as returned by `getPostBySlug`. */
+export interface BlogPost extends BlogPostMeta {
+  Content: MDXContent;
 }

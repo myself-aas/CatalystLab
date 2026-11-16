@@ -19,8 +19,7 @@ import crypto from 'crypto';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
 import path from 'path';
 import { ALL_PLANS_LIST } from '../src/data/pricingData';
-import { BLOG_SEO } from '../src/data/blogSeo';
-import { BLOG_CONTENT } from '../src/data/blogContent';
+import { readBlogSeo } from '../blogs/src/lib/readPosts';
 import { DOC_SEO, DOC_SEO_BY_PATH, docSourcesForPath } from '../src/data/docsSeo';
 import { ENGINE_SEO, ENGINE_SEO_BY_PATH } from '../src/data/engineSeo';
 import { ROUTE_ALIASES } from '../src/config/routeAliases';
@@ -42,6 +41,11 @@ import {
   isAuthRoute,
   robotsDirectiveFor
 } from '../src/config/site';
+
+// Blog posts come from blogs/posts/*.mdx (filename = slug). readBlogSeo
+// validates frontmatter and throws with every bad file and field named, so an
+// invalid post fails the build here rather than shipping a broken page.
+const { entries: BLOG_SEO, bodies: BLOG_CONTENT } = readBlogSeo();
 
 const DIST = path.resolve(process.cwd(), 'dist');
 const APP_TSX = path.resolve(process.cwd(), 'src/App.tsx');

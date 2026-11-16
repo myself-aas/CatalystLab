@@ -1,47 +1,44 @@
-import { render, screen, waitFor } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
-import { AuthProvider } from '@/context/AuthContext';
+import { render, screen } from '@testing-library/react';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { describe, expect, it, vi } from 'vitest';
 
-const mockGetPostBySlug = vi.fn().mockResolvedValue({
-  slug: 'test-post',
-  title: 'Test Post',
-  seoTitle: 'Test Post | CatalystLab',
-  excerpt: 'Test excerpt',
-  content: 'Test content',
-  category: 'Core Performance',
-  date: '2026-11-15',
-  coverImage: '/cover.jpg',
-  readTime: '5 min read',
-  author: 'Test Author',
-  authorEmail: 'test@test.com',
-  authorAvatar: '/avatar.jpg',
-  tags: ['tag1'],
-  views: 100,
-  featured: false,
-  status: 'published',
-});
-
-vi.mock('@/lib/blogLoader', () => ({
-  getPostBySlug: mockGetPostBySlug,
-}));
+vi.mock('@/context/AuthContext', () => ({ useAuth: () => ({ user: null, isAdmin: false }) }));
 
 const { BlogPostPage } = await import('@/pages/BlogPostPage');
+const { getAllPosts } = await import('@/lib/blogLoader');
+
+const renderAt = (path: string) =>
+  render(
+    <MemoryRouter initialEntries={[path]}>
+      <Routes>
+        <Route path="/blogs/:slug" element={<BlogPostPage />} />
+      </Routes>
+    </MemoryRouter>
+  );
 
 describe('BlogPostPage', () => {
-  beforeEach(() => {
-    mockGetPostBySlug.mockClear();
+  it('renders the header immediately and the compiled MDX body once loaded', async () => {
+    const [post] = getAllPosts();
+    renderAt(`/blogs/${post.slug}`);
+
+    expect(screen.getByRole('heading', { level: 1, name: post.title })).toBeInTheDocument();
+    expect(screen.getByText(post.author)).toBeInTheDocument();
+
+    // Every committed post opens with an H2 (enforced in seoAeo.test.ts).
+    const headings = await screen.findAllByRole('heading', { level: 2 });
+    expect(headings.length).toBeGreaterThan(0);
+    expect(document.querySelector('article')).toHaveAttribute('aria-busy', 'false');
   });
 
-  it('renders blog post from MDX loader', async () => {
-    render(
-      <MemoryRouter initialEntries={['/blog/test-post']}>
-        <AuthProvider>
-          <BlogPostPage />
-        </AuthProvider>
-      </MemoryRouter>
-    );
-    
-    // Wait for loading to complete
-    await waitFor(() => expect(screen.queryByText('Test Post')).toBeInTheDocument(), { timeout: 3000 });
+  it('sets the canonical URL to /blogs/:slug', async () => {
+    const [post] = getAllPosts();
+    renderAt(`/blogs/${post.slug}`);
+    await screen.findAllByRole('heading', { level: 2 });
+    expect(document.querySelector('link[rel="canonical"]')?.getAttribute('href')).toMatch(new RegExp(`/blogs/${post.slug}$`));
+  });
+
+  it('renders the not-found state for an unknown slug', () => {
+    renderAt('/blogs/does-not-exist');
+    expect(screen.getByRole('heading', { name: 'Article Not Found' })).toBeInTheDocument();
   });
 });
