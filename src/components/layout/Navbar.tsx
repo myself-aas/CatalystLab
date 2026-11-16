@@ -204,7 +204,7 @@ export const Navbar: React.FC = () => {
             'relative flex items-center gap-2 text-sm transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring py-2 px-3 rounded-xl font-medium',
             active
               ? 'text-foreground bg-cream/8 shadow-sm'
-              : 'text-neutral-700 hover:text-neutral-950 hover:bg-neutral-100',
+                : 'text-foreground/70 hover:text-foreground hover:bg-cream/5',
           )}
         >
           {Icon && <Icon className="size-4 shrink-0" />}
@@ -248,7 +248,7 @@ export const Navbar: React.FC = () => {
             "top-nav fixed top-[var(--trial-banner-height,0px)] inset-x-0 z-40 w-full transition-[background-color,backdrop-filter,border-color,box-shadow] duration-300",
             isScrolled
               ? "scrolled bg-background/75 md:bg-background/80 backdrop-blur-md border-b border-border/50 shadow-sm"
-              : "border-b border-black/5 bg-white"
+              : "border-b border-border/50 bg-background"
           )}
       >
         <nav
@@ -299,7 +299,7 @@ export const Navbar: React.FC = () => {
                   "flex items-center gap-2 text-sm transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer py-2 px-3 rounded-xl font-medium",
                   isEnginesOpen 
                     ? "text-foreground bg-cream/8 shadow-sm" 
-                    : "text-cream/70 hover:text-foreground hover:bg-cream/5"
+                                  : "text-foreground/70 hover:text-foreground hover:bg-cream/5"
                 )}
                 aria-expanded={isEnginesOpen}
               >

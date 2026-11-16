@@ -320,9 +320,14 @@ body {
 }
 
 /* ---------- NAVBAR GEOMETRY ---------- */
+/* White navbar is light-mode only: in dark mode the navbar's own
+   bg-background classes apply, so its light text stays readable. */
+html:not(.dark) .top-nav,
+html:not(.dark) #catalyst-main-navbar {
+  background: #FFFFFF !important;
+}
 .top-nav,
 #catalyst-main-navbar {
-  background: #FFFFFF !important;
   transition: background-color 300ms ease, backdrop-filter 300ms ease, border-color 300ms ease !important;
   z-index: 40 !important;
 }
@@ -510,8 +515,10 @@ a[class*="border"][class*="border-subtle"] {
 .ds-section { padding-block: clamp(4rem, 7vw, 7rem); }
 
 /* Keep the fixed navbar readable over image-led article heroes. */
-.top-nav.scrolled {
+html:not(.dark) .top-nav.scrolled {
   background-color: rgb(255 255 255 / 96%) !important;
+}
+.top-nav.scrolled {
   backdrop-filter: blur(14px);
 }
 
@@ -804,11 +811,16 @@ html:not(.dark) .ds-btn-primary:hover {
 #catalyst-main-navbar.scrolled,
 #catalyst-main-navbar[class*="bg-\\[rgba"],
 .top-nav[class*="backdrop-blur"] {
-  background: rgb(255 255 255 / 96%) !important;
   backdrop-filter: blur(24px) saturate(1.4) !important;
   -webkit-backdrop-filter: blur(24px) saturate(1.4) !important;
   border-bottom: 1px solid var(--p-glass-border) !important;
   box-shadow: 0 1px 2px rgba(28, 30, 33, 0.06) !important;
+}
+html:not(.dark) .top-nav.scrolled,
+html:not(.dark) #catalyst-main-navbar.scrolled,
+html:not(.dark) #catalyst-main-navbar[class*="bg-\\[rgba"],
+html:not(.dark) .top-nav[class*="backdrop-blur"] {
+  background: rgb(255 255 255 / 96%) !important;
 }
 
 /* Typography */
