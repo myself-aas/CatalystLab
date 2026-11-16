@@ -5,6 +5,7 @@ import { SearchButton } from './SearchButton';
 import { Sidebar } from './Sidebar';
 import { NavGroup } from '../../../types/design-system';
 import { Menu, X, Moon, Sun, Monitor } from 'lucide-react';
+import { useTheme } from '../../../context/ThemeContext';
 
 const GithubIcon = () => (
   <svg 
@@ -41,7 +42,9 @@ export const ReactDevLayout: React.FC<ReactDevLayoutProps> = ({
   githubUrl
 }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [theme, setTheme] = useState<'light' | 'dark' | 'system'>('system'); // Local mock for demo if no context
+  // Use the app ThemeContext so this toggle stays in sync with the main toggle
+  // (it previously kept its own state and flipped html.dark behind the context).
+  const { resolvedTheme, toggleTheme } = useTheme();
 
   return (
     <div className="min-h-screen bg-background font-sans antialiased selection:bg-foreground/10 selection:text-foreground text-foreground pt-16">
@@ -90,14 +93,10 @@ export const ReactDevLayout: React.FC<ReactDevLayoutProps> = ({
             <button
               className="p-2 text-cream/55 hover:text-foreground transition-colors rounded-full hover:bg-cream/5"
               title="Toggle theme"
-              onClick={() => {
-                const next = theme === 'light' ? 'dark' : 'light';
-                setTheme(next);
-                document.documentElement.classList.toggle('dark', next === 'dark');
-                document.documentElement.dataset.theme = next;
-              }}
+              aria-label={resolvedTheme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+              onClick={toggleTheme}
             >
-              {theme === 'dark' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
+              {resolvedTheme === 'dark' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
             </button>
 
             {githubUrl && (

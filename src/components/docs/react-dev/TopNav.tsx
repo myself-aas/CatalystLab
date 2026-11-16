@@ -9,7 +9,7 @@ interface TopNavProps {
 export const TopNav: React.FC<TopNavProps> = ({ children, className }) => {
   return (
     <header className={cn(
-      "fixed top-0 inset-x-0 z-50 w-full h-16 bg-[rgba(31,34,35,0.78)] backdrop-blur-2xl border-b border-cream/8 text-foreground transition-colors",
+      "fixed top-0 inset-x-0 z-50 w-full h-16 bg-background/80 backdrop-blur-2xl border-b border-border text-foreground transition-colors",
       className
     )}>
       <div className="h-full px-4 md:px-6 mx-auto flex items-center justify-between max-w-[90rem]">
