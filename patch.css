@@ -1032,8 +1032,10 @@ pre code {
 }
 
 /* Mobile backdrop for drawer */
-[class*="fixed inset-0"][class*="bg-background"],
-[class*="absolute inset-0"][class*="bg-background"] {
+/* Content overlays (veils, loading states, page backgrounds) opt out with
+   data-scrim="none"; only real drawer/modal backdrops should get the scrim. */
+[class*="fixed inset-0"][class*="bg-background"]:not([data-scrim="none"]),
+[class*="absolute inset-0"][class*="bg-background"]:not([data-scrim="none"]) {
   background: var(--p-scrim-soft) !important;
   backdrop-filter: blur(8px);
 }

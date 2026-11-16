@@ -85,7 +85,7 @@ export const LatestNewsAndInsights: React.FC = () => {
 
         <div className="relative min-h-[400px]">
           {loading && (
-            <div className="absolute inset-0 z-20 flex items-center justify-center bg-background/50 backdrop-blur-sm rounded-3xl">
+            <div data-scrim="none" className="absolute inset-0 z-20 flex items-center justify-center bg-background/50 backdrop-blur-sm rounded-3xl">
               <Loader2 className="size-8 animate-spin text-muted-foreground" />
             </div>
           )}

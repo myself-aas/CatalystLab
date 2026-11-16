@@ -55,10 +55,12 @@ export const ParallaxSection: React.FC<ParallaxSectionProps> = ({
         )}
       </motion.div>
 
-      {/* Dark / Light Scrim Overlay */}
-      <div 
-        className="absolute inset-0 z-10 pointer-events-none bg-background/85 backdrop-blur-[2px]"
-        style={{ backgroundColor: `rgba(255, 255, 255, ${overlayOpacity})` }}
+      {/* Theme-aware veil over the media: the page background at overlayOpacity
+          (white in light, ink in dark). Opts out of patch.css's drawer-scrim rule. */}
+      <div
+        data-scrim="none"
+        className="absolute inset-0 z-10 pointer-events-none backdrop-blur-[2px]"
+        style={{ backgroundColor: `color-mix(in srgb, var(--app-background) ${Math.round(overlayOpacity * 100)}%, transparent)` }}
       />
 
       {/* Content Container */}
