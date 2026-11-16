@@ -63,14 +63,17 @@ export const RoleContentGate: React.FC<RoleContentGateProps> = ({
 
   // Blur overlay mode
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-dashed border-border bg-primary/40 p-4">
-      {/* Blurred background preview */}
-      <div className="pointer-events-none filter blur-sm opacity-30 select-none aria-hidden">
+    <div className="relative overflow-hidden rounded-2xl border border-dashed border-border bg-muted/40 p-4">
+      {/* Blurred background preview: decorative only. `inert` + aria-hidden keep the
+          locked content out of the tab order and the accessibility tree (this was
+          previously an `aria-hidden` *class*, which did nothing). */}
+      <div className="pointer-events-none filter blur-sm opacity-30 select-none" aria-hidden="true" inert>
         {children}
       </div>
 
-      {/* Foreground Role Lock Callout */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-background/85 backdrop-blur-xs z-10">
+      {/* Foreground Role Lock Callout. bg-card (not bg-background/NN): patch.css treats
+          `absolute inset-0 … bg-background` as a drawer scrim and tints it dark. */}
+      <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-card/90 backdrop-blur-xs z-10">
         <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-cream/10 text-cyan-400 border border-cyan-500/30 mb-3 shadow-lg">
           {isGuest ? <Lock className="h-6 w-6" /> : <Crown className="h-6 w-6 text-amber-400" />}
         </div>
