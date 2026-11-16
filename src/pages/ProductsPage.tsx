@@ -568,7 +568,7 @@ export default {
  </div>
 
  {/* Right Column: Code Block */}
- <div className="lg:col-span-6 flex flex-col h-full rounded-3xl border border-border bg-primary text-muted-foreground p-6 shadow-md overflow-hidden relative">
+ <div className="lg:col-span-6 flex flex-col h-full rounded-3xl border border-border bg-card text-muted-foreground p-6 shadow-md overflow-hidden relative">
  {/* Subtle top glare */}
  <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-foreground/20 to-transparent"/>
  

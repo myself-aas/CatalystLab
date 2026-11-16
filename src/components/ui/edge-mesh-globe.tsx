@@ -155,7 +155,7 @@ export function PoPInspectorPanel({
       : 'text-rose-500 bg-white/10 border-rose-500/30';
 
   return (
-    <div className="absolute right-3 top-3 z-30 w-72 sm:w-80 rounded-2xl border border-border/80 bg-primary/95 p-4 shadow-2xl backdrop-blur-xl text-primary-foreground font-sans transition animate-in fade-in slide-in-from-right-4 duration-300">
+    <div className="absolute right-3 top-3 z-30 w-72 sm:w-80 rounded-2xl border border-border/80 bg-card/95 p-4 shadow-2xl backdrop-blur-xl text-foreground font-sans transition animate-in fade-in slide-in-from-right-4 duration-300">
       <div className="flex items-start justify-between border-b border-border pb-3 mb-3">
         <div className="flex items-center gap-2.5">
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-cream/10 border border-blue-500/30 text-blue-400 font-mono font-bold text-sm">

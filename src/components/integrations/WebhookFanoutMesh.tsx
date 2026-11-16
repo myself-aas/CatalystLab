@@ -86,7 +86,7 @@ export const WebhookFanoutMesh: React.FC = () => {
   const activeService = DESTINATION_SERVICES.find((s) => s.id === selectedDest) || DESTINATION_SERVICES[0];
 
   return (
-    <div className="rounded-3xl border border-border bg-primary text-primary-foreground p-6 sm:p-10 shadow-2xl relative overflow-hidden">
+    <div className="rounded-3xl border border-border bg-background text-foreground p-6 sm:p-10 shadow-2xl relative overflow-hidden">
       {/* Background ambient light */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(6,182,212,0.12)_0%,transparent_70%)] pointer-events-none" />
       <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--app-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--app-border)_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none" />
@@ -176,7 +176,7 @@ export const WebhookFanoutMesh: React.FC = () => {
                   {...clickableProps} onClick={() => setSelectedDest(dest.id)}
                   className={`p-4 rounded-2xl border transition cursor-pointer ${
                     isSelected
-                      ? 'bg-blue-600/20 border-cyan-500 shadow-lg ring-1 ring-cyan-500/50 text-foreground'
+                      ? 'bg-cream/5 border-cyan-500 shadow-lg ring-1 ring-cyan-500/50 text-foreground'
                       : 'bg-card border-border hover:bg-muted text-muted-foreground'
                   }`}
                 >
@@ -203,7 +203,7 @@ export const WebhookFanoutMesh: React.FC = () => {
             })}
 
             {/* Micro Details Box */}
-            <div className="p-4 rounded-2xl bg-primary/40 border border-border text-xs font-mono text-muted-foreground space-y-1.5">
+            <div className="p-4 rounded-2xl bg-muted/40 border border-border text-xs font-mono text-muted-foreground space-y-1.5">
               <div className="text-muted-foreground font-bold flex items-center gap-1.5">
                 <ShieldCheck className="h-4 w-4 text-emerald-400" />
                 <span>Zero-Drop Retry Policy</span>
