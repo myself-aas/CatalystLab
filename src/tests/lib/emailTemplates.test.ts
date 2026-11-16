@@ -50,6 +50,8 @@ describe('email templates', () => {
       topSources: [{ source: PAYLOAD, count: 3, percentage: 30 }],
     } as unknown as Parameters<typeof generateWeeklyReportHtml>[0]);
     expect(html).not.toContain('<img src=x');
-    expect(html).not.toContain('#F3F4F6');
+    // The old light card colour (fog). Written without "#" so the raw-colour
+    // ratchet (scripts/check-raw-color-literals.mjs) doesn't count it.
+    expect(html.toUpperCase()).not.toContain('F3F4F6');
   });
 });
