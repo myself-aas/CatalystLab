@@ -46,7 +46,7 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer id="main-footer" className="w-full !max-w-none !rounded-none relative z-20 border-t border-neutral-200 bg-white text-neutral-900 overflow-hidden m-0 p-0">
+    <footer id="main-footer" className="w-full !max-w-none !rounded-none relative z-20 border-t border-border bg-background text-foreground overflow-hidden m-0 p-0">
       
       <div className="relative w-full max-w-none px-6 lg:px-12 pt-16 pb-12 z-40">
         
@@ -70,7 +70,7 @@ export const Footer: React.FC = () => {
             </div>
 
             <div className="flex flex-col space-y-4">
-              <h4 className="font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-neutral-500">
+              <h4 className="font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
                 Connect
               </h4>
               <div className="flex flex-wrap items-center gap-3">
@@ -85,7 +85,7 @@ export const Footer: React.FC = () => {
                     href={social.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="size-11 shrink-0 rounded-lg border border-border bg-surface hover:bg-surface-elevated hover:border-border-strong flex items-center justify-center text-neutral-600 hover:text-neutral-950 transition shadow-2xs group"
+                    className="size-11 shrink-0 rounded-lg border border-border bg-surface hover:bg-surface-elevated hover:border-border-strong flex items-center justify-center text-muted-foreground hover:text-foreground transition shadow-2xs group"
                     aria-label={`CatalystLab on ${social.label}`}
                   >
                     <social.icon className="size-4.5 transition-transform group-hover:scale-110" />
@@ -105,7 +105,7 @@ export const Footer: React.FC = () => {
                 <li key={item.label}>
                   <Link
                     to={item.to}
-                    className="inline-flex items-center min-w-[var(--control-min-size)] text-[13px] text-neutral-600 hover:text-neutral-950 transition-colors duration-150 hover:pl-1 transition"
+                    className="inline-flex items-center min-w-[var(--control-min-size)] text-[13px] text-muted-foreground hover:text-foreground transition-colors duration-150 hover:pl-1 transition"
                   >
                     {item.label}
                   </Link>
@@ -124,7 +124,7 @@ export const Footer: React.FC = () => {
                 <li key={item.id}>
                   <Link
                     to={item.to}
-                    className="inline-flex items-center min-w-[var(--control-min-size)] text-[13px] text-neutral-600 hover:text-neutral-950 transition-colors duration-150 hover:pl-1 transition"
+                    className="inline-flex items-center min-w-[var(--control-min-size)] text-[13px] text-muted-foreground hover:text-foreground transition-colors duration-150 hover:pl-1 transition"
                   >
                     {item.label}
                   </Link>
@@ -143,7 +143,7 @@ export const Footer: React.FC = () => {
                 <li key={item.id}>
                   <Link
                     to={item.to}
-                    className="inline-flex items-center min-w-[var(--control-min-size)] text-[13px] text-neutral-600 hover:text-neutral-950 transition-colors duration-150 hover:pl-1 transition"
+                    className="inline-flex items-center min-w-[var(--control-min-size)] text-[13px] text-muted-foreground hover:text-foreground transition-colors duration-150 hover:pl-1 transition"
                   >
                     {item.label}
                   </Link>
@@ -163,7 +163,7 @@ export const Footer: React.FC = () => {
             <div className="hidden sm:block w-1 h-1 rounded-full bg-foreground/20" />
             <SyncStatusBadge />
             <div className="hidden sm:block w-1 h-1 rounded-full bg-foreground/20" />
-            <span className="text-[11px] font-mono text-neutral-500">v2.4.0</span>
+            <span className="text-[11px] font-mono text-muted-foreground">v2.4.0</span>
           </div>
 
           <nav aria-label="Legal" className="flex flex-wrap items-center gap-x-4 gap-y-2 justify-center">
@@ -181,7 +181,7 @@ export const Footer: React.FC = () => {
           <button
             type="button"
             onClick={scrollToTop}
-            className="fixed bottom-5 left-5 z-50 flex size-12 items-center justify-center rounded-full border border-neutral-200 bg-white text-neutral-900 shadow-lg transition-[border-color,background-color,transform,box-shadow] duration-200 hover:-translate-y-1 hover:border-neutral-400 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900/30 cursor-pointer"
+            className="fixed bottom-5 left-5 z-50 flex size-12 items-center justify-center rounded-full border border-border bg-background text-foreground shadow-lg transition-[border-color,background-color,transform,box-shadow] duration-200 hover:-translate-y-1 hover:border-border-strong hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer"
             aria-label="Scroll to top"
             hidden={!showScrollToTop}
           >
@@ -190,7 +190,7 @@ export const Footer: React.FC = () => {
         </div>
       </div>
 
-      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-neutral-200" />
+      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-border" />
     </footer>
   );
 };

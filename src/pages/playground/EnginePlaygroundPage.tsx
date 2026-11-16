@@ -41,17 +41,28 @@ import { RateLimitThresholdAlert } from '../../components/RateLimitThresholdAler
 import { errorMessage } from '../../lib/utils';
 import { logger } from '../../lib/logger';
 
+type PlaygroundEngine = (typeof PLAYGROUND_ENGINES)[number];
+
+// Validates the route param before any hooks run in the view, so an unknown
+// engine id redirects without changing the hook order (Rules of Hooks).
 export const EnginePlaygroundPage: React.FC = () => {
  const { engineId } = useParams<{ engineId: string }>();
- const [searchParams] = useSearchParams();
- const { user, isAdmin } = useAuth();
-
  const activeEngineConfig = PLAYGROUND_ENGINES.find(e => e.id === engineId);
 
  // If engineId is not valid, fallback to 'master'
  if (!activeEngineConfig) {
- return <Navigate to="/playground/master"replace />;
+ return <Navigate to="/playground/master" replace />;
  }
+
+ return <EnginePlaygroundView engineId={activeEngineConfig.id} activeEngineConfig={activeEngineConfig} />;
+};
+
+const EnginePlaygroundView: React.FC<{ engineId: string; activeEngineConfig: PlaygroundEngine }> = ({
+ engineId,
+ activeEngineConfig,
+}) => {
+ const [searchParams] = useSearchParams();
+ const { user, isAdmin } = useAuth();
 
  const initialUrl = searchParams.get('url') || 'https://example.com';
  const [targetUrl, setTargetUrl] = useState(initialUrl);

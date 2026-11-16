@@ -25,7 +25,9 @@ export function sanitizeHref(raw: string): string | null {
     const parsed = new URL(href);
     if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') return null;
     if (!parsed.hostname) return null;
-    if (/[<>\"'`\\s]/.test(parsed.hostname)) return null;
+    // Reject markup/quote characters, backslash and whitespace in the host.
+    // (Previously `\\s` here matched a literal "s", dropping most real hostnames.)
+    if (/[<>"'`\\\s]/.test(parsed.hostname)) return null;
     return href;
   } catch {
     return null;

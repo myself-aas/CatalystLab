@@ -27,10 +27,17 @@ describe('repository hygiene', () => {
     expect(existsSync(path.join(root, 'firestore.indexes.json'))).toBe(true);
   });
 
-  it('carries no OSS licence on a private package', () => {
+  it('is a private package licensed under CC BY 4.0, with matching LICENSE text', () => {
+    // Owner decision 2026-11-17: the project is licensed CC BY 4.0 (it stays
+    // `private` so it is never published to npm). The SPDX id and the LICENSE
+    // file must agree, so a licence change cannot land half-done.
     const pkg = JSON.parse(read('package.json'));
     expect(pkg.private).toBe(true);
-    expect(existsSync(path.join(root, 'LICENSE'))).toBe(false);
+    expect(pkg.license).toBe('CC-BY-4.0');
+    expect(existsSync(path.join(root, 'LICENSE'))).toBe(true);
+    const licence = read('LICENSE');
+    expect(licence.startsWith('Attribution 4.0 International')).toBe(true);
+    expect(licence).toContain('Creative Commons Attribution 4.0 International Public License');
   });
 
   it('keeps every deliberately tracked binary declared by the asset manifest', () => {

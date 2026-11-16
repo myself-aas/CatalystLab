@@ -49,6 +49,25 @@ export interface MailgunConfig {
   fromName?: string;
 }
 
+/** Escapes text for safe interpolation into the HTML email templates. */
+const esc = (value: unknown): string =>
+  String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+
+/** Allows only absolute http(s) URLs in email links; anything else becomes "#". */
+const safeHttpUrl = (raw: unknown): string => {
+  try {
+    const url = new URL(String(raw ?? ""));
+    return url.protocol === "https:" || url.protocol === "http:" ? url.toString() : "#";
+  } catch {
+    return "#";
+  }
+};
+
 export function getMailgunConfig(): MailgunConfig {
   return {
     apiKey: process.env.MAILGUN_API_KEY || '',
@@ -74,10 +93,10 @@ export function generateWeeklyReportHtml(data: AnalyticsWeeklyData): string {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CatalystLab Weekly Telemetry Dossier: ${data.domain}</title>
+  <title>CatalystLab Weekly Telemetry Dossier: ${esc(data.domain)}</title>
   <style>
     body { margin: 0; padding: 0; background-color: #111827; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #FFFFFF; }
-    .container { max-width: 640px; margin: 30px auto; background: #F3F4F6; border-radius: 16px; border: 1px solid rgba(240,250,255,0.14); overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
+    .container { max-width: 640px; margin: 30px auto; background: #1F2223; border-radius: 16px; border: 1px solid rgba(240,250,255,0.14); overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
     .header { background-color: #111827; padding: 32px 28px; text-align: center; border-bottom: 1px solid rgba(240,250,255,0.1); }
     .brand { color: #FFFFFF; font-size: 20px; font-weight: 800; letter-spacing: -0.5px; margin: 0; text-transform: uppercase; }
     .badge { display: inline-block; background: rgba(240,250,255,0.14); color: #FFFFFF; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px; margin-top: 6px; letter-spacing: 0.5px; }
@@ -87,13 +106,13 @@ export function generateWeeklyReportHtml(data: AnalyticsWeeklyData): string {
     .grid { display: table; width: 100%; padding: 20px 28px; box-sizing: border-box; }
     .grid-row { display: table-row; }
     .grid-cell { display: table-cell; width: 50%; padding: 10px; vertical-align: top; }
-    .stat-card { background: #F3F4F6; border: 1px solid rgba(240,250,255,0.12); border-radius: 12px; padding: 16px; }
+    .stat-card { background: #1F2223; border: 1px solid rgba(240,250,255,0.12); border-radius: 12px; padding: 16px; }
     .stat-label { font-size: 11px; font-weight: 700; color: rgba(240,250,255,0.7); text-transform: uppercase; letter-spacing: 0.5px; margin: 0 0 4px 0; }
     .stat-val { font-size: 24px; font-weight: 900; color: #FFFFFF; margin: 0; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
     .section-title { font-size: 14px; font-weight: 800; color: #FFFFFF; margin: 24px 28px 12px 28px; text-transform: uppercase; letter-spacing: 0.5px; }
     .table-container { padding: 0 28px 20px 28px; }
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    th { text-align: left; padding: 8px 12px; background: #F3F4F6; color: #F0FAFF; font-weight: 700; font-size: 11px; text-transform: uppercase; border-bottom: 1px solid rgba(240,250,255,0.12); }
+    th { text-align: left; padding: 8px 12px; background: #1F2223; color: #F0FAFF; font-weight: 700; font-size: 11px; text-transform: uppercase; border-bottom: 1px solid rgba(240,250,255,0.12); }
     td { padding: 10px 12px; border-bottom: 1px solid rgba(240,250,255,0.08); color: #FFFFFF; }
     .score-badge { display: inline-block; padding: 2px 8px; border-radius: 6px; font-weight: 800; font-size: 12px; }
     .score-pass { background: rgba(16, 185, 129, 0.2); color: #F0FAFF; }
@@ -110,8 +129,8 @@ export function generateWeeklyReportHtml(data: AnalyticsWeeklyData): string {
     </div>
 
     <div class="title-area">
-      <h2>Weekly Analytics Digest: ${data.domain}</h2>
-      <p>Report Period: ${data.startDate} — ${data.endDate} • Generated via Zero-Cost Cookieless Analytics</p>
+      <h2>Weekly Analytics Digest: ${esc(data.domain)}</h2>
+      <p>Report Period: ${esc(data.startDate)} — ${esc(data.endDate)} • Generated via Zero-Cost Cookieless Analytics</p>
     </div>
 
     <div class="grid">
@@ -139,7 +158,7 @@ export function generateWeeklyReportHtml(data: AnalyticsWeeklyData): string {
         <div class="grid-cell">
           <div class="stat-card">
             <p class="stat-label">Avg Session Time</p>
-            <p class="stat-val">${data.avgSessionDurationFormatted}</p>
+            <p class="stat-val">${esc(data.avgSessionDurationFormatted)}</p>
           </div>
         </div>
       </div>
@@ -168,7 +187,7 @@ export function generateWeeklyReportHtml(data: AnalyticsWeeklyData): string {
           </tr>
           <tr>
             <td>OWASP & Security Headers</td>
-            <td>${data.complianceGrade}</td>
+            <td>${esc(data.complianceGrade)}</td>
             <td><span class="score-badge score-pass">HSTS Preloaded</span></td>
           </tr>
         </tbody>
@@ -188,7 +207,7 @@ export function generateWeeklyReportHtml(data: AnalyticsWeeklyData): string {
         <tbody>
           ${data.topSources.slice(0, 4).map(s => `
             <tr>
-              <td><strong>${s.source}</strong></td>
+              <td><strong>${esc(s.source)}</strong></td>
               <td>${s.count.toLocaleString()}</td>
               <td>${s.percentage.toFixed(1)}%</td>
             </tr>
@@ -226,16 +245,16 @@ export function generateAnomalyAlertHtml(alert: AnomalyAlertData): string {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${alertTitle} — ${alert.domain}</title>
+  <title>${alertTitle} — ${esc(alert.domain)}</title>
   <style>
     body { margin: 0; padding: 0; background-color: #111827; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #FFFFFF; }
-    .container { max-width: 640px; margin: 30px auto; background: #F3F4F6; border-radius: 16px; border: 1px solid rgba(240,250,255,0.14); overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
+    .container { max-width: 640px; margin: 30px auto; background: #1F2223; border-radius: 16px; border: 1px solid rgba(240,250,255,0.14); overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
     .header { background-color: ${accentColor}; padding: 24px 28px; text-align: center; color: #FFFFFF; }
     .badge { display: inline-block; background: rgba(0,0,0,0.3); color: #FFFFFF; font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 6px; text-transform: uppercase; letter-spacing: 1px; }
     .title-area { padding: 24px 28px; border-bottom: 1px solid rgba(240,250,255,0.1); }
     .title-area h2 { margin: 0; font-size: 20px; color: #FFFFFF; font-weight: 800; }
     .title-area p { margin: 6px 0 0 0; font-size: 13px; color: rgba(240,250,255,0.7); }
-    .metrics-box { margin: 20px 28px; background: #F3F4F6; border: 1px solid rgba(240,250,255,0.12); border-radius: 12px; padding: 20px; }
+    .metrics-box { margin: 20px 28px; background: #1F2223; border: 1px solid rgba(240,250,255,0.12); border-radius: 12px; padding: 20px; }
     .metric-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 13px; }
     .metric-row:last-child { margin-bottom: 0; }
     .metric-name { color: rgba(240,250,255,0.7); font-weight: 600; }
@@ -253,22 +272,22 @@ export function generateAnomalyAlertHtml(alert: AnomalyAlertData): string {
     </div>
 
     <div class="title-area">
-      <h2>${alert.domain}</h2>
-      <p>Timestamp: ${alert.timestamp} • Automated Anomaly Radar Engine</p>
+      <h2>${esc(alert.domain)}</h2>
+      <p>Timestamp: ${esc(alert.timestamp)} • Automated Anomaly Radar Engine</p>
     </div>
 
     <div class="metrics-box">
       <div class="metric-row">
         <span class="metric-name">Observed Metric:</span>
-        <span class="metric-val">${alert.metricName}</span>
+        <span class="metric-val">${esc(alert.metricName)}</span>
       </div>
       <div class="metric-row">
         <span class="metric-name">Current Value:</span>
-        <span class="metric-val" style="color: ${accentColor};">${alert.currentValue}</span>
+        <span class="metric-val" style="color: ${accentColor};">${esc(alert.currentValue)}</span>
       </div>
       <div class="metric-row">
         <span class="metric-name">Expected Baseline (24h avg):</span>
-        <span class="metric-val">${alert.baselineValue}</span>
+        <span class="metric-val">${esc(alert.baselineValue)}</span>
       </div>
       <div class="metric-row">
         <span class="metric-name">Deviation:</span>
@@ -278,11 +297,11 @@ export function generateAnomalyAlertHtml(alert: AnomalyAlertData): string {
 
     <div class="recommendation-box">
       <strong>Recommended Engineering Action:</strong><br>
-      ${alert.recommendedAction}
+      ${esc(alert.recommendedAction)}
     </div>
 
     <div class="btn-container">
-      <a href="${alert.radarUrl}" class="btn" target="_blank">Launch Real-Time Diagnostic Radar</a>
+      <a href="${esc(safeHttpUrl(alert.radarUrl))}" class="btn" target="_blank">Launch Real-Time Diagnostic Radar</a>
     </div>
 
     <div class="footer">

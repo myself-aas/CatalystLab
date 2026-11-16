@@ -163,7 +163,7 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
         className={`group relative w-full flex items-center justify-between p-2.5 rounded-lg text-xs transition duration-160 cursor-pointer ${
           active 
             ? 'ds-nav-active' 
-            : 'text-muted-foreground hover:text-foreground hover:bg-[var(--bg-surface)] border border-transparent'
+              : 'text-foreground/70 hover:text-foreground hover:bg-cream/5 border border-transparent'
         }`}
         title={item.label}
       >
@@ -292,7 +292,7 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
           {/* Core Platform Navigation Links (Overview, Audits, Reports, Webhooks, Monitoring, API Keys) */}
           <div className="space-y-1 pt-1">
             {!isSidebarCollapsed && (
-              <div className="px-2 pb-1 text-xs font-mono uppercase tracking-wider text-muted-foreground/60 font-semibold">
+              <div className="px-2 pb-1 text-xs font-mono uppercase tracking-wider text-muted-foreground font-semibold">
                 Platform Suite
               </div>
             )}
@@ -304,7 +304,7 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
           {/* Secondary Telemetry & Infrastructure Tools */}
           <div className="space-y-1 pt-2 border-t border-border">
             {!isSidebarCollapsed && (
-              <div className="px-2 pb-1 text-xs font-mono uppercase tracking-wider text-muted-foreground/60 font-semibold">
+              <div className="px-2 pb-1 text-xs font-mono uppercase tracking-wider text-muted-foreground font-semibold">
                 Engines &amp; Security
               </div>
             )}

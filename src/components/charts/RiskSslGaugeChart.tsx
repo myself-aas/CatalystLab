@@ -124,7 +124,7 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
       riskColor = 'var(--color-cream)'; // Amber
     } else if (resolvedData.risk === 'High Risk') {
       riskFraction = 0.88;
-      riskColor = 'white'; // Rose
+      riskColor = 'var(--color-danger)'; // Rose
     }
 
     const currentAngle = minAngle + riskFraction * (maxAngle - minAngle);
@@ -149,7 +149,7 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
     const segments = [
       { start: minAngle, end: minAngle + (maxAngle - minAngle) * 0.33, color: 'var(--color-cream)', label: 'LOW' },
       { start: minAngle + (maxAngle - minAngle) * 0.33, end: minAngle + (maxAngle - minAngle) * 0.66, color: 'var(--color-cream)', label: 'MED' },
-      { start: minAngle + (maxAngle - minAngle) * 0.66, end: maxAngle, color: 'white', label: 'HIGH' }
+      { start: minAngle + (maxAngle - minAngle) * 0.66, end: maxAngle, color: 'var(--color-danger)', label: 'HIGH' }
     ];
 
     segments.forEach((seg, i) => {
@@ -229,7 +229,7 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
     const ticks = [
       { angle: minAngle, label: 'Low', color: 'var(--color-cream)' },
       { angle: 0, label: 'Med', color: 'var(--color-cream)' },
-      { angle: maxAngle, label: 'High', color: 'white' }
+      { angle: maxAngle, label: 'High', color: 'var(--color-danger)' }
     ];
 
     ticks.forEach((t) => {
@@ -297,7 +297,7 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
 
     let sslColor = 'var(--color-cream)'; // Green
     if (resolvedData.ssl.is_expired || days <= 0) {
-      sslColor = 'white'; // Rose / Expired
+      sslColor = 'var(--color-danger)'; // Rose / Expired
     } else if (days <= 30) {
       sslColor = 'var(--color-cream)'; // Amber / Expiring Soon
     }
@@ -405,7 +405,7 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
 
     // Ticks & Labels
     const ticks = [
-      { angle: minAngle, label: '0d', color: 'white' },
+      { angle: minAngle, label: '0d', color: 'var(--color-danger)' },
       { angle: minAngle + (maxAngle - minAngle) * (30 / maxDays), label: '30d', color: 'var(--color-cream)' },
       { angle: maxAngle, label: '90d+', color: 'var(--color-cream)' }
     ];

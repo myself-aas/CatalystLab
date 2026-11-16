@@ -1,7 +1,18 @@
 {
   "name": "catalystlab",
-  "private": true,
   "version": "2.4.0",
+  "private": true,
+  "description": "Website-quality intelligence platform: a Vite 8 + React 19 SPA with an integrated Express 5 server that runs website-audit engines against user-supplied URLs, metered by a tiered rate limiter, with Firebase auth/Firestore on the client, MongoDB analytics, and fail-closed payment-gateway integrations.",
+  "homepage": "https://github.com/myself-aas/CatalystLab#readme",
+  "bugs": {
+    "url": "https://github.com/myself-aas/CatalystLab/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/myself-aas/CatalystLab.git"
+  },
+  "license": "CC-BY-4.0",
+  "author": "Ashif Ahmed Shuvo",
   "type": "module",
   "engines": {
     "node": ">=24"

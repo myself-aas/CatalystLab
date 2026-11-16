@@ -211,7 +211,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({
           'group relative w-full flex items-center justify-between p-3 rounded-2xl text-sm transition duration-200 cursor-pointer',
           active
             ? 'bg-cream/10 text-foreground font-semibold border border-cream/12 shadow-[inset_0_1px_0_rgba(240,250,255,0.06)]'
-            : 'text-cream/65 hover:text-foreground hover:bg-cream/4 border border-transparent'
+                : 'text-cream/80 hover:text-foreground hover:bg-cream/5 border border-transparent'
         )}
         title={item.title}
       >
@@ -220,7 +220,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({
             'size-9 shrink-0 rounded-xl flex items-center justify-center border transition-colors',
             active
               ? 'bg-cream/15 border-cream/30 text-foreground'
-              : 'bg-cream/5 border-cream/6 text-cream/50 group-hover:text-foreground group-hover:border-cream/12'
+                      : 'bg-cream/5 border-cream/6 text-cream/70 group-hover:text-foreground group-hover:border-cream/12'
           )}>
             <Icon className="size-4 shrink-0" />
           </span>
@@ -406,7 +406,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({
                           {isScanning ? (
                             <RotateCw className="size-2.5 animate-spin text-foreground" />
                           ) : (
-                            <span className="text-[11px] px-1 rounded bg-[var(--bg-surface)] border border-border">38 Global</span>
+                            <span className="text-[11px] px-1 rounded bg-surface border border-border">38 Global</span>
                           )}
                         </div>
                       </button>
@@ -462,14 +462,14 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({
                     >
                       <div className="flex items-center gap-3">
                         <div className="size-9 rounded-xl bg-background/10 flex items-center justify-center">
-                          <Sparkles className="size-4 text-ink-navy" />
+                                          <Sparkles className="size-4 text-primary-foreground" />
                         </div>
                         <div className="text-left">
-                          <div className="text-sm font-semibold text-ink-navy">Run Autonomous Audit</div>
-                          <div className="text-[11px] text-ink-navy/60 font-mono">Autonomous Edge Engines</div>
+                                          <div className="text-sm font-semibold text-primary-foreground">Run Autonomous Audit</div>
+                                          <div className="text-[11px] text-primary-foreground/60 font-mono">Autonomous Edge Engines</div>
                         </div>
                       </div>
-                      <ArrowRight className="size-4 text-ink-navy group-hover:translate-x-1 transition-transform" />
+                                      <ArrowRight className="size-4 text-primary-foreground group-hover:translate-x-1 transition-transform" />
                     </Link>
                   </motion.div>
                 </div>
@@ -501,7 +501,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({
                       <div className="text-xs font-medium text-foreground truncate">
                         {user.displayName || user.email?.split('@')[0] || 'Engineering Team'}
                       </div>
-                      <div className="text-[11px] font-mono text-foreground">
+                                          <div className="text-[11px] font-mono text-muted-foreground">
                         {isAdmin ? 'Superadmin Root' : 'Team Pro'}
                       </div>
                     </div>
@@ -523,7 +523,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({
                     <Link
                       to="/login"
                       onClick={onClose}
-                      className="flex items-center justify-center gap-1.5 p-2.5 rounded-lg border border-border bg-[var(--bg-surface)] hover:bg-foreground/10 text-xs font-medium text-foreground transition-colors text-center"
+                                          className="flex items-center justify-center gap-1.5 p-2.5 rounded-lg border border-border bg-surface hover:bg-foreground/10 text-xs font-medium text-foreground transition-colors text-center"
                     >
                       <UserPlus className="size-3.5 text-muted-foreground" />
                       <span>Log In</span>

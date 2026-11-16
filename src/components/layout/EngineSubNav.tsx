@@ -70,7 +70,7 @@ export const EngineSubNav: React.FC = () => {
                     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50",
                     isActive
                       ? "bg-primary/10 text-primary shadow-[inset_0_0_0_1px_rgba(var(--primary),0.2)]"
-                      : "text-muted-foreground hover:bg-[var(--bg-surface)] hover:text-foreground"
+                                      : "text-foreground/70 hover:bg-cream/5 hover:text-foreground"
                   )}
                 >
                   <span
