@@ -187,7 +187,17 @@ The full test suite gives 485/487:
 - `BlogPostPage.test.tsx` already failed before these changes.
 - `repoHygiene.test.ts` › "carries no OSS licence on a private package" fails because of the CC BY 4.0 `LICENSE` added in e741548. That is an owner decision.
 
-Not verified in a browser: anything behind login (dashboard: C-13, C-16, C-17, C-18; RoleContentGate C-14). The patch.css changes should cover them, but they need a signed-in check.
+### 2026-11-17: signed-in dashboard check
+I checked the dashboard signed in through the dev-only sandbox session (`loginWithLocalSession`, non-admin user) in a throwaway browser. Tabs checked: /dashboard, /audits, /monitoring, /webhooks, /api-keys and /blogs.
+- **Dark mode:** already 0 failures after the patch.css fix. This confirms C-13, C-16, C-17 and C-18.
+- **Light mode:** three pre-existing problems were found and fixed:
+  - Sidebar section labels used `text-muted-foreground/60` and `/70` (3.03 and 3.87:1). They now use the full token.
+  - The RoleContentGate overlay (C-14) was tinted dark by patch.css's `absolute inset-0 … bg-background` drawer-scrim rule (1.53 and 2.98:1). It now uses `bg-card/90` over a `bg-muted/40` base.
+  - The RoleContentGate locked preview used an `aria-hidden` *class* (High). It now uses `aria-hidden="true"` + `inert`, which a browser check confirmed takes it out of the tab order.
+- **Result:** 0 text elements below AA on every tab, in both themes.
+- **Still open:** the scrim rule also matches content overlays in ParallaxSection, LatestNewsAndInsights and particles-bg. It was left as-is because it can't tell overlays from real modal backdrops by class alone.
+
+The repo-hygiene test now expects the CC BY 4.0 licence (owner decision), so the full suite has only the pre-existing BlogPostPage failure.
 
 ## Recommended fix order
 1. **Root cause 1 (`.ds-card` dark model) + root cause 2 (narrow the substring selectors).** One `patch.css` change set clears C-6 to C-18 and most dark-mode Highs. Re-run the browser sweep afterwards to prove it.
