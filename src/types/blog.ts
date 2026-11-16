@@ -17,6 +17,6 @@ export interface BlogPostFrontmatter {
 
 export interface BlogPost extends BlogPostFrontmatter {
   slug: string;
-  content: React.ReactNode; // Compiled MDX content
+  content: string; // Markdown body (rendered by MarkdownRenderer)
   readingTime: string;
 }

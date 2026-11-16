@@ -4,6 +4,7 @@ import { getPostBySlug } from '@/lib/blogLoader';
 import type { BlogPost } from '@/types/blog';
 import { useAuth } from '../context/AuthContext';
 import { PlateImage } from '../components/common/PlateImage';
+import { MarkdownRenderer } from '../components/common/MarkdownRenderer';
 import { 
   ArrowLeft, Bookmark, Clock, Share2, Check, Edit3, Eye
 } from 'lucide-react';
@@ -179,7 +180,7 @@ export const BlogPostPage: React.FC = () => {
 
         {/* Main Content */}
         <article className="mx-auto max-w-3xl px-6 pb-16 prose dark:prose-invert prose-p:text-muted-foreground prose-p:leading-relaxed prose-headings:text-foreground sm:px-8">
-                  {post.content}
+                  <MarkdownRenderer content={post.content} />
         </article>
 
       </div>

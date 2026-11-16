@@ -7,7 +7,7 @@ const mockGetPostBySlug = vi.fn().mockResolvedValue({
   title: 'Test Post',
   seoTitle: 'Test Post | CatalystLab',
   excerpt: 'Test excerpt',
-  content: <p>Test content</p>,
+  content: 'Test content',
   category: 'Core Performance',
   date: '2026-11-15',
   coverImage: '/cover.jpg',
