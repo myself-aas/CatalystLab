@@ -11,6 +11,7 @@
     "type": "git",
     "url": "git+https://github.com/myself-aas/CatalystLab.git"
   },
+  "license": "CC-BY-4.0",
   "author": "Ashif Ahmed Shuvo",
   "type": "module",
   "engines": {
