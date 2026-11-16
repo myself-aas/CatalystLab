@@ -119,7 +119,9 @@ html:not(.dark) {
 
 html.dark {
   /* Surfaces — exact pre-split values */
-  --p-card: #FFFFFF;                /* bento white card on dark canvas (as shipped) */
+  --p-card: #1F2223;                /* dark card on Ink Navy canvas (2026-11-17: replaces the
+                                       as-shipped white card, whose F2 ink overrides missed most
+                                       descendants; see reviews/frontend-audit/README.md) */
   --p-card-border: rgba(240, 250, 255, 0.07);
   --p-card-shadow:
     0 1px 2px rgba(0, 0, 0, 0.2),
@@ -473,7 +475,7 @@ select:focus {
 
 /* Buttons (generic) */
 button[class*="bg-primary"],
-button[class*="bg-foreground"] {
+button[class~="bg-foreground"] {
   border-radius: 9999px !important;
 }
 
@@ -1038,9 +1040,11 @@ pre code {
 
 /* CTA buttons global — dark theme inverts to cream; light theme keeps the
    natural bg-foreground/text-background utilities (ink button, white label) */
-html.dark a[class*="bg-foreground"][class*="text-background"],
-html.dark button[class*="bg-foreground"][class*="text-background"],
-html.dark a[class*="bg-foreground"][class*="text-primary-foreground"] {
+/* Solid `bg-foreground` only (2026-11-17): `[class*="bg-foreground"]` also caught
+   `hover:bg-foreground/5` nav items and turned them into white pills. */
+html.dark a[class~="bg-foreground"][class~="text-background"],
+html.dark button[class~="bg-foreground"][class~="text-background"],
+html.dark a[class~="bg-foreground"][class~="text-primary-foreground"] {
   background: #F0FAFF !important;
   color: #1F2223 !important;
   border-radius: 9999px !important;
@@ -1049,20 +1053,20 @@ html.dark a[class*="bg-foreground"][class*="text-primary-foreground"] {
   box-shadow: 0 2px 12px rgba(240,250,255,0.12), inset 0 1px 0 rgba(255,255,255,0.2);
   transition: all 180ms cubic-bezier(0.16,1,0.3,1);
 }
-html.dark a[class*="bg-foreground"]:hover,
-html.dark button[class*="bg-foreground"]:hover {
+html.dark a[class~="bg-foreground"]:hover,
+html.dark button[class~="bg-foreground"]:hover {
   background: #F7FDFF !important;
   box-shadow: 0 6px 24px rgba(240,250,255,0.22), inset 0 1px 0 rgba(255,255,255,0.3);
   transform: translateY(-1px);
 }
-a[class*="bg-foreground"],
-button[class*="bg-foreground"] {
+a[class~="bg-foreground"],
+button[class~="bg-foreground"] {
   border-radius: 9999px !important;
   font-weight: 600;
   transition: all 180ms cubic-bezier(0.16,1,0.3,1);
 }
-a[class*="bg-foreground"]:hover,
-button[class*="bg-foreground"]:hover {
+a[class~="bg-foreground"]:hover,
+button[class~="bg-foreground"]:hover {
   transform: translateY(-1px);
 }
 
@@ -1088,12 +1092,18 @@ button[class*="bg-foreground"]:hover {
 }
 
 /* Footer styling */
-footer, [class*="Footer"], [data-slot="footer"] {
+/* White footer is light-mode only (2026-11-17); in dark the footer's own
+   bg-background (Ink Navy) applies, so its theme-token text stays readable. */
+html:not(.dark) :is(footer, [class*="Footer"], [data-slot="footer"]) {
   background: #FFFFFF !important;
+}
+footer, [class*="Footer"], [data-slot="footer"] {
   border-top: 1px solid var(--p-card-border);
 }
-footer#main-footer {
+html:not(.dark) footer#main-footer {
   background: #FFFFFF !important;
+}
+footer#main-footer {
   border-top: 1px solid var(--p-card-border) !important;
 }
 footer#main-footer .size-9.rounded-lg {
@@ -1177,11 +1187,21 @@ progress::-webkit-progress-value {
 /* Generic semantic-surface enforcement — dark theme only. In light mode the
    Tailwind utilities resolve through the light token block in src/index.css
    (--app-background #FFFFFF etc.), which is the desired behavior. */
-html.dark .bg-muted, html.dark [class*="bg-muted"] { background-color: #2C3032 !important; }
-html.dark .bg-card, html.dark [class*="bg-card"] { background-color: #2C3032 !important; }
-html.dark .bg-popover, html.dark [class*="bg-popover"] { background-color: #2C3032 !important; }
-html.dark .bg-background, html.dark [class*="bg-background"] { background-color: #111827 !important; }
-html.dark .bg-surface, html.dark [class*="bg-surface"] { background-color: #2C2F32 !important; }
+/* Exact-class matching only (2026-11-17). The old `[class*="bg-muted"]` form also matched
+   `hover:bg-muted`, `bg-muted-foreground`, `bg-surface-elevated` etc. and painted those
+   elements at rest. `[class~=X]` = the class itself; `[class*=" X/"]` / `[class^="X/"]` =
+   its opacity variants; hover variants are applied on :hover only. */
+html.dark :is([class~="bg-muted"], [class^="bg-muted/"], [class*=" bg-muted/"]),
+html.dark :is([class~="hover:bg-muted"], [class*="hover:bg-muted/"]):hover { background-color: #2C3032 !important; }
+html.dark :is([class~="bg-card"], [class^="bg-card/"], [class*=" bg-card/"]),
+html.dark :is([class~="hover:bg-card"], [class*="hover:bg-card/"]):hover { background-color: #2C3032 !important; }
+html.dark :is([class~="bg-popover"], [class^="bg-popover/"], [class*=" bg-popover/"]) { background-color: #2C3032 !important; }
+/* bg-background opacity variants keep their alpha (no solid override): forcing them
+   opaque broke translucent layers (frosted scrolled navbar, tinted pills on CTAs). */
+html.dark [class~="bg-background"],
+html.dark :is([class~="hover:bg-background"], [class*="hover:bg-background/"]):hover { background-color: #111827 !important; }
+html.dark :is([class~="bg-surface"], [class^="bg-surface/"], [class*=" bg-surface/"]),
+html.dark :is([class~="hover:bg-surface"], [class*="hover:bg-surface/"]):hover { background-color: #2C2F32 !important; }
 html.dark .border-border, html.dark [class*="border-border"] { border-color: rgba(240,250,255,0.08) !important; }
 html.dark .border-foreground\/\[\.08\], html.dark .border-foreground\/\[0\.08\] { border-color: rgba(240,250,255,0.08) !important; }
 html.dark .text-foreground, html.dark .text-foreground\/80, html.dark .text-foreground\/90 { color: #F0FAFF !important; }
@@ -1498,23 +1518,23 @@ html.dark [class*="decoration-purple"],html.dark [class*="decoration-amber"]{
 html.dark [class*="accent-red"],html.dark [class*="accent-blue"],html.dark [class*="accent-emerald"]{accent-color:#F0FAFF!important}
 html.dark [class*="caret-red"],html.dark [class*="caret-blue"]{caret-color:#F0FAFF!important}
 
-/* ---------- F2 (audit 2026-10-22): dark-theme ink inside as-shipped WHITE cards ----------
-   patch.css forces cream ink / dark wells globally under html.dark; the white bento/ds
-   cards ship white in dark, so inside them the LIGHT values must win. */
-html.dark .ds-card, html.dark .bento-card, html.dark [class*="accordion-content"], html.dark [class*="bg-primary"][class*="text-primary-foreground"]:not(.ds-card):not(.bento-card) {
+/* ---------- Dark-mode cards (2026-11-17) ----------
+   .ds-card / .bento-card / accordion content are dark (--p-card #1F2223) in dark
+   mode, so the global dark ink rules apply inside them unchanged. This replaces
+   the F2 block (audit 2026-10-22) that forced light-mode ink inside white cards
+   and missed most descendants (legal clauses, ds-muted labels, nested wells,
+   auth/contact forms). A card that carries text-primary-foreground itself is
+   given cream ink, because primary-foreground is dark ink in dark mode. */
+html.dark .ds-card[class*="text-primary-foreground"], html.dark .bento-card[class*="text-primary-foreground"] { color: #F0FAFF !important; }
+html:not(.dark) .ds-card[class*="text-primary-foreground"], html:not(.dark) .bento-card[class*="text-primary-foreground"] { color: #1C1E21 !important; }
+
+/* ---------- Inverted bg-primary islands (F2 ext, audit 2026-10-22; kept) ----------
+   An island flips surface+ink via bg-primary/text-primary-foreground (black in light,
+   #F7FDFF in dark); descendants using the GLOBAL foreground utilities must flip with it. */
+html.dark [class*="bg-primary"][class*="text-primary-foreground"]:not(.ds-card):not(.bento-card) {
   --theme-cream: #1F2223;
   --color-cream: #1F2223;
 }
-html.dark .ds-card [class*="text-foreground"]:not(pre):not(pre *), html.dark .bento-card [class*="text-foreground"]:not(pre):not(pre *), html.dark [class*="accordion-content"] [class*="text-foreground"]:not(pre):not(pre *) { color: #1C1E21 !important; }
-html.dark .ds-card [class*="text-muted-foreground"]:not(pre):not(pre *), html.dark .bento-card [class*="text-muted-foreground"]:not(pre):not(pre *), html.dark [class*="accordion-content"] [class*="text-muted-foreground"]:not(pre):not(pre *),
-html.dark .ds-card [class*="text-foreground-muted"]:not(pre):not(pre *), html.dark .bento-card [class*="text-foreground-muted"]:not(pre):not(pre *), html.dark [class*="accordion-content"] [class*="text-foreground-muted"]:not(pre):not(pre *) { color: #4B4C4F !important; }
-html.dark .ds-card .bg-muted, html.dark .ds-card [class*="bg-muted"], html.dark .bento-card .bg-muted, html.dark .bento-card [class*="bg-muted"] { background-color: #F1F4F7 !important; }
-html.dark .ds-card .bg-accent, html.dark .ds-card [class*="bg-accent"], html.dark .bento-card .bg-accent, html.dark .bento-card [class*="bg-accent"] { background-color: rgba(0, 100, 224, 0.08) !important; }
-html.dark .ds-card .border-border, html.dark .ds-card [class*="border-border"], html.dark .bento-card .border-border, html.dark .bento-card [class*="border-border"] { border-color: #CED0D4 !important; }
-
-/* ---------- F2 ext (audit 2026-10-22): inverted bg-primary islands (e.g. /products configurator) ----------
-   The island flips surface+ink via bg-primary/text-primary-foreground; descendants using the
-   GLOBAL foreground utilities must flip with it. */
 html:not(.dark) [class*="bg-primary"][class*="text-primary-foreground"] [class*="text-foreground"]:not(.ds-card):not(.bento-card):not(pre):not(pre *) { color: #FFFFFF !important; }
 html:not(.dark) [class*="bg-primary"][class*="text-primary-foreground"] [class*="text-muted-foreground"]:not(.ds-card):not(.bento-card):not(pre):not(pre *),
 html:not(.dark) [class*="bg-primary"][class*="text-primary-foreground"] [class*="text-foreground-muted"]:not(.ds-card):not(.bento-card):not(pre):not(pre *) { color: rgba(255,255,255,0.72) !important; }
@@ -1527,38 +1547,7 @@ html.dark [class*="bg-primary"][class*="text-primary-foreground"] [class*="text-
 html.dark [class*="bg-primary"][class*="text-primary-foreground"] .bg-muted, html.dark [class*="bg-primary"][class*="text-primary-foreground"] [class*="bg-muted"] { background-color: rgba(28,30,33,0.06) !important; }
 html.dark [class*="bg-primary"][class*="text-primary-foreground"] .bg-accent, html.dark [class*="bg-primary"][class*="text-primary-foreground"] [class*="bg-accent"] { background-color: rgba(0,100,224,0.08) !important; }
 html.dark [class*="bg-primary"][class*="text-primary-foreground"] .border-border, html.dark [class*="bg-primary"][class*="text-primary-foreground"] [class*="border-border"] { border-color: #CED0D4 !important; }
-
-/* literal & token cream-ink classes inside dark white cards / inverted islands */
-html.dark .ds-card [class*="text-[#F0FAFF]"], html.dark .bento-card [class*="text-[#F0FAFF]"], html.dark [class*="accordion-content"] [class*="text-[#F0FAFF]"], html.dark [class*="bg-primary"][class*="text-primary-foreground"] [class*="text-[#F0FAFF]"],
-html.dark .ds-card [class~="text-cream"], html.dark .bento-card [class~="text-cream"], html.dark [class*="accordion-content"] [class~="text-cream"], html.dark [class*="bg-primary"][class*="text-primary-foreground"] [class~="text-cream"] { color: #1C1E21 !important; }
-html.dark .ds-card [class*="text-cream/"], html.dark .bento-card [class*="text-cream/"], html.dark [class*="accordion-content"] [class*="text-cream/"], html.dark [class*="bg-primary"][class*="text-primary-foreground"] [class*="text-cream/"],
-html.dark .ds-card [class*="text-silver-"], html.dark .bento-card [class*="text-silver-"] { color: #4B4C4F !important; }
-html.dark .ds-card [class*="border-[#F0FAFF]"], html.dark .bento-card [class*="border-[#F0FAFF]"],
-html.dark .ds-card [class*="border-cream"], html.dark .bento-card [class*="border-cream"] { border-color: #CED0D4 !important; }
-
-/* Status-hue text & tinted pills inside dark-mode white cards (.ds-card / .bento-card) */
-html.dark .ds-card [class*="text-emerald-"]:not(pre):not(pre *), html.dark .bento-card [class*="text-emerald-"]:not(pre):not(pre *),
-html.dark .ds-card [class*="text-green-"]:not(pre):not(pre *), html.dark .bento-card [class*="text-green-"]:not(pre):not(pre *),
-html.dark .ds-card [class*="text-teal-"]:not(pre):not(pre *), html.dark .bento-card [class*="text-teal-"]:not(pre):not(pre *) { color: #047857 !important; }
-html.dark .ds-card [class*="text-red-"]:not(pre):not(pre *), html.dark .bento-card [class*="text-red-"]:not(pre):not(pre *),
-html.dark .ds-card [class*="text-rose-"]:not(pre):not(pre *), html.dark .bento-card [class*="text-rose-"]:not(pre):not(pre *),
-html.dark .ds-card [class*="text-pink-"]:not(pre):not(pre *), html.dark .bento-card [class*="text-pink-"]:not(pre):not(pre *) { color: #C81E1E !important; }
-html.dark .ds-card [class*="text-amber-"]:not(pre):not(pre *), html.dark .bento-card [class*="text-amber-"]:not(pre):not(pre *),
-html.dark .ds-card [class*="text-yellow-"]:not(pre):not(pre *), html.dark .bento-card [class*="text-yellow-"]:not(pre):not(pre *),
-html.dark .ds-card [class*="text-orange-"]:not(pre):not(pre *), html.dark .bento-card [class*="text-orange-"]:not(pre):not(pre *) { color: #B45309 !important; }
-html.dark .ds-card [class*="text-cyan-"]:not(pre):not(pre *), html.dark .bento-card [class*="text-cyan-"]:not(pre):not(pre *),
-html.dark .ds-card [class*="text-sky-"]:not(pre):not(pre *), html.dark .bento-card [class*="text-sky-"]:not(pre):not(pre *),
-html.dark .ds-card [class*="text-blue-"]:not(pre):not(pre *), html.dark .bento-card [class*="text-blue-"]:not(pre):not(pre *),
-html.dark .ds-card [class*="text-indigo-"]:not(pre):not(pre *), html.dark .bento-card [class*="text-indigo-"]:not(pre):not(pre *) { color: #0457CB !important; }
-html.dark .ds-card [class*="text-violet-"]:not(pre):not(pre *), html.dark .bento-card [class*="text-violet-"]:not(pre):not(pre *),
-html.dark .ds-card [class*="text-purple-"]:not(pre):not(pre *), html.dark .bento-card [class*="text-purple-"]:not(pre):not(pre *),
-html.dark .ds-card [class*="text-fuchsia-"]:not(pre):not(pre *), html.dark .bento-card [class*="text-fuchsia-"]:not(pre):not(pre *) { color: #6D28D9 !important; }
-
-/* ---------- F2 final (audit 2026-10-22): self-match variants (card/island element itself carries the ink class) ---------- */
-html.dark .ds-card[class*="text-foreground"], html.dark .bento-card[class*="text-foreground"], html.dark [class*="accordion-content"][class*="text-foreground"] { color: #1C1E21 !important; }
-html.dark .ds-card[class*="text-muted-foreground"], html.dark .bento-card[class*="text-muted-foreground"], html.dark [class*="accordion-content"][class*="text-muted-foreground"],
-html.dark .ds-card[class*="text-foreground-muted"], html.dark .bento-card[class*="text-foreground-muted"] { color: #4B4C4F !important; }
-html.dark .ds-card[class*="text-primary-foreground"], html.dark .bento-card[class*="text-primary-foreground"] { color: #1C1E21 !important; }
-html:not(.dark) .ds-card[class*="text-primary-foreground"], html:not(.dark) .bento-card[class*="text-primary-foreground"] { color: #1C1E21 !important; }
+html.dark [class*="bg-primary"][class*="text-primary-foreground"] [class*="text-[#F0FAFF]"],
+html.dark [class*="bg-primary"][class*="text-primary-foreground"] [class~="text-cream"] { color: #1C1E21 !important; }
+html.dark [class*="bg-primary"][class*="text-primary-foreground"] [class*="text-cream/"] { color: #4B4C4F !important; }
 html.dark [class*="bg-primary"][class*="text-primary-foreground"] [class*="text-primary-foreground"]:not(.ds-card):not(.bento-card) { color: #1C1E21 !important; }
-html.dark [class*="bg-primary"][class*="text-primary-foreground"] [class*="text-muted-foreground"]:not(.ds-card):not(.bento-card) { color: #4B4C4F !important; }
