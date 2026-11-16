@@ -11,6 +11,7 @@ import {
   Award 
 } from 'lucide-react';
 import { LazyReveal } from '../common/LazyAnimate';
+import { submitContactInquiry } from '../../lib/firebase';
 
 export const SecurityDisclosureSection: React.FC = () => {
   const [pgpCopied, setPgpCopied] = useState(false);
@@ -20,6 +21,9 @@ export const SecurityDisclosureSection: React.FC = () => {
   const [severity, setSeverity] = useState('High');
   const [details, setDetails] = useState('');
   const [email, setEmail] = useState('');
+  const [sending, setSending] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [reportId, setReportId] = useState<string | null>(null);
 
   const pgpKey = `-----BEGIN PGP PUBLIC KEY BLOCK-----
 Version: CatalystLab-Security-PGP v4.1
@@ -37,9 +41,34 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
     setTimeout(() => setPgpCopied(false), 2500);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Sends the report through the server-validated contact intake
+  // (/api/v1/contact). Success is shown only after the server accepts it;
+  // on failure the input is kept so the researcher can retry.
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    if (sending) return;
+    setSending(true);
+    setSubmitError(null);
+    try {
+      const id = await submitContactInquiry({
+        email,
+        message: details,
+        source: 'security-disclosure',
+        department: 'security',
+        metadata: { targetAsset, vulnType, severity },
+      });
+      setReportId(id);
+      setSubmitted(true);
+      setDetails('');
+    } catch (err) {
+      setSubmitError(
+        err instanceof Error && err.message
+          ? err.message
+          : 'The report could not be sent. Please try again or email security@catalystlab.tech.',
+      );
+    } finally {
+      setSending(false);
+    }
   };
 
   const severityMatrix = [
@@ -198,9 +227,9 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
           {submitted ? (
             <div className="rounded-xl border border-success/20 bg-cream/10 p-6 text-center space-y-2.5">
               <CheckCircle2 className="h-8 w-8 text-success mx-auto" />
-              <h4 className="text-sm font-bold text-foreground">Vulnerability Report Dispatched!</h4>
+              <h4 className="text-sm font-bold text-foreground">Report received</h4>
               <p className="text-xs text-muted-foreground max-w-md mx-auto font-sans leading-relaxed">
-                Thank you for contributing to web telemetry safety. Our security team has received your ticket and will verify the PoC within 2 hours.
+                Thank you. Your report{reportId ? <> (reference <span className="font-mono">{reportId}</span>)</> : null} reached the security team, who will reply to {email}.
               </p>
               <button
                 onClick={() => setSubmitted(false)}
@@ -293,6 +322,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
                 <textarea
                   required
                   rows={4}
+                  maxLength={2000}
                   value={details}
                   onChange={(e) => setDetails(e.target.value)}
                   placeholder="Provide exact HTTP request headers, payload reproduction steps, and impact assessment..."
@@ -307,12 +337,20 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
                 </label>
               </div>
 
+              {submitError && (
+                <p role="alert" className="rounded-lg border border-danger/30 bg-cream/5 p-3 text-xs font-sans text-danger">
+                  {submitError}
+                </p>
+              )}
+
               <button
                 type="submit"
-                className="w-full flex items-center justify-center gap-2 rounded-xl bg-primary hover:bg-primary-hover border border-border py-2.5 text-xs font-bold text-primary-foreground transition shadow-sm cursor-pointer"
+                disabled={sending}
+                aria-busy={sending}
+                className="w-full flex items-center justify-center gap-2 rounded-xl bg-primary hover:bg-primary-hover border border-border py-2.5 text-xs font-bold text-primary-foreground transition shadow-sm cursor-pointer disabled:opacity-60 disabled:cursor-wait"
               >
                 <Send className="h-3.5 w-3.5 text-warning" />
-                <span>Transmit Encrypted Security Report</span>
+                <span>{sending ? 'Sending report…' : 'Send security report'}</span>
               </button>
             </form>
           )}
