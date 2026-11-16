@@ -323,7 +323,7 @@ export const Navbar: React.FC = () => {
                     className="absolute -left-24 top-full pt-3 w-[580px] z-50 pointer-events-auto"
                   >
                     <div
-                      className="bg-fog/95 border border-foreground/8 rounded-3xl p-5 shadow-[0_2px_4px_rgba(0,0,0,0.3),0_24px_60px_-12px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(240,250,255,0.06)] backdrop-blur-2xl grid grid-cols-2 gap-3 relative overflow-hidden"
+                      className="bg-fog/95 dark:bg-ink-soft/95 border border-foreground/8 rounded-3xl p-5 shadow-[0_2px_4px_rgba(0,0,0,0.3),0_24px_60px_-12px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(240,250,255,0.06)] backdrop-blur-2xl grid grid-cols-2 gap-3 relative overflow-hidden"
                     >
                       <div
                         className="pointer-events-none absolute -top-32 left-1/2 -translate-x-1/2 w-96 h-48 rounded-full opacity-20 blur-3xl"
@@ -403,7 +403,7 @@ export const Navbar: React.FC = () => {
                           <span>Explore All 8 Telemetry Engines</span>
                           <ArrowRight className="size-3 group-hover:translate-x-0.5 transition-transform" />
                         </Link>
-                        <span className="text-[11px] font-mono text-cream/40">Zero-SDK • RFC 9110</span>
+                        <span className="text-[11px] font-mono text-cream/50">Zero-SDK • RFC 9110</span>
                       </div>
                     </div>
                   </motion.div>
